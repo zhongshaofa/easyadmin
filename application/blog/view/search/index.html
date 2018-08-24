@@ -1,0 +1,111 @@
+{extend name="blog@public/basic" /}
+
+{block name="style"}
+<link rel="shortcut icon" href="/favicon.ico" mce_href="/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" href="__STATIC__/plugs/layui/css/layui.css" media="all"/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/blog/search.css"/>
+<!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+<!--[if lt IE 9]>
+<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+<script src="https://cdn.staticfile.o<img src=" http://img.php.cn/upload/article/000/000/003/5b596217c2850304.jpg">rg/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+{/block}
+
+{block name="cotent"}
+<div class='php-search-header'>
+    <div class="layui-main">
+        <div class="layui-input-block">
+            <i class="layui-icon icon icon-search">&#xe615;</i>
+            <form action="{:url('@blog/search')}" method="get" target="_self">
+                <input type="text" id="word" name="word" value="{$Think.get.word|default=''}" placeholder="请输入标题" class="layui-input left">
+                <button class="layui-btn right" id="search_word">搜索</button>
+            </form>
+        </div>
+        <ul class='hot-search layui-clear'>
+            <li>热门搜索：</li>
+            <li><a href='?word=PHP'>PHP</a></li>
+            <li><a href='?word=MySQL'> MySQL</a></li>
+            <li><a href='?word=jquery'> jquery</a></li>
+            <li><a href='?word=HTML'> HTML</a></li>
+            <li><a href='?word=CSS'> CSS</a></li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="layui-main" style="min-height: 500px;">
+    <div class="layui-row php-search">
+        <div class='nav-sel'>
+            <ul>
+                <li class='on'>全站</li>
+                {foreach category_list as $vo}
+                <li><a href='#'>{$vo.title}</a></li>
+                {/foreach}
+            </ul>
+        </div>
+        <div class='search-related'>
+            共找到 {$search_count|default=0} 个相关内容
+        </div>
+
+
+        <!--搜索结果开始-->
+        {foreach search_list as $vo}
+        <div class='course-item'>
+            <a href="{:url('@blog/article/details')}?id={$vo.id|default=''}" target="_blank" title="{$vo.title|default=''}" class='course-img'><img src="{$vo.cover_img|default=''}"></a>
+            <div class='course-detail'>
+                <a href="{:url('@blog/article/details')}?id={$vo.id|default=''}" target="_blank" class='title'><span class="course-color">{$vo.categoryInfo.title|default=''}</span>{$vo.title|default=''|raw}</a>
+                <p class='course-classify'>
+                    <span><i class="layui-icon" title="创作人">&#xe612;</i>  {$vo.memberInfo.nickname|default=''}</span>
+                    <span><i class="layui-icon" title="创建时间">&#xe637;</i>  {$vo.create_at|default=''}</span>
+                    <span class="info-list"><i class="layui-icon" title="点击量">&#xe756;</i>  {$vo.clicks|default=''}</span>
+                    <span><i class="layui-icon" title="评论">&#xe611;</i>  {$vo.comment_total|default=''}</span>
+                </p>
+                <div class='course-'>{$vo.describe|default=''}</div>
+            </div>
+        </div>
+        {/foreach}
+
+        <div class='more'>
+            {$search_list|raw}
+        </div>
+
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/static/layui/layui.js"></script>
+<script type="text/javascript" src="/static/js/global.min.js?4.1.3">
+    <
+    script >
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script>var _hmt = _hmt || [];
+(function () {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?8cc45d54c337ca616c34b1cf747da91c";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+    layui.use(['form', 'element'], function () {
+        var element = layui.element;
+        var form = layui.form;
+        //建造实例
+    });
+</script>
+{/block}
+

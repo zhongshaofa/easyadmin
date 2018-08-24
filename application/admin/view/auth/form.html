@@ -1,0 +1,76 @@
+{extend name="admin@public/basic" /}
+{block name="style"}{/block}
+<link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
+{block name="cotent"}
+<form class="layui-form" style="width:80%;">
+    <br>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">权限角色</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" class="layui-input title" lay-verify="title" lay-verify="required" value="{$auth.title|default=''}" placeholder="请输入系统角色">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入备注信息" class="layui-textarea remark">{$auth.remark|default=''}</textarea>
+        </div>
+    </div>
+
+
+    {if !empty($auth)}
+    <input type="hidden" class="id" name="id" value="{$auth.id|default=''}">
+    {/if}
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addAuth">立即添加</button>
+            <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
+        </div>
+    </div>
+</form>
+{/block}
+
+{block name="script"}
+<script>
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+            $ = layui.jquery;
+
+        form.on("submit(addAuth)", function (data) {
+            //弹出loading
+            var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
+            // 实际使用时的提交信息
+            $.post("{if empty($auth)}{:url('@admin/auth/add')}{else/}{:url('@admin/auth/edit')}{/if}", {
+                id: $(".id").val(),
+                title: $(".title").val(),
+                remark: $(".remark").val(),
+            }, function (res) {
+                console.log(res);
+                if (res.code == 0) {
+                    layer.msg(res.msg, {icon: 1}, function () {
+                        layer.closeAll("iframe");
+                        parent.location.reload();
+                    });
+                } else {
+                    layer.msg(res.msg, {icon: 2});
+                }
+            }).error(function () {
+                layer.msg('系统错误，请稍后再试！', {icon: 2});
+            });
+            return false;
+        })
+
+        //格式化时间
+        function filterTime(val) {
+            if (val < 10) {
+                return "0" + val;
+            } else {
+                return val;
+            }
+        }
+    })
+</script>
+{/block}

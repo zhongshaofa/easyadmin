@@ -1,0 +1,210 @@
+{extend name="blog@public/basic" /}
+
+{block name="style"}
+
+{/block}
+
+{block name="cotent"}
+{include file="blog@public/nav" /}
+<section class="container pt-20">
+    <div class="row w_main_row">
+        <div class="col-lg-9 col-md-9 w_main_left">
+            <div class="mt-20" id="ct">
+                <form class="layui-form" action="">
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文章标题</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="title" lay-verify="title" autocomplete="off" placeholder="请输入文章标题" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文章分类</label>
+                        <div class="layui-input-block">
+                            <select id="category_id" lay-filter="category_id">
+                                {foreach category_list as $vo}
+                                <option value="{$vo.id|default=''}">{$vo.title|default=''}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文章LOGO</label>
+                        <div class="layui-input-block">
+                            <div class="layui-upload-drag" id="uploadLogo">
+                                <i class="layui-icon"></i>
+                                <p>点击上传，或将图片拖拽到此处</p>
+                                <img src="" id="cover_img" lay-filter="cover_img">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">文章描述</label>
+                        <div class="layui-input-block">
+                            <textarea id="describe" placeholder="请输入文章描述" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">文章内容</label>
+                        <div class="layui-input-block">
+                            <div id="editor">
+                            </div>
+                            <div class="text-r mt-10">
+                                <button id="addArticle" class="btn btn-primary radius"> 发表文章</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+            <!--热门推荐-->
+            <div class="bg-fff box-shadow radius mb-20">
+                <div class="tab-category">
+                    <a href=""><strong>推荐阅读</strong></a>
+                </div>
+                <div class="tab-category-item">
+                    <ul class="index_recd">
+                        {foreach recommend_list as $vo}
+                        <li>
+                            <a href="{:url('@blog/article/details')}?id={$vo.id|default=''}">{$vo.title|default=''}</a>
+                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> {$vo.clicks|default=''}° </p>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
+
+            <!--图片-->
+            <div class="bg-fff box-shadow radius mb-20">
+                <div class="tab-category">
+                    <a href=""><strong>扫我关注</strong></a>
+                </div>
+                <div class="tab-category-item">
+                    <img src="__STATIC__/image/blog/weixin.jpg" class="img-responsive lazyload" alt="响应式图片">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{/block}
+
+{block name="script"}
+<script>
+    layui.use(['form', 'layedit', 'laydate', 'upload'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                , layedit = layui.layedit
+                , upload = layui.upload
+                , laydate = layui.laydate;
+
+            //日期
+            laydate.render({
+                elem: '#date'
+            });
+            laydate.render({
+                elem: '#date1'
+            });
+
+            //拖拽上传
+            upload.render({
+                elem: '#uploadLogo'
+                , url: "{:url('@blog/api.upload/layui_image')}"
+                , done: function (res) {
+                    console.log(res)
+                    if (res.code == 0) {
+                        $('#cover_img').attr('src', res.data.src);
+                    } else {
+                        layer.msg(res.msg);
+                    }
+                }
+            });
+
+        }
+    )
+</script>
+<script type="text/javascript">
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    editor.customConfig.uploadImgServer = "{:url('@blog/api.upload/image')}"
+    editor.customConfig.uploadFileName = 'image'
+    editor.customConfig.uploadImgMaxLength = 5
+    editor.customConfig.uploadImgHooks = {
+        success: function (xhr, editor, result) {
+            // 图片上传并返回结果，图片插入成功之后触发
+            // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+        },
+        fail: function (xhr, editor, result) {
+            // 图片上传并返回结果，但图片插入错误时触发
+            // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+        },
+        error: function (xhr, editor) {
+            // 图片上传出错时触发
+            // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+        },
+        timeout: function (xhr, editor) {
+            layer.msg('上传超时！')
+        },
+
+        // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
+        // （但是，服务器端返回的必须是一个 JSON 格式字符串！！！否则会报错）
+        customInsert: function (insertImg, result, editor) {
+            console.log(result);
+            if (result.code == 0) {
+                url = result.url;
+                url.forEach(function (e) {
+                    insertImg(e)
+                })
+            } else {
+                layer.msg(result.msg);
+            }
+            // var url = result.url
+            // insertImg(url)
+        }
+    }
+    editor.customConfig.customAlert = function (info) {
+        layer.msg(info)
+    }
+    editor.create()
+
+    //新增评论
+    $("#addArticle").click(function () {
+        if (editor.txt.text() == '') {
+            layer.msg('文章内容不可为空！', {icon: 2});
+            return false;
+        }
+        $.post("{:url('@blog/article/add')}", {
+            member_id: "{$Think.session.member.id}",
+            title: $('#title').val(),
+            category_id: $('#category_id').val(),
+            cover_img: $('#cover_img').attr('src'),
+            describe: $('#describe').val(),
+            content: editor.txt.html(),
+        }, function (res) {
+            console.log(res);
+            if (res.code == 0) {
+                layer.confirm('文章发表成功，是否继续编写文章？', {
+                    btn: ['返回首页', '继续编辑'],
+                    yes: function (index, layero) {
+                        window.location.href = "{:url('@blog')}";
+                    }
+                    , btn2: function (index, layero) {
+                        parent.location.reload();
+                    }
+                });
+            } else {
+                layer.msg(res.msg, {icon: 2});
+            }
+        }).error(function () {
+            layer.msg('网络错误', {icon: 2});
+        });
+        return false;
+    });
+
+</script>
+{/block}

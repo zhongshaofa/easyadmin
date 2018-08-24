@@ -1,0 +1,74 @@
+{extend name="admin@public/basic" /}
+
+{block name="style"}
+<style type="text/css">
+    form{margin:10px auto;width:500px}
+    h1,h2,h3{padding:10px 0}
+    a{color:#1C86EE;text-align:right;font-size:18px}
+    .xtree_contianer{overflow:auto;margin-bottom:30px;padding:10px 0 25px 5px;width:500px;border:1px solid #9C9C9C;background-color:#fff}
+    .div-btns{margin:20px 0}
+    .layui-form-label{width:60px!important}
+</style>
+{/block}
+
+{block name="cotent"}
+<form class="layui-form">
+    <h1>{$auth.title|default=''}</h1>
+    <h3>授权节点：</h3>
+    <div id="xtree3" class="xtree_contianer"></div>
+    <input type="hidden" class="auth_id" name="auth_id" value="{$auth.id|default=''}">
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="editAuthOrize">立即修改</button>
+            <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
+        </div>
+    </div>
+</form>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/plugs/layui-xtree2.0/layui-xtree.js"></script>
+<script type="text/javascript">
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+            $ = layui.jquery;
+
+        var xtree3 = new layuiXtree({
+            elem: 'xtree3'                  //必填三兄弟之老大
+            , form: form                    //必填三兄弟之这才是真老大
+            , data: '/admin/api.node/getNodeTree?id={$auth.id}' //必填三兄弟之这也算是老大
+            , isopen: true  //加载完毕后的展开状态，默认值：true
+        });
+
+        form.on("submit(editAuthOrize)", function (data) {
+            var node_id = [];
+            var oCks = xtree3.GetChecked();
+            for (var i = 0; i < oCks.length; i++) {
+                node_id.push(oCks[i].value);
+            }
+            //弹出loading
+            var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
+
+            // 实际使用时的提交信息
+            $.post("{:url('@admin/auth/authorize')}", {
+                auth_id: $(".auth_id").val(),
+                node_id: node_id,
+            }, function (res) {
+                console.log(res);
+                if (res.code == 0) {
+                    layer.msg(res.msg, {icon: 1}, function () {
+                        layer.closeAll("iframe");
+                        parent.location.reload();
+                    });
+                } else {
+                    layer.msg(res.msg, {icon: 2});
+                }
+            }).error(function () {
+                layer.msg('系统错误，请稍后再试！', {icon: 2});
+            });
+            return false;
+        })
+    });
+</script>
+{/block}

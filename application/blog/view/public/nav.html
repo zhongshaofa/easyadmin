@@ -1,0 +1,9 @@
+<!--导航条-->
+<nav class="breadcrumb">
+    <div class="container">
+        <i class="Hui-iconfont">&#xe67f;</i><a href="{:url('@blog')}" class="c-primary">首页</a>
+        {foreach navMenu as $vo}
+        <span class="c-gray en">&gt;</span> <span class="c-gray">{$vo|default=''}</span>
+        {/foreach}
+    </div>
+</nav>

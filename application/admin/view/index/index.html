@@ -1,0 +1,47 @@
+{extend name="admin@public/basic" /}
+
+{block name="style"}
+<link rel="stylesheet" href="__STATIC__/css/admin/index.css" media="all" />
+{/block}
+
+{block name="cotent"}
+<div class="layui-layout layui-layout-admin">
+{include file="admin@public/header" /}
+{include file="admin@public/menu" /}
+<!-- 右侧内容 -->
+    <div class="layui-body layui-form">
+        <div class="layui-tab mag0" lay-filter="bodyTab" id="top_tabs_box">
+            <ul class="layui-tab-title top_tab" id="top_tabs">
+                <li class="layui-this" lay-id=""><i class="layui-icon">{$home.icon|raw|default=''}</i> <cite>{$home.title|default=''}</cite></li>
+            </ul>
+            <ul class="layui-nav closeBox">
+                <li class="layui-nav-item">
+                    <a href="javascript:;"><i class="layui-icon caozuo">&#xe643;</i> 页面操作</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" class="refresh refreshThis"><i class="layui-icon">&#xe9aa;</i> 刷新当前</a></dd>
+                        <dd><a href="javascript:;" class="closePageOther"><i class="seraph icon-prohibit"></i> 关闭其他</a></dd>
+                        <dd><a href="javascript:;" class="closePageAll"><i class="seraph icon-guanbi"></i> 关闭全部</a></dd>
+                    </dl>
+                </li>
+            </ul>
+            <div class="layui-tab-content clildFrame">
+                <div class="layui-tab-item layui-show">
+                    <iframe src="{$home.href|default=''}"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {include file="admin@public/footer" /}
+
+</div>
+
+<!-- 移动导航 -->
+<div class="site-tree-mobile layui-hide"><i class="layui-icon">&#xe602;</i></div>
+<div class="site-mobile-shade"></div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" src="__STATIC__/js/admin/index.js"></script>
+<script type="text/javascript" src="__STATIC__/js/admin/cache.js"></script>
+{/block}

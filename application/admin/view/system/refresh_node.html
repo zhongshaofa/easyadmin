@@ -1,0 +1,61 @@
+{extend name="admin@public/basic" /}
+
+{block name="style"}
+<link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
+{/block}
+
+{block name="cotent"}
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>选择需要刷新的节点的模块</legend>
+</fieldset>
+
+<form class="layui-form" action="">
+    <div class="layui-form-item" pane="">
+        <div class="layui-input-block">
+            {foreach module_list as $vo}
+            <input type="checkbox" name="module" class="layui-input module" value="{$vo.module|default=''}" lay-skin="primary" title="{$vo.module|default=''} {if !empty($vo.title)}（{$vo.title|default=''}）{/if}" {eq name='$vo.is_checked|default=false' value='true' }checked{/eq}>
+            {/foreach}
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="refresh_node">确定刷新节点</button>
+        </div>
+    </div>
+</form>
+{/block}
+
+{block name="script"}
+<script>
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+            $ = layui.jquery;
+
+        form.on("submit(refresh_node)", function (data) {
+
+            module = [];
+            $("input:checkbox[name='module']:checked").each(function () {
+                module.push($(this).val());
+            });
+
+            var index = top.layer.msg('系统节点刷新中，请稍候', {icon: 16, time: false, shade: 0.8});
+            console.log('刷新节点');
+            $.post("{:url('@admin/system/refresh_node')}", {
+                module: module,
+            }, function (res) {
+                console.log(res);
+                if (res.code == 0) {
+                    layer.msg(res.msg, {icon: 1});
+                } else {
+                    layer.msg(res.msg, {icon: 2});
+                }
+            }).error(function () {
+                layer.msg('系统错误，请稍后再试！', {icon: 2});
+            });
+            return false;
+        })
+    })
+</script>
+{/block}

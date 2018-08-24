@@ -1,0 +1,77 @@
+{extend name="blog@public/basic" /}
+
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/blog/register.css"/>
+{/block}
+
+{block name="cotent"}
+
+<div class="reg_main">
+    <div class="reg_top">会员注册</div>
+    <div class="reg_box">
+        <form action="https://www.php1.cn/?s=user/reg/post" method="post">
+            <div class="main_left">
+                <div class="item_box">
+                    <div class="type">登录账号:</div>
+                    <div class="value"><input type="text" name="username" id="username" class="txt"/></div>
+                </div>
+                <div class="item_box">
+                    <div class="type">我的昵称:</div>
+                    <div class="value"><input type="text" name="nickname" id="nickname" class="txt"/></div>
+                </div>
+                <div class="item_box">
+                    <div class="type">登录密码:</div>
+                    <div class="value"><input type="password" name="password" id="password" class="txt"/></div>
+                </div>
+                <div class="item_box">
+                    <div class="type">电子邮箱:</div>
+                    <div class="value"><input type="text" name="email" id="email" class="txt"/></div>
+                </div>
+                <div class="item_box">
+                    <div class="type">验证码:</div>
+                    <div class="value"><input type="text" name="vercode" id="vercode" class="code" size="4" value=""/> &nbsp;<a href="javascript:;"> <img src='{:captcha_src()}' onclick="this.src='{:captcha_src()}?seed='+Math.random()"/></a></div>
+                </div>
+                <div class="item_box">
+                    <div class="type"></div>
+                    <div class="value"><input id="loginRegister" type="submit" class="bt" value="   &nbsp;&nbsp;提交注册 &nbsp; &nbsp; "/></div>
+                </div>
+
+            </div>
+        </form>
+        <div class="main_right">
+            <div class="tips">我们诚挚的邀请您加入<br/>久久PHP社区！</div>
+            <div class="box">
+                已有账户：<a href="{:url('@blog/login')}">直接登录</a><br/><br/>
+            </div>
+        </div>
+    </div>
+</div>
+
+{/block}
+
+{block name="script"}
+<script>
+    /**
+     * 会员登录
+     */
+    $("#loginRegister").click(function () {
+        $.post("{:url('@blog/login/register')}", {
+            username: $("#username").val(),
+            password: $("#password").val(),
+            nickname: $("#nickname").val(),
+            email: $("#email").val(),
+            vercode: $("#vercode").val(),
+        }, function (res) {
+            console.log(res);
+            if (res.code == 0) {
+                layer.msg(res.msg, {icon: 1}, function () {
+                    window.location.href = "{:url('@blog/login')}";
+                });
+            } else {
+                layer.msg(res.msg, {icon: 2});
+            }
+        })
+        return false;
+    });
+</script>
+{/block}

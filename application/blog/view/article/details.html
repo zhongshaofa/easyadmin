@@ -1,0 +1,163 @@
+{extend name="blog@public/basic" /}
+
+{block name="style"}
+{/block}
+
+{block name="cotent"}
+{include file="blog@public/nav" /}
+<section class="container pt-20">
+
+    <div class="row w_main_row">
+
+
+        <div class="col-lg-9 col-md-9 w_main_left">
+            <div class="panel panel-default  mb-20">
+                <div class="panel-body pt-10 pb-10">
+                    <h2 class="c_titile">{$details.title|default=''}</h2>
+                    <p class="box_c"><span class="d_time">发布时间：{$details.create_at|default=''}</span><span>作者：<a>{$details.nickname|default=''}</a></span><span>阅读量：{$details.clicks|default=''}</span></p>
+                    <ul class="infos">
+                        {$details.content|default=''|raw}
+                    </ul>
+
+                    <div class="keybq">
+                        <p><span>标签</span>：
+                            {foreach tag_list as $vo}
+                            <a class="label label-default">{$vo.tagInfo.tag_title|default=''}</a>
+                            {/foreach}
+                    </div>
+
+                    <div class="nextinfo">
+                        <p class="last">上一篇：<a href="{:url('@blog/article/details')}?id={$last_article.id|default=''}">{$last_article.title}</a></p>
+                        <p class="next">下一篇：<a href="{:url('@blog/article/details')}?id={$next_article.id|default=''}">{$next_article.title}</a></p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default  mb-20">
+                <div class="tab-category">
+                    <a href=""><strong>评论区</strong></a>
+                </div>
+                <div class="panel-body">
+                    <div class="panel-body" style="margin: 0 3%;">
+                        <div class="mb-20">
+                            <ul class="commentList">
+                                {foreach article_comment_list as $vo}
+                                <li class="item cl"><a href="#"><i class="avatar size-L radius"><img alt="" src="{$vo.memberInfo.head_img|default=''}"></i></a>
+                                    <div class="comment-main">
+                                        <header class="comment-header">
+                                            <div class="comment-meta">
+                                                <a class="comment-author" href="#">{if !empty($vo.memberInfo.nickname)}{$vo.memberInfo.nickname|default=''}{else/}{$vo.memberInfo.username|default=''}{/if}</a>
+                                                <time class="f-r">评论时间： {$vo.create_at|default=''}</time>
+                                            </div>
+                                        </header>
+                                        <div class="comment-body"><p> {$vo.content|default=''|raw}</p></div>
+                                    </div>
+                                </li>
+                                {/foreach}
+                            </ul>
+
+                        </div>
+                        <div class="line"></div>
+                        <!--用于评论-->
+                        <div class="mt-20" id="ct">
+                            <div id="err" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
+                            <!--<textarea id="textarea1" name="comment" style="height:200px;" placeholder="看完不留一发？"> </textarea>-->
+                            <div id="editor">
+                            </div>
+                            <div class="text-r mt-10">
+                                <button id="addComment" class="btn btn-primary radius"> 发表评论</button>
+                            </div>
+                        </div>
+                        <!---->
+                        <!--&lt;!&ndash;用于回复&ndash;&gt;-->
+                        <!--<div class="comment hidden mt-20">-->
+                        <!--<div id="err2" class="Huialert Huialert-danger hidden radius">成功状态提示</div>-->
+                        <!--<textarea class="textarea" style="height:100px;"> </textarea>-->
+                        <!--<button onclick="hf(this);" type="button" class="btn btn-primary radius mt-10">回复</button>-->
+                        <!--<a class="cancelReply f-r mt-10">取消回复</a>-->
+                        <!--</div>-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+            <!--热门推荐-->
+            <div class="bg-fff box-shadow radius mb-20">
+                <div class="tab-category">
+                    <a href=""><strong>推荐阅读</strong></a>
+                </div>
+                <div class="tab-category-item">
+                    <ul class="index_recd">
+                        {foreach recommend_list as $vo}
+                        <li>
+                            <a href="{:url('@blog/article/details')}?id={$vo.id|default=''}">{$vo.title|default=''}</a>
+                            <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> {$vo.clicks|default=''}° </p>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
+
+            <!--图片-->
+            <div class="bg-fff box-shadow radius mb-20">
+                <div class="tab-category">
+                    <a href=""><strong>扫我关注</strong></a>
+                </div>
+                <div class="tab-category-item">
+                    <img src="__STATIC__/image/blog/weixin.jpg" class="img-responsive lazyload" alt="响应式图片">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    editor.customConfig.menus = [
+        'head',
+        'bold',
+        'italic',
+        'underline',
+        'foreColor',
+        'backColor',
+        'image',
+        'emoticon',
+        'code',
+        'undo',
+        'redo'
+    ]
+    editor.customConfig.uploadImgServer = '/upload'
+    editor.create()
+
+    //新增评论
+    $("#addComment").click(function () {
+        if (editor.txt.text() == '') {
+            layer.msg('评论信息不可为空！', {icon: 2});
+            return false;
+        }
+        $.post("{:url('@blog/article/add_comment')}", {
+            article_id: "{$details.id|default=''}",
+            member_id: "{$Think.session.member.id}",
+            content: editor.txt.html(),
+        }, function (res) {
+            console.log(res);
+            if (res.code == 0) {
+                layer.msg(res.msg, {icon: 1}, function () {
+                    parent.location.reload();
+                });
+            } else {
+                layer.msg(res.msg, {icon: 2});
+            }
+            return false;
+        })
+    });
+
+</script>
+{/block}
