@@ -37,7 +37,7 @@
                     <!--</li>-->
                     <li class="userInfo dropDown dropDown_hover">
                         {if !empty($Think.session.member)}
-                        <a href="javascript:;"><img class="avatar radius" src="__STATIC__/image/blog/face3.jpg" alt="丶似浅 "> {if !empty($Think.session.member.nickname)}{$Think.session.member.nickname}{else/}{$Think.session.member.username}{/if}</a>
+                        <a href="javascript:;"><img class="avatar radius" src="{if !empty($Think.session.member.head_img)}{$Think.session.member.head_img}{else/}__STATIC__/image/blog/face3.jpg{/if}" alt="个人头像"> {if !empty($Think.session.member.nickname)}{$Think.session.member.nickname}{else/}{$Think.session.member.username}{/if}</a>
                         <ul class="dropDown-menu menu radius box-shadow">
                             <li><a href="{:url('@blog/member')}">个人中心</a></li>
                             <li><a id="loginOut">退出登录</a></li>

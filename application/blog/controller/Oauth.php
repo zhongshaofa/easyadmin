@@ -24,6 +24,11 @@ use app\common\controller\BlogController;
 class Oauth extends BlogController {
 
     /**
+     * @var 登录认证对象
+     */
+    protected $oauth;
+
+    /**
      * 模型对象
      */
     protected $model = null;
@@ -35,30 +40,27 @@ class Oauth extends BlogController {
     public function __construct() {
         parent::__construct();
         $this->model = model('Member');
+        $this->oauth = new \qq_connect\Oauth();
     }
 
     /**
      * 快捷登录
      */
     public function index() {
-        $oauth = new \qq_connect\Oauth();
-        $oauth->qq_login();
+        $this->oauth->qq_login();
     }
 
     /**
      * 快捷登录回调
      */
     public function callback() {
-        $oauth = new \qq_connect\Oauth();
         //请求accesstoken
-        $accesstoken = $oauth->qq_callback();
+        $accesstoken = $this->oauth->qq_callback();
         //获取open_id
-        $openid = $oauth->get_openid();
+        $openid = $this->oauth->get_openid();
         //判断是否存在该用户数据
         $member = $this->model->where(['openid' => $openid, 'status' => 0, 'is_deleted' => 0])->find();
-        if (!empty($member)) {
-            return $this->login($openid);
-        } else {
+        if (empty($member)) {
             //根据accesstoken和open_id获取用户的基本信息
             $qc = new \qq_connect\QC($accesstoken, $openid);
             $userinfo = $qc->get_user_info();
@@ -72,32 +74,15 @@ class Oauth extends BlogController {
                     'year'     => $userinfo['year'],
                 ];
                 $this->model->save($save);
-                return $this->login($openid);
+                $member = $this->model->where(['openid' => $openid, 'status' => 0, 'is_deleted' => 0])->find();
             } else {
                 return msg_error('登录失败，请稍后再试！', url('@blog/login'));
             }
         }
-    }
-
-    /**
-     * 快捷登录
-     * @param string $openid 用户站点的唯一标识
-     */
-    public function login($openid) {
-        $member = $this->model->where(['openid' => $openid, 'status' => 0, 'is_deleted' => 0])->find();
-        if (!empty($member)) {
-            unset($member['password']);
-            //储存session数据
-            session('member', $member);
-            return $this->redirect(url('@blog'));
-        } else {
-            return msg_error('登录失败，请稍后再试！', url('@blog/login'));
-        }
-    }
-
-    public function ceshi() {
-        $member = $this->model->find();
+        session_destroy();
+        unset($member['password']);
+        //储存session数据
         session('member', $member);
-        dump(session('member'));
+        return msg_success('登录成功，正在跳转！', url('@blog'));
     }
 }

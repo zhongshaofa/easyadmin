@@ -52,50 +52,58 @@
 <script type="text/javascript" src="__STATIC__/js/blog/common.js"></script>
 <script type="text/javascript" src="__STATIC__/plugs/wangEditor-3.1.1/release/wangEditor.min.js"></script>
 <script>
-    $(function () {
-        $(window).on("scroll", backToTopFun);
-        backToTopFun();
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+            $ = layui.jquery;
+
+        $(function () {
+            $(window).on("scroll", backToTopFun);
+            backToTopFun();
+        });
+
+        /**
+         * 退出登录
+         */
+        $("#loginOut").click(function () {
+            //弹出loading
+            var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
+            $.get("{:url('@blog/login/out')}",
+                function (res) {
+                    layer.closeAll('loading');
+                    console.log(res);
+                    if (res.code == 0) {
+                        layer.msg(res.msg, {icon: 1}, function () {
+                            parent.location.reload();
+                        });
+                    } else {
+                        layer.msg(res.msg, {icon: 2});
+                    }
+                })
+            return false;
+        });
+
+        /**
+         * 文章发表
+         */
+        $("#homeAdd").click(function () {
+            if ("{$Think.session.member.id}" == '') {
+                layer.msg('请先登录系统再进行操作', {icon: 2}, function () {
+                    window.location.href = "{:url('@blog/login')}";
+                });
+            } else {
+                window.location.href = "{:url('@blog/article/add')}";
+            }
+        });
+
+        /**
+         * 关键词搜索
+         */
+        $("#selectKwd").click(function () {
+            layer.msg('功能暂未实现！', {icon: 2});
+        });
+
     });
-
-    /**
-     * 退出登录
-     */
-    $("#loginOut").click(function () {
-        $.get("{:url('@blog/login/out')}",
-            function (res) {
-                console.log(res);
-                if (res.code == 0) {
-                    layer.msg(res.msg, {icon: 1}, function () {
-                        parent.location.reload();
-                    });
-                } else {
-                    layer.msg(res.msg, {icon: 2});
-                }
-            })
-        return false;
-    });
-
-    /**
-     * 文章发表
-     */
-    $("#homeAdd").click(function () {
-        if ("{$Think.session.member.id}" == '') {
-            layer.msg('请先登录系统再进行操作', {icon: 2}, function () {
-                window.location.href = "{:url('@blog/login')}";
-            });
-        } else {
-            window.location.href = "{:url('@blog/article/add')}";
-        }
-    });
-
-    /**
-     * 关键词搜索
-     */
-    $("#selectKwd").click(function () {
-        layer.msg('功能暂未实现！', {icon: 2});
-    });
-
-
 </script>
 <script type="text/javascript" src="__STATIC__/plugs/blog/jquery.SuperSlide/2.1.1/jquery.SuperSlide.min.js"></script>
 
