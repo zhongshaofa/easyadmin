@@ -34,8 +34,8 @@ class Search extends BlogController {
      * 搜索首页
      * @return mixed
      */
-    public function index($word = '') {
-        $search_data = $this->model->searchArticle($word);
+    public function index($word = '', $category_id = '') {
+        $search_data = $this->model->searchArticle($word, $category_id);
         $basic_data = [
             'title'          => '搜索资料',
             'recommend_list' => $this->model->getRecommendList(),

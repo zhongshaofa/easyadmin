@@ -200,14 +200,21 @@ class Article extends ModelService {
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function searchArticle($word, $page = 10) {
+    public function searchArticle($word, $category_id, $page = 10) {
         $where_article_list = [
             ['title', 'LIKE', "%{$word}%"],
             ['status', '=', 0],
             ['is_deleted', '=', 0],
         ];
+        $query = [
+            'word' => $word,
+        ];
+        if (!empty($category_id)) {
+            $where_article_list[] = ['category_id', '=', $category_id];
+            $query['category_id'] = $category_id;
+        }
         $article_count = $this->where($where_article_list)->count();
-        $article_list = $this->where($where_article_list)->order('create_at', 'desc')->paginate($page, false, ['query' => ['word' => $word]])
+        $article_list = $this->where($where_article_list)->order('create_at', 'desc')->paginate($page, false, ['query' => $query])
             ->each(function ($item, $key) {
                 $item->memberInfo;
                 $item->categoryInfo;

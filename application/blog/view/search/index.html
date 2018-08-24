@@ -37,9 +37,9 @@
     <div class="layui-row php-search">
         <div class='nav-sel'>
             <ul>
-                <li class='on'>全站</li>
+                <li {if empty($Think.get.category_id)}class='on'{/if}> <a href="{:url('@blog/search')}?word={$Think.get.word|default=''}">全站</a></li>
                 {foreach category_list as $vo}
-                <li><a href='#'>{$vo.title}</a></li>
+                <li {if $Think.get.category_id==$vo.id}class='on'{/if}><a href="{:url('@blog/search')}?category_id={$vo.id|default=''}&word={$Think.get.word|default=''}">{$vo.title|default=''}</a></li>
                 {/foreach}
             </ul>
         </div>
