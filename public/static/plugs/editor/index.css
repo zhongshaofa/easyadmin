@@ -1,0 +1,72 @@
+
+.jumbotron{
+    background-color: #f1f1f1;
+    padding: 30px 0;
+    margin-bottom: 40px;
+}
+.jumbotron h1{
+    font-size:40px;
+    color: #555;
+    margin-bottom: 20px;
+    /*text-shadow: 0 2px 2px #333;*/
+}
+.jumbotron p{
+    color: #999;
+    font-size:19px;
+    line-height: 2;
+    text-shadow: 0 1px 1px #ccc;
+}
+
+
+.link-container{
+    margin-bottom: 15px;
+    display: table;
+}
+.link-container a {
+    font-size: 16px;
+    color: #999;
+
+    display: block;
+    float: left;
+    margin: 0 20px;
+}
+.link-container .active{
+    color: #333;
+}
+.link-container a:hover{
+    color: #333;
+    text-decoration: none;
+}
+
+.info-container{
+    width: 1000px;
+    margin-top: 10px;
+    text-align: left;
+    padding: 20px 10px;
+    color: #666;
+    text-shadow: 0 1px 1px #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
+}
+.info-container a{
+    color: #666;
+}
+.info-container ul {
+    margin-left: 20px;
+}
+.info-container .title{
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.info-container .users-logo-container a {
+    display: inline-block;
+    margin-right: 10px;
+    border: 1px solid #f1f1f1;
+    margin-top: 10px;
+}
+.info-container .users-logo-container a:hover {
+    text-decoration: none;
+}
+.info-container .users-logo-container a img {
+    height: 60px;
+}

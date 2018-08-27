@@ -1,0 +1,226 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Tag-it! Example</title>
+
+    <link href="_static/master.css" rel="stylesheet" type="text/css">
+    <link href="_static/subpage.css" rel="stylesheet" type="text/css">
+    <link href="_static/examples.css" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+    <link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
+    <link href="css/tagit.ui-zendesk.css" rel="stylesheet" type="text/css">
+
+
+    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <script src="http://www.jq22.com/jquery/jquery-ui-1.11.0.js"></script>
+
+    <script src="js/tag-it.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        $(function(){
+            var sampleTags = ['c++', 'java', 'php', 'coldfusion', 'javascript', 'asp', 'ruby', 'python', 'c', 'scala', 'groovy', 'haskell', 'perl', 'erlang', 'apl', 'cobol', 'go', 'lua'];
+
+            //-------------------------------
+            // Minimal
+            //-------------------------------
+            $('#myTags').tagit();
+
+            //-------------------------------
+            // Single field
+            //-------------------------------
+            $('#singleFieldTags').tagit({
+                availableTags: sampleTags,
+                // This will make Tag-it submit a single form value, as a comma-delimited field.
+                singleField: true,
+                singleFieldNode: $('#mySingleField')
+            });
+
+            // singleFieldTags2 is an INPUT element, rather than a UL as in the other
+            // examples, so it automatically defaults to singleField.
+            $('#singleFieldTags2').tagit({
+                availableTags: sampleTags
+            });
+
+            //-------------------------------
+            // Preloading data in markup
+            //-------------------------------
+            $('#myULTags').tagit({
+                availableTags: sampleTags, // this param is of course optional. it's for autocomplete.
+                // configure the name of the input field (will be submitted with form), default: item[tags]
+                itemName: 'item',
+                fieldName: 'tags'
+            });
+
+            //-------------------------------
+            // Tag events
+            //-------------------------------
+            var eventTags = $('#eventTags');
+
+            var addEvent = function(text) {
+                $('#events_container').append(text + '<br>');
+            };
+
+            eventTags.tagit({
+                availableTags: sampleTags,
+                beforeTagAdded: function(evt, ui) {
+                    if (!ui.duringInitialization) {
+                        addEvent('beforeTagAdded: ' + eventTags.tagit('tagLabel', ui.tag));
+                    }
+                },
+                afterTagAdded: function(evt, ui) {
+                    if (!ui.duringInitialization) {
+                        addEvent('afterTagAdded: ' + eventTags.tagit('tagLabel', ui.tag));
+                    }
+                },
+                beforeTagRemoved: function(evt, ui) {
+                    addEvent('beforeTagRemoved: ' + eventTags.tagit('tagLabel', ui.tag));
+                },
+                afterTagRemoved: function(evt, ui) {
+                    addEvent('afterTagRemoved: ' + eventTags.tagit('tagLabel', ui.tag));
+                },
+                onTagClicked: function(evt, ui) {
+                    addEvent('onTagClicked: ' + eventTags.tagit('tagLabel', ui.tag));
+                },
+                onTagExists: function(evt, ui) {
+                    addEvent('onTagExists: ' + eventTags.tagit('tagLabel', ui.existingTag));
+                }
+            });
+
+            //-------------------------------
+            // Read-only
+            //-------------------------------
+            $('#readOnlyTags').tagit({
+                readOnly: true
+            });
+
+            //-------------------------------
+            // Tag-it methods
+            //-------------------------------
+            $('#methodTags').tagit({
+                availableTags: sampleTags
+            });
+
+            //-------------------------------
+            // Allow spaces without quotes.
+            //-------------------------------
+            $('#allowSpacesTags').tagit({
+                availableTags: sampleTags,
+                allowSpaces: true
+            });
+
+            //-------------------------------
+            // Remove confirmation
+            //-------------------------------
+            $('#removeConfirmationTags').tagit({
+                availableTags: sampleTags,
+                removeConfirmation: true
+            });
+
+        });
+    </script>
+</head>
+<body>
+<div id="wrapper">
+    <div id="header">
+        <h2>TAG-IT！用法示例</h2>
+    </div>
+    <div id="content">
+        <p>这些演示了Tag-it的各种功能。查看源代码以了解每种方法的工作原理。</p>
+        <hr>
+        <h3>最小</h3>
+        <form>
+            <p>
+                Vanilla示例 - 所需的绝对最小代码量，无需配置。没有自动完成功能。请参阅其他示例。
+            </p>
+            <ul id="myTags"></ul>
+            <input type="submit" value="Submit">
+        </form>
+        <hr>
+        <h3>单一输入字段</h3>
+        <form>
+            <p>
+                使用单个输入表单字段来保存所有标记值的示例，而不是每个标记一个（请参阅settings.singleField）。如果你有一个带有一个逗号分隔标签输入字段的表单，你想简单地“升级”到这个奇特的jQuery UI小部件，这种方法特别有用。对于没有JS的浏览器，此配置也会很好地降级 - 默认行为是每个标记都有一个输入，不会降级，也不会受到逗号分隔的输入的影响。
+            </p>
+            <p>
+                通常情况下，这个输入字段将被隐藏 - 我们在这里让它可见，这样你就可以看到它是如何被widget控制的：
+                <input name="tags" id="mySingleField" value="Apple, Orange" disabled="true">
+            </p>
+            <ul id="singleFieldTags"></ul>
+            <input type="submit" value="Submit">
+        </form>
+        <hr>
+        <h3><a name="graceful-degredation"></a>单输入字段（2）</h3>
+        <form>
+            <p>
+                如果您在INPUT元素上实例化标签，它将默认为singleField，并将该INPUT元素作为singleFieldNode。这是拥有一个优雅退化标签小部件的最简单方法。
+            </p>
+            <input name="tags" id="singleFieldTags2" value="Apple, Orange">
+        </form>
+        <hr>
+        <h3>没有行情的空间</h3>
+        <p>您已经可以在默认情况下在其中使用空格的多字标记，但这些标记必须用引号括起来。此选项可让您使用空格，而无需用户引用输入。</p>
+        <p>通常有5种方法可以在输入文本后插入标签：空格，逗号，输入，选择自动填充选项或者使小部件散焦。通过将“allowSpaces”选项设置为true，空间不再插入标签，它只是为当前标签输入添加一个空格。</p>
+        <form>
+            <p></p>
+            <ul id="allowSpacesTags"></ul>
+        </form>
+        <hr>
+        <h3>在标记中预加载数据</h3>
+        <form>
+            <p>
+                使用HTML中的UL预先填充一些标签。
+            </p>
+            <ul id="myULTags">
+                <li>Tag1</li>
+                <li>Tag2</li>
+            </ul>
+        </form>
+        <hr>
+        <h3>只读</h3>
+        <form>
+            <p>只读标签示例。</p>
+            <ul id="readOnlyTags">
+                <li>Tag1</li>
+                <li>Tag2</li>
+            </ul>
+        </form>
+        <hr>
+        <h3>活动</h3>
+        <form>
+            <p>标签事件的例子。尝试添加或移除标签，添加重复标签或点击标签标签。</p>
+            <ul id="eventTags">
+                <li>Click my label</li>
+                <li>Remove me</li>
+            </ul>
+        </form>
+        <div id="events_container"></div>
+        <hr>
+        <h3>方法</h3>
+        <form>
+            <p>演示可用的小部件方法。点击小部件下方的链接来尝试它们。</p>
+            <ul id="methodTags"></ul>
+            <p><a href="#" onclick="var inp=prompt('Enter a tag value to test the createTag method.');$('#methodTags').tagit('createTag', inp);return false;">Create tag</a></p>
+            <p><a href="#" onclick="var inp=prompt('Enter a tag value to test the removeTagByName method.');$('#methodTags').tagit('removeTagByName', inp);return false;">Remove tag by name</a></p>
+            <p><a href="#" onclick="$('#methodTags').tagit('removeAll');return false;">Clear tags</a></p>
+        </form>
+        <hr>
+        <h3>删除确认</h3>
+        <form>
+            <p>
+                当启用removeConfirmation时，用户必须按退格键两次才能删除最后一个标记。
+            </p>
+            <ul id="removeConfirmationTags">
+                <li>backspace me</li>
+                <li>me too</li>
+            </ul>
+        </form>
+    </div>
+</div>
+</body>
+</html>

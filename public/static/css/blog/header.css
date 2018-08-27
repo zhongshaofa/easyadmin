@@ -1,0 +1,49 @@
+.header-menu:hover {
+    font-weight: bold;
+    color: #000000;
+}
+
+.nav-rsear {
+    float: right;
+    margin-top: 8px;
+    margin-left: 20px
+}
+
+.nav-rsear .sear-1 {
+    float: left;
+    /*height: 14px;*/
+    padding: 7px 0 7px 2px;
+    border: 1px solid #E6E6E6;
+    background: #F2F2F2;
+    width: 176px;
+    border-right: none;
+    text-indent: 10px;
+    color: #afafaf
+}
+
+.nav-rsear .sear-1:focus {
+    border-color: #8D8D8D;
+    background: #F2F2F2;
+    color: #333
+}
+
+.nav-rsear .sear-2 {
+    float: left;
+    width: 30px;
+    height: 30px;
+    background: url(/static/image/blog/home-search2.png);
+    border: none;
+    cursor: pointer;
+}
+
+.home-add {
+    margin-top: 8px;
+    float: left;
+    margin-left: 100px;
+    width: 30px;
+    height: 30px;
+    /*background: url(/static/image/blog/add.png);*/
+    background: url(/static/image/blog/home-add.png);
+    border: none;
+    cursor: pointer;
+}

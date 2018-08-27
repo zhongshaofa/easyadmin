@@ -1,0 +1,33 @@
+body{
+    font-family: '微软雅黑';
+}
+
+body * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+p{
+    line-height: 1.8;
+}
+ul li{
+    line-height: 1.8;
+}
+.clearfix:after{
+    content: '';
+    display: block;
+    clear: both;
+}
+.clearfix{
+    *zoom: 1;
+}
+
+
+
+footer{
+    margin-top: 20px;
+    border-top: 1px solid #f1f1f1;
+    padding: 10px 0;
+    color: #999;
+}
