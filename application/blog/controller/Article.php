@@ -68,6 +68,7 @@ class Article extends BlogController {
                 'navMenu'        => ['技术教程', '发布文章'],
                 'recommend_list' => model('Article')->getRecommendList(),
                 'category_list'  => model('Category')->getCategoryList(),
+                'sample_tags'    => model('Tag')->getSampleTags(),
             ];
             return $this->fetch('form', $basic_data);
         } else {

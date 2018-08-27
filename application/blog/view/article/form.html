@@ -1,7 +1,13 @@
 {extend name="blog@public/basic" /}
 
 {block name="style"}
-
+<link href="__STATIC__/plugs/tag-it/css/jquery.tagit.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/plugs/tag-it/css/tagit.ui-zendesk.css" rel="stylesheet" type="text/css">
+<style>
+    .editor-bg {
+        background-color: white;
+    }
+</style>
 {/block}
 
 {block name="cotent"}
@@ -31,6 +37,13 @@
                     </div>
 
                     <div class="layui-form-item">
+                        <label class="layui-form-label">文章标签</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="tag_title" lay-verify="tag_title" autocomplete="off" placeholder="请输入文章标签" class="layui-input" value="">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
                         <label class="layui-form-label">文章LOGO</label>
                         <div class="layui-input-block">
                             <div class="layui-upload-drag" id="uploadLogo">
@@ -50,7 +63,7 @@
                     <div class="layui-form-item layui-form-text">
                         <label class="layui-form-label">文章内容</label>
                         <div class="layui-input-block">
-                            <div id="editor">
+                            <div id="editor" class="editor-bg">
                             </div>
                             <div class="text-r mt-10">
                                 <button id="addArticle" class="btn btn-primary radius"> 发表文章</button>
@@ -95,6 +108,8 @@
 {/block}
 
 {block name="script"}
+<script type="text/javascript" src="__STATIC__/plugs/tag-it/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="__STATIC__/plugs/tag-it/js/tag-it.js" charset="utf-8"></script>
 <script>
     layui.use(['form', 'layedit', 'laydate', 'upload'], function () {
             var form = layui.form
@@ -111,7 +126,12 @@
                 elem: '#date1'
             });
 
-            //拖拽上传
+            //预读取文章标签
+            var sampleTags = JSON.parse('{$sample_tags|json_encode|raw}');
+
+            /**
+             * 拖拽上传
+             */
             upload.render({
                 elem: '#uploadLogo'
                 , url: "{:url('@blog/api.upload/layui_image')}"
@@ -125,6 +145,14 @@
                 }
             });
 
+            /**
+             * 文章标签处理
+             */
+            $('#tag_title').tagit({
+                availableTags: sampleTags, //预读取
+                removeConfirmation: true, //回车两次才删除
+                // readOnly: true //只读
+            });
         }
     )
 </script>
@@ -181,6 +209,7 @@
         $.post("{:url('@blog/article/add')}", {
             member_id: "{$Think.session.member.id}",
             title: $('#title').val(),
+            tag_title: $('#tag_title').val(),
             category_id: $('#category_id').val(),
             cover_img: $('#cover_img').attr('src'),
             describe: $('#describe').val(),

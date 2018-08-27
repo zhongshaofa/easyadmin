@@ -21,4 +21,13 @@ use app\common\service\ModelService;
 class Tag extends ModelService {
 
     protected $table = 'blog_tag';
+
+    /**
+     * 预读取文章标签
+     * @return array
+     */
+    public function getSampleTags() {
+        $tag_list = $this->where(['status' => 0])->column('tag_title');
+        return $tag_list;
+    }
 }
