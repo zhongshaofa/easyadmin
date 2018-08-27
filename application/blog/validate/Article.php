@@ -28,6 +28,7 @@ class Article extends Validate {
     protected $rule = [
         'article_id'  => 'require|number|checkArticleId',
         'member_id'   => 'require|number|checkMemberId',
+        'tag_list'    => 'require',
         'content'     => 'require',
         'title'       => 'require|max:50',
         'category_id' => 'require|number',
@@ -45,6 +46,7 @@ class Article extends Validate {
         'member_id.require'   => '请先登录后再进行操作',
         'member_id.number'    => '人员编号应该为数字',
         'content.require'     => '评论内容必须',
+        'tag_list.require'    => '文章标签必须',
         'content.max'         => '评论内容最多不能超过20000个字符',
         'title.require'       => '文章标题必须',
         'title.max'           => '文章标题最多不能超过250个字符',
@@ -68,7 +70,7 @@ class Article extends Validate {
      * @return Article
      */
     public function sceneAdd() {
-        return $this->only(['member_id', 'title', 'category_id', 'cover_img', 'describe', 'content'])
+        return $this->only(['member_id', 'title', 'tag_list', 'category_id', 'cover_img', 'describe', 'content'])
             ->append('content', 'max:20000');
     }
 

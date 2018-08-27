@@ -183,12 +183,36 @@ class Article extends ModelService {
         //使用事物保存数据
         $this->startTrans();
         $save = $this->save($insert);
+        $article_id = $this->id;
         if (!$save) {
             $this->rollback();
             return __error('数据有误，请稍后再试！');
         }
         $this->commit();
+        $this->__buildAddTag($article_id, $insert);
         return __success('文章添加成功！');
+    }
+
+    /**
+     * 前置数据
+     * @param $data
+     */
+    protected function __buildAddTag($article_id, $insert) {
+        if (isset($insert['tag_list']) && !empty($insert['tag_list']) && !empty($article_id)) {
+            list($tag_list, $save_all) = [explode(',', $insert['tag_list']), []];
+            foreach ($tag_list as $vo) {
+                $tag_id = model('Tag')->where(['tag_title' => $vo])->value('id');
+                if (empty($tag_id)) {
+                    model('Tag')->save(['tag_title' => $vo]);
+                    $tag_id = model('Tag')->id;
+                }
+                $save_all[] = [
+                    'article_id' => $article_id,
+                    'tag_id'     => $tag_id,
+                ];
+            }
+            model('ArticleTag')->saveAll($save_all);
+        }
     }
 
     /**

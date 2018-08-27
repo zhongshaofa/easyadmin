@@ -17,8 +17,13 @@ use think\File;
 
 class Test extends BlogController {
 
-    public function index() {
-        return $this->fetch();
+    public function ceshi() {
+        $data = [
+            'tag_title' => 'ceshi45',
+        ];
+        $test = model('Tag')->save($data);
+        dump(model('Tag')->id);
+//        return $this->fetch();
     }
 
     public function upload() {

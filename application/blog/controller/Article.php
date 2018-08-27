@@ -84,6 +84,13 @@ class Article extends BlogController {
     }
 
     /**
+     * 前置数据
+     */
+    protected function __buildPostAdd($data) {
+
+    }
+
+    /**
      * 文章详情
      */
     public function details() {

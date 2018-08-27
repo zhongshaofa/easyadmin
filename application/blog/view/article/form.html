@@ -39,7 +39,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">文章标签</label>
                         <div class="layui-input-block">
-                            <input type="text" id="tag_title" lay-verify="tag_title" autocomplete="off" placeholder="请输入文章标签" class="layui-input" value="">
+                            <input type="text" id="tag_list" lay-verify="tag_list" autocomplete="off" placeholder="请输入文章标签" class="layui-input" value="">
                         </div>
                     </div>
 
@@ -148,7 +148,7 @@
             /**
              * 文章标签处理
              */
-            $('#tag_title').tagit({
+            $('#tag_list').tagit({
                 availableTags: sampleTags, //预读取
                 removeConfirmation: true, //回车两次才删除
                 // readOnly: true //只读
@@ -209,7 +209,7 @@
         $.post("{:url('@blog/article/add')}", {
             member_id: "{$Think.session.member.id}",
             title: $('#title').val(),
-            tag_title: $('#tag_title').val(),
+            tag_list: $('#tag_list').val(),
             category_id: $('#category_id').val(),
             cover_img: $('#cover_img').attr('src'),
             describe: $('#describe').val(),
