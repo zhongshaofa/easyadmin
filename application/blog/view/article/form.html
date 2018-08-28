@@ -46,10 +46,10 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">文章LOGO</label>
                         <div class="layui-input-block">
-                            <div class="layui-upload-drag" id="uploadLogo">
-                                <i class="layui-icon"></i>
-                                <p>点击上传，或将图片拖拽到此处</p>
-                                <img src="" id="cover_img" lay-filter="cover_img">
+                            <div class="layui-upload-drag" id="uploadLogo" style="width: 100%;box-sizing: border-box;">
+                                <i id="upload_icon" class="layui-icon"></i>
+                                <p id="upload_icon_p">点击上传，或将图片拖拽到此处</p>
+                                <img style="width:300px;" src="" id="cover_img" lay-filter="cover_img">
                             </div>
                         </div>
                     </div>
@@ -139,6 +139,11 @@
                     console.log(res)
                     if (res.code == 0) {
                         $('#cover_img').attr('src', res.data.src);
+                        var parent=document.getElementById("uploadLogo");
+                        var child = document.getElementById("upload_icon");
+                        var child1 = document.getElementById("upload_icon_p");
+                        parent.removeChild(child);
+                        parent.removeChild(child1);
                     } else {
                         layer.msg(res.msg);
                     }
