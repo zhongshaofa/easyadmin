@@ -201,10 +201,10 @@ class Article extends ModelService {
         if (isset($insert['tag_list']) && !empty($insert['tag_list']) && !empty($article_id)) {
             list($tag_list, $save_all) = [explode(',', $insert['tag_list']), []];
             foreach ($tag_list as $vo) {
+                $test[] = $vo;
                 $tag_id = model('Tag')->where(['tag_title' => $vo])->value('id');
                 if (empty($tag_id)) {
-                    model('Tag')->save(['tag_title' => $vo]);
-                    $tag_id = model('Tag')->id;
+                    $tag_id = model('Tag')->insertGetId(['tag_title' => $vo]);
                 }
                 $save_all[] = [
                     'article_id' => $article_id,

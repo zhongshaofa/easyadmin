@@ -30,7 +30,7 @@ class Article extends Validate {
         'member_id'   => 'require|number|checkMemberId',
         'tag_list'    => 'require',
         'content'     => 'require',
-        'title'       => 'require|max:50',
+        'title'       => 'require|max:250',
         'category_id' => 'require|number',
         'cover_img'   => 'require|max:250',
         'describe'    => 'max:250',

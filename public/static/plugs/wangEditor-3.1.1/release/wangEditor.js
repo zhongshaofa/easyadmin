@@ -572,7 +572,8 @@ var config = {
         content: [{
             alt: '[坏笑]',
             src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/50/pcmoren_huaixiao_org.png'
-        }, {
+        },
+            {
             alt: '[舔屏]',
             src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/40/pcmoren_tian_org.png'
         }, {

@@ -161,6 +161,7 @@
     var editor = new E('#editor')
     editor.customConfig.uploadImgServer = "{:url('@blog/api.upload/image')}"
     editor.customConfig.uploadFileName = 'image'
+    editor.customConfig.pasteFilterStyle = false
     editor.customConfig.uploadImgMaxLength = 5
     editor.customConfig.uploadImgHooks = {
         success: function (xhr, editor, result) {
