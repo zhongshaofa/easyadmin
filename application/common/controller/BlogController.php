@@ -13,6 +13,7 @@ namespace app\common\controller;
 
 
 use think\Controller;
+use think\facade\Cache;
 
 /**
  * 前端博客基础控制器
@@ -34,20 +35,51 @@ class BlogController extends Controller {
     protected $is_login = false;
 
     /**
+     * 会员信息
+     * @var array
+     */
+    protected $member = [];
+
+    /**
+     * 博客配置信息
+     * @var array
+     */
+    protected $BlogInfo = [];
+
+    /**
      * 构造函数
      * BlogController constructor.
      */
     public function __construct() {
         parent::__construct();
-        $this->is_login && $this->check_login();
+        $this->is_login && $this->checkLogin();
+        $this->member = session('member');
+        $this->BlogInfo = Cache::get('BlogInfo');
+        if (!empty($this->member)) {
+            $this->checkLoginOver($this->member);
+        }
     }
 
     /**
      * 判断会员是否已登录
      */
-    public function check_login() {
+    public function checkLogin() {
         if (empty(session('member.id'))) {
             return $this->redirect('@blog/login');
+        }
+    }
+
+    /**
+     * 检测登录是否过期
+     * @param $member
+     */
+    public function checkLoginOver($member) {
+        (isset($this->BlogInfo['LoginDuration']) && !empty($this->BlogInfo['LoginDuration'])) ? $LoginDuration = $this->BlogInfo['LoginDuration'] : $LoginDuration = '';
+        if (!empty($LoginDuration)) {
+            if (time() - $member['login_at'] >= $LoginDuration) {
+                $this->member = [];
+                session(null);
+            }
         }
     }
 }

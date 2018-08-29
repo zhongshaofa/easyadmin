@@ -81,6 +81,10 @@ class Oauth extends BlogController {
         }
         session_destroy();
         unset($member['password']);
+
+        //记录登录时间
+        $member['login_at'] = time();
+        
         //储存session数据
         session('member', $member);
         return msg_success('登录成功，正在跳转！', url('@blog'));

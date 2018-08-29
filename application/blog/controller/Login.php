@@ -55,6 +55,9 @@ class Login extends BlogController {
             $login = $this->model->login($post['username'], $post['password']);
             if ($login['code'] == 1) return __error($login['msg']);
 
+            //记录登录时间
+            $login['member']['login_at'] = time();
+
             //储存session数据
             session('member', $login['member']);
             return __success($login['msg']);
@@ -114,11 +117,5 @@ class Login extends BlogController {
         session(null);
 
         return __success('退出登录成功');
-    }
-
-    public function ceshi() {
-        $member=$this->model->find()->toArray();
-        session('member', $member);
-        return dump('成功');
     }
 }
