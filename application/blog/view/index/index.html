@@ -1,7 +1,11 @@
 {extend name="blog@public/basic" /}
 
 {block name="style"}
-
+<style>
+    .layui-icon.layui-icon-praise:hover {
+        /*color: #d33a39;*/
+    }
+</style>
 {/block}
 
 {block name="cotent"}
@@ -51,6 +55,7 @@
                         <span><a href="{:url('@blog/article')}?category_id={$vo.category_id|default=''}" target="_blank">{$vo.categoryInfo.title|default=''}</a></span>
                         <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> {$vo.clicks|default=''} °</p>
                         <p class="commonts"><i class="Hui-iconfont" title="评论"></i> <span class="cy_cmt_count">{$vo.comment_total|default=''}</span></p>
+                        <p class="praise"><i class="layui-icon layui-icon-praise" title="点赞"></i> {$vo.praise|default='0'} </p>
                     </div>
                     <div class="desc">{$vo.describe|default=''}</div>
                 </li>

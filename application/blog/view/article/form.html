@@ -208,6 +208,7 @@
 
     //新增评论
     $("#addArticle").click(function () {
+        console.log($('#tag_list').val());
         if (editor.txt.text() == '') {
             layer.msg('文章内容不可为空！', {icon: 2});
             return false;

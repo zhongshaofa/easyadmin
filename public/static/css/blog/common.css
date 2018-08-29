@@ -215,11 +215,17 @@ a:hover {
 
 .index_arc li .date_hits .hits {
     position: absolute;
-    right: 50px;
+    right: 100px;
     top: 0;
 }
 
 .index_arc li .date_hits .commonts {
+    position: absolute;
+    right: 40px;
+    top: 0;
+}
+
+.index_arc li .date_hits .praise {
     position: absolute;
     right: 0;
     top: 0;
@@ -273,6 +279,42 @@ a:hover {
     vertical-align: top;
     font-style: normal;
 }
+
+/*相关阅读 li*/
+.index_recd_relevant li {
+    line-height: 32px;
+    white-space: nowrap;
+    overflow: hidden;
+    list-style: decimal-leading-zero inside;
+    font-style: oblique;
+    font-size: 14px;
+}
+
+.index_recd_relevant li.index_recd_item {
+    list-style: none;
+}
+
+.index_recd_relevant li a {
+    color: #009688;
+    max-width: 68%;
+    margin-right: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    display: inline-block;
+    vertical-align: top;
+    font-style: normal;
+}
+
+.index_recd_relevant li .hits {
+    font-size: 12px;
+    color: #888;
+    display: inline-block;
+    vertical-align: top;
+    font-style: normal;
+}
+
 
 /*面板主体 span*/
 .tab-category-item > span {

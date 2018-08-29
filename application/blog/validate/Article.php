@@ -71,7 +71,7 @@ class Article extends Validate {
      */
     public function sceneAdd() {
         return $this->only(['member_id', 'title', 'tag_list', 'category_id', 'cover_img', 'describe', 'content'])
-            ->append('content', 'max:20000');
+            ->append('content', 'max:10000000');
     }
 
     /**

@@ -13,6 +13,8 @@ namespace app\blog\controller;
 
 
 use app\common\controller\BlogController;
+use app\blog\service\ArticleService;
+
 
 /**
  * 博客文章控制器
@@ -115,6 +117,7 @@ class Article extends BlogController {
                 'tag_list'             => model('ArticleTag')->getArticleTagList($id),
                 'article_comment_list' => model('Comment')->getArticleComment($id),
                 'recommend_list'       => model('Article')->getRecommendList(),
+                'relevant_list'        => ArticleService::getRelevantArticle($id),
             ];
             return $this->fetch('', $basic_data);
         }

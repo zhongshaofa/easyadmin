@@ -14,7 +14,7 @@
 
 namespace app\blog\model;
 
-
+use app\common\service\AuthService;
 use app\common\service\ModelService;
 
 /**

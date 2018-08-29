@@ -1,6 +1,33 @@
 {extend name="blog@public/basic" /}
 
 {block name="style"}
+<style>
+    .article-praise{margin-top:10px;margin-right:200px;margin-bottom:10px;margin-left:200px;-moz-border-radius:25px;border-radius:25px;text-align:center}
+    .dfsj_ullist li a{color:#5a98de;}
+    .dfsj_ullist li a:hover{color:#f74644;text-decoration:underline}
+    .layui-icon.layui-icon-right{font-size:10px!important}
+    .layui-icon.layui-icon-praise{font-size:25px!important}
+    .layui-icon.layui-icon-praise:hover{color:#d32320}
+    #p_btn{padding:3em 0;text-align:center;line-height:40px}
+    #p_btn a{display:inline-block;width:105px;height:40px}
+    #p_btn a:hover i,#p_btn a:hover span{color:#fff}
+    #p_btn i{display:block;padding:0;background:0 0;color:#ed1c24;text-align:left;font-style:normal;cursor:pointer}
+    #p_btn i span{margin-bottom:10px;padding-bottom:30px;color:#eb0028;font-size:16px}
+    #p_btn{padding:3em 0;text-align:center;line-height:24px}
+    #p_btn a{display:inline-block;margin-right:3px;padding-right:4px;padding-left:8px;background-color:#ddd5d5;vertical-align:top;white-space:nowrap}
+    #p_btn a:hover{background-color:#db1f1f;text-decoration:none}
+    #k_favorite{padding-left:20px;background-position:-795px -344px}
+    .vwthd a#k_favorite:hover{background-position:-795px -364px}
+    #p_btn{padding:3em 0;text-align:center;line-height:40px}
+    #p_btn a{display:inline-block;margin-right:8px;padding-right:0;padding-left:75px;width:105px;height:40px;vertical-align:top;white-space:nowrap}
+    #p_btn a#k_favorite{background-position:-333px -334px}
+    #p_btn a#k_favorite:hover{background-position:-333px -374px}
+    /*{if $is_mobile}*/
+    .dfsj_ullist li{float:left;overflow:hidden;width:45%;height:30px;background-position:-991px -234px;line-height:30px;}
+    /*{else/}*/
+    .dfsj_ullist li{float:left;overflow:hidden;padding-left:5px;width:32%;height:30px;background-position:-991px -234px;line-height:30px;}
+    /*{/if}*/
+</style>
 {/block}
 
 {block name="cotent"}
@@ -8,7 +35,9 @@
 <section class="container pt-20">
 
     <div class="row w_main_row">
-
+{if $is_mobile == true}
+        {else/}
+  {/if}
 
         <div class="col-lg-9 col-md-9 w_main_left">
             <div class="panel panel-default  mb-20">
@@ -26,6 +55,14 @@
                             {/foreach}
                     </div>
 
+                    <!--<div id="p_btn" class="mtw mbm hm cl">-->
+                        <!--<a id="k_favorite" href="#">-->
+                            <!--<i class="layui-icon layui-icon-praise">-->
+                                <!--<span id="favoritenumber">&nbsp;+19</span>-->
+                            <!--</i>-->
+                        <!--</a>-->
+                    <!--</div>-->
+
                     <div class="nextinfo">
                         <p class="last">上一篇：<a href="{:url('@blog/article/details')}?id={$last_article.id|default=''}">{$last_article.title}</a></p>
                         <p class="next">下一篇：<a href="{:url('@blog/article/details')}?id={$next_article.id|default=''}">{$next_article.title}</a></p>
@@ -36,7 +73,25 @@
 
             <div class="panel panel-default  mb-20">
                 <div class="tab-category">
-                    <a href=""><strong>评论区</strong></a>
+                    <a href=""><strong>相关帖子</strong></a>
+                </div>
+                <div class="panel-body" style="margin: 0 3%;">
+                    <!--<div class="line"></div>-->
+                    <!--用于相关阅读-->
+                    <ul class="dfsj_ullist cl">
+                        {foreach relevant_list as $vo}
+                        <li>
+                            <span class="layui-icon layui-icon-right"></span>
+                            <a href="{:url('@blog/article/details')}?id={$vo.id|default=''}">{$vo.title|default=''}</a>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel panel-default  mb-20">
+                <div class="tab-category">
+                    <a href=""><strong>评论内容</strong></a>
                 </div>
                 <div class="panel-body">
                     <div class="panel-body" style="margin: 0 3%;">
