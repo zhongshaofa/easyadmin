@@ -14,8 +14,17 @@ namespace app\blog\model;
 
 use app\common\service\ModelService;
 
+/**
+ * 文章标签模型
+ * Class ArticleTag
+ * @package app\blog\model
+ */
 class ArticleTag extends ModelService {
 
+    /**
+     * 绑定数据表
+     * @var string
+     */
     protected $table = 'blog_article_tag';
 
     /**

@@ -24,6 +24,10 @@ use app\common\service\ModelService;
  */
 class Article extends ModelService {
 
+    /**
+     * 绑定数据表
+     * @var string
+     */
     protected $table = 'blog_article';
 
     /**

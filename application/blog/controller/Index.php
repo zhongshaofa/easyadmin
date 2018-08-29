@@ -35,6 +35,8 @@ class Index extends BlogController {
             'recommend_list'      => model('Article')->getRecommendList(),
             'click_ranking_list'  => model('Article')->getClickRankingList(),
             'newest_article_list' => model('Article')->getNewestArticleList(),
+            'website_list'        => model('WebsiteLink')->getAllList(),
+            'tag_list'            => model('Tag')->getTagList(),
         ];
         return $this->fetch('', $basic_data);
     }

@@ -32,9 +32,15 @@ return [
                 $SysInfo = new \app\admin\model\Config;
                 return $SysInfo->getBasicConfig();
             });
+            //缓存博客配置信息
+            Cache::tag('blog_basic')->remember('BlogInfo', function () {
+                $BlogInfo = new \app\blog\model\Config;
+                return $BlogInfo->getBlogConfig();
+            });
             //渲染到视图层
             app('view')->init(config('template.'))->assign([
                 'SysInfo'   => Cache::get('SysInfo'),
+                'BlogInfo'  => Cache::get('BlogInfo'),
                 'is_mobile' => is_mobile(),
             ]);
         }

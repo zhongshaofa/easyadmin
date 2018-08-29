@@ -148,7 +148,12 @@
                 <a href=""><strong>标签云</strong></a>
             </div>
             <div class="tab-category-item">
-                <div class="tags"><a href="http://www.h-ui.net/">H-ui前端框架</a> <a href="http://www.h-ui.net/websafecolors.shtml">Web安全色</a> <a href="http://www.h-ui.net/Hui-4.4-Unslider.shtml">jQuery轮播插件</a> <a href="http://idc.likejianzhan.com/vhost/korea_hosting.php">韩国云虚拟主机</a> <a href="http://www.h-ui.net/bug.shtml">IEbug</a> <a href="http://www.h-ui.net/site.shtml">IT网址导航</a> <a href="http://www.h-ui.net/icon/index.shtml">网站常用小图标</a> <a href="http://www.h-ui.net/tools/jsformat.shtml">web工具箱</a> <a href="http://www.h-ui.net/bg/index.shtml">网站常用背景素材</a> <a href="http://www.h-ui.net/yuedu/chm.shtml">H-ui阅读</a> <a href="http://www.h-ui.net/easydialog-v2.0/index.html">弹出层插件</a> <a href="http://www.h-ui.net/SuperSlide2.1/demo.html">SuperSlide插件</a> <a href="http://www.h-ui.net/TouchSlide1.1/demo.html">TouchSlide</a></div>
+                <div class="tags">
+                    {foreach tag_list as $vo}
+                    <a href="#">{$vo.tag_title|default=''}</a>
+                    {/foreach}
+
+                </div>
             </div>
         </div>
         <!--图片-->
@@ -157,23 +162,10 @@
                 <a href=""><strong>扫我关注</strong></a>
             </div>
             <div class="tab-category-item">
-                <img data-original="__STATIC__/temp/blog/gg.jpg" class="img-responsive lazyload" alt="响应式图片">
+                <img src="{$BlogInfo.ScanFollow|default='__STATIC__/temp/blog/gg.jpg'|raw}" class="img-responsive lazyload" alt="响应式图片">
             </div>
         </div>
 
-        <!--友情链接-->
-        <div class="bg-fff box-shadow radius mb-20">
-            <div class="tab-category">
-                <a href=""><strong>隔壁邻居</strong></a>
-            </div>
-            <div class="tab-category-item">
-                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="#" class="btn-link">百度</a></span>
-                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="#" class="btn-link">淘宝</a></span>
-                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="#" class="btn-link">腾讯</a></span>
-                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="#" class="btn-link">慕课网</a></span>
-                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="#" class="btn-link">h-ui</a></span>
-            </div>
-        </div>
         <!--最近访客-->
         <div class="bg-fff box-shadow radius mb-20">
             <div class="tab-category">
@@ -192,6 +184,18 @@
                     <div class="item"><img src="__STATIC__/image/blog/40.jpg" alt=""></div>
                     <div class="item"><img src="__STATIC__/image/blog/40.jpg" alt=""></div>
                 </ul>
+            </div>
+        </div>
+
+        <!--友情链接-->
+        <div class="bg-fff box-shadow radius mb-20">
+            <div class="tab-category">
+                <a href=""><strong>友情链接</strong></a>
+            </div>
+            <div class="tab-category-item">
+                {foreach website_list as $vo}
+                <span><i class="Hui-iconfont">&#xe6f1;</i><a href="{$vo.href|default='#'}" class="btn-link" target="_blank"> {$vo.website_name|default='='}</a></span>
+                {/foreach}
             </div>
         </div>
 
