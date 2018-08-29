@@ -12,6 +12,7 @@
 namespace app\common\controller;
 
 
+use app\common\service\AuthService;
 use think\Controller;
 use think\facade\Cache;
 
@@ -53,10 +54,12 @@ class BlogController extends Controller {
     public function __construct() {
         parent::__construct();
         $this->is_login && $this->checkLogin();
-        $this->member = session('member');
         $this->BlogInfo = Cache::get('BlogInfo');
-        if (!empty($this->member)) {
-            $this->checkLoginOver($this->member);
+        $module_controller = app('request')->module() . '/' . app('request')->controller();
+        //QQ快捷登录模块无需执行，执行将报错
+        if ($module_controller != 'blog/Oauth') {
+            $this->member = session('member');
+            if (!empty($this->member)) $this->checkLoginOver($this->member);
         }
     }
 
@@ -75,7 +78,7 @@ class BlogController extends Controller {
      */
     public function checkLoginOver($member) {
         (isset($this->BlogInfo['LoginDuration']) && !empty($this->BlogInfo['LoginDuration'])) ? $LoginDuration = $this->BlogInfo['LoginDuration'] : $LoginDuration = '';
-        if (!empty($LoginDuration)) {
+        if (!empty($LoginDuration) && isset($member['login_at'])) {
             if (time() - $member['login_at'] >= $LoginDuration) {
                 $this->member = [];
                 session(null);
