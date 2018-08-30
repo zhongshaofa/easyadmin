@@ -86,6 +86,14 @@ class Oauth extends BlogController {
         //记录登录时间
         $member['login_at'] = time();
 
+        //记录登录日志
+        model('LoginRecord')->save([
+            'type'      => 2,
+            'member_id' => $member['id'],
+            'ip'        => get_ip(),
+            'remark'    => '正在进入博客系统！',
+        ]);
+
         //储存session数据
         session('member', $member);
         return msg_success('登录成功，正在跳转！', url('@blog'));

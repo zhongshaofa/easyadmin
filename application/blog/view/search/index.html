@@ -9,6 +9,25 @@
 <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
 <script src="https://cdn.staticfile.o<img src=" http://img.php.cn/upload/article/000/000/003/5b596217c2850304.jpg">rg/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+<style>
+    .search-select {
+        float: left !important;
+        width: 55px !important;
+        height: 50px !important;
+        text-align: center !important;
+        border-width: 1px !important;
+        border-style: solid !important;
+        color: #ffffff !important;
+        border-color: #dedede !important;
+        background-color: #4e8fd8 !important;
+        border-radius: 3px !important;
+        box-shadow: 0 4px 8px 0 rgba(7, 17, 27, .1) !important;
+    }
+
+    .search-select:hover {
+        background-color: #6fa6e4 !important;
+    }
+</style>
 {/block}
 
 {block name="cotent"}
@@ -18,16 +37,18 @@
             <i class="layui-icon icon icon-search">&#xe615;</i>
             <form action="{:url('@blog/search')}" method="get" target="_self">
                 <input type="text" id="word" name="word" value="{$Think.get.word|default=''}" placeholder="请输入标题" class="layui-input left">
+                <select id="type" name="type" class="search-select">
+                    <option value="article" {if $Think.get.type=='article'}selected{/if}>文章</option>
+                    <option value="tag" {if $Think.get.type=='tag'}selected{/if}>标签</option>
+                </select>
                 <button class="layui-btn right" id="search_word">搜索</button>
             </form>
         </div>
         <ul class='hot-search layui-clear'>
             <li>热门搜索：</li>
-            <li><a href='?word=PHP'>PHP</a></li>
-            <li><a href='?word=MySQL'> MySQL</a></li>
-            <li><a href='?word=jquery'> jquery</a></li>
-            <li><a href='?word=HTML'> HTML</a></li>
-            <li><a href='?word=CSS'> CSS</a></li>
+            {foreach search_rank as $vo}
+            <li><a href="?word={$vo.word|default=''}&type=article">{$vo.word|default=''}</a></li>
+            {/foreach}
         </ul>
     </div>
 </div>
@@ -37,9 +58,10 @@
     <div class="layui-row php-search">
         <div class='nav-sel'>
             <ul>
-                <li {if empty($Think.get.category_id)}class='on'{/if}> <a href="{:url('@blog/search')}?word={$Think.get.word|default=''}">全站</a></li>
+                <li {if empty($Think.get.category_id)} class='on' {
+                /if}> <a href="{:url('@blog/search')}?word={$Think.get.word|default=''}&type={$Think.get.type|default=''}">全站</a></li>
                 {foreach category_list as $vo}
-                <li {if $Think.get.category_id==$vo.id}class='on'{/if}><a href="{:url('@blog/search')}?category_id={$vo.id|default=''}&word={$Think.get.word|default=''}">{$vo.title|default=''}</a></li>
+                <li {if $Think.get.category_id==$vo.id}class='on'{/if}><a href="{:url('@blog/search')}?word={$Think.get.word|default=''}&type={$Think.get.type|default=''}&category_id={$vo.id|default=''}">{$vo.title|default=''}</a></li>
                 {/foreach}
             </ul>
         </div>

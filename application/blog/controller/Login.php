@@ -58,6 +58,14 @@ class Login extends BlogController {
             //记录登录时间
             $login['member']['login_at'] = time();
 
+            //记录登录日志
+            model('LoginRecord')->save([
+                'type'      => 1,
+                'member_id' => $login['member']['id'],
+                'ip'        => get_ip(),
+                'remark'    => '正在进入博客系统！',
+            ]);
+
             //储存session数据
             session('member', $login['member']);
             return __success($login['msg']);
@@ -112,6 +120,14 @@ class Login extends BlogController {
      * @return \think\response\Json
      */
     public function out() {
+
+        //记录退出登录日志
+        model('LoginRecord')->save([
+            'type'      => 0,
+            'member_id' => $this->member['id'],
+            'ip'        => get_ip(),
+            'remark'    => '正在退出博客系统！',
+        ]);
 
         //清空sesion数据
         session(null);

@@ -387,3 +387,14 @@ if (!function_exists('is_mobile')) {
         if ($is_ipad) return true;
     }
 }
+
+if (!function_exists('get_time')) {
+
+    /**
+     * 获取当前时间
+     * @return false|string
+     */
+    function get_time() {
+        return date('Y-m-d H:i:s');
+    }
+}

@@ -14,6 +14,7 @@ namespace app\common\controller;
 
 use app\common\service\AuthService;
 use think\Controller;
+use think\Db;
 use think\facade\Cache;
 
 /**
@@ -80,6 +81,14 @@ class BlogController extends Controller {
         (isset($this->BlogInfo['LoginDuration']) && !empty($this->BlogInfo['LoginDuration'])) ? $LoginDuration = $this->BlogInfo['LoginDuration'] : $LoginDuration = '';
         if (!empty($LoginDuration) && isset($member['login_at'])) {
             if (time() - $member['login_at'] >= $LoginDuration) {
+                //记录退出登录日志
+                Db::name('BlogLoginRecord')->insert([
+                    'type'      => 0,
+                    'member_id' => $member['id'],
+                    'ip'        => get_ip(),
+                    'remark'    => '登录已过期，自动退出登录！',
+                ]);
+                //清空会员数据缓存
                 $this->member = [];
                 session(null);
             }
