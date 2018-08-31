@@ -62,4 +62,20 @@ class QiniuService {
             return $ret;
         }
     }
+
+    /**
+     * 获取七牛云上传token
+     * @return string
+     */
+    public static function getToken() {
+        // 需要填写你的 Access Key 和 Secret Key
+        $accessKey = Config::get('qiniu.AccessKey');
+        $secretKey = Config::get('qiniu.SecretKey');
+        $bucket = Config::get('qiniu.Bucket');
+        // 构建鉴权对象
+        $auth = new Auth($accessKey, $secretKey);
+        // 生成上传 Token
+        $token = $auth->uploadToken($bucket);
+        return $token;
+    }
 }

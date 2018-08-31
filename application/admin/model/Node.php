@@ -23,10 +23,10 @@ class Node extends ModelService {
 
     /**
      * 节点列表
-     * @param int $page 当前页
-     * @param int $limit 每页显示数量
+     * @param int   $page   当前页
+     * @param int   $limit  每页显示数量
      * @param array $select 搜索条件 （array）
-     * @param array $where 组成的条件
+     * @param array $where  组成的条件
      * @return array
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -109,7 +109,7 @@ class Node extends ModelService {
 
     /**
      * 根据模块名称获取节点
-     * @param $module
+     * @param       $module
      * @param array $node_list
      * @return array
      * @throws \think\db\exception\DataNotFoundException

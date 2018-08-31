@@ -7,29 +7,6 @@
 
 //后台公共文件
 
-if (!function_exists('__success')) {
-
-    /**
-     * 成功时返回的信息
-     * @param $msg 消息
-     * @return \think\response\Json
-     */
-    function __success($msg) {
-        return json(['code' => 0, 'msg' => $msg]);
-    }
-}
-
-if (!function_exists('__error')) {
-
-    /**
-     * 错误时返回的信息
-     * @param $msg 消息
-     * @return \think\response\Json
-     */
-    function __error($msg) {
-        return json(['code' => 1, 'msg' => $msg]);
-    }
-}
 
 if (!function_exists('__log')) {
 

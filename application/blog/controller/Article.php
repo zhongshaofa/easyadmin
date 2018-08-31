@@ -35,6 +35,7 @@ class Article extends BlogController {
     public function __construct() {
         parent::__construct();
         $this->model = model('Article');
+        $this->is_qiniu = true;
     }
 
     /**

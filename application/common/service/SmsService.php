@@ -12,30 +12,13 @@
 // | github开源项目：https://github.com/zoujingli/Think.Admin
 // +----------------------------------------------------------------------
 
-namespace app\blog\model;
-
-
-use app\common\service\ModelService;
+namespace app\common\service;
 
 /**
- * 搜索记录模型
- * Class SearchRecord
- * @package app\blog\model
+ * 短信服务类
+ * Class SmsService
+ * @package app\common\service
  */
-class SearchRecord extends ModelService {
-
-    /**
-     * 绑定数据表
-     * @var string
-     */
-    protected $table = 'blog_search_record';
-
-    public function getRank() {
-        $word_list = $this->distinct(true)->field('word')->select()
-            ->each(function ($item, $key) {
-                $item['count'] = $this->where(['word' => $item['word']])->count();
-            });
-        return $word_list;
-    }
+class SmsService {
 
 }

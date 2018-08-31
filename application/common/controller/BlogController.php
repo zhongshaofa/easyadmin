@@ -13,6 +13,7 @@ namespace app\common\controller;
 
 
 use app\common\service\AuthService;
+use app\common\service\QiniuService;
 use think\Controller;
 use think\Db;
 use think\facade\Cache;
@@ -37,6 +38,12 @@ class BlogController extends Controller {
     protected $is_login = false;
 
     /**
+     * 是否启用七牛云上传图片
+     * @var bool
+     */
+    protected $is_qiniu = false;
+
+    /**
      * 会员信息
      * @var array
      */
@@ -55,6 +62,7 @@ class BlogController extends Controller {
     public function __construct() {
         parent::__construct();
         $this->is_login && $this->checkLogin();
+        $this->is_qiniu && $this->iniQiniu();
         $this->BlogInfo = Cache::get('BlogInfo');
         $module_controller = app('request')->module() . '/' . app('request')->controller();
         //QQ快捷登录模块无需执行，执行将报错
@@ -93,5 +101,12 @@ class BlogController extends Controller {
                 session(null);
             }
         }
+    }
+
+    /**
+     * 初始化七牛云
+     */
+    public function iniQiniu() {
+        $this->assign(['qiniu_token' => QiniuService::getToken()]);
     }
 }
