@@ -14,12 +14,14 @@ namespace app\blog\controller;
 
 use app\common\controller\BlogController;
 use app\common\service\MailService;
+use app\common\service\SmsService;
 use think\File;
 
 class Test extends BlogController {
 
     public function send(){
-        dump(MailService::send(['chung@99php.cn','2048600190'],'测试邮箱','你好啊啊啊111111'));
+//        dump(MailService::send(['chung@99php.cn','2048600190'],'测试邮箱','你好啊啊啊111111'));
+        dump(SmsService::sendSms('15521045862'));
     }
 
     public function rank() {

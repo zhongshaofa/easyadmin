@@ -398,3 +398,17 @@ if (!function_exists('get_time')) {
         return date('Y-m-d H:i:s');
     }
 }
+
+if (!function_exists('code')) {
+
+    /**
+     * 生成随机数验证码
+     * @param string $num
+     * @return int
+     */
+    function code($num = '6') {
+        $max = pow(10, $num) - 1;
+        $min = pow(10, $num - 1);
+        return rand($min, $max);
+    }
+}
