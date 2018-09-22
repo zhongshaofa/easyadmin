@@ -7,34 +7,22 @@
 {block name="cotent"}
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
     <legend>
-        <button class="layui-btn" lay-submit="" lay-filter="clear_node">确定清除失效节点数据</button>
+        <button class="layui-btn" id="clearNodeBtn">确定清除失效节点数据</button>
     </legend>
 </fieldset>
 {/block}
 
 {block name="script"}
 <script>
-    layui.use(['form', 'layer'], function () {
-        var form = layui.form
-        layer = parent.layer === undefined ? layui.layer : top.layer,
-            $ = layui.jquery;
 
-        form.on("submit(clear_node)", function (data) {
-
-            var index = top.layer.msg('清除失效节点数据中，请稍候', {icon: 16, time: false, shade: 0.8});
-            $.post("{:url('@admin/system/clear_node')}",
-                function (res) {
-                    console.log(res);
-                    if (res.code == 0) {
-                        layer.msg(res.msg, {icon: 1});
-                    } else {
-                        layer.msg(res.msg, {icon: 2});
-                    }
-                }).error(function () {
-                layer.msg('系统错误，请稍后再试！', {icon: 2});
-            });
-            return false;
-        })
-    })
+    /**
+     * 清除失效节点
+     */
+    $("#clearNodeBtn").click(function () {
+        $.request.post("{:url('@admin/system/clear_node')}", {}, function (res) {
+            $.msg.success(res.msg);
+        });
+        return false;
+    });
 </script>
 {/block}

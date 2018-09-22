@@ -43,8 +43,8 @@ class Auth extends AdminController {
             if ($this->request->get('type') == 'ajax') {
                 $page = $this->request->get('page', 1);
                 $limit = $this->request->get('limit', 10);
-                $select = (array)$this->request->get('select', []);
-                return json($this->model->authList($page, $limit, $select));
+                $search = (array)$this->request->get('search', []);
+                return json($this->model->authList($page, $limit, $search));
             }
 
             //基础数据

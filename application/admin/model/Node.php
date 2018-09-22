@@ -25,17 +25,17 @@ class Node extends ModelService {
      * 节点列表
      * @param int   $page   当前页
      * @param int   $limit  每页显示数量
-     * @param array $select 搜索条件 （array）
+     * @param array $search 搜索条件 （array）
      * @param array $where  组成的条件
      * @return array
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function nodeList($page = 1, $limit = 10, $select = [], $where = []) {
+    public function nodeList($page = 1, $limit = 10, $search = [], $where = []) {
 
         //搜索条件
-        foreach ($select as $key => $value) {
+        foreach ($search as $key => $value) {
             if ($key == 'is_auth' && $value != '') {
                 $where[] = [$key, '=', $value];
             } elseif ($key == 'create_at' && $value != '') {

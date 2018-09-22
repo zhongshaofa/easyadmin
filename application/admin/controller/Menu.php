@@ -44,8 +44,8 @@ class Menu extends AdminController {
         if (!$this->request->isPost()) {
             //ajax访问
             if ($this->request->get('type') == 'ajax') {
-                $select = (array)$this->request->get('select', []);
-                $menu_list = $this->model->menuList($select);
+                $search = (array)$this->request->get('search', []);
+                $menu_list = $this->model->menuList($search);
                 return json($menu_list);
             }
 

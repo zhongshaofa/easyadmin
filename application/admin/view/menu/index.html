@@ -42,24 +42,24 @@
         </div>
 
         <div class="layui-form-item layui-inline">
-            <a id="search" class="layui-btn" data-type="reload">搜索</a>
+            <a id="searchBtn" class="layui-btn" data-type="reload">搜索</a>
         </div>
 
         {if auth('admin/menu/add')}
         <div class="layui-form-item layui-inline">
-            <a class="layui-btn layui-btn-normal addNews_btn">添加</a>
+            <a id="addBtn" class="layui-btn layui-btn-normal">添加</a>
         </div>
         {/if}
 
         {if auth('admin/menu/del')}
         <div class="layui-form-item layui-inline">
-            <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">删除</a>
+            <a id="delAllBtn" class="layui-btn layui-btn-danger layui-btn-normal">删除</a>
         </div>
         {/if}
 
     </blockquote>
 
-    <table id="userList" lay-filter="userList"></table>
+    <table id="menuTable" lay-filter="menuTable"></table>
 
     <script type="text/html" id="checkStatus">
         <input type="checkbox" name="{{d.id}}" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="modifyStatus" {{ d.status== 1 ? 'checked' : '' }}>
@@ -67,12 +67,12 @@
 
 
     <!--操作-->
-    <script type="text/html" id="userListBar">
+    <script type="text/html" id="menuTableBar">
 
         {if auth('admin/menu/add')}
 
         {{# if (d.is_add) { }}
-        <a class="layui-btn layui-btn-xs" value="{{d.id}}" lay-event="addDownMenu">添加下级</a>
+        <a class="layui-btn layui-btn-xs" value="{{d.id}}" lay-event="addDownBtn">添加下级</a>
         {{# } else { }}
         <a class="layui-btn layui-btn-xs color-99admin-gray" value="{{d.id}}">添加下级</a>
         {{# } }}
@@ -80,11 +80,11 @@
         {/if}
 
         {if auth('admin/menu/edit')}
-        <a class="layui-btn layui-btn-xs layui-bg-blue" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs layui-bg-blue" lay-event="editBtn">编辑</a>
         {/if}
 
         {if auth('admin/menu/del')}
-        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delBtn">删除</a>
         {/if}
 
     </script>
@@ -106,252 +106,122 @@
          */
         $.laydate.range('create_at');
 
-        //用户列表
-        var tableIns = table.render({
-            elem: '#userList',
-            url: "{:url('@admin/menu/index')}?type=ajax",
-            cellMinWidth: 95,
-            height: "full-80",
-            limits: [500],
-            limit: 500,
-            id: "menuListTable",
-            cols: [[
-                {type: "checkbox", fixed: "left", width: 50,},
-                {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center"},
-                {
-                    field: 'icon', title: '图标', width: 100, align: 'center', templet: function (d) {
-                        if (d.icon.indexOf("icon") != -1) {
-                            return '<span class="seraph  ' + d.icon + '" data-icon="' + d.icon + '"></span>';
-                        } else {
-                            return '<span class="layui-icon">' + d.icon + '</span>';
-                        }
+        /**
+         * 生成表单
+         */
+        var tableIns = $.form.table('menu', "{:url('@admin/menu/index')}?type=ajax", [[
+            {type: "checkbox", fixed: "left", width: 50,},
+            {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center"},
+            {
+                field: 'icon', title: '图标', width: 100, align: 'center', templet: function (d) {
+                    if (d.icon.indexOf("icon") != -1) {
+                        return '<span class="seraph  ' + d.icon + '" data-icon="' + d.icon + '"></span>';
+                    } else {
+                        return '<span class="layui-icon">' + d.icon + '</span>';
                     }
-                },
-                {field: 'title', title: '菜单名称', minWidth: 200, align: 'left'},
-                {
-                    field: 'href', title: '链接地址', minWidth: 300, align: 'center', templet: function (d) {
-                        return '<a class="layui-blue" href="/' + d.href + '" target="_blank">' + d.href + '</a>';
-                    }
-                },
-                {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
-
-                /**{if auth('admin/auth/add') || auth('admin/auth/edit') || auth('admin/auth/del')}**/
-                {title: '操作', minWidth: 110, templet: '#userListBar', fixed: "right", align: "center"},
-                /**{/if}**/
-
-            ]]
-        });
+                }
+            },
+            {field: 'title', title: '菜单名称', minWidth: 200, align: 'left'},
+            {
+                field: 'href', title: '链接地址', minWidth: 300, align: 'center', templet: function (d) {
+                    return '<a class="layui-blue" href="/' + d.href + '" target="_blank">' + d.href + '</a>';
+                }
+            },
+            {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
+            /**{if auth('admin/auth/add') || auth('admin/auth/edit') || auth('admin/auth/del')}**/
+            {title: '操作', minWidth: 110, templet: '#menuTableBar', fixed: "right", align: "center"},
+            /**{/if}**/
+        ]], false);
 
         /**
-         * 搜索信息
+         * 表单搜索
          */
-        $("#search").on("click", function () {
+        $("#searchBtn").on("click", function () {
             var search = {
                 title: $("#title").val(),
                 href: $("#href").val(),
                 status: $("#status").val(),
                 create_at: $("#create_at").val(),
             };
-            $.form.search('menuListTable', search, false);
+            $.form.search('menuTableId', search, false);
             return false;
         });
 
         /**
-         * 添加菜单
+         * 添加信息
          */
-        function addMenu(edit) {
-            var index = layui.layer.open({
-                title: "添加菜单",
-                type: 2,
-                content: "{:url('@admin/menu/add')}",
-            })
-            layui.layer.full(index);
-            //改变窗口大小时，重置弹窗的宽高
-            $(window).on("resize", function () {
-                layui.layer.full(index);
-            })
-        }
+        $("#addBtn").on("click", function () {
+            $.form.open('添加菜单', "{:url('@admin/menu/add')}", "1000px", "500px")
+            return false;
+        });
 
         /**
-         * 编辑菜单
+         * 批量删除
          */
-        function editMenu(edit) {
-            var index = layui.layer.open({
-                title: "修改菜单",
-                type: 2,
-                content: "{:url('@admin/menu/edit')}?id=" + edit.id,
-            })
-            layui.layer.full(index);
-            //改变窗口大小时，重置弹窗的宽高
-            $(window).on("resize", function () {
-                layui.layer.full(index);
-            })
-        }
-
-        /**
-         * 添加下级菜单
-         * @param id
-         */
-        function addDownMenu(id) {
-            var index = layui.layer.open({
-                title: "修改菜单",
-                type: 2,
-                content: "{:url('@admin/menu/add')}?pid=" + id,
-                success: function (layero, index) {
-                    var body = layui.layer.getChildFrame('body', index);
-                    setTimeout(function () {
-                        layui.layer.tips('点击此处返回菜单列表', '.layui-layer-setwin .layui-layer-close', {
-                            tips: 3
-                        });
-                    }, 500)
-                }
-            })
-            layui.layer.full(index);
-            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-            $(window).on("resize", function () {
-                layui.layer.full(index);
-            })
-        }
-
-        $(".addNews_btn").click(function () {
-            addMenu();
-        })
-
-        //批量删除
-        $(".delAll_btn").click(function () {
-            var checkStatus = table.checkStatus('menuListTable'),
+        $("#delAllBtn").on("click", function () {
+            var checkStatus = table.checkStatus('menuTableId'),
                 data = checkStatus.data,
-                menuId = [];
+                id = [];
             if (data.length > 0) {
                 for (let i in data) {
-                    menuId.push(data[i].id);
+                    id.push(data[i].id);
                 }
-                layer.confirm('确定删除选中的菜单？', {icon: 3, title: '提示信息'}, function (index) {
-                    console.log(menuId);
-                    $.get("{:url('@admin/menu/del')}", {
-                        id: menuId  //将需要删除的menuId作为参数传入
-                    }, function (data) {
-                        console.log(data);
-                        if (data.code == 0) {
-                            layer.msg('删除成功！');
-                            tableIns.reload();
-                            layer.close(index);
-                        } else {
-                            layer.msg(data.msg);
-                        }
+                $.msg.confirm('确定删除？', function () {
+                    $.request.get("{:url('@admin/menu/del')}", {id: id}, function (res) {
+                        $.msg.success(res.msg, function () {
+                            $.tool.reload();
+                        })
                     })
-                })
-            } else {
-                layer.msg("请选择需要删除的用户");
-            }
-        })
-
-        //监听性别操作
-        form.on('switch(modifyStatus)', function (obj) {
-            console.log(this.name);
-            $.get("{:url('@admin/menu/status')}", {
-                id: this.name  //将需要删除的newsId作为参数传入
-            }, function (data) {
-                console.log(data);
-                if (data.code == 0) {
-                    layer.msg(data.msg, {icon: 1});
-                } else {
-                    layer.msg(data.msg, {icon: 2}, function () {
-                        tableIns.reload();
-                        layer.close(index);
-                    });
-                }
-            })
-            return false;
-        });
-
-        //监听单元格字段编辑
-        table.on('edit(userList)', function (obj) {
-            var value = obj.value //得到修改后的值
-                , data = obj.data //得到所在行所有键值
-                , field = obj.field; //得到字段
-            //弹出loading
-            var index = top.layer.msg('数据修改中，请稍候', {icon: 16, time: false, shade: 0.8});
-            // 实际使用时的提交信息
-            $.post("{:url('@admin/menu/index')}", {
-                id: data.id,
-                field: field,  //修改字段
-                value: value,  //修改值
-            }, function (res) {
-                console.log(res);
-                if (res.code == 0) {
-                    if (field == 'sort') {
-                        layer.msg(res.msg, {icon: 1}, function () {
-                            tableIns.reload();
-                        });
-                    } else {
-                        layer.msg(res.msg, {icon: 1});
-                    }
-                } else {
-                    layer.msg(res.msg, {icon: 2}, function () {
-                        parent.location.reload();
-                    });
-                }
-            }).error(function () {
-                layer.msg('系统错误，请稍后再试', {icon: 2}, function () {
-                    tableIns.reload();
                 });
-            });
+            } else {
+                $.msg.error('请选择需要删除的信息!');
+            }
             return false;
         });
 
-        //列表操作
-        table.on('tool(userList)', function (obj) {
+        /**
+         * 工具栏操作
+         */
+        table.on('tool(menuTable)', function (obj) {
             var layEvent = obj.event,
                 data = obj.data;
 
-            if (layEvent === 'addDownMenu') { //新增下级
-                console.log(data.id);
-                addDownMenu(data.id);
-            } else if (layEvent === 'edit') { //编辑
-                console.log(data);
-                editMenu(data);
-            } else if (layEvent === 'usable') { //启用禁用
-                var _this = $(this),
-                    usableText = "是否确定禁用此用户？",
-                    btnText = "已禁用";
-                if (_this.text() == "已禁用") {
-                    usableText = "是否确定启用此用户？",
-                        btnText = "已启用";
-                    console.log(data);
-                }
-                layer.confirm(usableText, {
-                    icon: 3,
-                    title: '系统提示',
-                    cancel: function (index) {
-                        console.log('1111111111');
-                        layer.close(index);
-                    }
-                }, function (index) {
-                    _this.text(btnText);
-                    layer.close(index);
-                }, function (index) {
-                    layer.close(index);
-                });
-            } else if (layEvent === 'del') { //删除
-                layer.confirm('确定删除此菜单？', {icon: 3, title: '提示信息'}, function (index) {
-                    $.get("{:url('@admin/menu/del')}", {
-                        id: data.id  //将需要删除的newsId作为参数传入
-                    }, function (data) {
-                        console.log(data);
-                        if (data.code == 0) {
-                            layer.msg(data.msg, {icon: 1}, function () {
-                                tableIns.reload();
-                                layer.close(index);
-                            });
-                        } else {
-                            layer.msg(data.msg, {icon: 2});
-                        }
+            //编辑
+            if (layEvent === 'editBtn') {
+                var url = "{:url('@admin/menu/edit')}?id=" + data.id;
+                $.form.open('编辑', url, "1000px", "500px");
+                return false;
+            }
+
+            //添加下级
+            else if (layEvent === 'addDownBtn') {
+                var url = "{:url('@admin/menu/add')}?pid=" + data.id;
+                $.form.open('添加下级', url, "1000px", "500px");
+                return false;
+            }
+
+            //删除
+            else if (layEvent === 'delBtn') {
+                $.msg.confirm('确定删除？', function () {
+                    $.request.get("{:url('@admin/menu/del')}", {id: data.id}, function (res) {
+                        $.msg.success(res.msg, function () {
+                            $.tool.reload();
+                        })
                     })
                 });
+                return false;
             }
         });
 
+        /**
+         * 监听字段值编辑
+         */
+        $.form.editField('menuTable', "{:url('@admin/menu/index')}");
+
+        /**
+         * 修改状态
+         */
+        $.form.switch('modifyStatus', "{:url('@admin/menu/status')}");
     })
 </script>
 {/block}

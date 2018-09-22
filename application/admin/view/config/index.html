@@ -7,97 +7,28 @@
 {block name="cotent"}
 <form class="layui-form">
 
-    <table id="configList" lay-filter="configList"></table>
+    <table id="configTable" lay-filter="configTable"></table>
 
 </form>
 {/block}
 
 {block name="script"}
 <script>
-    layui.use(['laydate', 'form', 'layer', 'table', 'laytpl'], function () {
-        var form = layui.form,
-            layer = parent.layer === undefined ? layui.layer : top.layer,
-            $ = layui.jquery,
-            laytpl = layui.laytpl,
-            table = layui.table,
-            laydate = layui.laydate;
 
-        //日期范围
-        laydate.render({
-            elem: '#create_at'
-            , range: true
-        });
+    /**
+     * 生成表单
+     */
+    var tableIns = $.form.table('config', "{:url('@admin/config/index')}?type=ajax", [[
+        {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center", sort: true},
+        {field: 'remark', title: '参数说明', align: 'center'},
+        {field: 'value', title: '参数值', edit: 'text', minWidth: 200, align: "center", style: 'background-color: #009688; color: #fff; border-radius: 15px;'},
+        {field: 'name', title: '参数名', align: 'center', sort: true},
+        {field: 'group', title: '组名', width: 200, align: 'center', sort: true},
+    ]], false, 'line', 'lg', false);
 
-        //用户列表
-        var tableIns = table.render({
-            elem: '#configList',
-            url: "{:url('@admin/config/index')}?type=ajax",
-            cellMinWidth: 95,
-            height: "full-125",
-            skin: 'line',
-            size: 'lg',
-            // even: true,
-            id: "configListTable",
-            cols: [[
-                {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center", sort: true},
-                {field: 'remark', title: '参数说明', align: 'center'},
-                {field: 'value', title: '参数值', edit: 'text', minWidth: 200, align: "center", style: 'background-color: #009688; color: #fff; border-radius: 15px;'},
-                {field: 'name', title: '参数名', align: 'center', sort: true},
-                {field: 'group', title: '组名', width: 200, align: 'center', sort: true},
-            ]]
-        });
-
-        //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
-        $(".search_btn").on("click", function () {
-            console.log($(".create_at").val());
-            if ($(".title").val() != '' || $(".create_at").val() != '' || $(".status").val() != '') {
-                //执行重载
-                table.reload('configListTable', {
-                    where: {
-                        //传参数
-                        select: {
-                            title: $(".title").val(),
-                            status: $(".status").val(),
-                            create_at: $(".create_at").val(),
-                        }
-                    }
-                });
-                console.log(data);
-                layer.msg('查询成功');
-            } else {
-                tableIns.reload();
-            }
-        });
-
-        //监听单元格字段编辑
-        table.on('edit(configList)', function (obj) {
-            var value = obj.value //得到修改后的值
-                , data = obj.data //得到所在行所有键值
-                , field = obj.field; //得到字段
-            //弹出loading
-            var index = top.layer.msg('数据修改中，请稍候', {icon: 16, time: false, shade: 0.8});
-            // 实际使用时的提交信息
-            $.post("{:url('@admin/config/index')}", {
-                id: data.id,
-                field: field,  //登录名
-                value: value,  //邮
-            }, function (res) {
-                console.log(res);
-                if (res.code == 0) {
-                    layer.msg(res.msg, {icon: 1});
-                } else {
-                    layer.msg(res.msg, {icon: 2}, function () {
-                        parent.location.reload();
-                    });
-                }
-            }).error(function () {
-                layer.msg('系统错误，请稍后再试', {icon: 2}, function () {
-                    tableIns.reload();
-                });
-            });
-            return false;
-        });
-
-    })
+    /**
+     * 监听字段值编辑
+     */
+    $.form.editField('configTable', "{:url('@admin/config/index')}");
 </script>
 {/block}

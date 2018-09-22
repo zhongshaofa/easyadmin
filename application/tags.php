@@ -48,7 +48,16 @@ return [
     // 模块初始化
     'module_init'  => [],
     // 操作开始执行
-    'action_begin' => [],
+    'action_begin' => function () {
+        //声明模板常量，保证在修改后台模块名的时候可以正常访问
+        list($thisModule, $thisController) = [app('request')->module(), app('request')->controller()];
+        $thisClass = parseNodeStr("{$thisModule}/{$thisController}");
+        app('view')->init(config('template.'))->assign([
+            'thisModule'     => $thisModule,
+            'thisController' => $thisController,
+            'thisClass'      => $thisClass,
+        ]);
+    },
     // 视图内容过滤
     'view_filter'  => [],
     // 日志写入

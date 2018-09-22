@@ -97,19 +97,37 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
          * @param elem 绑定表单id
          * @param url 链接
          * @param cols 表单渲染
+         * @param page 表单渲染
          */
-        this.table = function (elem, url, cols) {
-            table.render({
-                elem: '#' + elem + 'Table',
-                url: url,
-                cellMinWidth: 95,
-                page: true,
-                height: "full-80",
-                limits: [10, 15, 20, 25],
-                limit: 20,
-                id: elem + 'TableId',
-                cols: cols
-            });
+        this.table = function (elem, url, cols, isPage = true, skin = '', size = '', isTool = true) {
+            if (!isPage) {
+                var data = {
+                    elem: '#' + elem + 'Table',
+                    url: url,
+                    cellMinWidth: 95,
+                    height: "full-80",
+                    limits: [500],
+                    limit: 500,
+                    id: elem + 'TableId',
+                    cols: cols
+                };
+            } else {
+                var data = {
+                    elem: '#' + elem + 'Table',
+                    url: url,
+                    cellMinWidth: 95,
+                    page: true,
+                    height: "full-80",
+                    limits: [10, 15, 20, 25],
+                    limit: 20,
+                    id: elem + 'TableId',
+                    cols: cols
+                };
+            }
+            if (skin != '') data.skin = skin;
+            if (size != '') data.size = size;
+            if (!isTool) data.height = "full-40";
+            table.render(data);
         }
 
         /**
@@ -122,12 +140,12 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
             var loading = $.msg.loading();
             if (!page) {
                 var data = {
-                    where: {select: search}
+                    where: {search: search}
                 };
             } else {
                 var data = {
                     page: {curr: page},
-                    where: {select: search}
+                    where: {search: search}
                 };
             }
             if (!$.tool.isEmptyArray(search)) {
@@ -138,6 +156,45 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
                 $.msg.close(loading);
                 $.tool.reload();
             }
+        }
+
+        /**
+         * 修改表单字段值
+         * @param tableName table名称
+         * @param url 链接
+         */
+        this.editField = function (tableName, url) {
+            table.on('edit(' + tableName + ')', function (obj) {
+                var value = obj.value //修改后的值
+                    , data = obj.data //所在行所有键值
+                    , field = obj.field; //字段名称
+                $.request.post(url, {
+                    id: data.id,
+                    field: field,
+                    value: value,
+                }, function (res) {
+                    $.msg.success(res.msg, function () {
+                        $.tool.reload();
+                    });
+                });
+                return false;
+            });
+        }
+
+        /**
+         * 修改按钮开关值
+         * @param layFilter layFilter名称
+         * @param url 链接
+         */
+        this.switch = function (layFilter, url) {
+            form.on('switch(' + layFilter + ')', function (obj) {
+                $.request.get(url, {id: this.name}, function (res) {
+                    $.msg.success(res.msg, function () {
+                        $.tool.reload();
+                    });
+                });
+                return false;
+            });
         }
 
         /**

@@ -20,7 +20,7 @@
 
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="refresh_node">确定刷新节点</button>
+            <button class="layui-btn" id="refreshNodeBtn">确定刷新节点</button>
         </div>
     </div>
 </form>
@@ -28,34 +28,19 @@
 
 {block name="script"}
 <script>
-    layui.use(['form', 'layer'], function () {
-        var form = layui.form
-        layer = parent.layer === undefined ? layui.layer : top.layer,
-            $ = layui.jquery;
 
-        form.on("submit(refresh_node)", function (data) {
-
-            module = [];
-            $("input:checkbox[name='module']:checked").each(function () {
-                module.push($(this).val());
-            });
-
-            var index = top.layer.msg('系统节点刷新中，请稍候', {icon: 16, time: false, shade: 0.8});
-            console.log('刷新节点');
-            $.post("{:url('@admin/system/refresh_node')}", {
-                module: module,
-            }, function (res) {
-                console.log(res);
-                if (res.code == 0) {
-                    layer.msg(res.msg, {icon: 1});
-                } else {
-                    layer.msg(res.msg, {icon: 2});
-                }
-            }).error(function () {
-                layer.msg('系统错误，请稍后再试！', {icon: 2});
-            });
-            return false;
-        })
-    })
+    /**
+     * 刷新节点
+     */
+    $("#refreshNodeBtn").click(function () {
+        var module = [];
+        $("input:checkbox[name='module']:checked").each(function () {
+            module.push($(this).val());
+        });
+        $.request.post("{:url('@admin/system/refresh_node')}", {module: module,}, function (res) {
+            $.msg.success(res.msg);
+        });
+        return false;
+    });
 </script>
 {/block}

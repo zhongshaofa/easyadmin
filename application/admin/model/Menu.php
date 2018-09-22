@@ -104,14 +104,14 @@ class Menu extends ModelService {
 
     /**
      * 获取菜单栏数据
-     * @param array $select 搜索条件
+     * @param array $search 搜索条件
      * @return array
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function menuList($select = [], $where = []) {
-        if (empty($select)) {
+    public function menuList($search = [], $where = []) {
+        if (empty($search)) {
             $menu_list = $this->getMenu();
             empty($menu_list) ? $msg = '暂无数据！' : $msg = '查询成功！';
             return [
@@ -123,7 +123,7 @@ class Menu extends ModelService {
         } else {
 
             //搜索条件
-            foreach ($select as $key => $value) {
+            foreach ($search as $key => $value) {
                 if ($key == 'status' && $value != '') {
                     $where[] = [$key, '=', $value];
                 } elseif ($key == 'create_at' && $value != '') {

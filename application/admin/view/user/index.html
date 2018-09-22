@@ -116,7 +116,6 @@
             {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
             {field: 'auth_title', title: '权限配置', minWidth: 100, align: "center"},
             {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
-
             /**{if auth('admin/user/edit') || auth('admin/user/del') || auth('admin/user/edit_password')}**/
             {title: '操作', minWidth: 175, templet: '#userTableBar', fixed: "right", align: "center"}
             /**{/if}**/
@@ -151,32 +150,21 @@
         $("#delAllBtn").on("click", function () {
             var checkStatus = table.checkStatus('userTableId'),
                 data = checkStatus.data,
-                menuId = [];
+                id = [];
             if (data.length > 0) {
                 for (let i in data) {
-                    menuId.push(data[i].id);
+                    id.push(data[i].id);
                 }
                 $.msg.confirm('确定删除？', function () {
-                    $.request.get("{:url('@admin/user/del')}", {id: menuId}, function (res) {
+                    $.request.get("{:url('@admin/user/del')}", {id: id}, function (res) {
                         $.msg.success(res.msg, function () {
                             $.tool.reload();
                         })
                     })
                 });
             } else {
-                $.msg.error('请选择需要删除的用户!');
+                $.msg.error('请选择需要删除的信息!');
             }
-        });
-
-        /**
-         * 修改状态
-         */
-        form.on('switch(modifyStatus)', function (obj) {
-            $.request.get("{:url('@admin/user/status')}", {id: this.name}, function (res) {
-                $.msg.success(res.msg, function () {
-                    $.tool.reload();
-                });
-            });
             return false;
         });
 
@@ -197,11 +185,11 @@
             //修改密码
             else if (layEvent === 'editPasswordBtn') {
                 var url = "{:url('@admin/user/edit_password')}?id=" + data.id;
-                $.form.open('修改密码', url, "800px", "500px");
+                $.form.open('修改密码', url, "600px", "400px");
                 return false;
             }
 
-            //删除用户
+            //删除
             else if (layEvent === 'delBtn') {
                 $.msg.confirm('确定删除？', function () {
                     $.request.get("{:url('@admin/user/del')}", {id: data.id}, function (res) {
@@ -213,6 +201,11 @@
                 return false;
             }
         });
+
+        /**
+         * 修改状态
+         */
+        $.form.switch('modifyStatus', "{:url('@admin/user/status')}");
     })
 </script>
 {/block}

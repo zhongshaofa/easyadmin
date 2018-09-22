@@ -48,17 +48,17 @@ class Auth extends ModelService {
      * 权限角色列表
      * @param int $page
      * @param int $limit
-     * @param array $select
+     * @param array $search
      * @param array $where
      * @return array
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function authList($page = 1, $limit = 10, $select = [], $where = []) {
+    public function authList($page = 1, $limit = 10, $search = [], $where = []) {
 
         //搜索条件
-        foreach ($select as $key => $value) {
+        foreach ($search as $key => $value) {
             if ($key == 'status' && $value != '') {
                 $where[] = [$key, '=', $value];
             } elseif ($key == 'create_at' && $value != '') {

@@ -44,9 +44,9 @@ class Config extends AdminController {
             //ajax访问获取数据
             if ($this->request->get('type') == 'ajax') {
                 $page = $this->request->get('page', 1);
-                $limit = $this->request->get('limit', 100);
-                $select = (array)$this->request->get('select', []);
-                return json($this->model->configList($page, $limit, $select));
+                $limit = $this->request->get('limit', 500);
+                $search = (array)$this->request->get('search', []);
+                return json($this->model->configList($page, $limit, $search));
             }
 
             //基础数据

@@ -44,21 +44,25 @@ class Config extends ModelService {
 
     /**
      * 获取系统配置列表
-     * @return array|\PDOStatement|string|\think\Collection
+     * @param int   $page
+     * @param int   $limit
+     * @param array $search
+     * @param array $where
+     * @return array
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function configList($page = 1, $limit = 10, $select = [], $where = []) {
+    public function configList($page = 1, $limit = 500, $search = [], $where = []) {
 
         //搜索条件
-        foreach ($select as $key => $value) {
+        foreach ($search as $key => $value) {
             !empty($value) && $where[] = [$key, 'LIKE', '%' . $value . '%'];
         }
 
         $field = 'id, group , name, value, remark, sort, create_at';
         $count = $this->where($where)->count();
-        $data = $this->where($where)->field($field)->page($page, $limit)->order(['sort asc'])->select();
+        $data = $this->where($where)->field($field)->order(['sort asc'])->select();
         empty($data) ? $msg = '暂无数据！' : $msg = '查询成功！';
         $info = [
             'limit'        => $limit,

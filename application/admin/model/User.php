@@ -132,11 +132,11 @@ class User extends ModelService {
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function userList($page = 1, $limit = 10, $select = []) {
+    public function userList($page = 1, $limit = 10, $search = []) {
         $where = [['is_deleted', '=', 0]];
 
         //搜索条件
-        foreach ($select as $key => $value) {
+        foreach ($search as $key => $value) {
             if ($key == 'status' && $value != '') {
                 $where[] = [$key, '=', $value];
             } elseif ($key == 'create_at' && $value != '') {

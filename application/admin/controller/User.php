@@ -41,8 +41,8 @@ class User extends AdminController {
         if ($this->request->get('type') == 'ajax') {
             $page = $this->request->get('page', 1);
             $limit = $this->request->get('limit', 10);
-            $select = (array)$this->request->get('select', []);
-            return json($this->model->userList($page, $limit, $select));
+            $search = (array)$this->request->get('search', []);
+            return json($this->model->userList($page, $limit, $search));
         }
 
         //基础数据
@@ -71,6 +71,7 @@ class User extends AdminController {
             return $this->form();
         } else {
             $post = $this->request->post();
+            !isset($post['auth_id']) && $post['auth_id'] = [];
             //数组转json
             $post['auth_id'] = json_encode($post['auth_id']);
 
@@ -155,9 +156,9 @@ class User extends AdminController {
 
         //执行删除操作
         if (!is_array($get['id'])) {
-            $del = $this->model->where('id', $get['id'])->delete();
+            $del = $this->model->where('id', $get['id'])->update(['is_deleted' => 1]);
         } else {
-            $del = $this->model->whereIn('id', $get['id'])->delete();
+            $del = $this->model->whereIn('id', $get['id'])->update(['is_deleted' => 1]);
         }
 
         if ($del >= 1) {
@@ -177,22 +178,18 @@ class User extends AdminController {
      */
     public function edit_password() {
         if (!$this->request->isPost()) {
-
+            if (empty($this->request->get('id'))) return msg_error('暂无用户信息！');
             $where_user = [
-                ['id', '=', $this->request->get('id')],
-                ['is_deleted', '=', 0],
-                ['status', 'in', [0, 1]],
+                'id'         => $this->request->get('id'),
+                'is_deleted' => 0,
             ];
             $user = $this->model->where($where_user)->field('id, username')->find();
             if (empty($user)) return msg_error('暂无用户信息，请关闭页面刷新重试！');
-
             $basic_data = [
                 'title' => '修改管理员密码',
                 'user'  => $user,
             ];
-            $this->assign($basic_data);
-
-            return $this->fetch('');
+            return $this->fetch('', $basic_data);
         } else {
             $post = $this->request->post();
 
