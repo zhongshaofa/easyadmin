@@ -72,9 +72,13 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
             parent.layer.close(index);
         }
         //刷新当前弹出层
-        this.reload = function () {
-            var index = parent.layer.getFrameIndex(window.name);
-            parent.location.reload();
+        this.reload = function (type = '') {
+            if (type == 'open') {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.location.reload();
+            } else {
+                window.location.reload();
+            }
         }
         //判断数组是否为空
         this.isEmptyArray = function (array) {

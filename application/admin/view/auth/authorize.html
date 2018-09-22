@@ -77,7 +77,7 @@
                 node_id: node_id,
             }, function (res) {
                 $.msg.success(res.msg, function () {
-                    $.tool.reload();
+                    $.tool.reload('open');
                 });
             });
             return false;

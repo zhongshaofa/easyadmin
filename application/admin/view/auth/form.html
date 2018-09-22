@@ -46,7 +46,7 @@
         };
         $.request.post(url, data, function (res) {
             $.msg.success(res.msg, function () {
-                $.tool.reload();
+                $.tool.reload('open');
             })
         })
         return false;
