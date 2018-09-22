@@ -75,6 +75,15 @@ class Article extends Validate {
     }
 
     /**
+     * 修改文章
+     * @return Article
+     */
+    public function sceneEdit() {
+        return $this->only(['article_id', 'member_id', 'title', 'tag_list', 'category_id', 'cover_img', 'describe', 'content'])
+            ->append('content', 'max:10000000');
+    }
+
+    /**
      * 检测文章是否存在
      * @param       $value
      * @param       $rule

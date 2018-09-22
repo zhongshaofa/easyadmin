@@ -1,0 +1,196 @@
+{extend name="blog@public/basic" /}
+
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/blog/other-style.css"/>
+{/block}
+
+{block name="cotent"}
+{include file="blog@public/member/top"/}
+<div class="layui-main layui-clear">
+    <div class="layui-row php-user-center">
+        <div class="layui-col-md2 user-left">
+            {include file="blog@public/member/nav"/}
+        </div>
+        <div class="layui-col-md10 user-right">
+            <div class='right-top2'>
+                <a  href="{:url('@blog/member/follow')}">我关注的</a>
+                <a class="on" href="{:url('@blog/member/fans')}">关注我的</a>
+            </div>
+            <div class='user-list'>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/1.html' target="_blank"><img src='http://img.php.cn/upload/avatar/000/000/001/59cb5020c40a5672.jpg'></a></li>
+                        <li>
+                            <p class='title'>PHP中文网</p>
+                            <p>	全栈工程师</p>
+                            <p>	关注2 粉丝31</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/9.html' target="_blank"><img src='http://img.php.cn/upload/avatar/000/000/009/582a8a4e51c78729.jpg'></a></li>
+                        <li>
+                            <p class='title'>阿神</p>
+                            <p>	PHP开发工程师</p>
+                            <p>	关注37 粉丝48</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/63.html' target="_blank"><img src='http://img.php.cn/upload/avatar/000/000/063/5a704ff9513f0260.jpg'></a></li>
+                        <li>
+                            <p class='title'>清晨的那一抹阳光照耀在我的脸上</p>
+                            <p>	交互设计师</p>
+                            <p>	关注11 粉丝1</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/310.html' target="_blank"><img src='http://www.php.cn/static/images/user_avatar.jpg'></a></li>
+                        <li>
+                            <p class='title'>phpcn_u310</p>
+                            <p>	学生</p>
+                            <p>	关注1 粉丝1</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/621.html' target="_blank"><img src='http://www.php.cn/static/images/user_avatar.jpg'></a></li>
+                        <li>
+                            <p class='title'>phpcn_u621</p>
+                            <p>	学生</p>
+                            <p>	关注1 粉丝0</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/1036.html' target="_blank"><img src='http://www.php.cn/static/images/user_avatar.jpg'></a></li>
+                        <li>
+                            <p class='title'>phpcn_u1036</p>
+                            <p>	学生</p>
+                            <p>	关注1 粉丝0</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/1158.html' target="_blank"><img src='http://www.php.cn/static/images/user_avatar.jpg'></a></li>
+                        <li>
+                            <p class='title'>phpcn_u1158</p>
+                            <p>	学生</p>
+                            <p>	关注1 粉丝0</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/2655.html' target="_blank"><img src='http://img.php.cn/upload/avatar/000/002/655/5928e30a2cfd3455.jpg'></a></li>
+                        <li>
+                            <p class='title'>Mangoreal</p>
+                            <p>	产品经理</p>
+                            <p>	关注1 粉丝1</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/2717.html' target="_blank"><img src='http://img.php.cn/upload/avatar/000/000/001/9feee93c1f6cb6083b8f5179bb149619.jpg'></a></li>
+                        <li>
+                            <p class='title'>渔夫</p>
+                            <p>	学生</p>
+                            <p>	关注1 粉丝0</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/3146.html' target="_blank"><img src='http://img.php.cn/upload/avatar/000/000/001/27848a4e052dd3953b8bb216b5b24284.jpg'></a></li>
+                        <li>
+                            <p class='title'>sherry</p>
+                            <p>	学生</p>
+                            <p>	关注1 粉丝0</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/7053.html' target="_blank"><img src='http://img.php.cn/upload/avatar/000/000/001/ef7b9b96f4d26e7cf52cd392f1ee087a.jpg'></a></li>
+                        <li>
+                            <p class='title'>jaronHu</p>
+                            <p>	学生</p>
+                            <p>	关注1 粉丝0</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/9144.html' target="_blank"><img src='http://img.php.cn/upload/avatar/000/009/144/59616d936b6d2428.jpg'></a></li>
+                        <li>
+                            <p class='title'>PHP爱好者</p>
+                            <p>	学生</p>
+                            <p>	关注5 粉丝0</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/10173.html' target="_blank"><img src='http://img.php.cn/upload/avatar/000/000/001/88813bcd146d587ae949eacdb7c452fe.jpg'></a></li>
+                        <li>
+                            <p class='title'>学php的小仙女~</p>
+                            <p>	学生</p>
+                            <p>	关注3 粉丝0</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/10287.html' target="_blank"><img src='http://img.php.cn/upload/avatar/000/000/001/f4cd798a1687b675c44b1b4c8586411e.jpg'></a></li>
+                        <li>
+                            <p class='title'>忍者笨龟</p>
+                            <p>	学生</p>
+                            <p>	关注1 粉丝0</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+                <div class='list'>
+                    <ul>
+                        <li><a href='/member/12539.html' target="_blank"><img src='http://www.php.cn/static/images/user_avatar.jpg'></a></li>
+                        <li>
+                            <p class='title'>Fat'Cat</p>
+                            <p>	学生</p>
+                            <p>	关注1 粉丝0</p>
+                            <!--<p>	<a href='' class='layui-btn layui-btn-primary'>已关注</a><a href='' class='layui-btn layui-btn-primary'> 私信</a></p>-->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="layui-row diy-page"><ul class="page"><a href="javascript:;" class="disabled_page">上一页</a> <a href="javascript:;" class="active">1</a><a href="/member/2/fans.html?p=2">2</a><a href="/member/2/fans.html?p=3">3</a><a href="/member/2/fans.html?p=4">4</a><a href="/member/2/fans.html?p=5">5</a> <a href="/member/2/fans.html?p=2">下一页</a></ul></div>
+        </div>
+    </div>
+</div>
+
+
+{/block}
+
+{block name="script"}
+
+{/block}

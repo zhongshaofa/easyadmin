@@ -14,6 +14,7 @@
 
 namespace app\common\service;
 
+use think\Db;
 use think\facade\Config;
 use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
@@ -27,7 +28,7 @@ class QiniuService {
      * @return mixed
      * @throws \Exception
      */
-    public static function upload($filePath = '', $key = '') {
+    public static function upload($filePath = '') {
         // 需要填写你的 Access Key 和 Secret Key
         $accessKey = Config::get('qiniu.AccessKey');
         $secretKey = Config::get('qiniu.SecretKey');
@@ -38,12 +39,19 @@ class QiniuService {
         $token = $auth->uploadToken($bucket);
         // 初始化 UploadManager 对象并进行文件的上传。
         $uploadMgr = new UploadManager();
+        // 要上传文件的本地路径
+        $filePath = ".{$filePath}";
+        // 上传到七牛后保存的文件名
+        $key = md5($filePath) . ToolService::getSuffix($filePath);
+        // 初始化 UploadManager 对象并进行文件的上传。
+        $uploadMgr = new UploadManager();
         // 调用 UploadManager 的 putFile 方法进行文件的上传。
         list($ret, $err) = $uploadMgr->putFile($token, $key, $filePath);
         if ($err !== null) {
             return $err;
         } else {
-            return $ret;
+            $url = Config::get('qiniu.url') . '/' . $ret['key'];
+            return $url;
         }
     }
 

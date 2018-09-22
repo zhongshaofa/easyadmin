@@ -1,0 +1,27 @@
+<div class="user-pic">
+    <div class="user-pic-bg"></div>
+    <img class="img" src="{$Think.session.member.head_img}" alt="{$Think.session.member.nickname}">
+    <!--<div class="user-js-add-follow " data-id="74227" title="关注他">-->
+        <!--<i class="layui-icon layui-icon-add-1"></i>-->
+        <!--<div class="user-follow-me ">-->
+            <!--<span class="title">关注他</span>-->
+            <!--<p class="content">关注后可及时了解他的动态信息</p>-->
+            <!--<i class="layui-icon layui-icon-up"></i>-->
+        <!--</div>-->
+    <!--</div>-->
+</div>
+
+<ul>
+    <!--<li>-->
+        <!--<a href="{:url('@blog/member')}" {eq name="nav_top" value="index" }class="active" {/eq}><i class="layui-icon">&#xe68e;</i><span>主页</span><b class="icon-drop_right"></b></a>-->
+    <!--</li>-->
+    <li>
+        <a href="{:url('@blog/member/article')}" {eq name="nav_top" value="article" }class="active" {/eq}><i class="layui-icon">&#xe63c;</i><span>文章</span><b class="icon-drop_right"></b></a>
+    </li>
+    <li>
+        <a href="{:url('@blog/member/comment')}" {eq name="nav_top" value="comment" }class="active" {/eq}><i class="layui-icon">&#xe62e;</i><span>评论</span><b class="icon-drop_right"></b></a>
+    </li>
+    <!--<li>-->
+        <!--<a href="{:url('@blog/member/follow')}" {eq name="nav_top" value="follow" }class="active" {/eq}><i class="layui-icon">&#xe64e;</i>关注</span><b class="icon-drop_right"></b></a>-->
+    <!--</li>-->
+</ul>

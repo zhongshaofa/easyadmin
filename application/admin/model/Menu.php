@@ -139,7 +139,6 @@ class Menu extends ModelService {
 
             //修改菜单栏数据格式
             $this->__buildMenu($menu_list);
-//            $this->__buildSort($menu_list);
             return [
                 'code'  => 0,
                 'msg'   => $msg,
@@ -151,7 +150,7 @@ class Menu extends ModelService {
 
     /**
      * 修改搜索菜单栏数据格式
-     * @param $list
+     * @param     $list
      * @param int $i
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -166,29 +165,15 @@ class Menu extends ModelService {
                 !empty($nav) && ($nav['pid'] != 0 && $i++);
             }
             $vo['title'] = replace_menu_title($vo['title'], $i);
+            ($vo['id'] == 1 || $i >= 3) ? $vo['is_add'] = false : $vo['is_add'] = true;
         }
     }
 
-//
-//    public function __buildSort(&$list) {
-//        $menu = [];
-//        foreach ($list as $k => $val) {
-//            $menu[] = $list[$k];
-//            foreach ($list as $k_1 => $val_1) {
-//                if ($list[$k]['id'] == $list[$k_1]['pid']) {
-//                    if (count($menu) == count($list)) return ($list = $menu);
-//                    $menu[] = $list[$k_1];
-//                }
-//            }
-//        }
-//        $list = $menu;
-//    }
-
     /**
      * 使用回调获取菜单栏数据
-     * @param int $pid 上级id
+     * @param int   $pid  上级id
      * @param array $menu 菜单数据
-     * @param int $i 序号
+     * @param int   $i    序号
      * @return array
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -206,6 +191,7 @@ class Menu extends ModelService {
         ];
         $nav = $this->field($field)->where($where_nav)->order($order)->select();
         foreach ($nav as $vo) {
+            ($vo['id'] == 1 || $i >= 3) ? $vo['is_add'] = false : $vo['is_add'] = true;
             $vo['title'] = replace_menu_title($vo['title'], $i);
             $menu[] = $vo;
             $this->getMenu($vo['id'], $menu, $i);
@@ -254,7 +240,12 @@ class Menu extends ModelService {
     }
 
     /**
+     * 获取系统导航菜单
      * @param array $menu_list
+     * @return array
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function getMenuApi($menu_list = []) {
         $field = 'id, pid, title, icon, href, spread, target';
@@ -281,10 +272,10 @@ class Menu extends ModelService {
                     if (!isset($menu_list['99php_' . $vo['id']][$i]['children'])) {
                         if ($menu_list['99php_' . $vo['id']][$i]['href'] == '#' || $menu_list['99php_' . $vo['id']][$i]['href'] == '') {
                             unset($menu_list['99php_' . $vo['id']][$i]);
-                        }else{
+                        } else {
                             $i++;
                         }
-                    }else{
+                    } else {
                         $i++;
                     }
                 }

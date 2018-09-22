@@ -1,0 +1,54 @@
+{extend name="blog@public/basic" /}
+
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/blog/other-style.css"/>
+{/block}
+
+{block name="cotent"}
+<div class="layui-main">
+    <div class="layui-row php-user-info">
+        {include file="blog@public/member/setting_nav"/}
+        <div class="layui-col-md10 php-user-right">
+            <div class='title-login'>
+                上次登录时间：{$last_time|default='<span class="layui-red">暂无记录</span>'|raw} <a href="{:url('@blog/setting/login_log')}">查看最近登录记录</a>
+            </div>
+            <div class='common-title'>
+                个人信息
+            </div>
+            <div class='user-info-list layui-clear '>
+                <li class='name-left'>头像</li>
+                <li class='name-right'>
+                    <img src="{$member_info.head_img|default=''}" alt="{$member_info.nickname|default=''}" width="150" height="150">
+                </li>
+            </div>
+            <div class='user-info-list layui-clear '>
+                <li class='name-left'>昵称</li>
+                <li class='name-right'>{$member_info.nickname|default='<span class="layui-red">暂未设置</span>'|raw}</li>
+            </div>
+            <div class='user-info-list layui-clear '>
+                <li class='name-left'>账号</li>
+                <li class='name-right'>{$member_info.username|default='<span class="layui-red">暂未设置</span>'|raw}</li>
+            </div>
+            <div class='user-info-list layui-clear '>
+                <li class='name-left'>手机</li>
+                <li class='name-right'>{$member_info.phone|default='<span class="layui-red">暂未设置</span>'|raw}</li>
+            </div>
+            <div class='user-info-list layui-clear '>
+                <li class='name-left'>邮箱</li>
+                <li class='name-right'>{$member_info.email|default='<span class="layui-red">暂未设置</span>'|raw}</li>
+            </div>
+            <div class='user-info-list layui-clear '>
+                <li class='name-left'>个性签名</li>
+                <li class='name-right'>{$member_info.sign|default='<span class="layui-red">暂未设置</span>'|raw}</li>
+            </div>
+            <div class='user-info-edit'><a href='javascript:;' class="layui-btn layui-btn-primary" onclick="edit()">修改</a></div>
+        </div>
+    </div>
+
+</div>
+
+{/block}
+
+{block name="script"}
+
+{/block}

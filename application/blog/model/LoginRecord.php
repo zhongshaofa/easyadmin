@@ -27,4 +27,29 @@ class LoginRecord extends ModelService {
      */
     protected $table = 'blog_login_record';
 
+    /**
+     * 获取个人登录记录
+     * @param     $member_id
+     * @param int $page
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
+    public function getMemberList($member_id, $page = 15) {
+        $list = $this->where(['member_id' => $member_id])->order('create_at', 'desc')->paginate($page, false, ['query' => ['member_id' => $member_id]]);
+        return $list;
+    }
+
+    /**
+     * 获取上次登录时间
+     * @param $member_id
+     * @return string
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function getLastTime($member_id) {
+        $record = $this->where(['member_id' => $member_id, 'type' => 1])->order(['create_at' => 'desc'])->limit(2)->select();
+        if (isset($record[1])) return $record[1]['create_at'];
+        return '';
+    }
 }

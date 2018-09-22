@@ -1,61 +1,98 @@
 {extend name="blog@public/basic" /}
 
 {block name="style"}
-<!--<link rel="stylesheet" href="__STATIC__/plugs/layui/css/layui.css" media="all" />-->
-<script type="text/javascript">
-    var childWindow;
-    function toQzoneLogin()
-    {
-        childWindow = window.open("oauth/index","TencentLogin","width=450,height=320,menubar=0,scrollbars=1, resizable=1,status=1,titlebar=0,toolbar=0,location=1");
-    }
 
-    function closeChildWindow()
-    {
-        childWindow.close();
-    }
-</script>
-<!--<link rel="stylesheet" type="text/css" href="__STATIC__/css/blog/head.css"/>-->
 {/block}
 
 {block name="cotent"}
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">输入框</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码框</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">辅助文字</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择框</label>
+        <div class="layui-input-block">
+            <select name="city" lay-verify="required">
+                <option value=""></option>
+                <option value="0">北京</option>
+                <option value="1">上海</option>
+                <option value="2">广州</option>
+                <option value="3">深圳</option>
+                <option value="4">杭州</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">复选框</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="like[write]" title="写作">
+            <input type="checkbox" name="like[read]" title="阅读" checked>
+            <input type="checkbox" name="like[dai]" title="发呆">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开关</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="switch" lay-skin="switch">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">单选框</label>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="男" title="男">
+            <input type="radio" name="sex" value="女" title="女" checked>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">文本域</label>
+        <div class="layui-input-block">
+            <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
 
-<h1><a href="http://wiki.opensns.qq.com/wiki/%E3%80%90QQ%E7%99%BB%E5%BD%95%E3%80%91Qzone_OAuth2.0%E7%AE%80%E4%BB%8B" target="_blank">官方wiki</a></h1>
-
-<br><br>
-<a href="#" onclick='toQzoneLogin()'><img src="__STATIC__/image/blog/Connect_logo_7.png"></a>
-<br><br>
-<a href="user/get_user_info.php"    target="_blank">获取用户信息</a>
-<br><br>
-<a href="share/add_share.html"      target="_blank">添加分享</a>
-<br><br>
-<a href="photo/list_album.php"      target="_blank">获取相册列表</a>
-<br><br>
-<a href="photo/add_album.html"      target="_blank">创建相册</a>
-<br><br>
-<a href="photo/upload_pic.php"     target="_blank">上传相片</a>
-<br><br>
-<a href="blog/add_blog.html"     target="_blank">发表日志</a>
-<br><br>
-<a href="topic/add_topic.html"     target="_blank">发表说说</a>
-<br><br>
-<a href="weibo/add_weibo.html"     target="_blank">发表微博</a>
-<br><br>
-<a href="check_fan/check_page_fans.php"     target="_blank">检查是否是认证空间的粉丝</a>
-<br><br>
-<a href="add_pic_t/add_pic_t.php"     target="_blank">发图片消息到微博</a>
-<br><br>
-<a href="get_info/get_info.php"     target="_blank">获取微博用户信息</a>
-<br><br>
-<a href="get_fanslist/get_fanslist.php"     target="_blank">获取用户的听众列表</a>
-<br><br>
-<a href="get_idollist/get_idollist.php"     target="_blank">获取用户的收听列表</a>
-<br><br>
-<a href="add_idol/add_idol.php"     target="_blank">收听腾讯微博上的用户</a>
-<br><br>
-<a href="get_tenpay_addr/get_tenpay_addr.php"     target="_blank">获取财付通用户的收货地址</a>
+<input class="layui-btn " type="button" id="btn" value="免费获取验证码" onclick="send()" />
 
 {/block}
 
 {block name="script"}
+<script type="text/javascript">
+    var countdown=60;
+    function send(){
+        var obj = $("#btn");
+        settime(obj);
 
+    }
+    function settime(obj) { //发送验证码倒计时
+        if (countdown == 0) {
+            obj.attr('disabled',false);
+            obj.val("免费获取验证码");
+            countdown = 60;
+            return;
+        } else {
+            obj.attr('disabled',true);
+            obj.val("重新发送(" + countdown + ")");
+            countdown--;
+        }
+        setTimeout(function() {
+                settime(obj) }
+            ,1000)
+    }
+</script>
 {/block}

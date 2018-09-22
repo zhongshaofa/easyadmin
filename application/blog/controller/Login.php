@@ -38,12 +38,11 @@ class Login extends BlogController {
      */
     public function index() {
         if (!$this->request->isPost()) {
-
-            //基础数据
+            isset($_SERVER['HTTP_REFERER']) && session('lastLink', $_SERVER['HTTP_REFERER']);
             $basic_data = [
                 'title' => '登录||久久PHP社区',
             ];
-            return $this->fetch('', $basic_data);
+            return $this->fetch('index_open', $basic_data);
         } else {
             $post = $this->request->post();
 
@@ -58,16 +57,12 @@ class Login extends BlogController {
             //记录登录时间
             $login['member']['login_at'] = time();
 
-            //记录登录日志
-            model('LoginRecord')->save([
-                'type'      => 1,
-                'member_id' => $login['member']['id'],
-                'ip'        => get_ip(),
-                'remark'    => '正在进入博客系统！',
-            ]);
-
             //储存session数据
             session('member', $login['member']);
+
+            //记录登录日志
+            $this->LoginRecord(1);
+
             return __success($login['msg']);
         }
     }
@@ -122,12 +117,7 @@ class Login extends BlogController {
     public function out() {
 
         //记录退出登录日志
-        model('LoginRecord')->save([
-            'type'      => 0,
-            'member_id' => $this->member['id'],
-            'ip'        => get_ip(),
-            'remark'    => '正在退出博客系统！',
-        ]);
+        $this->LoginRecord(0);
 
         //清空sesion数据
         session(null);

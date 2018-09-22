@@ -1,79 +1,108 @@
 {extend name="blog@public/basic" /}
 
 {block name="style"}
-<link rel="stylesheet" type="text/css" href="__STATIC__/css/blog/member.css"/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/blog/other-style.css"/>
 {/block}
 
 {block name="cotent"}
-{include file="blog@public/nav"/}
-<!-- 内容  开始-->
-<div class="wrap">
-    <div class="vip_cont c100 clearfix">
-        <!--左边列表导航  开始-->
-        <div class="fl vip_left vip_magLeft">
-            <dl>
-                <dt>信息管理</dt>
-                <dd>
-                    <p><a href="#" target="_blank">文章管理</a></p>
-                    <p class="active"><a href="#" target="_blank">评论管理</a></p>
-                </dd>
-            </dl>
-            <dl>
-                <dt>我的账号</dt>
-                <dd>
-                    <p><a href="#" target="_blank">基本资料</a></p>
-                    <p><a href="#" target="_blank">修改密码</a></p>
-                </dd>
-            </dl>
+{include file="blog@public/member/top"/}
+<div class="layui-main layui-clear">
+    <div class="layui-row php-user-center">
+        <div class="layui-col-md2 user-left">
+            {include file="blog@public/member/nav"/}
         </div>
-        <!--左边列表导航  结束-->
-
-        <!--右边列表内容  开始-->
-        <div class="fr vip_right vip_magRight">
-            <!--用户信息  开始 -->
-            <div class="cus01">
-                <div class="cusImg">
-                    <img src="{$Think.session.member.head_img}" title="更换头像" style="width:127px;height:127px;" />
-                </div>
-                <div class="cusName">
-                    <p title="用户昵称">用户昵称：{if !empty($Think.session.member.nickname)}{$Think.session.member.nickname}{else/}暂未设置昵称{/if}</p>
-                    <span title="邮箱">邮箱：{$Think.session.member.email}</span>
-                    <span class="bdTell">手机：<i></i><em>{$Think.session.member.phone}</em></span>
-                </div>
+        <div class="layui-col-md10 user-right">
+            <div class='right-top'>
+                <span>最新动态</span>
+                <!--<span style='float:right'>设置</span>-->
             </div>
-            <ul class="cus02">
-                <li>
-                    <p><span>原创文章</span><a href="#" target="_blank">管理文章</a></p>
-                    <span class="numbers"><font>5</font>篇</span>
-                </li>
-                <li>
-                    <p><span>文章评论</span><a href="#" target="_blank">管理评论</a></p>
-                    <span class="numbers"><font>6</font>条</span>
-                </li>
-                <li>
-                    <p><span>个人资料</span><a href="#" target="_blank">去完善</a></p>
-                    <script>
-                        $(function(){
-                            $('#myStat').circliful();
-                        });
-                    </script>
-                    <span class="numbers mystat">
-								<div id="myStat" data-dimension="60" data-text="85%" data-info="New Clients" data-width="10" data-fontsize="12" data-percent="85" data-fgcolor="#ff6561" data-bgcolor="#eee" data-fill="#FFF" class="circliful" style="width: 60px;"></div>
-							</span>
-                </li>
-            </ul>
-            <!--&lt;!&ndash; 用户信息  结束 &ndash;&gt;-->
-            <!--<div class="cus03">-->
-                <!--<div class="mess">-->
-                    <!--<a href="#" target="_blank"><i></i>成为VIP会员或者加入鹰监测服务，可以优先排序，增加公司曝光等。>>点击了解详情</a>-->
-                <!--</div>-->
-            <!--</div>-->
+            <div class='right-info'>
+
+                <ul class="layui-timeline">
+                    <li class="layui-timeline-item">
+                        <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                        <div class="layui-timeline-content layui-text">
+                            <h4 class="layui-timeline-title ">8个月前 <span class='title'>学习了课程</span></h4>
+                            <div class='course-info'>
+                                <ul>
+                                    <li class='course-img'><a href='/course/665.html' target="_blank" title="独孤九贱(8)_php从零开始开发属于自己的php框架"><img src="http://img.php.cn/upload/course/000/000/003/5a509de50e732291.jpg"></a></li>
+                                    <li>
+                                        <h2><a href='/course/665.html' target="_blank" title="独孤九贱(8)_php从零开始开发属于自己的php框架">独孤九贱(8)_php从零开始开发属于自己的php...</a><!--<span> 更新中</span>--></h2>
+                                        <p><!--<span class='studyed'>浏览量：42166</span>-->中级&nbsp;&nbsp;&nbsp;&nbsp;浏览量：42166&nbsp;&nbsp;&nbsp;&nbsp;更新中</p>
+                                        <p class='log'><a href='/course/665.html' target="_blank" title="独孤九贱(8)_php从零开始开发属于自己的php框架">本课以一个极简的PHP开发框架为案例,向您展示了一个PHP框...</a></p>
+                                    </li>
+                                    <li class='go-on'>
+
+                                        <p><a href='/course/665.html' target="_blank" title="独孤九贱(8)_php从零开始开发属于自己的php框架">查看课程</a></p>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="layui-timeline">
+                    <li class="layui-timeline-item">
+                        <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                        <div class="layui-timeline-content layui-text">
+                            <h4 class="layui-timeline-title ">8个月前 <span class='title'>学习了课程</span></h4>
+                            <div class='course-info'>
+                                <ul>
+                                    <li class='course-img'><a href='/course/123.html' target="_blank" title="php注册登录系统开发实战"><img src="http://img.php.cn/upload/course/000/000/003/5a0ea1067b8b2253.jpg"></a></li>
+                                    <li>
+                                        <h2><a href='/course/123.html' target="_blank" title="php注册登录系统开发实战">php注册登录系统开发实战</a><!--<span> 更新中</span>--></h2>
+                                        <p><!--<span class='studyed'>浏览量：11729</span>-->高级&nbsp;&nbsp;&nbsp;&nbsp;浏览量：11729&nbsp;&nbsp;&nbsp;&nbsp;更新中</p>
+                                        <p class='log'><a href='/course/123.html' target="_blank" title="php注册登录系统开发实战">《php注册登录系统开发实战》主要介绍网站的登录注册功能，有...</a></p>
+                                    </li>
+                                    <li class='go-on'>
+
+                                        <p><a href='/course/123.html' target="_blank" title="php注册登录系统开发实战">查看课程</a></p>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="layui-timeline">
+                    <li class="layui-timeline-item">
+                        <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                        <div class="layui-timeline-content layui-text">
+                            <h4 class="layui-timeline-title ">8个月前 <span class='title'>学习了课程</span></h4>
+                            <div class='course-info'>
+                                <ul>
+                                    <li class='course-img'><a href='/course/332.html' target="_blank" title="Thinkphp3.2.3个人博客开发"><img src="http://img.php.cn/upload/course/000/000/003/5a38c838366fe405.jpg"></a></li>
+                                    <li>
+                                        <h2><a href='/course/332.html' target="_blank" title="Thinkphp3.2.3个人博客开发">Thinkphp3.2.3个人博客开发</a><!--<span> 更新中</span>--></h2>
+                                        <p><!--<span class='studyed'>浏览量：56433</span>-->高级&nbsp;&nbsp;&nbsp;&nbsp;浏览量：56433&nbsp;&nbsp;&nbsp;&nbsp;更新中</p>
+                                        <p class='log'><a href='/course/332.html' target="_blank" title="Thinkphp3.2.3个人博客开发">ThinkPHP是一个快速、开源的轻量级国产PHP开发框架，...</a></p>
+                                    </li>
+                                    <li class='go-on'>
+
+                                        <p><a href='/course/332.html' target="_blank" title="Thinkphp3.2.3个人博客开发">查看课程</a></p>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </li>
+                </ul>
+                <style>
+                    .layui-text a:not(.layui-btn):hover {
+                        text-decoration: none;
+                    }
+
+                    .layui-text a:not(.layui-btn) {
+                        color: #333;
+                    }
+                </style>
+            </div>
+
         </div>
-        <!--右边列表内容  结束-->
     </div>
 </div>
-
-<!-- 内容  结束-->
 
 {/block}
 

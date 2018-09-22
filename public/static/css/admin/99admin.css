@@ -1,0 +1,65 @@
+.layui-inline {
+    margin-right: 2px !important;
+}
+
+.layui-form-label-99admin {
+    width: auto !important;
+    height: 38px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px 0 0 2px;
+    border-color: #e6e6e6;
+    background-color: #f2f2f2;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+    float: left;
+    display: block;
+    padding: 9px 5px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: right;
+}
+
+.layui-elem-quote {
+    word-break: break-all;
+    margin-bottom: 10px;
+    padding: 1px !important;
+    line-height: 22px;
+    border-left: 5px !important;
+    border-radius: 0 2px 2px 0;
+    background-color: #ffffff !important;
+}
+
+.color-99admin-black {
+    background-color: #000000;
+}
+
+.color-99admin-blue {
+    background-color: #0000FF;
+}
+
+.color-99admin-black {
+    background-color: #000000;
+}
+
+.color-99admin-green {
+    background-color: #008000;
+}
+
+.color-99admin-cyan {
+    background-color: #00FFFF;
+}
+
+.color-99admin-red {
+    background-color: #FF0000;
+}
+
+.color-99admin-gray {
+    background-color: #d2d2d2;
+}
+
+.color-99admin-brown {
+    background-color: #A52A2A;
+}

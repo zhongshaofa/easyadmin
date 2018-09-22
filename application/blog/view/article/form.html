@@ -78,13 +78,13 @@
             <!--热门推荐-->
             <div class="bg-fff box-shadow radius mb-20">
                 <div class="tab-category">
-                    <a href=""><strong>推荐阅读</strong></a>
+                    <a data-href=""><strong>推荐阅读</strong></a>
                 </div>
                 <div class="tab-category-item">
                     <ul class="index_recd">
                         {foreach recommend_list as $vo}
                         <li>
-                            <a href="{:url('@blog/article/details')}?id={$vo.id|default=''}">{$vo.title|default=''}</a>
+                            <a data-href="{:url('@blog/article/details')}?id={$vo.id|default=''}">{$vo.title|default=''}</a>
                             <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> {$vo.clicks|default=''}° </p>
                         </li>
                         {/foreach}
@@ -95,7 +95,7 @@
             <!--图片-->
             <div class="bg-fff box-shadow radius mb-20">
                 <div class="tab-category">
-                    <a href=""><strong>扫我关注</strong></a>
+                    <a data-href=""><strong>扫我关注</strong></a>
                 </div>
                 <div class="tab-category-item">
                     <img src="__STATIC__/image/blog/weixin.jpg" class="img-responsive lazyload" alt="响应式图片">
@@ -134,12 +134,11 @@
              */
             upload.render({
                 elem: '#uploadLogo'
-                , url: "{:url('@blog/api.upload/layui_image')}"
+                , url: "{:url('@blog/api.upload/image')}"
                 , done: function (res) {
-                    console.log(res)
                     if (res.code == 0) {
-                        $('#cover_img').attr('src', res.data.src);
-                        var parent=document.getElementById("uploadLogo");
+                        $('#cover_img').attr('src', res.url[0]);
+                        var parent = document.getElementById("uploadLogo");
                         var child = document.getElementById("upload_icon");
                         var child1 = document.getElementById("upload_icon_p");
                         parent.removeChild(child);
@@ -197,8 +196,6 @@
             } else {
                 layer.msg(result.msg);
             }
-            // var url = result.url
-            // insertImg(url)
         }
     }
     editor.customConfig.customAlert = function (info) {
@@ -206,14 +203,15 @@
     }
     editor.create()
 
-    //新增评论
+    /**
+     * 添加文章
+     */
     $("#addArticle").click(function () {
-        console.log($('#tag_list').val());
         if (editor.txt.text() == '') {
-            layer.msg('文章内容不可为空！', {icon: 2});
+           $.msg.error('评论内容不可为空！');
             return false;
         }
-        $.post("{:url('@blog/article/add')}", {
+        var data = {
             member_id: "{$Think.session.member.id}",
             title: $('#title').val(),
             tag_list: $('#tag_list').val(),
@@ -221,23 +219,17 @@
             cover_img: $('#cover_img').attr('src'),
             describe: $('#describe').val(),
             content: editor.txt.html(),
-        }, function (res) {
-            console.log(res);
-            if (res.code == 0) {
-                layer.confirm('文章发表成功，是否继续编写文章？', {
-                    btn: ['返回首页', '继续编辑'],
-                    yes: function (index, layero) {
-                        window.location.href = "{:url('@blog')}";
-                    }
-                    , btn2: function (index, layero) {
-                        parent.location.reload();
-                    }
-                });
-            } else {
-                layer.msg(res.msg, {icon: 2});
-            }
-        }).error(function () {
-            layer.msg('网络错误', {icon: 2});
+        };
+        $.request.post("{:url('@blog/article/add')}", data, function (res) {
+            layer.confirm('文章发表成功，是否继续编写文章？', {
+                btn: ['返回首页', '继续编辑'],
+                yes: function (index, layero) {
+                    window.location.href = "{:url('@blog')}";
+                }
+                , btn2: function (index, layero) {
+                    parent.location.reload();
+                }
+            });
         });
         return false;
     });

@@ -1,0 +1,83 @@
+<link rel="stylesheet" href="__STATIC__/plugs/layui/css/layui.css" media="all"/>
+<style>
+    .setting-form {
+        margin-top: 10px;
+    }
+</style>
+<form class="layui-form setting-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮箱号</label>
+        <div class="layui-input-block">
+            <input type="email" id="email" required lay-verify="required" placeholder="请输入邮箱号" autocomplete="off" class="layui-input" {if !empty($info.email)}readonly{/if} value="{$info.email|default=''}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">验证码</label>
+        <div class="layui-input-inline">
+            <input type="text" id="code" required lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input">
+        </div>
+        <input class="layui-btn " type="button" id="send_code" value="免费获取验证码"/>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" id="submit">{if empty($info.email)}立即绑定{else/}立即更换{/if}</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="__STATIC__/plugs/jquery/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="__STATIC__/plugs/blog/layer/3.0/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/plugs/layui/layui.js"></script>
+<script type="text/javascript" src="__STATIC__/blog.js"></script>
+<script type="text/javascript">
+    var countdown = 60;
+
+    /**
+     * 点击发送验证码
+     */
+    $("#send_code").click(function () {
+        var data = {type: 'email', email: $("#email").val()}
+        $.request.post("{:url('@blog/api.send/code')}", data, function (res) {
+            $.msg.success(res.msg, function () {
+                settime($("#send_code"));
+            });
+        });
+        return false;
+    });
+
+    /**
+     * 提交数据
+     */
+    $("#submit").click(function () {
+        var data = {email: $("#email").val(), code: $("#code").val()};
+        $.request.post("{:url('@blog/setting/form_email')}", data, function (res) {
+            $.msg.success(res.msg, function () {
+                index = parent.layer.getFrameIndex(window.name);
+                $.msg.close(index);
+                window.parent.location.reload();
+            });
+        });
+        return false;
+    });
+
+    /**
+     * 验证码倒计时
+     * @param obj
+     */
+    function settime(obj) {
+        if (countdown == 0) {
+            obj.attr('disabled', false);
+            obj.val("免费获取验证码");
+            countdown = 60;
+            return;
+        } else {
+            obj.attr('disabled', true);
+            obj.val("重新发送(" + countdown + ")");
+            countdown--;
+        }
+        setTimeout(function () {
+                settime(obj)
+            }
+            , 1000)
+    }
+</script>

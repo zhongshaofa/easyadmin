@@ -69,6 +69,30 @@ class Article extends ModelService {
     }
 
     /**
+     * 获取单个会员的所有文章信息
+     * @param     $member_id
+     * @param int $page
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
+    public function getMemberArticleList($member_id, $page = 10) {
+        $where_article_list = [
+            ['member_id', '=', $member_id],
+            ['status', '=', 0],
+            ['is_deleted', '=', 0],
+        ];
+        $article_list = $this->where($where_article_list)->order('create_at', 'desc')->paginate($page, false, ['query' => ['member_id' => $member_id]])
+            ->each(function ($item, $key) {
+                $item->memberInfo;
+                $item->categoryInfo;
+                $where_article_list[] = ['article_id', '=', $item['id']];
+                $item['comment_total'] = model('Comment')->where($where_article_list)->count();
+                $item['category_title'] = model('Category')->where(['id' => $item['category_id']])->value('title');
+            });
+        return $article_list;
+    }
+
+    /**
      * 获取最新的文章
      * @param int $limit 显示数量
      * @return array|\PDOStatement|string|\think\Collection
@@ -198,6 +222,22 @@ class Article extends ModelService {
     }
 
     /**
+     * 修改文章
+     * @param $update
+     * @return \think\response\Json
+     * @throws \think\exception\PDOException
+     */
+    public function edit($update) {
+        $update_article = $update;
+        unset($update_article['article_id']);
+        unset($update_article['tag_list']);
+        $this->where(['id' => $update['article_id']])->update($update_article);
+        model('ArticleTag')->where(['article_id' => $update['article_id']])->delete();
+        $this->__buildAddTag($update['article_id'], $update);
+        return __success('文章修改成功！');
+    }
+
+    /**
      * 前置数据
      * @param $data
      */
@@ -205,7 +245,6 @@ class Article extends ModelService {
         if (isset($insert['tag_list']) && !empty($insert['tag_list']) && !empty($article_id)) {
             list($tag_list, $save_all) = [explode(',', $insert['tag_list']), []];
             foreach ($tag_list as $vo) {
-                $test[] = $vo;
                 $tag_id = model('Tag')->where(['tag_title' => $vo])->value('id');
                 if (empty($tag_id)) {
                     $tag_id = model('Tag')->insertGetId(['tag_title' => $vo]);

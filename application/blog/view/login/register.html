@@ -41,7 +41,7 @@
         <div class="main_right">
             <div class="tips">我们诚挚的邀请您加入<br/>久久PHP社区！</div>
             <div class="box">
-                已有账户：<a href="{:url('@blog/login')}">直接登录</a><br/><br/>
+                已有账户：<a data-href="{:url('@blog/login')}">直接登录</a><br/><br/>
             </div>
         </div>
     </div>
@@ -55,22 +55,18 @@
      * 会员登录
      */
     $("#loginRegister").click(function () {
-        $.post("{:url('@blog/login/register')}", {
+        var data = {
             username: $("#username").val(),
             password: $("#password").val(),
             nickname: $("#nickname").val(),
             email: $("#email").val(),
             vercode: $("#vercode").val(),
-        }, function (res) {
-            console.log(res);
-            if (res.code == 0) {
-                layer.msg(res.msg, {icon: 1}, function () {
-                    window.location.href = "{:url('@blog/login')}";
-                });
-            } else {
-                layer.msg(res.msg, {icon: 2});
-            }
-        })
+        }
+        $.request.post("{:url('@blog/login/register')}", data, function (res) {
+            $.msg.success(res.msg, function () {
+                window.location.href = "{:url('@blog/login')}";
+            })
+        });
         return false;
     });
 </script>

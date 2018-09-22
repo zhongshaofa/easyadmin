@@ -24,4 +24,7 @@ return [
 
     //七牛云存储空间
     'Bucket'    => 'blog',
+
+    //七牛云站点
+    'url'       => 'https://static.99php.cn',
 ];

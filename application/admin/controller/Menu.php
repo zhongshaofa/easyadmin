@@ -45,7 +45,8 @@ class Menu extends AdminController {
             //ajax访问
             if ($this->request->get('type') == 'ajax') {
                 $select = (array)$this->request->get('select', []);
-                return json($this->model->menuList($select));
+                $menu_list = $this->model->menuList($select);
+                return json($menu_list);
             }
 
             //基础数据
@@ -72,17 +73,16 @@ class Menu extends AdminController {
 
     /**
      * 添加菜单
-     * @return mixed
+     * @return mixed|\think\response\Json
      */
     public function add() {
         if (!$this->request->isPost()) {
-
-            //基础数据
+            $pid = $this->request->get('pid', '');
             $basic_data = [
                 'title' => '添加菜单',
             ];
+            !empty($pid) && $basic_data['menu'] = ['pid' => $pid];
             $this->assign($basic_data);
-
             return $this->form();
         } else {
             $post = $this->request->post();
@@ -91,11 +91,9 @@ class Menu extends AdminController {
             //验证数据
             $validate = $this->validate($post, 'app\admin\validate\Menu.add');
             if (true !== $validate) return __error($validate);
-
             //清空菜单缓存
             clear_menu();
 
-            //保存数据,返回结果
             return $this->model->add($post);
         }
     }

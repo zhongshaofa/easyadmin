@@ -8,39 +8,49 @@
 <form class="layui-form">
 
     <blockquote class="layui-elem-quote quoteBox">
-        <form class="layui-form">
 
-            <div class="layui-inline">
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input title" placeholder="请输入权限角色名称"/>
-                </div>
-                <div class="layui-input-inline">
-                    <select name="status" class="status" lay-filter="status">
-                        <option value="">请选择角色状态</option>
-                        {foreach $status as $vo}
-                        <option value="{$vo.id|default=''}">{$vo.title|default=''}</option>
-                        {/foreach}
-                    </select>
-                </div>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input create_at" id="create_at" placeholder="请选择创建时间">
-                </div>
-                <a class="layui-btn search_btn" data-type="reload">搜索</a>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">角色名称</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input title" placeholder="请输入权限角色名称"/>
             </div>
+        </div>
 
-            {if auth('admin/auth/add')}
-            <div class="layui-inline">
-                <a class="layui-btn layui-btn-normal addNews_btn">添加角色</a>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">角色状态</label>
+            <div class="layui-input-inline">
+                <select name="status" class="status" lay-filter="status">
+                    <option value="">请选择角色状态</option>
+                    {foreach $status as $vo}
+                    <option value="{$vo.id|default=''}">{$vo.title|default=''}</option>
+                    {/foreach}
+                </select>
             </div>
-            {/if}
+        </div>
 
-            {if auth('admin/auth/del')}
-            <div class="layui-inline">
-                <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">创建时间</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input create_at" id="create_at" placeholder="请选择创建时间">
             </div>
-            {/if}
+        </div>
 
-        </form>
+        <div class="layui-form-item layui-inline">
+            <a class="layui-btn search_btn" data-type="reload">搜索</a>
+        </div>
+
+        {if auth('admin/auth/add')}
+        <div class="layui-form-item layui-inline">
+            <a class="layui-btn layui-btn-normal addNews_btn">添加</a>
+        </div>
+        {/if}
+
+        {if auth('admin/auth/del')}
+        <div class="layui-form-item layui-inline">
+            <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">删除</a>
+        </div>
+        {/if}
+
     </blockquote>
 
     <table id="authList" lay-filter="authList"></table>
@@ -302,7 +312,7 @@
             if (layEvent === 'edit') { //编辑
                 console.log(data);
                 editAuth(data);
-            }else if(layEvent === 'authorize'){
+            } else if (layEvent === 'authorize') {
                 console.log('授权');
                 authorizeAuth(data);
             } else if (layEvent === 'usable') { //启用禁用

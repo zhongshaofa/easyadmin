@@ -1,0 +1,95 @@
+{extend name="blog@public/basic" /}
+
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/blog/other-style.css"/>
+<style>
+    .button-a {
+        width: 40px !important;
+        height: 27px !important;
+        position: absolute !important;
+        margin-top: 20px !important;
+        line-height: 30px !important;
+        padding: 3px 5px !important;
+        border-radius: 5px !important;
+    }
+
+    .button-a-edit {
+        right: 10px !important;
+        color: #ffffff !important;
+        border: 1px solid #009688 !important;
+        background-color: #009688 !important;
+    }
+
+    .button-a-delete {
+        text-align: center !important;
+        right: 10px !important;
+        color: #ffffff !important;
+        border: 1px solid #bdbbbb !important;
+        background-color: #bdbbbb !important;
+    }
+
+    .button-a-delete:hover {
+        background-color: #ff0000 !important;
+    }
+
+    .comment-title {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .comment-content {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+</style>
+{/block}
+
+{block name="cotent"}
+{include file="blog@public/member/top"/}
+<div class="layui-main layui-clear">
+    <div class="layui-row php-user-center">
+        <div class="layui-col-md2 user-left">
+            {include file="blog@public/member/nav"/}
+        </div>
+        <div class="layui-col-md10 user-right">
+            <div class='right-top2'>
+                <a class='on' href="{:url('@blog/member/comment')}">我的评论</a>
+                <!--<a href="{:url('@blog/member/comment_other')}">我的文章评论</a>-->
+                <!--<a href='/member/74227/asks/follow.html'>我的回复</a>-->
+            </div>
+            <div class='ask-list'>
+                {foreach comment_list as $vo}
+                <ul class="member-ask-ul commentList">
+                    <li>
+                        <p class='group comment-title'><span>来自文章 》</span>
+                            <a href="{:url('@blog/article/details')}?id={$vo.articleinfo.id|default=''}" target="_blank"> {$vo.articleinfo.title|default=''}</a>
+                        </p>
+                        <p class="comment-content"><a href="{:url('@blog/article/details')}?id={$vo.articleinfo.id|default=''}" target="_blank">{$vo.content|default=''|raw}</a></p>
+                        <p class='group'><span>评论时间</span>{$vo.create_at|default=''|raw}</p>
+                    </li>
+                    <li class='go-on'>
+                        <p>
+                            <a class="button-a button-a-delete" data-title="确定删除此评论？" data-confirm="{:url('@blog/member/comment_del')}?id={$vo.id|default=''}">删除</a>
+                        </p>
+                    </li>
+                    <div class="clear"></div>
+                </ul>
+                {/foreach}
+
+                {if count($comment_list) == 0}
+                <p class="layui-red">暂无评论信息</p>
+                {/if}
+
+            </div>
+            <div class="layui-row page-other">
+                {$comment_list|raw}
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+
+{/block}

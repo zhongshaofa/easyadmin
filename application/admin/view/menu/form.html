@@ -7,7 +7,7 @@
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">上级菜单</label>
         <div class="layui-input-block">
-            <select name="pid" class="pid" lay-filter="pid">
+            <select id="pid" class="pid" lay-filter="pid">
                 {foreach up_menu as $vo }
                 {eq name='$vo.id' value='$menu.pid|default=0'}
                 <option selected value="{$vo.id|default=''}">{$vo.title|raw|default=''}</option>
@@ -21,13 +21,13 @@
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">菜单名称</label>
         <div class="layui-input-block">
-            <input type="text" name="title" class="layui-input title" lay-verify="title" lay-verify="required" value="{$menu.title|default=''}" placeholder="请输入菜单名称">
+            <input type="text" id="title" class="layui-input" lay-verify="title" lay-verify="required" value="{$menu.title|default=''}" placeholder="请输入菜单名称">
         </div>
     </div>
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">菜单链接</label>
         <div class="layui-input-block">
-            <input type="text" name="href" class="layui-input href" lay-verify="href" value="{$menu.href|default='#'}" placeholder="请输入菜单链接">
+            <input type="text" id="href" class="layui-input" lay-verify="href" value="{$menu.href|default='#'}" placeholder="请输入菜单链接">
         </div>
     </div>
 
@@ -35,17 +35,15 @@
         <div class="magb15 layui-col-md4 layui-col-xs12">
             <label class="layui-form-label">图标编码</label>
             <div class="layui-input-block">
-                <input type="text" name="icon" class="layui-input icon" lay-verify="icon" value="{$menu.icon|default=''}" placeholder="请输入图标编码">
+                <input type="text" id="icon" class="layui-input" lay-verify="icon" value="{$menu.icon|default=''}" placeholder="请输入图标编码">
             </div>
         </div>
 
         <div class="magb15 layui-col-md4 layui-col-xs12">
-            {if !empty($menu.icon)}
             <label class="layui-form-label">图标样式</label>
             <span class='layui-btn layui-btn-primary' style='padding:0 12px;min-width:45px'>
                 <i id='icon-preview' class="layui-icon" data-icon="{$menu.icon|raw|default=''}">{$menu.icon|raw|default=''}</i>
              </span>
-            {/if}
             <button data-icon='icon' type='button' class='layui-btn layui-btn-primary select_icon'>选择图标</button>
         </div>
 
@@ -53,7 +51,7 @@
         <div class="magb15 layui-col-md4 layui-col-xs12">
             <label class="layui-form-label">菜单排序</label>
             <div class="layui-input-block">
-                <input type="text" name="sort" class="layui-input sort" lay-verify="sort" value="{$menu.sort|default='0'}" placeholder="请输入排序">
+                <input type="text" id="sort" class="layui-input" lay-verify="sort" value="{$menu.sort|default='0'}" placeholder="请输入排序">
             </div>
         </div>
     </div>
@@ -61,17 +59,17 @@
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">备注信息</label>
         <div class="layui-input-block">
-            <textarea placeholder="请输入备注信息" class="layui-textarea remark">{$menu.remark|default=''}</textarea>
+            <textarea id="remark" placeholder="请输入备注信息" class="layui-textarea">{$menu.remark|default=''}</textarea>
         </div>
     </div>
 
     {if !empty($menu)}
-    <input type="hidden" class="id" name="id" value="{$menu.id|default=''}">
+    <input type="hidden" class="id" id="id" value="{$menu.id|default=''}">
     {/if}
 
     <div class="layui-form-item layui-row layui-col-xs12">
         <div class="layui-input-block">
-            <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addMenu">立即添加</button>
+            <button class="layui-btn layui-btn-sm" id="addBtn">立即添加</button>
             <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
         </div>
     </div>
@@ -80,65 +78,49 @@
 
 {block name="script"}
 <script>
-    layui.use(['form', 'layer'], function () {
-        var form = layui.form
-        layer = parent.layer === undefined ? layui.layer : top.layer,
-            $ = layui.jquery;
 
-        form.on("submit(addMenu)", function (data) {
-            //弹出loading
-            var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
-            // 实际使用时的提交信息
-            $.post("{if empty($menu)}{:url('@admin/menu/add')}{else/}{:url('@admin/menu/edit')}{/if}", {
-                id: $(".id").val(),
-                pid: data.field.pid,  //登录名
-                title: $(".title").val(),  //邮箱
-                href: $(".href").val(),  //性别
-                icon: $(".icon").val(),  //性别
-                sort: $(".sort").val(),  //性别
-                status: data.field.status,    //用户状态
-                remark: $(".remark").val(),    //用户简介
-            }, function (res) {
-                console.log(res);
-                if (res.code == 0) {
-                    layer.msg(res.msg, {icon: 1}, function () {
-                        layer.closeAll("iframe");
-                        parent.location.reload();
-                    });
-                } else {
-                    layer.msg(res.msg, {icon: 2});
-                }
+    /**
+     * 添加、编辑
+     */
+    $("#addBtn").on("click", function () {
+        var url = "{if empty($menu.id)}{:url('@admin/menu/add')}{else/}{:url('@admin/menu/edit')}{/if}";
+        var data = {
+            id: $("#id").val(),
+            pid: $("#pid").val(),
+            title: $("#title").val(),
+            href: $("#href").val(),
+            icon: $("#icon").val(),
+            sort: $("#sort").val(),
+            remark: $("#remark").val(),
+        };
+        $.request.post(url, data, function (res) {
+            $.msg.success(res.msg, function () {
+                $.tool.reload();
             })
-            return false;
         })
+        return false;
+    });
 
-        //格式化时间
-        function filterTime(val) {
-            if (val < 10) {
-                return "0" + val;
-            } else {
-                return val;
+    /**
+     * 选择图标并且自动填充
+     */
+    $(".select_icon").click(function () {
+        var selectIcon = layer.open({
+            title: "选择图标",
+            type: 2,
+            area: ['800px', '500px'],
+            content: "{:url('@admin/icon/index')}",
+            success: function (layero, selectIcon) {
+                var body = layer.getChildFrame('body', selectIcon);
+            },
+            end: function () {
+                var icon = window.sessionStorage.getItem("icon");
+                $('#icon').attr('value', icon);
+                $('#icon-preview').attr('data-icon', icon);
+                $("#icon-preview").html(icon);
+                window.sessionStorage.removeItem("icon");
             }
-        }
-
-
-        $(".select_icon").click(function () {
-            var selectIcon = layui.layer.open({
-                title: "选择图标",
-                type: 2,
-                area: ['800px', '500px'],
-                content: "{:url('@admin/icon/index')}",
-                success: function (layero, selectIcon) {
-                    var body = layui.layer.getChildFrame('body', selectIcon);
-                }
-            })
-            // layui.layer.full(index);
-            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-            $(window).on("resize", function () {
-                layui.layer.full(index);
-            })
         })
-
     })
 </script>
 {/block}

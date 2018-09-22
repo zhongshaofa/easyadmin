@@ -32,7 +32,7 @@ class Comment extends ModelService {
      * @return \think\model\relation\HasOne
      */
     public function articleInfo() {
-        return $this->hasOne("Article", "id", "article_id")->joinType('left');
+        return $this->hasOne("Article", "id", "article_id")->joinType('left')->where(['status' => 0, 'is_deleted' => 0]);
     }
 
     /**
@@ -79,6 +79,22 @@ class Comment extends ModelService {
             return __error('数据有误，请稍后再试！');
         }
         $this->commit();
-        return __success('添加成功！');
+        return __success('添加评论成功！');
+    }
+
+    /**
+     * 获取单个会员的评论信息
+     * @param     $member_id
+     * @param int $page
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
+    public function getMemberComment($member_id, $page = 10) {
+        $list = $this->where(['member_id' => $member_id, 'status' => 0, 'is_deleted' => 0])->order('create_at', 'desc')
+            ->paginate($page, false, ['query' => ['member_id' => $member_id]])
+            ->each(function ($item, $key) {
+                $item['articleInfo'] = model('Article')->where(['id' => $item['article_id'], 'status' => 0, 'is_deleted' => 0])->find();
+            });
+        return $list;
     }
 }

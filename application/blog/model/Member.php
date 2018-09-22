@@ -80,4 +80,13 @@ class Member extends ModelService {
         $this->commit();
         return __success('会员注册成功！');
     }
+
+    /**
+     * 获取用户信息
+     * @param $member_id
+     */
+    public function getMemberInfo($member_id) {
+        $info = $this->where(['id' => $member_id, 'status' => 0, 'is_deleted' => 0])->find();
+        return $info;
+    }
 }

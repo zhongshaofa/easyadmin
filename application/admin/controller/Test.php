@@ -29,15 +29,6 @@ class Test extends Controller {
      */
     public function index() {
         return $this->fetch();
-//        $redis = Cache::handler();
-//        for ($i = 0; $i < 50; $i++) {
-//            try {
-//                $redis->LPUSH('click', rand(1000, 5000));
-//            } catch (Exception $e) {
-//                return $e->getMessage();
-//            }
-//        }
-//        return "模拟队列";
     }
 
     public function test() {

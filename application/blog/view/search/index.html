@@ -27,6 +27,10 @@
     .search-select:hover {
         background-color: #6fa6e4 !important;
     }
+
+    .nav-sel-a{
+        font-size: 16px!important;
+    }
 </style>
 {/block}
 
@@ -57,9 +61,8 @@
 <div class="layui-main" style="min-height: 500px;">
     <div class="layui-row php-search">
         <div class='nav-sel'>
-            <ul>
-                <li {if empty($Think.get.category_id)} class='on' {
-                /if}> <a href="{:url('@blog/search')}?word={$Think.get.word|default=''}&type={$Think.get.type|default=''}">全站</a></li>
+            <ul class="nav-sel-a">
+                <li {if empty($Think.get.category_id)} class='on' {/if}> <a href="{:url('@blog/search')}?word={$Think.get.word|default=''}&type={$Think.get.type|default=''}">全站</a></li>
                 {foreach category_list as $vo}
                 <li {if $Think.get.category_id==$vo.id}class='on'{/if}><a href="{:url('@blog/search')}?word={$Think.get.word|default=''}&type={$Think.get.type|default=''}&category_id={$vo.id|default=''}">{$vo.title|default=''}</a></li>
                 {/foreach}
@@ -99,8 +102,6 @@
 <script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="/static/layui/layui.js"></script>
 <script type="text/javascript" src="/static/js/global.min.js?4.1.3">
-    <
-    script >
     (function () {
         var bp = document.createElement('script');
         var curProtocol = window.location.protocol.split(':')[0];

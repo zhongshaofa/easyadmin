@@ -17,11 +17,11 @@
         <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
             <div class="layui-form-item">
                 <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
-                <input type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="用户名" class="layui-input">
+                <input type="text" id="username" id="LAY-user-login-username" lay-verify="required" placeholder="用户名" class="layui-input">
             </div>
             <div class="layui-form-item">
                 <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
-                <input type="password" name="password" id="LAY-user-login-password" lay-verify="required" placeholder="密码" class="layui-input">
+                <input type="password" id="password" id="LAY-user-login-password" lay-verify="required" placeholder="密码" class="layui-input">
             </div>
 
             <!--判断是否开启验证码登录-->
@@ -30,7 +30,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs7">
                         <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" for="LAY-user-login-vercode"></label>
-                        <input type="text" name="vercode" id="LAY-user-login-vercode" placeholder="图形验证码" class="layui-input">
+                        <input type="text" id="vercode" name="vercode" id="LAY-user-login-vercode" placeholder="图形验证码" class="layui-input">
                     </div>
                     <div class="layui-col-xs5">
                         <div style="margin-left: 10px;">
@@ -46,7 +46,7 @@
                 <a href="#" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>
             </div>
             <div class="layui-form-item">
-                <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit">登 入</button>
+                <button class="layui-btn layui-btn-fluid" id="loginBtn">登 入</button>
 
             </div>
             <div class="layui-trans layui-form-item layadmin-user-login-other">
@@ -71,38 +71,23 @@
 {/block}
 
 {block name="script"}
-<script language="javascript" type="text/javascript">
-    if (top.location != self.location) top.location = self.location;
-</script>
 <script>
 
-    layui.use(['form', 'layer'], function () {
-        var form = layui.form
-        layer = parent.layer === undefined ? layui.layer : top.layer,
-            $ = layui.jquery;
-
-        //提交
-        form.on('submit(LAY-user-login-submit)', function (data) {
-            //请求登入接口
-            $.post(
-                "{:url('@admin/login')}",
-                data.field,
-                function (result) {
-                    console.log(result);
-                    if (result.code == 0) {
-                        layer.msg(result.msg, {icon: 1, time: 1000}, function () {
-                            window.location.href = "{:url('@admin')}";
-                        });
-                    }
-                    else {
-                        layer.msg(result.msg, {icon: 2, time: 5000});
-                    }
-                }
-            ).error(function () {
-                layer.msg('系统错误，请稍后再试');
-            });
-            return false;
+    /**
+     * 登录
+     */
+    $("#loginBtn").click(function () {
+        var data = {
+            username: $("#username").val(),
+            password: $("#password").val(),
+            vercode: $("#vercode").val(),
+        };
+        $.request.post("{:url('@admin/login')}", data, function (res) {
+            $.msg.success(res.msg, function () {
+                window.location.href = "{:url('@admin')}";
+            })
         });
+        return false;
     });
 </script>
 {/block}

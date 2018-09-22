@@ -47,8 +47,7 @@ class System extends AdminController {
                 if (!empty($node_list)) return __success('节点刷新成功！');
                 return __error('暂无数据变化');
             }
-
-            $modules = NodeService::getFolders();
+            $modules = NodeService::getFolders(env('app_path'));
             $module_list = [];
             foreach ($modules as $k => $val) {
                 $node = model('node')->where(['node' => $val, 'type' => 1])->find();
@@ -59,22 +58,17 @@ class System extends AdminController {
                 'title'       => '系统节点列表',
                 'module_list' => $module_list,
             ];
-            $this->assign($basic_data);
-
-            return $this->fetch('');
+            return $this->fetch('', $basic_data);
         } else {
             $post = $this->request->post();
             if (empty($post['module'])) return __error('请选中需要刷新节点的模块！');
             $node_list = NodeService::refreshNode($post['module']);
-
-            if (!empty($node_list)) {
-
+            if ($node_list['code'] == 0) {
                 //清空菜单缓存
                 clear_menu();
-
-                return __success('节点刷新成功！');
+                return __success($node_list['msg']);
             } else {
-                return __error('暂无数据变化');
+                return __error($node_list['msg']);
             }
         }
     }
@@ -91,21 +85,14 @@ class System extends AdminController {
             $basic_data = [
                 'title' => '清除失效节点',
             ];
-            $this->assign($basic_data);
-
-            return $this->fetch('');
+            return $this->fetch('', $basic_data);
         } else {
-            $sys_node = NodeService::getNodeList();
-            $node_list = model('node')->select();
-            $destroy = [];
-            foreach ($node_list as $vo_1) {
-                $is_exist = false;
-                foreach ($sys_node as $vo_2) $vo_1['node'] == $vo_2 && $is_exist = true;
-                $is_exist == false && $destroy[] = $vo_1['id'];
+            $clean = NodeService::cleanNode();
+            if ($clean['code'] == 0) {
+                return __success($clean['msg']);
+            } else {
+                return __error($clean['msg']);
             }
-            $is_delete = model('node')->destroy($destroy);
-            if ($is_delete) return __success('清除失效节点成功！');
-            return __error('暂无失效节点数据！');
         }
 
     }

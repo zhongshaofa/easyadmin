@@ -61,7 +61,6 @@ class BlogController extends Controller {
      */
     public function __construct() {
         parent::__construct();
-        $this->is_login && $this->checkLogin();
         $this->is_qiniu && $this->iniQiniu();
         $this->BlogInfo = Cache::get('BlogInfo');
         $module_controller = app('request')->module() . '/' . app('request')->controller();
@@ -69,6 +68,7 @@ class BlogController extends Controller {
         if ($module_controller != 'blog/Oauth') {
             $this->member = session('member');
             if (!empty($this->member)) $this->checkLoginOver($this->member);
+            $this->is_login && $this->checkLogin();
         }
     }
 
@@ -77,7 +77,7 @@ class BlogController extends Controller {
      */
     public function checkLogin() {
         if (empty(session('member.id'))) {
-            return $this->redirect('@blog/login');
+            return $this->redirect('@blog');
         }
     }
 
@@ -90,12 +90,7 @@ class BlogController extends Controller {
         if (!empty($LoginDuration) && isset($member['login_at'])) {
             if (time() - $member['login_at'] >= $LoginDuration) {
                 //记录退出登录日志
-                Db::name('BlogLoginRecord')->insert([
-                    'type'      => 0,
-                    'member_id' => $member['id'],
-                    'ip'        => get_ip(),
-                    'remark'    => '登录已过期，自动退出登录！',
-                ]);
+                $this->LoginRecord(3);
                 //清空会员数据缓存
                 $this->member = [];
                 session(null);
@@ -108,5 +103,45 @@ class BlogController extends Controller {
      */
     public function iniQiniu() {
         $this->assign(['qiniu_token' => QiniuService::getToken()]);
+    }
+
+    /**
+     * 记录登录日志
+     * @param int $type （0：主动退出登录，1：账户登录，2：QQ快捷登录,3：过期退出登录）
+     */
+    public function LoginRecord($type = 1) {
+        switch ($type) {
+            case 0:
+                $type = 0;
+                $remark = '【主动退出】正在退出博客系统！';
+                break;
+            case 1:
+                $type = 1;
+                $remark = '【账户登录】正在进入博客系统！';
+                break;
+            case 2:
+                $type = 1;
+                $remark = '【QQ快捷】正在进入博客系统！';
+                break;
+            case 3:
+                $type = 0;
+                $remark = '【登录过期】正在退出博客系统！';
+                break;
+            default:
+                $type = '3';
+                $remark = '【未知】';
+        }
+        $location_info = get_location();
+        Db::name('BlogLoginRecord')->insert([
+            'type'      => $type,
+            'member_id' => session('member.id'),
+            'ip'        => get_ip(),
+            'country'   => $location_info['country'],
+            'region'    => $location_info['region'],
+            'city'      => $location_info['city'],
+            'isp'       => $location_info['isp'],
+            'location'  => $location_info['country'] . $location_info['region'] . $location_info['city'] . $location_info['isp'],
+            'remark'    => $remark,
+        ]);
     }
 }

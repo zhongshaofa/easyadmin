@@ -412,3 +412,19 @@ if (!function_exists('code')) {
         return rand($min, $max);
     }
 }
+
+if (!function_exists('get_config')) {
+
+    /**
+     * 获取配置信息
+     * @param $group
+     * @param $name
+     */
+    function get_config($group, $name) {
+        $value = Db::name('SystemConfig')->where([
+            'group' => $group,
+            'name'  => $name,
+        ])->value('value');
+        return $value;
+    }
+}

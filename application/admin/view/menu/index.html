@@ -6,44 +6,57 @@
 
 {block name="cotent"}
 <form class="layui-form">
+    <blockquote id="search_value" class="layui-elem-quote">
 
-    <blockquote class="layui-elem-quote quoteBox">
-        <form class="layui-form">
-
-            <div class="layui-inline">
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input title" placeholder="请输入菜单名称"/>
-                </div>
-                <div class="layui-input-inline">
-                    <select name="status" class="status" lay-filter="status">
-                        <option value="">请选择菜单状态</option>
-                        {foreach $status as $vo}
-                        <option value="{$vo.id|default=''}">{$vo.title|default=''}</option>
-                        {/foreach}
-                    </select>
-                </div>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input href" placeholder="请输入菜单链接"/>
-                </div>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input create_at" id="create_at" placeholder="请选择创建时间">
-                </div>
-                <a class="layui-btn search_btn" data-type="reload">搜索</a>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">菜单名称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="title" class="layui-input" placeholder="请输入菜单名称"/>
             </div>
+        </div>
 
-            {if auth('admin/menu/add')}
-            <div class="layui-inline">
-                <a class="layui-btn layui-btn-normal addNews_btn">添加菜单</a>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">菜单状态</label>
+            <div class="layui-input-inline">
+                <select id="status" lay-filter="status">
+                    <option value="">请选择菜单状态</option>
+                    {foreach $status as $vo}
+                    <option value="{$vo.id|default=''}">{$vo.title|default=''}</option>
+                    {/foreach}
+                </select>
             </div>
-            {/if}
+        </div>
 
-            {if auth('admin/menu/del')}
-            <div class="layui-inline">
-                <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">菜单链接</label>
+            <div class="layui-input-inline">
+                <input type="text" id="href" class="layui-input href" placeholder="请输入菜单链接"/>
             </div>
-            {/if}
+        </div>
 
-        </form>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">创建时间</label>
+            <div class="layui-input-inline">
+                <input type="text" id="create_at" class="layui-input" id="create_at" placeholder="请选择创建时间">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <a id="search" class="layui-btn" data-type="reload">搜索</a>
+        </div>
+
+        {if auth('admin/menu/add')}
+        <div class="layui-form-item layui-inline">
+            <a class="layui-btn layui-btn-normal addNews_btn">添加</a>
+        </div>
+        {/if}
+
+        {if auth('admin/menu/del')}
+        <div class="layui-form-item layui-inline">
+            <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">删除</a>
+        </div>
+        {/if}
+
     </blockquote>
 
     <table id="userList" lay-filter="userList"></table>
@@ -56,8 +69,18 @@
     <!--操作-->
     <script type="text/html" id="userListBar">
 
+        {if auth('admin/menu/add')}
+
+        {{# if (d.is_add) { }}
+        <a class="layui-btn layui-btn-xs" value="{{d.id}}" lay-event="addDownMenu">添加下级</a>
+        {{# } else { }}
+        <a class="layui-btn layui-btn-xs color-99admin-gray" value="{{d.id}}">添加下级</a>
+        {{# } }}
+
+        {/if}
+
         {if auth('admin/menu/edit')}
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs layui-bg-blue" lay-event="edit">编辑</a>
         {/if}
 
         {if auth('admin/menu/del')}
@@ -78,28 +101,22 @@
             table = layui.table,
             laydate = layui.laydate;
 
-        //日期范围
-        laydate.render({
-            elem: '#create_at'
-            , range: true
-        });
+        /**
+         * 日期范围
+         */
+        $.laydate.range('create_at');
 
         //用户列表
         var tableIns = table.render({
             elem: '#userList',
             url: "{:url('@admin/menu/index')}?type=ajax",
             cellMinWidth: 95,
-            // page: true,
-            height: "full-125",
-            // skin: 'line',
-            // size: 'lg',
-            // even: true,
+            height: "full-80",
             limits: [500],
             limit: 500,
             id: "menuListTable",
             cols: [[
                 {type: "checkbox", fixed: "left", width: 50,},
-                // {field: 'id', title: 'ID', minWidth: 100, align: "center"},
                 {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center"},
                 {
                     field: 'icon', title: '图标', width: 100, align: 'center', templet: function (d) {
@@ -113,72 +130,73 @@
                 {field: 'title', title: '菜单名称', minWidth: 200, align: 'left'},
                 {
                     field: 'href', title: '链接地址', minWidth: 300, align: 'center', templet: function (d) {
-                        return '<a class="layui-blue" href="' + d.href + '" target="_blank">' + d.href + '</a>';
+                        return '<a class="layui-blue" href="/' + d.href + '" target="_blank">' + d.href + '</a>';
                     }
                 },
-                {field: 'create_at', title: '创建时间', align: 'center', sort: true},
                 {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
 
-                {if auth('admin/auth/edit') || auth('admin/auth/del')}
+                /**{if auth('admin/auth/add') || auth('admin/auth/edit') || auth('admin/auth/del')}**/
                 {title: '操作', minWidth: 110, templet: '#userListBar', fixed: "right", align: "center"},
-                {/if}
+                /**{/if}**/
 
             ]]
         });
 
-        //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
-        $(".search_btn").on("click", function () {
-            console.log($(".create_at").val());
-            if ($(".title").val() != '' || $(".create_at").val() != '' || $(".href").val() != '' || $(".status").val() != '') {
-                //执行重载
-                table.reload('menuListTable', {
-                    where: {
-                        //传参数
-                        select: {
-                            title: $(".title").val(),
-                            status: $(".status").val(),
-                            href: $(".href").val(),
-                            create_at: $(".create_at").val(),
-                        }
-                    }
-                });
-                console.log(data);
-                layer.msg('查询成功');
-            } else {
-                tableIns.reload();
-            }
+        /**
+         * 搜索信息
+         */
+        $("#search").on("click", function () {
+            var search = {
+                title: $("#title").val(),
+                href: $("#href").val(),
+                status: $("#status").val(),
+                create_at: $("#create_at").val(),
+            };
+            $.form.search('menuListTable', search, false);
+            return false;
         });
 
-        //添加菜单
+        /**
+         * 添加菜单
+         */
         function addMenu(edit) {
             var index = layui.layer.open({
                 title: "添加菜单",
                 type: 2,
-                // area: ['800px', '500px'],
                 content: "{:url('@admin/menu/add')}",
-                success: function (layero, index) {
-                    var body = layui.layer.getChildFrame('body', index);
-                    setTimeout(function () {
-                        layui.layer.tips('点击此处返回菜单列表', '.layui-layer-setwin .layui-layer-close', {
-                            tips: 3
-                        });
-                    }, 500)
-                }
             })
             layui.layer.full(index);
-            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
+            //改变窗口大小时，重置弹窗的宽高
             $(window).on("resize", function () {
                 layui.layer.full(index);
             })
         }
 
-        //编辑菜单
+        /**
+         * 编辑菜单
+         */
         function editMenu(edit) {
             var index = layui.layer.open({
                 title: "修改菜单",
                 type: 2,
-                // area: ['800px', '500px'],
                 content: "{:url('@admin/menu/edit')}?id=" + edit.id,
+            })
+            layui.layer.full(index);
+            //改变窗口大小时，重置弹窗的宽高
+            $(window).on("resize", function () {
+                layui.layer.full(index);
+            })
+        }
+
+        /**
+         * 添加下级菜单
+         * @param id
+         */
+        function addDownMenu(id) {
+            var index = layui.layer.open({
+                title: "修改菜单",
+                type: 2,
+                content: "{:url('@admin/menu/add')}?pid=" + id,
                 success: function (layero, index) {
                     var body = layui.layer.getChildFrame('body', index);
                     setTimeout(function () {
@@ -287,7 +305,10 @@
             var layEvent = obj.event,
                 data = obj.data;
 
-            if (layEvent === 'edit') { //编辑
+            if (layEvent === 'addDownMenu') { //新增下级
+                console.log(data.id);
+                addDownMenu(data.id);
+            } else if (layEvent === 'edit') { //编辑
                 console.log(data);
                 editMenu(data);
             } else if (layEvent === 'usable') { //启用禁用
@@ -297,7 +318,6 @@
                 if (_this.text() == "已禁用") {
                     usableText = "是否确定启用此用户？",
                         btnText = "已启用";
-                    console.log('3333333333');
                     console.log(data);
                 }
                 layer.confirm(usableText, {

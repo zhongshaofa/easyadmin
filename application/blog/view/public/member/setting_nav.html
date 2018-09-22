@@ -1,0 +1,22 @@
+<div class="layui-col-md2 php-user-left">
+    <div class='avator-info'>
+        <img src="{$Think.session.member.head_img}" width='92' height=92>
+    </div>
+    <div class='avator-title'>{if empty($Think.session.member.nickname)}暂未设置昵称{else/}{$Think.session.member.nickname}{/if}</div>
+    <div class='avator-auth-list'>
+        <ul>
+            <li><i class="layui-icon">&#xe612;</i></li>
+            <li><i class="layui-icon">&#xe705;</i></li>
+            <li><i class="layui-icon">&#xe63b;</i></li>
+            <li><i class="layui-icon">&#xe63c;</i></li>
+        </ul>
+    </div>
+    <div class='nav-list layui-clear'>
+        <div class='accounts-info'>帐号信息</div>
+        <ul>
+            <li {eq name="nav_top" value="setting" } class='selected'{/eq}><a href="{:url('@blog/setting')}">账号绑定<span><i class="layui-icon">&#xe602;</i></span></a></li>
+            <li {eq name="nav_top" value="setting_info" } class='selected'{/eq}><a href="{:url('@blog/setting/info')}">个人信息<span><i class="layui-icon">&#xe602;</i></span></a></li>
+            <li {eq name="nav_top" value="operat_log" } class='selected'{/eq}><a href="{:url('@blog/setting/login_log')}">登录记录<span><i class="layui-icon">&#xe602;</i></span></a></li>
+        </ul>
+    </div>
+</div>

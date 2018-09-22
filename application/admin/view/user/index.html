@@ -7,59 +7,78 @@
 {block name="cotent"}
 <form class="layui-form">
     <blockquote class="layui-elem-quote quoteBox">
-        <form class="layui-form">
-            <div class="layui-inline">
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input username" placeholder="请输入用户名"/>
-                </div>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input phone" placeholder="请输入手机号"/>
-                </div>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input mail" placeholder="请输入邮箱"/>
-                </div>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input qq" placeholder="请输入qq"/>
-                </div>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input create_at" id="create_at" placeholder="请选择创建时间">
-                </div>
-                <a class="layui-btn search_btn" data-type="reload">搜索</a>
-            </div>
 
-            {if auth('admin/user/add')}
-            <div class="layui-inline">
-                <a class="layui-btn layui-btn-normal addNews_btn">添加用户</a>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">用户名称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="username" class="layui-input" placeholder="请输入用户名"/>
             </div>
-            {/if}
+        </div>
 
-            {if auth('admin/user/del')}
-            <div class="layui-inline">
-                <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">手机号码</label>
+            <div class="layui-input-inline">
+                <input type="text" id="phone" class="layui-input" placeholder="请输入手机号"/>
             </div>
-            {/if}
+        </div>
 
-        </form>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">邮箱账号</label>
+            <div class="layui-input-inline">
+                <input type="text" id="mail" class="layui-input" placeholder="请输入邮箱账号"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">QQ号码</label>
+            <div class="layui-input-inline">
+                <input type="text" id="qq" class="layui-input" placeholder="请输入QQ号码"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">创建时间</label>
+            <div class="layui-input-inline">
+                <input type="text" id="create_at" class="layui-input " placeholder="请选择创建时间">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <a id="searchBtn" class="layui-btn" data-type="reload">搜索</a>
+        </div>
+
+        {if auth('admin/user/add')}
+        <div class="layui-form-item layui-inline">
+            <a id="addBtn" class="layui-btn layui-btn-normal">添加</a>
+        </div>
+        {/if}
+
+        {if auth('admin/user/del')}
+        <div class="layui-form-item layui-inline">
+            <a id="delAllBtn" class="layui-btn layui-btn-danger layui-btn-normal">删除</a>
+        </div>
+        {/if}
+
     </blockquote>
-    <table id="userList" lay-filter="userList"></table>
+    <table id="userTable" lay-filter="userTable"></table>
 
     <script type="text/html" id="checkStatus">
         <input type="checkbox" name="{{d.id}}" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="modifyStatus" {{ d.status== 1 ? 'checked' : '' }}>
     </script>
 
     <!--操作-->
-    <script type="text/html" id="userListBar">
+    <script type="text/html" id="userTableBar">
 
         {if auth('admin/user/edit_password')}
-        <a class="layui-btn layui-btn-xs layui-btn-green" lay-event="edit_password">修改密码</a>
+        <a class="layui-btn layui-btn-xs layui-btn-green" lay-event="editPasswordBtn">修改密码</a>
         {/if}
 
         {if auth('admin/user/edit')}
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="editBtn">编辑</a>
         {/if}
 
         {if auth('admin/user/del')}
-        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delBtn">删除</a>
         {/if}
 
     </script>
@@ -76,264 +95,124 @@
             table = layui.table,
             laydate = layui.laydate;
 
-        //日期范围
-        laydate.render({
-            elem: '#create_at'
-            , range: true
+        /**
+         * 日期范围
+         */
+        $.laydate.range('create_at');
+
+        /**
+         * 生成表单
+         */
+        var tableIns = $.form.table('user', "{:url('@admin/user/index')}?type=ajax", [[
+            {type: "checkbox", fixed: "left", width: 50},
+            {field: 'username', title: '用户名', minWidth: 100, align: "center"},
+            {field: 'phone', title: '用户手机', align: 'center'},
+            {
+                field: 'mail', title: '用户邮箱', minWidth: 200, align: 'center', templet: function (d) {
+                    return '<a class="layui-blue" href="#">' + d.mail + '</a>';
+                }
+            },
+            {field: 'qq', title: '用户QQ', align: 'center'},
+            {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
+            {field: 'auth_title', title: '权限配置', minWidth: 100, align: "center"},
+            {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
+
+            /**{if auth('admin/user/edit') || auth('admin/user/del') || auth('admin/user/edit_password')}**/
+            {title: '操作', minWidth: 175, templet: '#userTableBar', fixed: "right", align: "center"}
+            /**{/if}**/
+        ]])
+
+        /**
+         * 表单搜索
+         */
+        $("#searchBtn").on("click", function () {
+            var search = {
+                username: $("#username").val(),
+                phone: $("#phone").val(),
+                mail: $("#mail").val(),
+                qq: $("#qq").val(),
+                create_at: $("#create_at").val(),
+            };
+            $.form.search('userTableId', search);
+            return false;
         });
 
-        //用户列表
-        var tableIns = table.render({
-            elem: '#userList',
-            url: "{:url('@admin/user/index')}?type=ajax",
-            cellMinWidth: 95,
-            page: true,
-            height: "full-125",
-            limits: [10, 15, 20, 25],
-            limit: 20,
-            id: "userListTable",
-            cols: [[
-                {type: "checkbox", fixed: "left", width: 50},
-                {field: 'username', title: '用户名', minWidth: 100, align: "center"},
-                {field: 'phone', title: '用户手机', align: 'center'},
-                {
-                    field: 'mail', title: '用户邮箱', minWidth: 200, align: 'center', templet: function (d) {
-                        return '<a class="layui-blue" href="#">' + d.mail + '</a>';
-                    }
-                },
-                {field: 'qq', title: '用户QQ', align: 'center'},
-                {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
-                {field: 'auth_title', title: '权限配置', minWidth: 100, align: "center"},
-                {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
-
-                /**{if auth('admin/user/edit') || auth('admin/user/del') || auth('admin/user/edit_password')}**/
-                {title: '操作', minWidth: 175, templet: '#userListBar', fixed: "right", align: "center"}
-                /**{/if}**/
-            ]]
+        /**
+         * 添加信息
+         */
+        $("#addBtn").on("click", function () {
+            $.form.open('添加用户', "{:url('@admin/user/add')}", "800px", "600px")
+            return false;
         });
 
-        //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
-        $(".search_btn").on("click", function () {
-
-            if ($(".searchVal").val() != '') {
-                //执行重载
-                table.reload('userListTable', {
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    , where: {
-                        //传参数
-                        select: {
-                            username: $(".username").val(),
-                            phone: $(".phone").val(),
-                            mail: $(".mail").val(),
-                            qq: $(".qq").val(),
-                            create_at: $(".create_at").val(),
-                        }
-
-                    }
-                });
-                console.log(data);
-                layer.msg('查询成功');
-                // console.log('搜索开始');
-                // table.reload("newsListTable", {
-                //     page: {
-                //         curr: 1 //重新从第 1 页开始
-                //     },
-                //     where: {
-                //         key: $(".searchVal").val()  //搜索的关键字
-                //     }
-                // })
-            } else {
-                layer.msg("请输入搜索的内容");
-            }
-        });
-
-        //添加用户
-        function addUser(edit) {
-            var index = layui.layer.open({
-                title: "添加用户",
-                type: 2,
-                content: "{:url('@admin/user/add')}",
-                success: function (layero, index) {
-                    var body = layui.layer.getChildFrame('body', index);
-                    if (edit) {
-                        body.find(".userName").val(edit.userName);  //登录名
-                        body.find(".userEmail").val(edit.userEmail);  //邮箱
-                        body.find(".userSex input[value=" + edit.userSex + "]").prop("checked", "checked");  //性别
-                        body.find(".userGrade").val(edit.userGrade);  //会员等级
-                        body.find(".userStatus").val(edit.userStatus);    //用户状态
-                        body.find(".userDesc").text(edit.userDesc);    //用户简介
-                        form.render();
-                    }
-                    setTimeout(function () {
-                        layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
-                            tips: 3
-                        });
-                    }, 500)
-                }
-            })
-            layui.layer.full(index);
-            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-            $(window).on("resize", function () {
-                layui.layer.full(index);
-            })
-        }
-
-        //编辑用户
-        function editUser(edit) {
-            var index = layui.layer.open({
-                title: "编辑用户",
-                type: 2,
-                content: "{:url('@admin/user/edit')}?id=" + edit.id,
-                success: function (layero, index) {
-                    var body = layui.layer.getChildFrame('body', index);
-                    setTimeout(function () {
-                        layui.layer.tips('点击此处返回菜单列表', '.layui-layer-setwin .layui-layer-close', {
-                            tips: 3
-                        });
-                    }, 500)
-                }
-            })
-            layui.layer.full(index);
-            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-            $(window).on("resize", function () {
-                layui.layer.full(index);
-            })
-        }
-
-        //修改密码
-        function edit_passwordUser(edit) {
-            var index = layui.layer.open({
-                title: "修改密码",
-                type: 2,
-                area: ['800px', '500px'],
-                content: "{:url('@admin/user/edit_password')}?id=" + edit.id,
-                success: function (layero, index) {
-                    var body = layui.layer.getChildFrame('body', index);
-                    setTimeout(function () {
-                        layui.layer.tips('点击此处返回角色列表', '.layui-layer-setwin .layui-layer-close', {
-                            tips: 3
-                        });
-                    }, 500)
-                }
-            })
-            // layui.layer.full(index);
-            //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-            $(window).on("resize", function () {
-                layui.layer.full(index);
-            })
-        }
-
-
-        $(".addNews_btn").click(function () {
-            addUser();
-        })
-
-        //批量删除
-        //批量删除
-        $(".delAll_btn").click(function () {
-            var checkStatus = table.checkStatus('userListTable'),
+        /**
+         * 批量删除
+         */
+        $("#delAllBtn").on("click", function () {
+            var checkStatus = table.checkStatus('userTableId'),
                 data = checkStatus.data,
                 menuId = [];
             if (data.length > 0) {
                 for (let i in data) {
                     menuId.push(data[i].id);
                 }
-                layer.confirm('确定删除选中的菜单？', {icon: 3, title: '提示信息'}, function (index) {
-                    console.log(menuId);
-                    $.get("{:url('@admin/user/del')}", {
-                        id: menuId  //将需要删除的menuId作为参数传入
-                    }, function (data) {
-                        console.log(data);
-                        if (data.code == 0) {
-                            layer.msg(data.msg, {icon: 1}, function () {
-                                tableIns.reload();
-                            });
-                        } else {
-                            layer.msg(data.msg, {icon: 2});
-                        }
+                $.msg.confirm('确定删除？', function () {
+                    $.request.get("{:url('@admin/user/del')}", {id: menuId}, function (res) {
+                        $.msg.success(res.msg, function () {
+                            $.tool.reload();
+                        })
                     })
-                })
+                });
             } else {
-                layer.msg("请选择需要删除的用户");
+                $.msg.error('请选择需要删除的用户!');
             }
-        })
+        });
 
-        //监听状态操作
+        /**
+         * 修改状态
+         */
         form.on('switch(modifyStatus)', function (obj) {
-            console.log(this.name);
-            $.get("{:url('@admin/user/status')}", {
-                id: this.name  //将需要删除的newsId作为参数传入
-            }, function (data) {
-                console.log(data);
-                if (data.code == 0) {
-                    layer.msg(data.msg, {icon: 1});
-                } else {
-                    layer.msg(data.msg, {icon: 2}, function () {
-                        tableIns.reload();
-                        layer.close(index);
-                    });
-                }
-            }).error(function () {
-                layer.msg('系统错误，请稍后再试', {icon: 2}, function () {
-                    tableIns.reload();
+            $.request.get("{:url('@admin/user/status')}", {id: this.name}, function (res) {
+                $.msg.success(res.msg, function () {
+                    $.tool.reload();
                 });
             });
             return false;
         });
 
-        //列表操作
-        table.on('tool(userList)', function (obj) {
+        /**
+         * 工具栏操作
+         */
+        table.on('tool(userTable)', function (obj) {
             var layEvent = obj.event,
                 data = obj.data;
 
-            if (layEvent === 'edit') { //编辑
-                editUser(data);
-            } else if (layEvent === 'edit_password') {
-                edit_passwordUser(data);
-            } else if (layEvent === 'usable') { //启用禁用
-                var _this = $(this),
-                    usableText = "是否确定禁用此用户？",
-                    btnText = "已禁用";
-                if (_this.text() == "已禁用") {
-                    usableText = "是否确定启用此用户？",
-                        btnText = "已启用";
-                    console.log('3333333333');
-                    console.log(data);
-                }
-                layer.confirm(usableText, {
-                    icon: 3,
-                    title: '系统提示',
-                    cancel: function (index) {
-                        console.log('1111111111');
-                        layer.close(index);
-                    }
-                }, function (index) {
-                    _this.text(btnText);
-                    layer.close(index);
-                }, function (index) {
-                    layer.close(index);
-                });
-            } else if (layEvent === 'del') { //删除
-                layer.confirm('确定删除此用户？', {icon: 3, title: '提示信息'}, function (index) {
-                    $.get("{:url('@admin/user/del')}", {
-                        id: data.id  //将需要删除的newsId作为参数传入
-                    }, function (data) {
-                        console.log(data);
-                        if (data.code == 0) {
-                            layer.msg(data.msg, {icon: 1}, function () {
-                                tableIns.reload();
-                                layer.close(index);
-                            });
-                        } else {
-                            layer.msg(data.msg, {icon: 2});
-                        }
+            //编辑
+            if (layEvent === 'editBtn') {
+                var url = "{:url('@admin/user/edit')}?id=" + data.id;
+                $.form.open('编辑', url, "800px", "500px");
+                return false;
+            }
+
+            //修改密码
+            else if (layEvent === 'editPasswordBtn') {
+                var url = "{:url('@admin/user/edit_password')}?id=" + data.id;
+                $.form.open('修改密码', url, "800px", "500px");
+                return false;
+            }
+
+            //删除用户
+            else if (layEvent === 'delBtn') {
+                $.msg.confirm('确定删除？', function () {
+                    $.request.get("{:url('@admin/user/del')}", {id: data.id}, function (res) {
+                        $.msg.success(res.msg, function () {
+                            $.tool.reload();
+                        })
                     })
                 });
+                return false;
             }
         });
-
     })
 </script>
 {/block}

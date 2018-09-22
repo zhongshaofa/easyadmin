@@ -39,11 +39,11 @@
                         {if !empty($Think.session.member)}
                         <a href="javascript:;"><img class="avatar radius" src="{if !empty($Think.session.member.head_img)}{$Think.session.member.head_img}{else/}__STATIC__/image/blog/face3.jpg{/if}" alt="个人头像"> {if !empty($Think.session.member.nickname)}{$Think.session.member.nickname}{else/}{$Think.session.member.username}{/if}</a>
                         <ul class="dropDown-menu menu radius box-shadow">
-                            <li><a href="{:url('@blog/member')}">个人中心</a></li>
-                            <li><a id="loginOut">退出登录</a></li>
+                            <li><a data-href="{:url('@blog/member')}">个人中心</a></li>
+                            <li><a data-title="确定退出登录？" data-confirm="{:url('@blog/login/out')}">退出登录</a></li>
                         </ul>
                         {else/}
-                        <a href="{:url('@blog/login')}" onclick="layer.msg('正在登入', {icon:16, shade: 0.1, time:0})">
+                        <a data-title="会员登录" data-open="{:url('@blog/login')}" data-width="450px" data-height="520px">
                             <button class="btn btn-primary radius">会员登录</button>
                         </a>
                         {/if}

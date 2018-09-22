@@ -7,12 +7,15 @@
         font-size: 25px;
         text-align: center;
     }
+
     .seraph.icon-qq:hover {
         color: #0288d1;
     }
+
     .seraph.icon-wechat:hover {
         color: #00d20d;
     }
+
     .seraph.icon-sina:hover {
         color: #d32f2f;
     }
@@ -47,11 +50,11 @@
 
                 <div class="item_box">
                     <div class="type">快捷登录</div>
-                    <div class="value"><a href="#" id="loginQQ"><img src="__STATIC__/image/blog/Connect_logo_3.png"></a></div>
+                    <div class="value"><a data-href="{:url('@blog/oauth/index')}"><img src="__STATIC__/image/blog/Connect_logo_3.png"></a></div>
                     <!--<div>-->
-                        <!--<a href="javascript:;" id="loginQQ" class="seraph icon-qq layui-col-xs2 layui-col-sm2 layui-col-md2 layui-col-lg2"></a>-->
-                        <!--<a href="javascript:;" class="seraph icon-wechat layui-col-xs2 layui-col-sm2 layui-col-md2 layui-col-lg2"></a>-->
-                        <!--<a href="javascript:;" class="seraph icon-sina layui-col-xs2 layui-col-sm2 layui-col-md2 layui-col-lg2"></a>-->
+                    <!--<a href="javascript:;" id="loginQQ" class="seraph icon-qq layui-col-xs2 layui-col-sm2 layui-col-md2 layui-col-lg2"></a>-->
+                    <!--<a href="javascript:;" class="seraph icon-wechat layui-col-xs2 layui-col-sm2 layui-col-md2 layui-col-lg2"></a>-->
+                    <!--<a href="javascript:;" class="seraph icon-sina layui-col-xs2 layui-col-sm2 layui-col-md2 layui-col-lg2"></a>-->
                     <!--</div>-->
                 </div>
 
@@ -60,7 +63,7 @@
         <div class="main_right">
             <div class="tips">我们诚挚的邀请您加入<br/>久久PHP社区！</div>
             <div class="box">
-                还没有账户：<a href="{:url('@blog/login/register')}">马上注册</a><br/><br/>
+                还没有账户：<a data-href="{:url('@blog/login/register')}">马上注册</a><br/><br/>
             </div>
         </div>
     </div>
@@ -68,39 +71,17 @@
 {/block}
 
 {block name="script"}
-<script type="text/javascript" charset="utf-8"
-        src="http://connect.qq.com/qc_jssdk.js"
-        data-appid="APPID"
-        data-redirecturi="REDIRECTURI"
-></script>
 <script>
     /**
      * 会员登录
      */
     $("#loginBt").click(function () {
-        $.post("{:url('@blog/login')}", {
-            username: $("#username").val(),
-            password: $("#password").val(),
-            vercode: $("#vercode").val(),
-        }, function (res) {
-            console.log(res);
-            if (res.code == 0) {
-                layer.msg(res.msg, {icon: 1}, function () {
-                    window.location.href = "{:url('@blog')}";
-                });
-            } else {
-                layer.msg(res.msg, {icon: 2});
-            }
-        })
-        return false;
-    });
-
-    /**
-     * QQ快捷登录
-     */
-    $("#loginQQ").click(function () {
-        console.log('QQ快捷登录');
-        window.location.href="{:url('@blog/oauth/index')}";
+        var data = {username: $("#username").val(), password: $("#password").val(), vercode: $("#vercode").val()}
+        $.request.post("{:url('@blog/login')}", data, function (res) {
+            $.msg.success(res.msg, function () {
+                window.location.href = "{:url('@blog')}";
+            });
+        });
         return false;
     });
 </script>

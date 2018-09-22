@@ -1,0 +1,99 @@
+{extend name="blog@public/basic" /}
+
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/blog/other-style.css"/>
+{/block}
+
+{block name="cotent"}
+<div class="layui-main">
+    <div class="layui-row php-user-info">
+        {include file="blog@public/member/setting_nav"/}
+        <div class="layui-col-md10 php-user-right">
+            <div class='title-login'>
+                上次登录时间：{$last_time|default='<span class="layui-red">暂无记录</span>'|raw} <a href="{:url('@blog/setting/login_log')}">查看最近登录记录</a>
+            </div>
+            <div class='common-title'>
+                账号绑定 <!--<span>完成<i>4/4</i></span>-->
+            </div>
+            <div class='set'>
+                <ul>
+                    <li class='email'>
+                        <i class="layui-icon">&#xe66f;</i>
+                    </li>
+                    <li class='info'>
+                        <p><span>账号  </span>{if !empty($member_info.username)}已绑定{else/}<span class="layui-red">未绑定</span>{/if}</p>
+                        <p>可用账号加密码登录久久PHP社区</p>
+                    </li>
+                    <li class='updata'>
+                        <a href='javascript:;' class='layui-btn layui-btn-radius layui-bg-gray' data-title="{if !empty($member_info.username)}更改{else/}绑定{/if}账号" data-open="{:url('@blog/setting/form_username')}" data-height="300px" data-width="500px">{if !empty($member_info.username)}更改{else/}绑定{/if}</a>
+                    </li>
+                </ul>
+                <ul class='layui-clear'>
+                    <li class='email'>
+                        <i class="layui-icon">&#xe665;</i>
+                    </li>
+                    <li class='info'>
+                        <p><span>邮箱  </span>{if !empty($member_info.email)}已绑定{else/}<span class="layui-red">未绑定</span>{/if}</p>
+                        <p>可用邮箱找回密码</p>
+                    </li>
+                    <li class='updata'>
+                        <a href='javascript:;' class='layui-btn layui-btn-radius layui-bg-gray' data-title="{if !empty($member_info.username)}更改{else/}绑定{/if}邮箱" data-open="{:url('@blog/setting/form_email')}" data-height="300px" data-width="500px">{if !empty($member_info.email)}更改{else/}绑定{/if}</a>
+                    </li>
+                </ul>
+                <ul class='layui-clear'>
+                    <li class='email'>
+                        <i class="layui-icon">&#xe63b;</i>
+                    </li>
+                    <li class='info'>
+                        <p><span>手机  </span>{if !empty($member_info.phone)}已绑定{else/}<span class="layui-red">未绑定</span>{/if}</p>
+                        <p>可用手机号找回密码</p>
+                    </li>
+                    <li class='updata'>
+                        <a href='javascript:;' class='layui-btn layui-btn-radius layui-bg-gray'>{if !empty($member_info.phone)}更改{else/}绑定{/if}</a>
+                    </li>
+                </ul>
+                <ul class='layui-clear'>
+                    <li class='email'>
+                        <i class="layui-icon">&#xe673;</i>
+                    </li>
+                    <li class='info'>
+                        <p><span>密码  </span>{if !empty($member_info.password)}已绑定{else/}<span class="layui-red">未绑定</span>{/if}</p>
+                        <p>可用账号加密码登录久久PHP社区</p>
+                    </li>
+                    <li class='updata'>
+                        <a href='javascript:;' class='layui-btn layui-btn-radius layui-bg-gray' onclick="set_pwd()">{if !empty($member_info.password)}更改{else/}绑定{/if}</a>
+                    </li>
+                </ul>
+                <ul class='layui-clear'>
+                    <li class='email'>
+                        <i class="layui-icon">&#xe63c;</i>
+                    </li>
+                    <li class='info'>
+                        <p><span> 第三方登陆 </span></p>
+                        <p>{if !empty($member_info.openid)}可使用QQ进行快捷登录{else/}<span class="layui-red">不可使用QQ进行登录</span>{/if}</p>
+                    </li>
+                    <li class='updata'>
+
+                    </li>
+                </ul>
+                <ul class='layui-clear other'>
+                    <li>
+
+                    </li>
+                    <li>
+
+
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{/block}
+
+{block name="script"}
+
+{/block}

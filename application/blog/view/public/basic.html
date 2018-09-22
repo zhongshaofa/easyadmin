@@ -19,12 +19,7 @@
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/blog/header.css"/>
     <link rel="stylesheet" type="text/css" href="__STATIC__/plugs/wangEditor-3.1.1/release/wangEditor.min.css"/>
     <link rel="stylesheet" href="__STATIC__/plugs/layui/css/layui.css" media="all"/>
-    <script type="text/javascript" src="__STATIC__/plugs/jquery-img/jquery.mousewheel.js"></script>
-    <script type="text/javascript" src="__STATIC__/plugs/jquery-img/jquery.imgZoom.js"></script>
-    <script type="text/javascript" src="__STATIC__/plugs/jquery-img/jquery.drag.js"></script>
-    <script type="text/javascript" src="__STATIC__/plugs/jquery-img/jquery.drag.js"></script>
     <!--<link rel="stylesheet" type="text/css" href="__STATIC__/css/blog/search.css"/>-->
-
     {block name="style"}{/block}
 
     <script type="application/x-javascript"> addEventListener("load", function () {
@@ -50,14 +45,12 @@
 
 <script type="text/javascript" src="__STATIC__/plugs/jquery/jquery-2.2.4.min.js"></script>
 <script type="text/javascript" src="__STATIC__/plugs/blog/layer/3.0/layer.js"></script>
-<script type="text/javascript" src="__STATIC__/plugs/layui/layui.js"></script>
+<script type="text/javascript" src="__STATIC__/plugs/layui/layui.all.js"></script>
 <script type="text/javascript" src="__STATIC__/plugs/blog/h-ui/js/H-ui.min.js"></script>
 <script type="text/javascript" src="__STATIC__/plugs/blog/pifu/pifu.js"></script>
 <script type="text/javascript" src="__STATIC__/js/blog/common.js"></script>
 <script type="text/javascript" src="__STATIC__/plugs/wangEditor-3.1.1/release/wangEditor.min.js"></script>
-<script type="text/javascript" src="__STATIC__/plugs/jquery-img/jquery.mousewheel.js"></script>
-<script type="text/javascript" src="__STATIC__/plugs/jquery-img/jquery.imgZoom.js"></script>
-<script type="text/javascript" src="__STATIC__/plugs/jquery-img/jquery.drag.js"></script>
+<script type="text/javascript" src="__STATIC__/blog.js"></script>
 <script>
     layui.use(['form', 'layer'], function () {
         var form = layui.form
@@ -67,27 +60,6 @@
         $(function () {
             $(window).on("scroll", backToTopFun);
             backToTopFun();
-        });
-
-        /**
-         * 退出登录
-         */
-        $("#loginOut").click(function () {
-            //弹出loading
-            var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
-            $.get("{:url('@blog/login/out')}",
-                function (res) {
-                    layer.closeAll('loading');
-                    console.log(res);
-                    if (res.code == 0) {
-                        layer.msg(res.msg, {icon: 1}, function () {
-                            parent.location.reload();
-                        });
-                    } else {
-                        layer.msg(res.msg, {icon: 2});
-                    }
-                })
-            return false;
         });
 
         /**

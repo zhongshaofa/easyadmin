@@ -72,7 +72,7 @@ a:hover { color:#FF6561; text-decoration:none;}
 .vip_left dl dd p{padding: 5px 26px;line-height: 1.7!important;margin:0;}
 .vip_left dl dd p a{color:#666666;font-size: 14px;font-family: "microsoft yahei";display: block;}
 .vip_left dl dd p:hover{background: #f0f1f5!important;border-left:3px solid #138fd1;margin-left: -3px;}
-.active{background: #f0f1f5!important;border-left:3px solid #138fd1;margin-left: -3px;}
+.active-member{background: #f0f1f5!important;border-left:3px solid #138fd1;margin-left: -3px;}
 /*�劽唱start*/
 .cus01{height:170px;padding:0px 20px;}
 .cusImg{width:127px;height:127px;overflow:hidden;margin:10px;float:left;}

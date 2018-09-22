@@ -163,14 +163,17 @@
             element = layui.element;
         $ = layui.jquery;
 
+        /**
+         * 复制图标编码至粘贴板
+         */
         $("body").on("click",".icons li",function(){
             var copyText = document.getElementById("copyText");
-            copyText.innerText = $(this).text();
+            copyText.innerText = $(this).html();
             copyText.select();
             document.execCommand("copy");
-            layer.msg("复制成功,可直接黏贴！",{icon: 1});
-            // var selectIcon = parent.layer.getFrameIndex(window.name);
-            // parent.layer.close(selectIcon);
+            window.sessionStorage.setItem("icon",$(this).text());
+            var selectIcon = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(selectIcon);
         })
     })
 </script>

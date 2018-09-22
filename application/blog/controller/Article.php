@@ -24,6 +24,12 @@ use app\blog\service\ArticleService;
 class Article extends BlogController {
 
     /**
+     * 开启登录控制
+     * @var bool
+     */
+    protected $is_login = false;
+
+    /**
      * 模型对象
      */
     protected $model = null;
