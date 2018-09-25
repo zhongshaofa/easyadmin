@@ -1,10 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{extend name="blog@public/basic" /}
 
-</body>
-</html>
+{block name="style"}
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/blog/other-style.css"/>
+<style type="text/css">
+	.user-info-list-flex{
+		display: flex; 
+		display: -webkit-flex;
+		display: -moz-flex;
+		align-items: center;
+		-webkit-align-items: center;
+		-moz-align-items: center;
+	}
+</style>
+{/block}
+
+{block name="cotent"}
+<div class="layui-main">
+    <div class="layui-row php-user-info">
+        {include file="blog@public/member/setting_nav"/}
+        <div class="layui-col-md10 php-user-right">
+            <div class='title-login'>
+                上次登录时间：{$last_time|default='<span class="layui-red">暂无记录</span>'|raw} <a href="{:url('@blog/setting/login_log')}">查看最近登录记录</a>
+            </div>
+            <div class='common-title'>
+                修改个人信息
+            </div>
+            <form method="post" action="">
+            <div class='user-info-list layui-clear '>
+                <li class='name-left'>头像</li>
+                <li class='name-right'>
+                    <img src="{$member_info.head_img|default=''}" alt="{$member_info.nickname|default=''}" width="150" height="150">
+                </li>
+            </div>
+            <div class='user-info-list layui-clear user-info-list-flex' style="">
+                <li class='name-left'>原昵称</li>
+                <li class='name-right'>{$member_info.nickname|default='<span class="layui-red">暂未设置</span>'|raw}</li>
+                <li class='name-left'>新昵称</li>
+                <li class='name-right'>
+                  <input type="text" name="nickname" lay-verify="title" autocomplete="off" placeholder="请输入新昵称" class="layui-input">
+                </li>
+            </div>
+            <div class='user-info-list layui-clear user-info-list-flex'>
+                <li class='name-left'>账号</li>
+                <li class='name-right'>{$member_info.username|default='<span class="layui-red">暂未设置</span>'|raw}</li>
+                <li class='name-right'></li>
+                <li class='name-right'>         
+                </li>
+            </div>
+            <div class='user-info-list layui-clear user-info-list-flex'>
+                <li class='name-left'>原手机</li>
+                <li class='name-right'>{$member_info.phone|default='<span class="layui-red">暂未设置</span>'|raw}</li>
+                <li class='name-left'>新手机</li>
+                <li class='name-right'>
+                  <input type="text" name="phone" lay-verify="title" autocomplete="off" placeholder="请输入新手机" class="layui-input">
+                </li>
+            </div>
+            <div class='user-info-list layui-clear user-info-list-flex'>
+                <li class='name-left'>原邮箱</li>
+                <li class='name-right'>{$member_info.email|default='<span class="layui-red">暂未设置</span>'|raw}</li>
+                <li class='name-left'>新邮箱</li>
+                <li class='name-right'>
+                  <input type="text" name="email" lay-verify="title" autocomplete="off" placeholder="请输入新邮箱" class="layui-input">
+                </li>
+            </div>
+            <div class='user-info-list layui-clear user-info-list-flex'>
+                <li class='name-left'>原个性签名</li>
+                <li class='name-right'>{$member_info.sign|default='<span class="layui-red">暂未设置</span>'|raw}</li>
+                <li class='name-left'>新个性签名</li>
+                <li class='name-right'>
+                  <input type="text" name="sign" lay-verify="title" autocomplete="off" placeholder="请输入新个性签名" class="layui-input">
+                </li>
+            </div>
+            <div class='user-info-list layui-clear user-info-list-flex'>
+                 <li class='name-left'></li>
+                <li class='name-right'></li>
+                <li class='name-left'>新密码</li>
+                <li class='name-right'>
+                  <input type="text" name="password" lay-verify="title" autocomplete="off" placeholder="请输入新密码" class="layui-input">
+                </li>
+            </div>
+            <div  class='user-info-edit'><button type="submit"  class="layui-btn layui-btn-primary" onclick="edit()">确认修改</button></div>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{/block}
+
+{block name="script"}
+
+{/block}

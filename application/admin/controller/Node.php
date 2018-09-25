@@ -44,7 +44,7 @@ class Node extends AdminController {
                 return json($this->model->nodeModuleList($this->request->get('module')));
             }
 
-            $module_list = $this->model->where(['type' => 1])->select()->toArray();
+            $module_list = $this->model->where(['type' => 1])->order(['node'=>'asc'])->select()->toArray();
             foreach ($module_list as $k => $val) $k == 0 ? $module_list[$k]['is_selectd'] = true : $module_list[$k]['is_selectd'] = false;
             //基础数据
             $basic_data = [

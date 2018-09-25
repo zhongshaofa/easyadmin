@@ -1,0 +1,100 @@
+{extend name="admin@public/basic" /}
+{block name="style"}{/block}
+<link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
+{block name="cotent"}
+<form class="layui-form" style="width:80%;">
+    <br>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">用户昵称</label>
+        <div class="layui-input-block">
+            <input type="text" id="nickname" class="layui-input" lay-verify="required" value="{$member.username|default=''}" placeholder="请输入管理账号">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">登录账户</label>
+        <div class="layui-input-block">
+            <input type="text" id="username" class="layui-input" lay-verify="required" value="{$member.username|default=''}" placeholder="请输入管理账号">
+        </div>
+    </div>
+
+    {if empty($member)}
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">初始密码</label>
+        <div class="layui-input-block">
+            <input type="password" id="password" class="layui-input" lay-verify="required" placeholder="请输入初始密码">
+        </div>
+    </div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">确认密码</label>
+        <div class="layui-input-block">
+            <input type="password" id="password1" class="layui-input" lay-verify="required" placeholder="请输入确认密码">
+        </div>
+    </div>
+    {/if}
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">手机</label>
+        <div class="layui-input-block">
+            <input type="text" id="phone" class="layui-input" value="{$member.phone|default=''}" placeholder="请输入手机">
+        </div>
+    </div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-block">
+            <input type="email" id="mail" class="layui-input" value="{$member.mail|default=''}" placeholder="请输入邮箱">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入备注信息" name="remark" class="layui-textarea remark">{$member.remark|default=''}</textarea>
+        </div>
+    </div>
+
+    {if !empty($member)}
+    <input type="hidden" class="id" id="id" value="{$member.id|default=''}">
+    {/if}
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-sm" id="addBtn">立即添加</button>
+            <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
+        </div>
+    </div>
+</form>
+{/block}
+
+{block name="script"}
+<script>
+
+    /**
+     * 添加、编辑
+     */
+    $("#addBtn").on("click", function () {
+        auth_id = [];
+        $("input:checkbox[name='auth_id']:checked").each(function () {
+            auth_id.push($(this).val());
+        });
+        var url = "{if empty($member)}{:url('@admin/user/add')}{else/}{:url('@admin/user/edit')}{/if}";
+        var data = {
+            id: $("#id").val(),
+            username: $("#username").val(),
+            password: $("#password").val(),
+            password1: $("#password1").val(),
+            phone: $("#phone").val(),
+            qq: $("#qq").val(),
+            mail: $("#mail").val(),
+            auth_id: auth_id,
+            remark: $("#remark").val(),
+        };
+        $.request.post(url, data, function (res) {
+            $.msg.success(res.msg, function () {
+                $.tool.reload('open');
+            })
+        })
+        return false;
+    });
+</script>
+{/block}

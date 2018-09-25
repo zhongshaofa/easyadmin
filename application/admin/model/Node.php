@@ -117,19 +117,19 @@ class Node extends ModelService {
      * @throws \think\exception\DbException
      */
     public function nodeModuleList($module, $node_list = []) {
-        $module = $this->where(['type' => 1, 'node' => $module])->select()->toArray();
-        foreach ($module as &$vo_m) {
+        $modules = $this->where(['type' => 1, 'node' => $module])->order(['node'=>'asc'])->select()->toArray();
+        foreach ($modules as &$vo_m) {
             $i = 1;
             $vo_module = $vo_m;
             $vo_module['node'] = replace_menu_title($vo_module['node'], $i);
             $node_list[] = $vo_module;
-            $controller = $this->where([['type', '=', 2], ['node', 'LIKE', $vo_m['node'] . '%']])->select()->toArray();
+            $controller = $this->where([['type', '=', 2], ['node', 'LIKE', "{$vo_m['node']}/%"]])->order(['node'=>'asc'])->select()->toArray();
             foreach ($controller as &$vo_c) {
                 $i = 2;
                 $vo_controller = $vo_c;
                 $vo_controller['node'] = replace_menu_title($vo_controller['node'], $i);
                 $node_list[] = $vo_controller;
-                $action = $this->where([['type', '=', 3], ['node', 'LIKE', $vo_c['node'] . '%']])->select()->toArray();
+                $action = $this->where([['type', '=', 3], ['node', 'LIKE', "{$vo_c['node']}/%"]])->order(['node'=>'asc'])->select()->toArray();
                 foreach ($action as &$vo_a) {
                     $i = 3;
                     $vo_action = $vo_a;

@@ -50,12 +50,14 @@ return [
     // 操作开始执行
     'action_begin' => function () {
         //声明模板常量，保证在修改后台模块名的时候可以正常访问
-        list($thisModule, $thisController) = [app('request')->module(), app('request')->controller()];
+        list($thisModule, $thisController, $thisAction) = [app('request')->module(), app('request')->controller(), app('request')->action()];
         $thisClass = parseNodeStr("{$thisModule}/{$thisController}");
+        $thisRequest = parseNodeStr("{$thisModule}/{$thisController}/{$thisAction}");
         app('view')->init(config('template.'))->assign([
             'thisModule'     => $thisModule,
             'thisController' => $thisController,
             'thisClass'      => $thisClass,
+            'thisRequest'    => $thisRequest,
         ]);
     },
     // 视图内容过滤

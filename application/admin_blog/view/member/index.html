@@ -1,0 +1,190 @@
+{extend name="admin@public/basic" /}
+
+{block name="style"}
+<link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
+<style>
+    .layui-table img {
+        max-width: 40px;
+        min-height: 40px;
+    }
+</style>
+{/block}
+
+{block name="cotent"}
+<form class="layui-form">
+    <blockquote class="layui-elem-quote quoteBox">
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">登录账户</label>
+            <div class="layui-input-inline">
+                <input type="text" id="username" class="layui-input" placeholder="请输入登录账户"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">用户昵称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="nickname" class="layui-input" placeholder="请输入用户昵称"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">手机号码</label>
+            <div class="layui-input-inline">
+                <input type="text" id="phone" class="layui-input" placeholder="请输入手机号"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">邮箱账号</label>
+            <div class="layui-input-inline">
+                <input type="text" id="email" class="layui-input" placeholder="请输入邮箱账号"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">创建时间</label>
+            <div class="layui-input-inline">
+                <input type="text" id="create_at" class="layui-input " placeholder="请选择创建时间">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <a id="searchBtn" class="layui-btn" data-type="reload">搜索</a>
+        </div>
+
+        {if auth('admin_blog/member/add')}
+        <div class="layui-form-item layui-inline">
+            <a class="layui-btn layui-btn-normal" data-open='{:url("$thisClass/add")}' data-title="添加会员" data-width="800px" data-height="600px">添加</a>
+        </div>
+        {/if}
+
+        {if auth('admin_blog/member/del')}
+        <div class="layui-form-item layui-inline">
+            <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del='{:url("$thisClass/del")}' data-table-id="memberTableId">删除</a>
+        </div>
+        {/if}
+
+    </blockquote>
+    <table id="memberTable" lay-filter="memberTable"></table>
+
+    <script type="text/html" id="bindHeadImg">
+        <img class="head_img" src="{{d.head_img}}" lay-skin="img" lay-filter="modifyHeadImg">
+    </script>
+
+    <script type="text/html" id="checkStatus">
+        <input type="checkbox" name="{{d.id}}" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="modifyStatus" {{ d.status== 0 ? 'checked' : '' }}>
+    </script>
+
+    <!--操作-->
+    <script type="text/html" id="memberTableBar">
+
+        {if auth('admin_blog/member/edit_password')}
+        <a class="layui-btn layui-btn-xs layui-btn-green" lay-event="editPasswordBtn">修改密码</a>
+        {/if}
+
+        {if auth('admin_blog/member/edit')}
+        <a class="layui-btn layui-btn-xs" lay-event="editBtn">编辑</a>
+        {/if}
+
+        {if auth('admin_blog/member/del')}
+        <a class="layui-btn layui-btn-xs layui-btn-danger" data-title="确定批量删除？" data-del='{:url("$thisClass/del")}?id={{d.id}}'>删除</a>
+        {/if}
+
+    </script>
+</form>
+{/block}
+
+{block name="script"}
+<script>
+    layui.use(['laydate', 'form', 'layer', 'table', 'laytpl'], function () {
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : top.layer,
+            $ = layui.jquery,
+            laytpl = layui.laytpl,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        /**
+         * 日期范围
+         */
+        $.laydate.range('create_at');
+
+        /**
+         * 生成表单
+         */
+        var tableIns = $.form.table('member', "{:url('@admin_blog/member/index')}?type=ajax", [[
+            {type: "checkbox", width: 50, fixed: "left"},
+            {field: 'username', title: '登录账户', minWidth: 80, align: "center"},
+            {field: 'nickname', title: '用户昵称', minWidth: 80, align: "center"},
+            {field: 'head_img', title: '用户头像', width: 100, templet: '#bindHeadImg', align: "center"},
+            {field: 'phone', title: '用户手机', align: 'center'},
+            {
+                field: 'email', title: '用户邮箱', minWidth: 200, align: 'center', templet: function (d) {
+                    return '<a class="layui-blue" href="#">' + d.email + '</a>';
+                }
+            },
+            {field: 'city', title: '所在城市', minWidth: 100, align: "center"},
+            {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
+            {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
+            /**{if auth('admin_blog/member/edit') || auth('admin_blog/member/del') || auth('admin_blog/member/edit_password')}**/
+            {title: '操作', minWidth: 175, templet: '#memberTableBar', fixed: "right", align: "center"}
+            /**{/if}**/
+        ]], true, '', 'lg')
+
+        /**
+         * 表单搜索
+         */
+        $("#searchBtn").on("click", function () {
+            var search = {
+                username: $("#username").val(),
+                nickname: $("#nickname").val(),
+                phone: $("#phone").val(),
+                email: $("#email").val(),
+                create_at: $("#create_at").val(),
+            };
+            $.form.search('memberTableId', search);
+            return false;
+        });
+
+        /**
+         * 工具栏操作
+         */
+        table.on('tool(memberTable)', function (obj) {
+            var layEvent = obj.event,
+                data = obj.data;
+
+            //编辑
+            if (layEvent === 'editBtn') {
+                var url = "{:url('@admin_blog/member/edit')}?id=" + data.id;
+                $.form.open('编辑', url, "800px", "500px");
+                return false;
+            }
+
+            //修改密码
+            else if (layEvent === 'editPasswordBtn') {
+                var url = "{:url('@admin_blog/member/edit_password')}?id=" + data.id;
+                $.form.open('修改密码', url, "600px", "400px");
+                return false;
+            }
+
+            //删除
+            else if (layEvent === 'delBtn') {
+                $.msg.confirm('确定删除？', function () {
+                    $.request.get("{:url('@admin_blog/member/del')}", {id: data.id}, function (res) {
+                        $.msg.success(res.msg, function () {
+                            $.tool.reload();
+                        })
+                    })
+                });
+                return false;
+            }
+        });
+
+        /**
+         * 修改状态
+         */
+        $.form.switch('modifyStatus', "{:url('@admin_blog/member/status')}");
+    })
+</script>
+{/block}

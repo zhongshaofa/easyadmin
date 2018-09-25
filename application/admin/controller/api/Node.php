@@ -29,7 +29,7 @@ class Node extends AdminController {
      */
     public function getNodeTree($id) {
         $list = [];
-        $module = model('node')->where(['type' => 1, 'is_auth' => 1])->select();
+        $module = model('node')->where(['type' => 1, 'is_auth' => 1])->order(['node'=>'asc'])->select();
         foreach ($module as $k => $val) {
             $list[$k] = [
                 'title' => $this->__biuldGetNodeTree($val['node'], $val['title']),

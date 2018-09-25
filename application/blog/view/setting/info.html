@@ -41,8 +41,7 @@
                 <li class='name-left'>个性签名</li>
                 <li class='name-right'>{$member_info.sign|default='<span class="layui-red">暂未设置</span>'|raw}</li>
             </div>
-            <div class='user-info-edit'><a href='javascript:;' class="layui-btn layui-btn-primary" onclick="edit()">修改</a></div>
-        </div>
+            <div class='user-info-edit'><a href='{:url('edit_form_info2',array('username'=>$member_info["username"]))}' class="layui-btn layui-btn-primary" onclick="edit()">编辑</a></div>        </div>
     </div>
 
 </div>

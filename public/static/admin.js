@@ -6,6 +6,9 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
         laydate = layui.laydate,
         $ = layui.jquery;
 
+    // 当前页面Bogy对象
+    var $body = $('body');
+
     /**
      * 消息组件实例
      */
@@ -250,6 +253,56 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
             laydate.render({elem: '#' + elem, range: true});
         }
     }
+
+    /**
+     * 注册 data-open 事件
+     */
+    $body.on('click', '[data-open]', function () {
+        $.form.open($(this).attr('data-title'), $(this).attr('data-open'), $(this).attr('data-width'), $(this).attr('data-height'));
+    })
+
+    /**
+     * 批量删除
+     * 注册 data-del-all 事件
+     */
+    $body.on('click', '[data-del-all]', function () {
+        var url = $(this).attr('data-del-all');
+        var checkStatus = table.checkStatus($(this).attr('data-table-id')),
+            data = checkStatus.data,
+            id = [];
+        if (data.length > 0) {
+            for (let i in data) {
+                id.push(data[i].id);
+            }
+            $.msg.confirm($(this).attr('data-title'), function () {
+                $.request.get(url, {id: id}, function (res) {
+                    $.msg.success(res.msg, function () {
+                        $.tool.reload();
+                    })
+                })
+            });
+        } else {
+            $.msg.error('请选择需要删除的信息!');
+        }
+        return false;
+    });
+
+    /**
+     * 单个删除
+     * 注册 data-del 事件
+     */
+    $body.on('click', '[data-del]', function () {
+        var url = $(this).attr('data-del');
+        console.log('单个删除' + url);
+        $.msg.confirm($(this).attr('data-title'), function () {
+            $.request.get(url, {}, function (res) {
+                $.msg.success(res.msg, function () {
+                    $.tool.reload();
+                })
+            })
+        });
+        return false;
+    });
 
     /**
      * 封装请求
