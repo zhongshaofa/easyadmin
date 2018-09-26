@@ -63,16 +63,14 @@ class Member extends AdminController {
             return $this->fetch('form', $basic_data);
         } else {
             $post = $this->request->post();
-            !isset($post['auth_id']) && $post['auth_id'] = [];
-            //数组转json
-            $post['auth_id'] = json_encode($post['auth_id']);
 
             //验证数据
-            $validate = $this->validate($post, 'app\admin\validate\User.add');
+            $validate = $this->validate($post, 'app\admin_blog\validate\Member.add');
             if (true !== $validate) return __error($validate);
 
             //保存数据,返回结果
             $post['password'] = password($post['password']);
+            unset($post['password1']);
             return $this->model->add($post);
         }
     }
@@ -85,38 +83,21 @@ class Member extends AdminController {
         if (!$this->request->isPost()) {
 
             //查找所需修改用户
-            $user = $this->model->where('id', $this->request->get('id'))->find();
-            if (empty($user)) return msg_error('暂无数据，请重新刷新页面！');
-
-            $auth = model('auth')->getList()->toArray();
-
-            $auth_id = json_decode($user['auth_id'], true);
-
-            foreach ($auth as $k => $val) {
-                $is_checked = false;
-                foreach ($auth_id as $k_1) $val['id'] == $k_1 && $is_checked = true;
-                $auth[$k]['is_checked'] = $is_checked;
-            }
+            $member = $this->model->where('id', $this->request->get('id'))->find();
+            if (empty($member)) return msg_error('暂无数据，请重新刷新页面！');
 
             //基础数据
             $basic_data = [
-                'title' => '修改会员信息',
-                'user'  => $user->hidden(['password']),
-                'auth'  => $auth,
+                'title'  => '修改会员信息',
+                'member' => $member->hidden(['password']),
             ];
             return $this->fetch('form', $basic_data);
         } else {
             $post = $this->request->post();
-            !isset($post['auth_id']) && $post['auth_id'] = [];
-            //数组转json
-            $post['auth_id'] = json_encode($post['auth_id']);
 
             //验证数据
-            $validate = $this->validate($post, 'app\admin\validate\User.edit');
+            $validate = $this->validate($post, 'app\admin_blog\validate\Member.edit');
             if (true !== $validate) return __error($validate);
-
-            //清空菜单缓存
-            clear_menu();
 
             //保存数据,返回结果
             return $this->model->edit($post);

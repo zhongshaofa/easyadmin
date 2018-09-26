@@ -132,16 +132,18 @@ class BlogController extends Controller {
                 $remark = '【未知】';
         }
         $location_info = get_location();
-        Db::name('BlogLoginRecord')->insert([
-            'type'      => $type,
-            'member_id' => session('member.id'),
-            'ip'        => get_ip(),
-            'country'   => $location_info['country'],
-            'region'    => $location_info['region'],
-            'city'      => $location_info['city'],
-            'isp'       => $location_info['isp'],
-            'location'  => $location_info['country'] . $location_info['region'] . $location_info['city'] . $location_info['isp'],
-            'remark'    => $remark,
-        ]);
+        if (!empty(session('member.id'))) {
+            Db::name('BlogLoginRecord')->insert([
+                'type'      => $type,
+                'member_id' => session('member.id'),
+                'ip'        => get_ip(),
+                'country'   => $location_info['country'],
+                'region'    => $location_info['region'],
+                'city'      => $location_info['city'],
+                'isp'       => $location_info['isp'],
+                'location'  => $location_info['country'] . $location_info['region'] . $location_info['city'] . $location_info['isp'],
+                'remark'    => $remark,
+            ]);
+        }
     }
 }

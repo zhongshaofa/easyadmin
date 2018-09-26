@@ -7,14 +7,14 @@
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">用户昵称</label>
         <div class="layui-input-block">
-            <input type="text" id="nickname" class="layui-input" lay-verify="required" value="{$member.username|default=''}" placeholder="请输入管理账号">
+            <input type="text" id="nickname" class="layui-input" lay-verify="required" value="{$member.nickname|default=''}" placeholder="请输入管理账号">
         </div>
     </div>
 
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">登录账户</label>
         <div class="layui-input-block">
-            <input type="text" id="username" class="layui-input" lay-verify="required" value="{$member.username|default=''}" placeholder="请输入管理账号">
+            <input type="text" id="username" class="layui-input" lay-verify="required"  value="{$member.username|default=''}" placeholder="请输入管理账号" {if isset($member.username)}readonly{/if}>
         </div>
     </div>
 
@@ -42,14 +42,14 @@
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">邮箱</label>
         <div class="layui-input-block">
-            <input type="email" id="mail" class="layui-input" value="{$member.mail|default=''}" placeholder="请输入邮箱">
+            <input type="email" id="email" class="layui-input" value="{$member.email|default=''}" placeholder="请输入邮箱">
         </div>
     </div>
 
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">备注信息</label>
         <div class="layui-input-block">
-            <textarea placeholder="请输入备注信息" name="remark" class="layui-textarea remark">{$member.remark|default=''}</textarea>
+            <textarea placeholder="请输入备注信息" id="remark" class="layui-textarea">{$member.remark|default=''}</textarea>
         </div>
     </div>
 
@@ -77,7 +77,7 @@
         $("input:checkbox[name='auth_id']:checked").each(function () {
             auth_id.push($(this).val());
         });
-        var url = "{if empty($member)}{:url('@admin/user/add')}{else/}{:url('@admin/user/edit')}{/if}";
+        var url = '{if empty($member)}{:url("$thisClass/add")}{else/}{:url("$thisClass/edit")}{/if}';
         var data = {
             id: $("#id").val(),
             username: $("#username").val(),
@@ -85,7 +85,7 @@
             password1: $("#password1").val(),
             phone: $("#phone").val(),
             qq: $("#qq").val(),
-            mail: $("#mail").val(),
+            email: $("#email").val(),
             auth_id: auth_id,
             remark: $("#remark").val(),
         };

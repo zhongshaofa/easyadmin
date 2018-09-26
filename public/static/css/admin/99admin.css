@@ -32,10 +32,6 @@
     background-color: #ffffff !important;
 }
 
-.color-99admin-black {
-    background-color: #000000;
-}
-
 .color-99admin-blue {
     background-color: #0000FF;
 }
@@ -62,4 +58,8 @@
 
 .color-99admin-brown {
     background-color: #A52A2A;
+}
+
+.color-99admin-desc {
+    background-color: #393D49;
 }

@@ -34,16 +34,16 @@ class ModelService extends Model {
      * @return bool|ModelService
      * @throws \Exception
      */
-    public function del($id, $type = false) {
-        is_array($id) ? $del = whereIn('id', $id) : $del = where('id', $id);
-        if ($type) {
-            $del = $del->delete();
-        } else {
-            $del = $del->update(['is_deleted' => 1]);
-        }
-        if ($del >= 1) return __success('删除成功');
-        return __error('删除失败，请检查！');
-    }
+//    public  function del($id, $type = false) {
+//        is_array($id) ? $del = whereIn('id', $id) : $del = where('id', $id);
+//        if ($type) {
+//            $del = $del->delete();
+//        } else {
+//            $del = $del->update(['is_deleted' => 1]);
+//        }
+//        if ($del >= 1) return __success('删除成功');
+//        return __error('删除失败，请检查！');
+//    }
 
     /**
      * 格式化分页

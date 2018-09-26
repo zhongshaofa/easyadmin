@@ -125,10 +125,13 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
                     cellMinWidth: 95,
                     page: true,
                     height: "full-80",
-                    limits: [10, 15, 20, 25],
+                    limits: [10, 15, 20, 25, 50, 100],
                     limit: 20,
                     id: elem + 'TableId',
-                    cols: cols
+                    cols: cols,
+                    done: function (res, curr, count) {
+                        // hoverOpenImg();//显示大图
+                    }
                 };
             }
             if (skin != '') data.skin = skin;
@@ -144,6 +147,8 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
          * @param page 分页
          */
         this.search = function (TableId, search, page = 1) {
+            console.log('搜索内容');
+            console.log(search);
             var loading = $.msg.loading();
             if (!page) {
                 var data = {
@@ -256,6 +261,7 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
 
     /**
      * 注册 data-open 事件
+     * 用于打开弹出层
      */
     $body.on('click', '[data-open]', function () {
         $.form.open($(this).attr('data-title'), $(this).attr('data-open'), $(this).attr('data-width'), $(this).attr('data-height'));
@@ -293,7 +299,6 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
      */
     $body.on('click', '[data-del]', function () {
         var url = $(this).attr('data-del');
-        console.log('单个删除' + url);
         $.msg.confirm($(this).attr('data-title'), function () {
             $.request.get(url, {}, function (res) {
                 $.msg.success(res.msg, function () {
@@ -301,6 +306,30 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
                 })
             })
         });
+        return false;
+    });
+
+    /**
+     * 注册 data-search 事件
+     * 用于表格搜索
+     */
+    $body.on('click', '[data-search]', function () {
+        var searchData = Object();
+        var searchInput = $('#searchBlock div div input');
+        var searchSelect = $('#searchBlock div div select');
+        $.each(searchInput, function (i, obj) {
+            id = $(obj).attr('id');
+            if (id != undefined) {
+                searchData[id] = $("#" + id).val();
+            }
+        });
+        $.each(searchSelect, function (i, obj) {
+            id = $(obj).attr('id');
+            if (id != undefined) {
+                searchData[id] = $("#" + id).val();
+            }
+        });
+        $.form.search($(this).attr('data-search'), searchData);
         return false;
     });
 
@@ -336,7 +365,7 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
             data: data,
             timeout: 60000,
             success: function (res) {
-                log_ajax(type, url, res);
+                log_ajax(type, url, data, res);
                 $.msg.close();
                 if (res.code == 0) {
                     callback(res);
@@ -355,12 +384,34 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
      * @param type
      * @param url
      * @param data
+     * @param res
      */
-    function log_ajax(type, url, data) {
-        console.log('------------------------------------');
+    function log_ajax(type, url, data, res) {
+        console.log('======================================');
         console.log(type + '请求：' + url);
+        console.log('---------------请求数据---------------');
         console.log(data);
-        console.log('------------------------------------');
+        console.log('---------------返回结果---------------');
+        console.log(res);
+        console.log('======================================');
+    }
+
+    /**
+     * 图片放大
+     */
+    function hoverOpenImg() {
+        var img_show = null; // tips提示
+        $('td img').hover(function () {
+            //alert($(this).attr('src'));
+            var img = "<img class='img_msg' src='" + $(this).attr('src') + "' style='width:130px;' />";
+            img_show = layer.tips(img, this, {
+                tips: [2, 'rgba(41,41,41,.5)']
+                , area: ['160px']
+            });
+        }, function () {
+            layer.close(img_show);
+        });
+        $('td img').attr('style', 'max-width:70px');
     }
 
 })

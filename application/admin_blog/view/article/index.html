@@ -2,17 +2,18 @@
 
 {block name="style"}
 <link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
-<style>
-    .layui-table img {
-        max-width: 40px;
-        min-height: 40px;
-    }
-</style>
 {/block}
 
 {block name="cotent"}
 <form class="layui-form">
     <blockquote id="searchBlock" class="layui-elem-quote quoteBox">
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">文章标题</label>
+            <div class="layui-input-inline">
+                <input type="text" id="title" class="layui-input selectBlock" placeholder="请输入文章标题"/>
+            </div>
+        </div>
 
         <div class="layui-form-item layui-inline">
             <label class="layui-form-label-99admin">登录账户</label>
@@ -29,20 +30,6 @@
         </div>
 
         <div class="layui-form-item layui-inline">
-            <label class="layui-form-label-99admin">手机号码</label>
-            <div class="layui-input-inline">
-                <input type="text" id="phone" class="layui-input" placeholder="请输入手机号"/>
-            </div>
-        </div>
-
-        <div class="layui-form-item layui-inline">
-            <label class="layui-form-label-99admin">邮箱账号</label>
-            <div class="layui-input-inline">
-                <input type="text" id="email" class="layui-input" placeholder="请输入邮箱账号"/>
-            </div>
-        </div>
-
-        <div class="layui-form-item layui-inline">
             <label class="layui-form-label-99admin">创建时间</label>
             <div class="layui-input-inline">
                 <input type="text" id="create_at" class="layui-input " placeholder="请选择创建时间">
@@ -50,7 +37,7 @@
         </div>
 
         <div class="layui-form-item layui-inline">
-            <a class="layui-btn" data-search="memberTableId">搜索</a>
+            <a class="layui-btn" data-search="articleTableId">搜索</a>
         </div>
 
         {if auth('admin_blog/member/add')}
@@ -66,10 +53,24 @@
         {/if}
 
     </blockquote>
-    <table id="memberTable" lay-filter="memberTable"></table>
+    <table id="articleTable" lay-filter="articleTable"></table>
+
+    <script type="text/html" id="bindMemberInfo">
+        <div>
+            <span>{{d.nickname}}</span> <a class="layui-btn layui-btn-xs color-99admin-desc" href="">详情</a>
+        </div>
+    </script>
 
     <script type="text/html" id="bindHeadImg">
         <img style="width: 40px; height: 40px;" src="{{d.head_img}}" lay-skin="img" lay-filter="modifyHeadImg">
+    </script>
+
+    <script type="text/html" id="bindCoverImg">
+        <img style="width: 60px; height: 40px;" src="{{d.cover_img}}" lay-skin="img" lay-filter="modifyHeadImg">
+    </script>
+
+    <script type="text/html" id="bindTitle">
+        <a class="layui-blue" href='{:url("@blog/article/details")}?id={{d.id}}' target="_blank"> {{d.title}} </a>
     </script>
 
     <script type="text/html" id="checkStatus">
@@ -77,17 +78,13 @@
     </script>
 
     <!--操作-->
-    <script type="text/html" id="memberTableBar">
+    <script type="text/html" id="articleTableBar">
 
-        {if auth('admin_blog/member/edit_password')}
-        <a class="layui-btn layui-btn-xs layui-btn-green" lay-event="editPasswordBtn">修改密码</a>
+        {if auth('admin_blog/article/edit')}
+        <a class="layui-btn layui-btn-xs" data-open='{:url("$thisClass/edit")}?id={{d.id}}' data-title="修改文章信息" data-width="600px" data-height="600px">编辑</a>
         {/if}
 
-        {if auth('admin_blog/member/edit')}
-        <a class="layui-btn layui-btn-xs" data-open='{:url("$thisClass/edit")}?id={{d.id}}' data-title="修改会员信息" data-width="600px" data-height="600px">编辑</a>
-        {/if}
-
-        {if auth('admin_blog/member/del')}
+        {if auth('admin_blog/article/del')}
         <a class="layui-btn layui-btn-xs layui-btn-danger" data-title="确定批量删除？" data-del='{:url("$thisClass/del")}?id={{d.id}}'>删除</a>
         {/if}
 
@@ -108,24 +105,22 @@
         /**
          * 生成表单
          */
-        var tableIns = $.form.table('member', '{:url("$thisRequest")}?type=ajax', [[
+        var tableIns = $.form.table('article', '{:url("$thisRequest")}?type=ajax', [[
             {type: "checkbox", width: 50, fixed: "left"},
-            {field: 'username', title: '登录账户', minWidth: 80, align: "center"},
-            {field: 'nickname', title: '用户昵称', minWidth: 80, align: "center"},
-            {field: 'head_img', title: '用户头像', width: 100, templet: '#bindHeadImg', align: "center"},
-            {field: 'phone', title: '用户手机', align: 'center'},
-            {
-                field: 'email', title: '用户邮箱', minWidth: 200, align: 'center', templet: function (d) {
-                    return '<a class="layui-blue" href="#">' + d.email + '</a>';
-                }
-            },
-            {field: 'city', title: '所在城市', minWidth: 100, align: "center"},
+            {field: 'memberInfo', title: '用户信息', minWidth: 80, templet: '#bindMemberInfo', align: "center"},
+            // {field: 'head_img', title: '用户头像', width: 100, templet: '#bindHeadImg', align: "center"},
+            {field: 'category_title', title: '文章分类', width: 100, align: "center"},
+            {field: 'title', title: '文章标题', minWidth: 200, align: 'center', templet: '#bindTitle'},
+            {field: 'cover_img', title: '文章封面', width: 100, templet: '#bindCoverImg', align: "center"},
+            {field: 'describe', title: '文章描述', minWidth: 100, align: "center"},
+            {field: 'clicks', title: '点击量', width: 100, align: "center", sort: true},
+            {field: 'commont_total', title: '评论量', width: 100, align: "center", sort: true},
             {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
-            {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
-            /**{if auth('admin_blog/member/edit') || auth('admin_blog/member/del') || auth('admin_blog/member/edit_password')}**/
-            {title: '操作', minWidth: 175, templet: '#memberTableBar', fixed: "right", align: "center"}
+            {field: 'create_at', title: '发布时间', align: 'center', minWidth: 150},
+            /**{if auth('admin_blog/article/edit') || auth('admin_blog/article/del')}**/
+            {title: '操作', minWidth: 100, templet: '#articleTableBar', fixed: "right", align: "center"}
             /**{/if}**/
-        ]]);
+        ]], true, '', 'lg', false);
 
         /**
          * 日期范围

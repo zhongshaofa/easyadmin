@@ -24,6 +24,35 @@ class Member extends ModelService {
      */
     protected $table = 'blog_member';
 
+    public static function add($post) {
+        self::startTrans();
+        try {
+            self::insert($post);
+            self::commit();
+        } catch (\Exception $e) {
+            self::rollback();
+            return __error($e->getMessage());
+        }
+        return __success('添加成功');
+    }
+
+    /**
+     * 修改信息
+     * @param $post
+     * @return \think\response\Json
+     */
+    public static function edit($post) {
+        self::startTrans();
+        try {
+            self::where('id', $post['id'])->update($post);
+            self::commit();
+        } catch (\Exception $e) {
+            self::rollback();
+            return __error($e->getMessage());
+        }
+        return __success('修改成功');
+    }
+
     /**
      * 获取会员信息列表
      * @param int   $page

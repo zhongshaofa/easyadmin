@@ -125,7 +125,7 @@ class User extends ModelService {
 
     /**
      * 获取用户列表信息
-     * @param int $page 当前页
+     * @param int $page  当前页
      * @param int $limit 每页显示数量
      * @return array
      * @throws \think\db\exception\DataNotFoundException

@@ -19,10 +19,10 @@ class Member extends Validate {
      */
     protected $rule = [
         'id'           => 'require|number',
-        'username'     => 'require|min:5|max:15|checkUsername',
-        'password'     => 'require|min:6|max:20|checkPassword',
-        'phone'        => 'require|number|mobile|checkPhone',
-        'email'         => 'email|max:20|checkMail',
+        'username'     => 'require|min:5|max:15',
+        'password'     => 'require|min:6|max:20',
+        'phone'        => 'require|number|mobile',
+        'email'         => 'email|max:20',
         'remark'       => 'max:250',
     ];
 
@@ -52,7 +52,7 @@ class Member extends Validate {
         'add'           => ['username', 'password', 'password1', 'phone', 'mail', 'auth_id', 'qq', 'remark'],
 
         //修改
-        'edit'          => ['username', 'phone', 'mail', 'auth_id', 'qq', 'remark'],
+        'edit'          => ['id', 'username', 'phone', 'mail', 'qq', 'remark'],
 
         //修改登录密码
         'edit_password' => ['id', 'old_password', 'password', 'password1'],
