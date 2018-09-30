@@ -9,6 +9,8 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-////开放平台地址
+//开放平台地址
 Route::domain('download.99php.cn', 'download');
-//
+
+//刷新缓存地址
+Route::get('cache/clean/:password', 'cache/clean/index');

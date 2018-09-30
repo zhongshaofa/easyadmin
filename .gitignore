@@ -1,5 +1,6 @@
 /.idea
 /.svn
-/.config
-/.logs
-/.runtime
+/config
+/logs
+/runtime
+/public/static/uploads

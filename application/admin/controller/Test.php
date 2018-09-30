@@ -29,6 +29,7 @@ class Test extends Controller {
      * 测试
      */
     public function index() {
+        dump(url('admin\api.menu\getMenu'));
         dump(AuthService::getNode());
     }
 
