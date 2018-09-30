@@ -1,0 +1,107 @@
+{extend name="admin@public/basic" /}
+
+{block name="style"}
+<link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
+{/block}
+
+{block name="cotent"}
+<form class="layui-form">
+    <blockquote id="searchBlock" class="layui-elem-quote quoteBox">
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">登录账户</label>
+            <div class="layui-input-inline">
+                <input type="text" id="username" class="layui-input selectBlock" placeholder="请输入登录账户"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">用户昵称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="nickname" class="layui-input selectBlock" placeholder="请输入用户昵称"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">登录时间</label>
+            <div class="layui-input-inline">
+                <input type="text" id="create_at" class="layui-input " placeholder="请选择创建时间">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <a class="layui-btn" data-search="loginRecordTableId">搜索</a>
+        </div>
+
+        {if auth('admin_blog/login_record/del')}
+        <div class="layui-form-item layui-inline">
+            <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del-all='{:url("$thisClass/del")}' data-table-id="loginRecordTableId">删除</a>
+        </div>
+        {/if}
+
+    </blockquote>
+    <table id="loginRecordTable" lay-filter="loginRecordTable"></table>
+
+    <script type="text/html" id="bindHeadImg">
+        <img style="width: 30px; height: 30px;" src="{{d.head_img}}" layer-src="{{d.head_img}}" alt="{{d.nickname}}" data-image="open" lay-filter="modifyHeadImg">
+    </script>
+
+    <script type="text/html" id="checkStatus">
+        <input type="checkbox" name="{{d.id}}" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="modifyStatus" {{ d.status== 0 ? 'checked' : '' }}>
+    </script>
+
+    <script type="text/html" id="bindType">
+        {{ d.type== 0 ? '<span style="color: green">退出</span>' : '<span style="color: indianred">登录</span>' }}
+    </script>
+
+    <script type="text/html" id="bindMemberInfo">
+        <div>
+            <span>{{d.nickname}}</span> <a class="layui-btn layui-btn-xs color-99admin-desc" data-open='{:url("@admin_blog/member/detail")}?id={{d.member_id}}' data-title="查看会员信息" data-width="1000px" data-height="450px">详情</a>
+        </div>
+    </script>
+
+    <!--操作-->
+    <script type="text/html" id="loginRecordTableBar">
+
+        {if auth('admin_blog/login_record/del')}
+        <a class="layui-btn layui-btn-xs layui-btn-danger" data-title="确定批量删除？" data-del='{:url("$thisClass/del")}?id={{d.id}}'>删除</a>
+        {/if}
+
+    </script>
+</form>
+{/block}
+
+{block name="script"}
+<script>
+    layui.use(['laydate', 'form', 'layer', 'table', 'laytpl'], function () {
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : top.layer,
+            $ = layui.jquery,
+            laytpl = layui.laytpl,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        /**
+         * 生成表单
+         */
+        var tableIns = $.form.table('loginRecord', '{:url("$thisRequest")}?type=ajax', [[
+            {type: "checkbox", width: 50, fixed: "left"},
+            {field: 'nickname', title: '用户昵称', minWidth: 80, templet: '#bindMemberInfo', align: "center"},
+            {field: 'head_img', title: '头像', width: 100, templet: '#bindHeadImg', align: "center"},
+            {field: 'type', title: '类型', width: 100, templet: '#bindType', align: "center"},
+            {field: 'ip', title: 'IP地址', minWidth: 100, align: "center"},
+            {field: 'location', title: '登录地点', minWidth: 100, align: "center"},
+            {field: 'remark', title: '备注', minWidth: 150, align: "center"},
+            {field: 'create_at', title: '登录时间', align: 'center', minWidth: 150},
+            /**{if auth('admin_blog/login_record/del')}**/
+            {title: '操作', minWidth: 175, templet: '#loginRecordTableBar', fixed: "right", align: "center"}
+            /**{/if}**/
+        ]]);
+
+        /**
+         * 日期范围
+         */
+        $.laydate.range('create_at');
+    })
+</script>
+{/block}

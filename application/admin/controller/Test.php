@@ -15,6 +15,7 @@
 namespace app\admin\controller;
 
 
+use app\common\service\AuthService;
 use app\common\service\CurlService;
 use think\Db;
 use think\Controller;
@@ -28,7 +29,7 @@ class Test extends Controller {
      * 测试
      */
     public function index() {
-        return $this->fetch();
+        dump(AuthService::getNode());
     }
 
     public function test() {

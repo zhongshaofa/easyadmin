@@ -1,0 +1,107 @@
+{extend name="admin@public/basic" /}
+
+{block name="style"}
+<link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
+{/block}
+
+{block name="cotent"}
+<form class="layui-form">
+    <blockquote id="searchBlock" class="layui-elem-quote quoteBox">
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">标签标题</label>
+            <div class="layui-input-inline">
+                <input type="text" id="tag_title" class="layui-input selectBlock" placeholder="请输入文章标题"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">创建时间</label>
+            <div class="layui-input-inline">
+                <input type="text" id="create_at" class="layui-input " placeholder="请选择创建时间">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <a class="layui-btn" data-search="tagTableId">搜索</a>
+        </div>
+
+        {if auth('admin_blog/member/add')}
+        <div class="layui-form-item layui-inline">
+            <a class="layui-btn layui-btn-normal" data-open='{:url("$thisClass/add")}' data-title="添加会员" data-width="600px" data-height="600px">添加</a>
+        </div>
+        {/if}
+
+        {if auth('admin_blog/member/del')}
+        <div class="layui-form-item layui-inline">
+            <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del-all='{:url("$thisClass/del")}' data-table-id="tagTableId">删除</a>
+        </div>
+        {/if}
+
+    </blockquote>
+    <table id="tagTable" lay-filter="tagTable"></table>
+
+    <script type="text/html" id="bindMemberInfo">
+        <div>
+            <span>{{d.nickname}}</span> <a class="layui-btn layui-btn-xs color-99admin-desc" href="">详情</a>
+        </div>
+    </script>
+
+
+    <script type="text/html" id="checkStatus">
+        <input type="checkbox" name="{{d.id}}" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="modifyStatus" {{ d.status== 0 ? 'checked' : '' }}>
+    </script>
+
+    <!--操作-->
+    <script type="text/html" id="tagTableBar">
+
+        {if auth('admin_blog/article/edit')}
+        <a class="layui-btn layui-btn-xs" data-open='{:url("$thisClass/edit")}?id={{d.id}}' data-title="修改文章信息" data-width="600px" data-height="600px">编辑</a>
+        {/if}
+
+        {if auth('admin_blog/article/del')}
+        <a class="layui-btn layui-btn-xs layui-btn-danger" data-title="确定批量删除？" data-del='{:url("$thisClass/del")}?id={{d.id}}'>删除</a>
+        {/if}
+
+    </script>
+</form>
+{/block}
+
+{block name="script"}
+<script>
+    layui.use(['laydate', 'form', 'layer', 'table', 'laytpl'], function () {
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : top.layer,
+            $ = layui.jquery,
+            laytpl = layui.laytpl,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        /**
+         * 生成表单
+         */
+        var tableIns = $.form.table('tag', '{:url("$thisRequest")}?type=ajax', [[
+            {type: "checkbox", width: 50, fixed: "left"},
+            {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center"},
+            {field: 'tag_title', title: '标签标题', minWidth: 100, align: 'center'},
+            {field: 'use_total', title: '使用次数', minWidth: 100, align: "center"},
+            {field: 'remark', title: '备注信息', minWidth: 100, align: "center"},
+            {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
+            /**{if auth('admin_blog/article/edit') || auth('admin_blog/article/del')}**/
+            {title: '操作', minWidth: 100, templet: '#tagTableBar', fixed: "right", align: "center"}
+            /**{/if}**/
+        ]]);
+
+        /**
+         * 日期范围
+         */
+        $.laydate.range('create_at');
+
+
+        /**
+         * 修改状态
+         */
+        $.form.switch('modifyStatus', "{:url('@admin_blog/member/status')}");
+    })
+</script>
+{/block}

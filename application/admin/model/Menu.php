@@ -66,6 +66,7 @@ class Menu extends ModelService {
             ['status', '=', 1],
         ];
         $home = $this->field('id, title, icon, href')->where($where_home)->find();
+        !empty($home) && $home['href'] = url($home['href']);
         return $home;
     }
 
@@ -76,7 +77,7 @@ class Menu extends ModelService {
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function getNav() {
+    public static function getNav() {
         $where_nav = [
             ['id', '<>', 1],
             ['pid', '=', 0],
@@ -88,11 +89,11 @@ class Menu extends ModelService {
         ];
 
         //查询顶级菜单栏数据
-        $nav = $this->field('id, title, icon')->where($where_nav)->order($order_nav)->select();
+        $nav = self::field('id, title, icon')->where($where_nav)->order($order_nav)->select();
 
         //去除空菜单
         foreach ($nav as $k => $val) {
-            $menu = $this->where(['pid' => $nav[$k]['id'], 'status' => 1])->select()->toArray();
+            $menu = self::where(['pid' => $nav[$k]['id'], 'status' => 1])->select()->toArray();
             if (empty($menu)) unset($nav[$k]);
         }
 
@@ -247,23 +248,29 @@ class Menu extends ModelService {
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function getMenuApi($menu_list = []) {
+    public static function getMenuApi($menu_list = []) {
         $field = 'id, pid, title, icon, href, spread, target';
         $order = ['sort' => 'asc', 'create_at' => 'desc'];
 
-        $nav = $this->getNav()->toArray();
+        $nav = self::getNav()->toArray();
         foreach ($nav as $vo) {
             $i = 0;
             $where_first_menu = [['pid', '=', $vo['id']], ['status', '=', 1]];
-            $first_menu = $this->field($field)->where($where_first_menu)->order($order)->select()->toArray();
+            $first_menu = self::field($field)->where($where_first_menu)->order($order)->select()->toArray();
             foreach ($first_menu as $vo_1) {
                 if (auth($vo_1['href'])) {
+                    if (!empty($vo_1['href']) && $vo_1['href'] != "#") {
+                        $vo_1['href'] = url($vo_1['href']);
+                    }
                     $vo_1['spread'] = (bool)$vo_1['spread'];
                     $menu_list['99php_' . $vo['id']][$i] = $vo_1;
                     $where_second_menu = [['pid', '=', $vo_1['id']], ['status', '=', 1]];
-                    $second_menu = $this->field($field)->where($where_second_menu)->order($order)->select()->toArray();
+                    $second_menu = self::field($field)->where($where_second_menu)->order($order)->select()->toArray();
                     foreach ($second_menu as $vo_2) {
                         if (auth($vo_2['href'])) {
+                            if (!empty($vo_2['href']) && $vo_2['href'] != "#") {
+                                $vo_2['href'] = url($vo_2['href']);
+                            }
                             $vo_2['spread'] = (bool)$vo_2['spread'];
                             $menu_list['99php_' . $vo['id']][$i]['children'][] = $vo_2;
                         }

@@ -1,0 +1,212 @@
+{extend name="admin@public/basic" /}
+{block name="style"}
+<link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
+<link rel="stylesheet" type="text/css" href="__STATIC__/plugs/wangEditor-3.1.1/release/wangEditor.min.css"/>
+<link href="__STATIC__/plugs/tag-it/css/jquery.tagit.css" rel="stylesheet" type="text/css">
+<link href="__STATIC__/plugs/tag-it/css/tagit.ui-zendesk.css" rel="stylesheet" type="text/css">
+<style>
+    .ui-widget-content {
+        border: #0f9ae0;
+        border-style: dotted;
+    }
+
+    .toolbar {
+        border: 1px solid #ccc;
+    }
+
+    .edit-bg {
+        border: 1px solid #ccc;
+        background-color: #f4f4f4;
+        min-height: 300px;
+    }
+</style>
+{/block}
+{block name="cotent"}
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">文章标题</label>
+        <div class="layui-input-block">
+            <input type="text" id="title" lay-verify="title" autocomplete="off" placeholder="请输入文章标题" value="{$article.title|default=''}" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">文章分类</label>
+        <div class="layui-input-block">
+            <select id="category_id" lay-filter="category_id">
+                {foreach category_list as $vo}
+                <option value="{$vo.id|default=''}">{$vo.title|default=''}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">文章标签</label>
+        <div class="layui-input-block">
+            <input type="text" id="tag_list" lay-verify="tag_list" autocomplete="off" placeholder="请输入文章标签" class="layui-input" value="{$tag_title|default=''}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">文章LOGO</label>
+        <div class="layui-input-block">
+            <div class="layui-upload-drag" id="uploadLogo" style="width: 100%;box-sizing: border-box;">
+                {if !isset($article.cover_img)&&empty($article.cover_img)}
+                <i id="upload_icon" class="layui-icon"></i>
+                <p id="upload_icon_p">点击上传，或将图片拖拽到此处</p>
+                {/if}
+                <img style="width:300px;" src="{$article.cover_img|default=''}" id="cover_img" lay-filter="cover_img">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">文章描述</label>
+        <div class="layui-input-block">
+            <textarea id="describe" placeholder="请输入文章描述" class="layui-textarea">{$article.describe|default=''}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">文章内容</label>
+        <div class="layui-input-block">
+            <div id="editor1" class="toolbar">
+            </div>
+            <div id="editor2" class="edit-bg">
+                {$article.content|default=''|raw}
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-sm" id="addArticle">立即添加</button>
+            <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
+        </div>
+    </div>
+
+</form>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" src="/static/plugs/tag-it/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="__STATIC__/plugs/tag-it/js/tag-it.js" charset="utf-8"></script>
+<script type="text/javascript" src="__STATIC__/plugs/wangEditor-3.1.1/release/wangEditor.min.js"></script>
+<script>
+    layui.use(['form', 'layedit', 'laydate', 'upload'], function () {
+            var form = layui.form
+                , layer = layui.layer
+                , layedit = layui.layedit
+                , upload = layui.upload
+                , laydate = layui.laydate;
+
+            //预读取文章标签
+            var sampleTags = JSON.parse('{$sample_tags|json_encode|raw}');
+
+            /**
+             * 拖拽上传
+             */
+            upload.render({
+                elem: '#uploadLogo'
+                , url: "{:url('@admin/api.upload/image')}"
+                , done: function (res) {
+                    if (res.code == 0) {
+                        $('#cover_img').attr('src', res.url[0]);
+                        var parent = document.getElementById("uploadLogo");
+                        var child = document.getElementById("upload_icon");
+                        var child1 = document.getElementById("upload_icon_p");
+                        parent.removeChild(child);
+                        parent.removeChild(child1);
+                    } else {
+                        layer.msg(res.msg);
+                    }
+                }
+            });
+
+            /**
+             * 文章标签处理
+             */
+            $('#tag_list').tagit({
+                availableTags: sampleTags, //预读取
+                removeConfirmation: true, //回车两次才删除
+                // readOnly: true //只读
+            });
+        }
+    )
+</script>
+<script type="text/javascript">
+    var E = window.wangEditor
+    var editor = new E('#editor1', '#editor2')
+    editor.customConfig.uploadImgServer = "{:url('@blog/api.upload/image')}"
+    editor.customConfig.uploadFileName = 'image'
+    editor.customConfig.pasteFilterStyle = false
+    editor.customConfig.uploadImgMaxLength = 5
+    editor.customConfig.uploadImgHooks = {
+        success: function (xhr, editor, result) {
+            // 图片上传并返回结果，图片插入成功之后触发
+            // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+        },
+        fail: function (xhr, editor, result) {
+            // 图片上传并返回结果，但图片插入错误时触发
+            // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+        },
+        error: function (xhr, editor) {
+            // 图片上传出错时触发
+            // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+        },
+        timeout: function (xhr, editor) {
+            layer.msg('上传超时！')
+        },
+
+        // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
+        // （但是，服务器端返回的必须是一个 JSON 格式字符串！！！否则会报错）
+        customInsert: function (insertImg, result, editor) {
+            console.log(result);
+            if (result.code == 0) {
+                url = result.url;
+                url.forEach(function (e) {
+                    insertImg(e)
+                })
+            } else {
+                layer.msg(result.msg);
+            }
+        }
+    }
+    editor.customConfig.customAlert = function (info) {
+        layer.msg(info)
+    }
+    editor.create()
+
+    /**
+     * 添加文章
+     */
+    $("#addArticle").click(function () {
+        if (editor.txt.text() == '') {
+            $.msg.error('评论内容不可为空！');
+            return false;
+        }
+        var data = {
+            member_id: "{$Think.session.member.id}",
+            title: $('#title').val(),
+            tag_list: $('#tag_list').val(),
+            category_id: $('#category_id').val(),
+            cover_img: $('#cover_img').attr('src'),
+            describe: $('#describe').val(),
+            content: editor.txt.html(),
+        };
+        $.request.post("{:url('@blog/article/add')}", data, function (res) {
+            layer.confirm('文章发表成功，是否继续编写文章？', {
+                btn: ['返回首页', '继续编辑'],
+                yes: function (index, layero) {
+                    window.location.href = "{:url('@blog')}";
+                }
+                , btn2: function (index, layero) {
+                    parent.location.reload();
+                }
+            });
+        });
+        return false;
+    });
+
+</script>
+{/block}

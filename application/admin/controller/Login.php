@@ -57,20 +57,21 @@ class Login extends Controller {
             //验证参数
             $validate = $this->validate($post, $validate_type);
             if (true !== $validate) {
-                __log($validate, 'login');
                 return __error($validate);
             }
 
             //判断登录是否成功
             $login = $this->model->login($post['username'], $post['password']);
             if ($login['code'] == 1) {
-                __log($login, 'login');
+                isset($login['user']['id']) ? $user_id = $login['user']['id'] : $user_id = '';
+                \app\admin\service\LogService::loginLog($user_id, 1, 0, "【账号登录】{$login['msg']}");
                 return __error($login['msg']);
             }
 
             //储存session数据
+            $login['user']['login_at'] = time();
             session('user', $login['user']);
-            __log($login, 'login');
+            \app\admin\service\LogService::loginLog($login['user']['id'], 1, 1, '【账号登录】登录成功，正在进入系统！');
             return __success($login['msg']);
         }
     }
@@ -99,12 +100,14 @@ class Login extends Controller {
      */
     public function out() {
 
-        //清空sesion数据
-        session(null);
-        __log(['type' => '退出登录', 'user' => session('user')], 'login');
+        //记录日志
+        \app\admin\service\LogService::loginLog(session('user.id'), 0, 1, "【主动退出】正在退出后台系统！");
 
         //删除自身菜单缓存
         Cache::rm(session('user.id') . '_AdminMenu');
+
+        //清空sesion数据
+        session('user', null);
 
         return msg_success('退出登录成功', url('@admin/login'));
     }

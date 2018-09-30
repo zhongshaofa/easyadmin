@@ -127,7 +127,7 @@
                     return '<a class="layui-blue" href="/' + d.href + '" target="_blank">' + d.href + '</a>';
                 }
             },
-            {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
+            {field: 'status', title: '启用状态', minWidth: 110, templet: '#checkStatus', unresize: true, align: "center"},
             /**{if auth('admin/auth/add') || auth('admin/auth/edit') || auth('admin/auth/del')}**/
             {title: '操作', minWidth: 110, templet: '#menuTableBar', fixed: "right", align: "center"},
             /**{/if}**/

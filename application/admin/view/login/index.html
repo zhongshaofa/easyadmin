@@ -84,7 +84,7 @@
         };
         $.request.post("{:url('@admin/login')}", data, function (res) {
             $.msg.success(res.msg, function () {
-                window.location.href = "{:url('@admin')}";
+                window.location.href = "{:url('@admin/index')}";
             })
         });
         return false;

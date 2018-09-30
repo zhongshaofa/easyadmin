@@ -25,7 +25,7 @@ return [
     // 是否支持多模块
     'app_multi_module'       => true,
     // 入口自动绑定模块
-    'auto_bind_module'       => false,
+    'auto_bind_module'       => true,
     // 注册的根命名空间
     'root_namespace'         => [],
     // 默认输出类型
@@ -54,9 +54,9 @@ return [
     // +----------------------------------------------------------------------
 
     // 默认模块名
-    'default_module'         => 'index',
+    'default_module'         => 'blog',
     // 禁止访问模块
-    'deny_module_list'       => ['common'],
+    'deny_module_list'       => ['common','admin'],
     // 默认控制器名
     'default_controller'     => 'Index',
     // 默认操作名

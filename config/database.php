@@ -15,11 +15,11 @@ return [
     // 服务器地址
     'hostname'        => 'data.99php.cn',
     // 数据库名
-    'database'        => 'test_99admin',
+    'database'        => 'test_99php_cn',
     // 用户名
-    'username'        => 'test_99admin',
+    'username'        => 'test_99php_cn',
     // 密码
-    'password'        => 'aTfcsRJP7c4FDwSk',
+    'password'        => 'YY2rKNafcF8dHWfj',
     // 端口
     'hostport'        => '',
     // 连接dsn

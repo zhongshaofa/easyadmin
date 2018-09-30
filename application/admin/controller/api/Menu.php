@@ -13,7 +13,6 @@ namespace app\admin\controller\api;
 
 use app\common\controller\AdminController;
 use think\facade\Cache;
-use think\facade\Debug;
 
 class Menu extends AdminController {
 
@@ -28,7 +27,7 @@ class Menu extends AdminController {
         if (!empty(Cache::tag('menu')->get(session('user.id') . '_AdminMenu'))) {
             return json(Cache::get(session('user.id') . '_AdminMenu'));
         } else {
-            $menu_list = model('menu')->getMenuApi();
+            $menu_list = \app\admin\model\Menu::getMenuApi();
             Cache::tag('menu')->set(session('user.id') . '_AdminMenu', $menu_list, 86400);
             return json($menu_list);
         }

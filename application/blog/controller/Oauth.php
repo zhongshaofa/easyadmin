@@ -95,7 +95,7 @@ class Oauth extends BlogController {
         if(!empty($lastLink)){
             header("Location:{$lastLink}");
         }else{
-            return msg_success('登录成功，正在跳转！', url('@blog'));
+            return msg_success('登录成功，正在跳转！', url('@index'));
         }
     }
 }

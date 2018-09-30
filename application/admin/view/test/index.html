@@ -4,11 +4,27 @@
 {/block}
 
 {block name="cotent"}
-<button id="test">弹出</button>
+<div id="layer-photos-demo" class="layer-photos-demo">
+    <img  layer-src="/static/image/blog/face3.jpg" src="/static/image/blog/face3.jpg" alt="图片名">
+    <img  layer-src="/static/image/blog/face3.jpg" src="/static/image/blog/face3.jpg" alt="图片名">
+</div>
 {/block}
 
 {block name="script"}
 <script>
-    $.msg.success('陈公公功能');
-</script>
+    layui.use(['laydate', 'form', 'layer', 'table', 'laytpl'], function () {
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : top.layer,
+            $ = layui.jquery,
+            laytpl = layui.laytpl,
+            table = layui.table,
+            laydate = layui.laydate;
+
+        layer.photos({
+            photos: '#layer-photos-demo'
+            , anim: 5
+        });
+
+    })
+</script>>
 {/block}

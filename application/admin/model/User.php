@@ -75,10 +75,10 @@ class User extends ModelService {
             ['status', 'In', [0, 1]],
         ];
         $login = $this->where($where_login)->find();
-        if (empty($login)) return ['code' => 1, 'msg' => '账户不存在，请重新输入！'];
-        if ($login['password'] != password($password)) return ['code' => 1, 'msg' => '密码不正确，请重新输入！'];
-        if ($login['is_deleted'] == 1) return ['code' => 1, 'msg' => '该账户已被删除，请联系超级管理员！'];
-        if ($login['status'] == 0) return ['code' => 1, 'msg' => '该账户已被停用，请联系超级管理员！'];
+        if (empty($login)) return ['code' => 1, 'msg' => '账户不存在，请重新输入！', 'user' => $login];
+        if ($login['password'] != password($password)) return ['code' => 1, 'msg' => '密码不正确，请重新输入！', 'user' => $login];
+        if ($login['is_deleted'] == 1) return ['code' => 1, 'msg' => '该账户已被删除，请联系超级管理员！', 'user' => $login];
+        if ($login['status'] == 0) return ['code' => 1, 'msg' => '该账户已被停用，请联系超级管理员！', 'user' => $login];
         unset($login['password']);
         return ['code' => 0, 'msg' => '登录成功，正在进入后台系统！', 'user' => $login];
     }

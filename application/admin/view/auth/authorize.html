@@ -62,7 +62,7 @@
         var xtree3 = new layuiXtree({
             elem: 'xtree3'
             , form: form
-            , data: '/admin/api.node/getNodeTree?id={$auth.id}'
+            , data: "{:url('admin/api.node/getNodeTree')}?id={$auth.id}"
             , isopen: true  //加载完毕后的展开状态，默认值：true
         });
 

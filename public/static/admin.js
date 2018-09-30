@@ -106,7 +106,7 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
          * @param cols 表单渲染
          * @param page 表单渲染
          */
-        this.table = function (elem, url, cols, isPage = true, skin = '', size = '', isTool = true) {
+        this.table = function (elem, url, cols, isPage = true, skin = 'line', size = '', isTool = true) {
             if (!isPage) {
                 var data = {
                     elem: '#' + elem + 'Table',
@@ -310,6 +310,17 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
     });
 
     /**
+     * 放大图片
+     */
+    $body.on('click', '[data-image]', function () {
+        layer.photos({
+            photos: $(this).parents('tr'),
+            anim: 5
+        });
+        return false;
+    });
+
+    /**
      * 注册 data-search 事件
      * 用于表格搜索
      */
@@ -390,7 +401,7 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
         console.log('======================================');
         console.log(type + '请求：' + url);
         console.log('---------------请求数据---------------');
-        console.log(data);
+        console.log(JSON.stringify(data));
         console.log('---------------返回结果---------------');
         console.log(res);
         console.log('======================================');
