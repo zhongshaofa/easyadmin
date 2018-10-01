@@ -76,7 +76,6 @@ class AuthService {
         foreach (explode('/', $node) as $name) {
             $tmp[] = strtolower(trim(preg_replace("/[A-Z]/", "_\\0", $name), "_"));
         }
-        return trim(join('/', $tmp), '/');
+        return str_replace('._', '.', trim(join('/', $tmp), '/'));
     }
-
 }

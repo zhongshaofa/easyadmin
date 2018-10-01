@@ -17,6 +17,7 @@ namespace app\admin\controller;
 
 use app\common\service\AuthService;
 use app\common\service\CurlService;
+use app\common\service\NodeService;
 use think\Db;
 use think\Controller;
 use think\facade\Env;
@@ -29,8 +30,7 @@ class Test extends Controller {
      * 测试
      */
     public function index() {
-        dump(url('admin\api.menu\getMenu'));
-        dump(AuthService::getNode());
+        dump(NodeService::getNodeList(['admin']));
     }
 
     public function test() {
