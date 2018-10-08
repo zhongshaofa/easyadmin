@@ -6,7 +6,7 @@
  * Time: 3:40
  */
 
-namespace app\admin_blog\validate;
+namespace app\admin\validate\blog;
 
 
 use think\Validate;

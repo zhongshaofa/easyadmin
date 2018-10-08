@@ -51,7 +51,11 @@ class NodeService {
     public static function getFolders($dir) {
         $pathList = glob($dir . '/*');
         $folder_list = [];
-        foreach ($pathList as $vo) is_dir($vo) && $folder_list[] = str_replace($dir . '/', '', $vo);
+        foreach ($pathList as $vo) {
+            if (is_dir($vo)) {
+                $folder_list[] = str_replace($dir . '/', '', $vo);
+            }
+        }
         return $folder_list;
     }
 
@@ -61,17 +65,17 @@ class NodeService {
      * @return array|mixed
      */
     public static function getControllers($dir) {
-        list($folders, $pathList, $controllerList) = [self::getFolders($dir), glob($dir . '\*.php'), []];
+        list($folders, $pathList, $controllerList) = [self::getFolders($dir), glob($dir . '/*.php'), []];
         foreach ($folders as $folder) {
-            $pathFolders = glob("{$dir}\\{$folder}\\*.php");
+            $pathFolders = glob("{$dir}/{$folder}/*.php");
             foreach ($pathFolders as $pathFolder) {
                 $pathList[] = $pathFolder;
             }
         }
         foreach ($pathList as $vo) {
-            $className = explode("\controller\\", $vo);
+            $className = explode("/controller/", $vo);
             $className = str_replace('.php', '', end($className));
-            $className = str_replace('\\', '.', $className);
+            $className = str_replace('/', '.', $className);
             $controllerList[] = $className;
         }
         return $controllerList;
@@ -100,11 +104,11 @@ class NodeService {
      * @return array|mixed 节点列表
      */
     public static function getNodeList($modules = []) {
-        list($nodeList, $appPath, $appNamespace) = [[], env('app_path'), env('app_namespace')];
+        list($nodeList, $appPath, $appNamespace) = [[], '../application', env('app_namespace')];
         empty($modules) && $modules = self::getFolders($appPath);
         foreach ($modules as $module) {
             $nodeList[] = AuthService::parseNodeStr($module);
-            $modulePath = "{$appPath}\\{$module}\\controller";
+            $modulePath = "{$appPath}/{$module}/controller";
             $controllers = self::getControllers($modulePath);
             foreach ($controllers as $controller) {
                 $nodeList[] = AuthService::parseNodeStr("{$module}/{$controller}");

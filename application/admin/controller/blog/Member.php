@@ -65,7 +65,7 @@ class Member extends AdminController {
             $post = $this->request->post();
 
             //验证数据
-            $validate = $this->validate($post, 'app\admin_blog\validate\Member.add');
+            $validate = $this->validate($post, 'app\admin\validate\blog\Member.add');
             if (true !== $validate) return __error($validate);
 
             //保存数据,返回结果
@@ -168,7 +168,7 @@ class Member extends AdminController {
         $get = $this->request->get();
 
         //验证数据
-        $validate = $this->validate($get, 'app\admin_blog\validate\Member.status');
+        $validate = $this->validate($get, 'app\admin\validate\blog\Member.status');
         if (true !== $validate) return __error($validate);
 
         //判断状态

@@ -126,16 +126,14 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
                     page: true,
                     height: "full-80",
                     limits: [10, 15, 20, 25, 50, 100],
-                    limit: 20,
+                    limit: 15,
                     id: elem + 'TableId',
                     cols: cols,
-                    done: function (res, curr, count) {
-                        // hoverOpenImg();//显示大图
-                    }
                 };
             }
             if (skin != '') data.skin = skin;
             if (size != '') data.size = size;
+            if (size == 'lg') data.limit = 10;
             if (!isTool) data.height = "full-40";
             table.render(data);
         }
@@ -201,10 +199,8 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
         this.switch = function (layFilter, url) {
             form.on('switch(' + layFilter + ')', function (obj) {
                 $.request.get(url, {id: this.name}, function (res) {
-                    $.msg.success(res.msg, function () {
-                        $.tool.reload();
-                    });
-                });
+                    $.msg.success(res.msg);
+                }, true);
                 return false;
             });
         }
@@ -350,12 +346,12 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
     $.request = new function () {
         var self = this;
         //post请求
-        this.post = function (url, data, callback) {
-            request('POST', url, data, callback);
+        this.post = function (url, data, callback, isReload = false) {
+            request('POST', url, data, callback, isReload);
         }
         //get请求
-        this.get = function (url, data, callback) {
-            request('GET', url, data, callback);
+        this.get = function (url, data, callback, isReload = false) {
+            request('GET', url, data, callback, isReload);
         }
     }
 
@@ -366,7 +362,7 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
      * @param data
      * @param callback
      */
-    function request(type, url, data, callback) {
+    function request(type, url, data, callback, isReload) {
         $.msg.loading('正在加载，请稍等！');
         $.ajax({
             url: url,
@@ -381,11 +377,23 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
                 if (res.code == 0) {
                     callback(res);
                 } else {
-                    $.msg.error(res.msg);
+                    if (isReload == true) {
+                        $.msg.error(res.msg, function () {
+                            $.tool.reload();
+                        });
+                    } else {
+                        $.msg.error(res.msg);
+                    }
                 }
             },
             error: function (xhr, textstatus, thrown) {
-                $.msg.error('Status:' + xhr.status + '，' + xhr.statusText + '，请稍后再试！');
+                if (isReload == true) {
+                    $.msg.error('Status:' + xhr.status + '，' + xhr.statusText + '，请稍后再试！', function () {
+                        $.tool.reload();
+                    });
+                } else {
+                    $.msg.error('Status:' + xhr.status + '，' + xhr.statusText + '，请稍后再试！');
+                }
             }
         });
     }

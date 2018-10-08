@@ -30,4 +30,16 @@ class Common extends AdminController {
         }
         $this->redirect(url("{$SysInfo['AdminModuleName']}.php\api.menu\getMenu"));
     }
+
+    /**
+     * 后台刷新缓存接口
+     * @return \think\response\Json
+     */
+    public function clearCache() {
+        if (app('cache')->clear()) {
+            return __success('缓存刷新成功！');
+        } else {
+            return __error('缓存刷新失败！');
+        }
+    }
 }

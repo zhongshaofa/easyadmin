@@ -117,7 +117,6 @@
                     return '<a class="layui-blue" href="#">' + d.email + '</a>';
                 }
             },
-            {field: 'city', title: '所在城市', minWidth: 100, align: "center"},
             {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
             {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
             /**{if auth('admin_blog/member/edit') || auth('admin_blog/member/del') || auth('admin_blog/member/edit_password')}**/
@@ -134,7 +133,7 @@
         /**
          * 修改状态
          */
-        $.form.switch('modifyStatus', "{:url('@admin_blog/member/status')}");
+        $.form.switch('modifyStatus', '{:url("$thisClass/status")}');
     })
 </script>
 {/block}

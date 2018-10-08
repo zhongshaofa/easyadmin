@@ -12,16 +12,12 @@
 namespace think;
 
 /**
- * 后台地址入口
+ * 安装程序入口
  */
 // 加载基础文件
 require __DIR__ . '/../thinkphp/base.php';
 
-//判断应用是否已安装
-if (file_exists('../config/lock/install.lock') == false) {
-    header("location:./install.php");
-    exit;
-}
+// 支持事先使用静态方法设置Request对象和Config对象
 
 // 执行应用并响应
-Container::get('app')->bind('admin')->run()->send();
+Container::get('app')->bind('install')->run()->send();

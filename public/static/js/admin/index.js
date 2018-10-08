@@ -101,13 +101,20 @@ layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function () {
 
     //清除缓存
     $(".clearCache").click(function () {
+        var index = layer.msg('清除缓存中，请稍候', {icon: 16, time: false, shade: 0.8});
+        //清除浏览器缓存
         window.sessionStorage.clear();
         window.localStorage.clear();
-        var index = layer.msg('清除缓存中，请稍候', {icon: 16, time: false, shade: 0.8});
-        setTimeout(function () {
+        //清除服务器缓存
+        $.get("/api/admin.common/clearCache", function (res) {
             layer.close(index);
-            layer.msg("缓存清除成功！");
-        }, 1000);
+            if (res.code == 0) {
+                layer.msg("缓存清除成功！");
+            } else {
+                layer.msg("服务端缓存清除失败！");
+            }
+        })
+        return false;
     })
 
     //刷新后还原打开的窗口

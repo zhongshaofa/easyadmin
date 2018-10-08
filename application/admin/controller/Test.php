@@ -30,7 +30,7 @@ class Test extends Controller {
      * 测试
      */
     public function index() {
-        dump(NodeService::getNodeList(['admin']));
+        dump(NodeService::getNodeList());
     }
 
     public function test() {
