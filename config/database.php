@@ -13,15 +13,15 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => '127.0.0.1',
+    'hostname'        => 'data.99php.cn',
     // 数据库名
-    'database'        => 'ceshi_blog2',
+    'database'        => 'test_99php_cn',
     // 用户名
-    'username'        => 'root',
+    'username'        => 'test_99php_cn',
     // 密码
-    'password'        => 'root',
+    'password'        => 'YY2rKNafcF8dHWfj',
     // 端口
-    'hostport'        => '3306',
+    'hostport'        => '',
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数
@@ -55,7 +55,7 @@ return [
     // Builder类
     'builder'         => '',
     // Query类
-    'query'           => '\think\db\Query',
+    'query'           => '\\think\\db\\Query',
     // 是否需要断线重连
     'break_reconnect' => false,
     // 断线标识字符串
