@@ -28,7 +28,6 @@ class Index extends BlogController {
     public function index() {
         //基础数据
         $basic_data = [
-            'title'               => '久久PHP社区 | 久久PHP博客',
             'slider_list'         => model('Slider')->getSliderList(),
             'notice_list'         => model('Notice')->getNoticeList(),
             'blog_user_info'      => model('Member')->getBlogUserInfo(),

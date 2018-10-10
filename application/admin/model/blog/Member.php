@@ -54,6 +54,24 @@ class Member extends ModelService {
     }
 
     /**
+     * 重置密码
+     * @param $post
+     * @return \think\response\Json
+     * @throws \think\exception\PDOException
+     */
+    public static function resetPassword($post) {
+        self::startTrans();
+        try {
+            self::where('id', $post['id'])->update($post);
+            self::commit();
+        } catch (\Exception $e) {
+            self::rollback();
+            return __error($e->getMessage());
+        }
+        return __success('修改成功');
+    }
+
+    /**
      * 获取会员信息列表
      * @param int   $page
      * @param int   $limit

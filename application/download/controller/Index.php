@@ -25,7 +25,7 @@ class Index extends Controller {
      */
     public function index() {
         //数据初始化
-        list($this->nav, $this->title) = ['index', '99Admin | 久久权限管理系统 | 99Blog | 久久PHP社区 '];
+        list($this->nav, $this->title) = ['index', '99Admin - 基于ThinkPHP5.1和Layui的快速后台开发框架 '];
         //数据渲染
         $basic_data = [
             'title'        => $this->title,

@@ -96,7 +96,7 @@ class Member extends AdminController {
             $post = $this->request->post();
 
             //验证数据
-            $validate = $this->validate($post, 'app\admin_blog\validate\Member.edit');
+            $validate = $this->validate($post, 'app\admin\validate\blog\Member.edit');
             if (true !== $validate) return __error($validate);
 
             //保存数据,返回结果
@@ -105,32 +105,33 @@ class Member extends AdminController {
     }
 
     /**
-     * 修改用户密码
+     * 重置用户密码
      * @return mixed|string|\think\response\Json
      */
-    public function edit_password() {
+    public function reset_password() {
         if (!$this->request->isPost()) {
-            if (empty($this->request->get('id'))) return msg_error('暂无用户信息！');
             $where_user = [
                 'id'         => $this->request->get('id'),
                 'is_deleted' => 0,
             ];
-            $user = $this->model->where($where_user)->field('id, username')->find();
-            if (empty($user)) return msg_error('暂无用户信息，请关闭页面刷新重试！');
+            $member = $this->model->where($where_user)->field('id, username')->find();
+            if (empty($member)) return msg_error('暂无用户信息，请关闭页面刷新重试！');
             $basic_data = [
-                'title' => '修改管理员密码',
-                'user'  => $user,
+                'title'  => '修改管理员密码',
+                'member' => $member,
             ];
             return $this->fetch('', $basic_data);
         } else {
             $post = $this->request->post();
 
             //验证数据
-            $validate = $this->validate($post, 'app\admin\validate\User.edit_password');
+            $validate = $this->validate($post, 'app\admin\validate\blog\Member.resetPassword');
             if (true !== $validate) return __error($validate);
 
-            //修改密码数据
-            return $this->model->editPassword($post);
+            //保存数据,返回结果
+            $post['password'] = password($post['password']);
+            unset($post['password1']);
+            return $this->model->resetPassword($post);
         }
     }
 
@@ -143,7 +144,7 @@ class Member extends AdminController {
 
         //验证数据
         if (!is_array($get['id'])) {
-            $validate = $this->validate($get, 'app\admin_blog\validate\Member.del');
+            $validate = $this->validate($get, 'app\admin\validate\blog\Member.del');
             if (true !== $validate) return __error($validate);
         }
 

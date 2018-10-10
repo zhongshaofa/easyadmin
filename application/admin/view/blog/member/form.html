@@ -80,6 +80,7 @@
         var url = '{if empty($member)}{:url("$thisClass/add")}{else/}{:url("$thisClass/edit")}{/if}';
         var data = {
             id: $("#id").val(),
+            nickname: $("#nickname").val(),
             username: $("#username").val(),
             password: $("#password").val(),
             password1: $("#password1").val(),

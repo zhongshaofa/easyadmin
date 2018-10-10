@@ -61,8 +61,8 @@ class Article extends AdminController {
         if (!$this->request->isPost()) {
             $basic_data = [
                 'title'         => '发布文章',
-                'category_list' => \app\admin_blog\model\Category::getCategoryList(),
-                'sample_tags'   => \app\admin_blog\model\Tag::getSampleTags(),
+                'category_list' => \app\admin\model\blog\Category::getCategoryList(),
+                'sample_tags'   => \app\admin\model\blog\Tag::getSampleTags(),
             ];
             return $this->fetch('form', $basic_data);
         }
@@ -88,8 +88,8 @@ class Article extends AdminController {
             }
             $basic_data = [
                 'title'         => '修改文章',
-                'category_list' => \app\admin_blog\model\Category::getCategoryList(),
-                'sample_tags'   => \app\admin_blog\model\Tag::getSampleTags(),
+                'category_list' => \app\admin\model\blog\Category::getCategoryList(),
+                'sample_tags'   => \app\admin\model\blog\Tag::getSampleTags(),
                 'article'       => $article,
                 'tag_title'     => $tag_title,
             ];

@@ -78,7 +78,7 @@
         {/if}
 
         {if auth("$thisClass/edit_password")}
-        <a class="layui-btn layui-btn-xs layui-btn-green" lay-event="editPasswordBtn">重置密码</a>
+        <a class="layui-btn layui-btn-xs layui-btn-green" data-open='{:url("$thisClass/reset_password")}?id={{d.id}}' data-title="重置密码" data-width="500px" data-height="300px">重置密码</a>
         {/if}
 
         {if auth("$thisClass/edit")}

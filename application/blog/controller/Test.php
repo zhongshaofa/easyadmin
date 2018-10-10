@@ -24,7 +24,9 @@ class Test extends BlogController {
     }
 
     public function index() {
-        return $this->fetch();
+        $url = url('@blog/article/detail', ['id' => 1]);
+        dump($url);
+//        return $this->fetch();
     }
 
     public function send() {
