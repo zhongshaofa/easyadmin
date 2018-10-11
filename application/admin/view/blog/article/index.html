@@ -16,9 +16,9 @@
         </div>
 
         <div class="layui-form-item layui-inline">
-            <label class="layui-form-label-99admin">登录账户</label>
+            <label class="layui-form-label-99admin">会员账号</label>
             <div class="layui-input-inline">
-                <input type="text" id="username" class="layui-input selectBlock" placeholder="请输入登录账户"/>
+                <input type="text" id="username" class="layui-input selectBlock" placeholder="请输入会员账号"/>
             </div>
         </div>
 
@@ -40,13 +40,13 @@
             <a class="layui-btn" data-search="articleTableId">搜索</a>
         </div>
 
-        {if auth('admin_blog/member/add')}
+        {if auth("$thisClass/add")}
         <div class="layui-form-item layui-inline">
             <a class="layui-btn layui-btn-normal" data-open='{:url("$thisClass/add")}' data-title="添加文章">添加</a>
         </div>
         {/if}
 
-        {if auth('admin_blog/member/del')}
+        {if auth("$thisClass/del")}
         <div class="layui-form-item layui-inline">
             <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del-all='{:url("$thisClass/del")}' data-table-id="articleTableId">删除</a>
         </div>
@@ -81,7 +81,7 @@
     <script type="text/html" id="articleTableBar">
 
         {if auth("$thisClass/detail")}
-        <a class="layui-btn layui-btn-primary layui-btn-xs" href='{:url("@blog/article/details")}?id={{d.id}}' target="_blank">查看</a>
+        <a class="layui-btn layui-btn-primary layui-btn-xs" href='/blog/article/details.html?id={{d.id}}' target="_blank">查看</a>
         {/if}
 
         {if auth("$thisClass/edit")}
@@ -135,7 +135,7 @@
         /**
          * 修改状态
          */
-        $.form.switch('modifyStatus', "{:url('@admin_blog/article/status')}");
+        $.form.switch('modifyStatus', '{:url("$thisClass/status")}');
     })
 </script>
 {/block}

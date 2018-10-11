@@ -47,6 +47,64 @@ class Article extends ModelService {
     }
 
     /**
+     * 新增文章
+     * @param $insert
+     * @return \think\response\Json
+     * @throws \think\exception\PDOException
+     */
+    public static function add($post) {
+        self::startTrans();
+        try {
+            $insert = $post;
+            unset($insert['tag_list']);
+            $article_id = self::insertGetId($insert);
+            self::__buildAddTag($article_id, $post);
+            self::commit();
+        } catch (\Exception $e) {
+            self::rollback();
+            return __error($e->getMessage());
+        }
+        return __success('文章添加成功！');
+    }
+
+    /**
+     * 修改文章
+     * @param $update
+     * @return \think\response\Json
+     * @throws \think\exception\PDOException
+     */
+    public static function edit($update) {
+        $update_article = $update;
+        unset($update_article['article_id']);
+        unset($update_article['tag_list']);
+        self::where(['id' => $update['article_id']])->update($update_article);
+        \app\admin\model\blog\ArticleTag::where(['article_id' => $update['article_id']])->delete();
+        self::__buildAddTag($update['article_id'], $update);
+        return __success('文章修改成功！');
+    }
+
+    /**
+     * 前置数据
+     * @param $data
+     */
+    protected static function __buildAddTag($article_id, $insert) {
+        if (isset($insert['tag_list']) && !empty($insert['tag_list']) && !empty($article_id)) {
+            list($tag_list, $save_all) = [explode(',', $insert['tag_list']), []];
+            foreach ($tag_list as $vo) {
+                $tag_id = \app\admin\model\blog\Tag::where(['tag_title' => $vo])->value('id');
+                if (empty($tag_id)) {
+                    $tag_id = \app\admin\model\blog\Tag::insertGetId(['tag_title' => $vo]);
+                }
+                $save_all[] = [
+                    'article_id' => $article_id,
+                    'tag_id'     => $tag_id,
+                ];
+            }
+            \app\admin\model\blog\ArticleTag::insertAll($save_all);
+        }
+    }
+
+    /**
      * 删除
      * @param $id
      * @return \think\response\Json
@@ -105,9 +163,15 @@ class Article extends ModelService {
             ->each(function ($item, $key) {
                 $memberInfo = $item->memberInfo;
                 $categoryInfo = $item->categoryInfo;
-                $item['username'] = $memberInfo['username'];
-                $item['nickname'] = $memberInfo['nickname'];
-                $item['head_img'] = $memberInfo['head_img'];
+                if ($item['member_id'] == 0) {
+                    $item['username'] = 'admin';
+                    $item['nickname'] = '管理员';
+                    $item['head_img'] = '/static/image/blog/face_default.jpg';
+                } else {
+                    $item['username'] = $memberInfo['username'];
+                    $item['nickname'] = $memberInfo['nickname'];
+                    $item['head_img'] = $memberInfo['head_img'];
+                }
                 $item['category_title'] = $categoryInfo['title'];
                 $item['commont_total'] = model('blog.commont')->where(['article_id' => $item['id']])->count();
             });

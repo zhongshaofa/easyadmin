@@ -47,13 +47,13 @@
             <a class="layui-btn" data-search="memberTableId">搜索</a>
         </div>
 
-        {if auth('admin_blog/member/add')}
+        {if auth("$thisClass/add")}
         <div class="layui-form-item layui-inline">
             <a class="layui-btn layui-btn-normal" data-open='{:url("$thisClass/add")}' data-title="添加会员" data-width="600px" data-height="600px">添加</a>
         </div>
         {/if}
 
-        {if auth('admin_blog/member/del')}
+        {if auth("$thisClass/del")}
         <div class="layui-form-item layui-inline">
             <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del-all='{:url("$thisClass/del")}' data-table-id="memberTableId">删除</a>
         </div>
@@ -63,7 +63,7 @@
     <table id="memberTable" lay-filter="memberTable"></table>
 
     <script type="text/html" id="bindHeadImg">
-        <img style="width: 30px; height: 30px;" src="{{d.head_img}}" layer-src="{{d.head_img}}" alt="{{d.nickname}}" data-image="open"  lay-filter="modifyHeadImg">
+        <img style="width: 30px; height: 30px;" src="{{d.head_img}}" layer-src="{{d.head_img}}" alt="{{d.nickname}}" data-image="open" lay-filter="modifyHeadImg">
     </script>
 
     <script type="text/html" id="checkStatus">
@@ -119,7 +119,7 @@
             },
             {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
             {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
-            /**{if auth('admin_blog/member/edit') || auth('admin_blog/member/del') || auth('admin_blog/member/edit_password')}**/
+            /**{if auth("$thisClass/edit") || auth("$thisClass/del") || auth("$thisClass/edit_password")}**/
             {title: '操作', minWidth: 250, templet: '#TableBar', fixed: "right", align: "center"}
             /**{/if}**/
         ]]);

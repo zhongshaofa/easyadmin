@@ -35,7 +35,7 @@
         <div class="layui-input-block">
             <select id="category_id" lay-filter="category_id">
                 {foreach category_list as $vo}
-                <option value="{$vo.id|default=''}">{$vo.title|default=''}</option>
+                <option value="{$vo.id|default=''}" {if !empty($article.category_id) and $article.category_id eq $vo.id}selected{/if}>{$vo.title|default=''}</option>
                 {/foreach}
             </select>
         </div>
@@ -78,6 +78,10 @@
         </div>
     </div>
 
+    {if !empty($article)}
+    <input type="hidden" class="id" id="id" value="{$article.id|default=''}">
+    {/if}
+
     <div class="layui-form-item layui-row layui-col-xs12">
         <div class="layui-input-block">
             <button class="layui-btn layui-btn-sm" id="addArticle">立即添加</button>
@@ -92,121 +96,102 @@
 <script type="text/javascript" src="/static/plugs/tag-it/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="__STATIC__/plugs/tag-it/js/tag-it.js" charset="utf-8"></script>
 <script type="text/javascript" src="__STATIC__/plugs/wangEditor-3.1.1/release/wangEditor.min.js"></script>
-<script>
-    layui.use(['form', 'layedit', 'laydate', 'upload'], function () {
-            var form = layui.form
-                , layer = layui.layer
-                , layedit = layui.layedit
-                , upload = layui.upload
-                , laydate = layui.laydate;
-
-            //预读取文章标签
-            var sampleTags = JSON.parse('{$sample_tags|json_encode|raw}');
-
-            /**
-             * 拖拽上传
-             */
-            upload.render({
-                elem: '#uploadLogo'
-                , url: "{:url('@admin/api.upload/image')}"
-                , done: function (res) {
-                    if (res.code == 0) {
-                        $('#cover_img').attr('src', res.url[0]);
-                        var parent = document.getElementById("uploadLogo");
-                        var child = document.getElementById("upload_icon");
-                        var child1 = document.getElementById("upload_icon_p");
-                        parent.removeChild(child);
-                        parent.removeChild(child1);
-                    } else {
-                        layer.msg(res.msg);
-                    }
-                }
-            });
-
-            /**
-             * 文章标签处理
-             */
-            $('#tag_list').tagit({
-                availableTags: sampleTags, //预读取
-                removeConfirmation: true, //回车两次才删除
-                // readOnly: true //只读
-            });
-        }
-    )
-</script>
 <script type="text/javascript">
-    var E = window.wangEditor
-    var editor = new E('#editor1', '#editor2')
-    editor.customConfig.uploadImgServer = "{:url('@blog/api.upload/image')}"
-    editor.customConfig.uploadFileName = 'image'
-    editor.customConfig.pasteFilterStyle = false
-    editor.customConfig.uploadImgMaxLength = 5
-    editor.customConfig.uploadImgHooks = {
-        success: function (xhr, editor, result) {
-            // 图片上传并返回结果，图片插入成功之后触发
-            // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
-        },
-        fail: function (xhr, editor, result) {
-            // 图片上传并返回结果，但图片插入错误时触发
-            // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
-        },
-        error: function (xhr, editor) {
-            // 图片上传出错时触发
-            // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
-        },
-        timeout: function (xhr, editor) {
-            layer.msg('上传超时！')
-        },
+    layui.use(['form', 'layedit', 'laydate', 'upload'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , upload = layui.upload
+            , laydate = layui.laydate;
 
-        // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
-        // （但是，服务器端返回的必须是一个 JSON 格式字符串！！！否则会报错）
-        customInsert: function (insertImg, result, editor) {
-            console.log(result);
-            if (result.code == 0) {
-                url = result.url;
-                url.forEach(function (e) {
-                    insertImg(e)
-                })
-            } else {
-                layer.msg(result.msg);
+        /**
+         *编辑器初始化
+         */
+        var E = window.wangEditor;
+        var editor = new E('#editor1', '#editor2');
+        editor.customConfig.uploadImgServer = "{:url('@admin/api.upload/image')}";
+        editor.customConfig.uploadFileName = 'image';
+        editor.customConfig.pasteFilterStyle = false;
+        editor.customConfig.uploadImgMaxLength = 5;
+        editor.customConfig.uploadImgHooks = {
+            timeout: function (xhr, editor) {
+                $.msg.error('上传超时！')
+            },
+            // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
+            customInsert: function (insertImg, result, editor) {
+                console.log(result);
+                if (result.code == 0) {
+                    url = result.url;
+                    url.forEach(function (e) {
+                        insertImg(e);
+                    })
+                } else {
+                    $.msg.error(result.msg);
+                }
             }
         }
-    }
-    editor.customConfig.customAlert = function (info) {
-        layer.msg(info)
-    }
-    editor.create()
-
-    /**
-     * 添加文章
-     */
-    $("#addArticle").click(function () {
-        if (editor.txt.text() == '') {
-            $.msg.error('评论内容不可为空！');
-            return false;
+        editor.customConfig.customAlert = function (info) {
+            layer.msg(info);
         }
-        var data = {
-            member_id: "{$Think.session.member.id}",
-            title: $('#title').val(),
-            tag_list: $('#tag_list').val(),
-            category_id: $('#category_id').val(),
-            cover_img: $('#cover_img').attr('src'),
-            describe: $('#describe').val(),
-            content: editor.txt.html(),
-        };
-        $.request.post("{:url('@blog/article/add')}", data, function (res) {
-            layer.confirm('文章发表成功，是否继续编写文章？', {
-                btn: ['返回首页', '继续编辑'],
-                yes: function (index, layero) {
-                    window.location.href = "{:url('@blog')}";
+        editor.create();
+
+        //预读取文章标签
+        var sampleTags = JSON.parse('{$sample_tags|json_encode|raw}');
+
+        /**
+         * 拖拽上传
+         */
+        upload.render({
+            elem: '#uploadLogo'
+            , url: "{:url('@admin/api.upload/image')}"
+            , done: function (res) {
+                if (res.code == 0) {
+                    $('#cover_img').attr('src', res.url[0]);
+                    var parent = document.getElementById("uploadLogo");
+                    var child = document.getElementById("upload_icon");
+                    var child1 = document.getElementById("upload_icon_p");
+                    parent.removeChild(child);
+                    parent.removeChild(child1);
+                } else {
+                    layer.msg(res.msg);
                 }
-                , btn2: function (index, layero) {
-                    $.tool.reload('open');
-                }
-            });
+            }
         });
-        return false;
-    });
+
+        /**
+         * 文章标签处理
+         */
+        $('#tag_list').tagit({
+            availableTags: sampleTags, //预读取
+            removeConfirmation: true, //回车两次才删除
+            // readOnly: true //只读
+        });
+
+        /**
+         * 添加文章
+         */
+        $("#addArticle").click(function () {
+            if (editor.txt.text() == '') {
+                $.msg.error('评论内容不可为空！');
+                return false;
+            }
+            var data = {
+                article_id: $('#id').val(),
+                title: $('#title').val(),
+                tag_list: $('#tag_list').val(),
+                category_id: $('#category_id').val(),
+                cover_img: $('#cover_img').attr('src'),
+                describe: $('#describe').val(),
+                content: editor.txt.html(),
+            };
+            $.request.post('{:url("$thisRequest")}', data, function (res) {
+                $.msg.success(res.msg, function () {
+                    $.tool.reload('open');
+                });
+            });
+            return false;
+        });
+    })
 
 </script>
 {/block}

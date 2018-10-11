@@ -73,10 +73,6 @@
      * 添加、编辑
      */
     $("#addBtn").on("click", function () {
-        auth_id = [];
-        $("input:checkbox[name='auth_id']:checked").each(function () {
-            auth_id.push($(this).val());
-        });
         var url = '{if empty($member)}{:url("$thisClass/add")}{else/}{:url("$thisClass/edit")}{/if}';
         var data = {
             id: $("#id").val(),
@@ -87,7 +83,6 @@
             phone: $("#phone").val(),
             qq: $("#qq").val(),
             email: $("#email").val(),
-            auth_id: auth_id,
             remark: $("#remark").val(),
         };
         $.request.post(url, data, function (res) {

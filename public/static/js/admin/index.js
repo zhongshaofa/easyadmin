@@ -107,11 +107,16 @@ layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function () {
         window.localStorage.clear();
         //清除服务器缓存
         $.get("/api/admin.common/clearCache", function (res) {
-            layer.close(index);
             if (res.code == 0) {
-                layer.msg("缓存清除成功！");
+                setTimeout(function () {
+                    layer.close(index);
+                    layer.msg(res.msg);
+                }, 1000);
             } else {
-                layer.msg("服务端缓存清除失败！");
+                setTimeout(function () {
+                    layer.close(index);
+                    layer.msg("服务端缓存清除失败！");
+                }, 1000);
             }
         })
         return false;

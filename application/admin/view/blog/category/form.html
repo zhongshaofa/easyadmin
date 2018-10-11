@@ -5,21 +5,21 @@
 <form class="layui-form" style="width:80%;">
     <br>
     <div class="layui-form-item layui-row layui-col-xs12">
-        <label class="layui-form-label">标签名称</label>
+        <label class="layui-form-label">分类名称</label>
         <div class="layui-input-block">
-            <input type="text" id="tag_title" class="layui-input" lay-verify="required" value="{$tag.tag_title|default=''}" placeholder="请输入分类名称">
+            <input type="text" id="title" class="layui-input" lay-verify="required" value="{$category.title|default=''}" placeholder="请输入分类名称">
         </div>
     </div>
 
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">备注信息</label>
         <div class="layui-input-block">
-            <textarea placeholder="请输入备注信息" id="remark" class="layui-textarea">{$tag.remark|default=''}</textarea>
+            <textarea placeholder="请输入备注信息" id="remark" class="layui-textarea">{$category.remark|default=''}</textarea>
         </div>
     </div>
 
-    {if !empty($tag)}
-    <input type="hidden" class="id" id="id" value="{$tag.id|default=''}">
+    {if !empty($category)}
+    <input type="hidden" class="id" id="id" value="{$category.id|default=''}">
     {/if}
 
     <div class="layui-form-item layui-row layui-col-xs12">
@@ -38,10 +38,10 @@
      * 添加、编辑
      */
     $("#addBtn").on("click", function () {
-        var url = '{if empty($tag)}{:url("$thisClass/add")}{else/}{:url("$thisClass/edit")}{/if}';
+        var url = '{if empty($category)}{:url("$thisClass/add")}{else/}{:url("$thisClass/edit")}{/if}';
         var data = {
             id: $("#id").val(),
-            tag_title: $("#tag_title").val(),
+            title: $("#title").val(),
             remark: $("#remark").val(),
         };
         $.request.post(url, data, function (res) {

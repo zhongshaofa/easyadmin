@@ -65,6 +65,16 @@ class Article extends AdminController {
                 'sample_tags'   => \app\admin\model\blog\Tag::getSampleTags(),
             ];
             return $this->fetch('form', $basic_data);
+        } else {
+            $post = $this->request->post();
+            $post['member_id'] = 0;
+            
+            //验证数据
+            $validate = $this->validate($post, 'app\admin\validate\blog\Article.add');
+            if (true !== $validate) return __error($validate);
+
+            //保存数据,返回结果
+            return $this->model->add($post);
         }
     }
 
@@ -82,9 +92,9 @@ class Article extends AdminController {
             $where = ['id' => $get['id'], 'status' => 0, 'is_deleted' => 0];
             $article = $this->model->where($where)->find();
             if (empty($article)) return msg_error('文章不存在，请刷新重试！');
-            $tag = \app\admin_blog\model\ArticleTag::where(['article_id' => $get['id']])->distinct(true)->field('tag_id')->select();
+            $tag = \app\admin\model\blog\ArticleTag::where(['article_id' => $get['id']])->distinct(true)->field('tag_id')->select();
             foreach ($tag as $vo) {
-                $tag_title = $tag_title . ',' . model('Tag')->where(['id' => $vo['tag_id']])->value('tag_title');
+                $tag_title = $tag_title . ',' . \app\admin\model\blog\Tag::where(['id' => $vo['tag_id']])->value('tag_title');
             }
             $basic_data = [
                 'title'         => '修改文章',
@@ -94,6 +104,15 @@ class Article extends AdminController {
                 'tag_title'     => $tag_title,
             ];
             return $this->fetch('form', $basic_data);
+        } else {
+            $post = $this->request->post();
+
+            //验证数据
+            $validate = $this->validate($post, 'app\admin\validate\blog\Article.edit');
+            if (true !== $validate) return __error($validate);
+
+            //保存数据,返回结果
+            return $this->model->edit($post);
         }
     }
 
@@ -103,9 +122,15 @@ class Article extends AdminController {
      */
     public function del() {
         $get = $this->request->get();
-        if (empty($get['id'])) return __error('请选择需要删除的信息');
+
+        //验证数据
+        if (!is_array($get['id'])) {
+            $validate = $this->validate($get, 'app\admin\validate\blog\Article.del');
+            if (true !== $validate) return __error($validate);
+        }
+
         //执行删除操作
-        return $this->model->del($get['id']);
+        return $this->model->delData($get['id']);
     }
 
     /**
@@ -116,7 +141,7 @@ class Article extends AdminController {
         $get = $this->request->get();
 
         //验证数据
-        $validate = $this->validate($get, 'app\admin_blog\validate\Member.status');
+        $validate = $this->validate($get, 'app\admin\validate\blog\Member.status');
         if (true !== $validate) return __error($validate);
 
         //判断状态

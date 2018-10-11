@@ -68,11 +68,11 @@ class Tag extends AdminController {
             $post = $this->request->post();
 
             //验证数据
-            $validate = $this->validate($post, 'app\admin_blog\validate\Tag.add');
+            $validate = $this->validate($post, 'app\admin\validate\blog\Tag.add');
             if (true !== $validate) return __error($validate);
 
             //保存数据,返回结果
-            return $this->model->add($post);
+            return $this->model->addData($post);
         }
     }
 
@@ -85,23 +85,23 @@ class Tag extends AdminController {
 
             //查找所需修改用户
             $tag = $this->model->where('id', $this->request->get('id'))->find();
-            if (empty($member)) return msg_error('暂无数据，请重新刷新页面！');
+            if (empty($tag)) return msg_error('暂无数据，请重新刷新页面！');
 
             //基础数据
             $basic_data = [
                 'title' => '修改标签信息',
-                'data'  => $tag,
+                'tag'  => $tag,
             ];
             return $this->fetch('form', $basic_data);
         } else {
             $post = $this->request->post();
 
             //验证数据
-            $validate = $this->validate($post, 'app\admin_blog\validate\Member.edit');
+            $validate = $this->validate($post, 'app\admin\validate\blog\Tag.edit');
             if (true !== $validate) return __error($validate);
 
             //保存数据,返回结果
-            return $this->model->edit($post);
+            return $this->model->editData($post);
         }
     }
 
@@ -111,8 +111,14 @@ class Tag extends AdminController {
      */
     public function del() {
         $get = $this->request->get();
-        if (empty($get['id'])) return __error('请选择需要删除的信息');
+
+        //验证数据
+        if (!is_array($get['id'])) {
+            $validate = $this->validate($get, 'app\admin\validate\blog\Tag.del');
+            if (true !== $validate) return __error($validate);
+        }
+
         //执行删除操作
-        return $this->model->del($get['id']);
+        return $this->model->delData($get['id'], true);
     }
 }

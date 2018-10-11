@@ -11,7 +11,7 @@
         <div class="layui-form-item layui-inline">
             <label class="layui-form-label-99admin">标签标题</label>
             <div class="layui-input-inline">
-                <input type="text" id="tag_title" class="layui-input selectBlock" placeholder="请输入文章标题"/>
+                <input type="text" id="tag_title" class="layui-input selectBlock" placeholder="请输入标签标题"/>
             </div>
         </div>
 
@@ -26,13 +26,13 @@
             <a class="layui-btn" data-search="tagTableId">搜索</a>
         </div>
 
-        {if auth('admin_blog/member/add')}
+        {if auth("$thisClass/add")}
         <div class="layui-form-item layui-inline">
-            <a class="layui-btn layui-btn-normal" data-open='{:url("$thisClass/add")}' data-title="添加会员" data-width="600px" data-height="600px">添加</a>
+            <a class="layui-btn layui-btn-normal" data-open='{:url("$thisClass/add")}' data-title="添加标签" data-width="500px" data-height="300px">添加</a>
         </div>
         {/if}
 
-        {if auth('admin_blog/member/del')}
+        {if auth("$thisClass/del")}
         <div class="layui-form-item layui-inline">
             <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del-all='{:url("$thisClass/del")}' data-table-id="tagTableId">删除</a>
         </div>
@@ -55,11 +55,11 @@
     <!--操作-->
     <script type="text/html" id="tagTableBar">
 
-        {if auth('admin_blog/article/edit')}
-        <a class="layui-btn layui-btn-xs" data-open='{:url("$thisClass/edit")}?id={{d.id}}' data-title="修改文章信息" data-width="600px" data-height="600px">编辑</a>
+        {if auth("$thisClass/edit")}
+        <a class="layui-btn layui-btn-xs" data-open='{:url("$thisClass/edit")}?id={{d.id}}' data-title="修改标签信息" data-width="500px" data-height="300px">编辑</a>
         {/if}
 
-        {if auth('admin_blog/article/del')}
+        {if auth("$thisClass/del")}
         <a class="layui-btn layui-btn-xs layui-btn-danger" data-title="确定批量删除？" data-del='{:url("$thisClass/del")}?id={{d.id}}'>删除</a>
         {/if}
 
@@ -82,12 +82,11 @@
          */
         var tableIns = $.form.table('tag', '{:url("$thisRequest")}?type=ajax', [[
             {type: "checkbox", width: 50, fixed: "left"},
-            {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center"},
             {field: 'tag_title', title: '标签标题', minWidth: 100, align: 'center'},
             {field: 'use_total', title: '使用次数', minWidth: 100, align: "center"},
             {field: 'remark', title: '备注信息', minWidth: 100, align: "center"},
             {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
-            /**{if auth('admin_blog/article/edit') || auth('admin_blog/article/del')}**/
+            /**{if auth("$thisClass/edit") || auth("$thisClass/del")}**/
             {title: '操作', minWidth: 100, templet: '#tagTableBar', fixed: "right", align: "center"}
             /**{/if}**/
         ]]);
@@ -101,7 +100,7 @@
         /**
          * 修改状态
          */
-        $.form.switch('modifyStatus', "{:url('@admin_blog/member/status')}");
+        $.form.switch('modifyStatus', '{:url("$thisClass/status")}');
     })
 </script>
 {/block}

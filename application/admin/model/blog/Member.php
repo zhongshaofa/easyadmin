@@ -24,6 +24,12 @@ class Member extends ModelService {
      */
     protected $table = 'blog_member';
 
+    /**
+     * 新增
+     * @param $post
+     * @return \think\response\Json
+     * @throws \think\exception\PDOException
+     */
     public static function add($post) {
         self::startTrans();
         try {
@@ -37,7 +43,7 @@ class Member extends ModelService {
     }
 
     /**
-     * 修改信息
+     * 修改
      * @param $post
      * @return \think\response\Json
      */

@@ -189,11 +189,11 @@ class Member extends AdminController {
      */
     public function detail() {
         $get = $this->request->get();
-        if (empty($get['id'])) return msg_error('会员编号不能为空！');
+        if ($get['id'] == 0) return msg_error('无需查看管理员的详细信息，请选择会员进行查看！');
         $member = $this->model->where(['id' => $get['id']])->find();
         if (empty($member)) return msg_error('数据有误，请稍后再试！');
         $basic_data = [
-            'title' => '员信息详情',
+            'title' => '会员信息详情',
             'data'  => $member,
         ];
         return $this->fetch('', $basic_data);
