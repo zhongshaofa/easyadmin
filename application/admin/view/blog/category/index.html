@@ -23,7 +23,7 @@
         </div>
 
         <div class="layui-form-item layui-inline">
-            <a class="layui-btn" data-search="categoryTableId">搜索</a>
+            <a class="layui-btn" data-search="currentTableId">搜索</a>
         </div>
 
         {if auth("$thisClass/add")}
@@ -34,19 +34,19 @@
 
         {if auth("$thisClass/del")}
         <div class="layui-form-item layui-inline">
-            <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del-all='{:url("$thisClass/del")}' data-table-id="categoryTableId">删除</a>
+            <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del-all='{:url("$thisClass/del")}' data-table-id="currentTableId">删除</a>
         </div>
         {/if}
 
     </blockquote>
-    <table id="categoryTable" lay-filter="categoryTable"></table>
+    <table id="currentTable" lay-filter="currentTable"></table>
 
     <script type="text/html" id="checkStatus">
         <input type="checkbox" name="{{d.id}}" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="modifyStatus" {{ d.status== 0 ? 'checked' : '' }}>
     </script>
 
     <!--操作-->
-    <script type="text/html" id="categoryTableBar">
+    <script type="text/html" id="currentTableBar">
 
         {if auth("$thisClass/edit")}
         <a class="layui-btn layui-btn-xs" data-open='{:url("$thisClass/edit")}?id={{d.id}}' data-title="修改分类信息" data-width="500px" data-height="300px">编辑</a>
@@ -73,7 +73,7 @@
         /**
          * 生成表单
          */
-        var tableIns = $.form.table('category', '{:url("$thisRequest")}?type=ajax', [[
+        var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
             {type: "checkbox", width: 50, fixed: "left"},
             {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center"},
             {field: 'title', title: '分类标题', minWidth: 100, align: 'center'},
@@ -81,7 +81,7 @@
             {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
             {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
             /**{if auth("$thisClass/edit") || auth("$thisClass/del")}**/
-            {title: '操作', minWidth: 100, templet: '#categoryTableBar', fixed: "right", align: "center"}
+            {title: '操作', minWidth: 100, templet: '#currentTableBar', fixed: "right", align: "center"}
             /**{/if}**/
         ]]);
 
@@ -93,7 +93,7 @@
         /**
          * 监听字段值编辑
          */
-        $.form.editField('categoryTable', '{:url("$thisRequest")}');
+        $.form.editField('currentTable', '{:url("$thisRequest")}');
 
         /**
          * 修改状态

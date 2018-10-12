@@ -11,6 +11,7 @@
 use think\exception\HttpResponseException;
 
 use think\facade\Cache;
+use think\facade\Config;
 
 // 应用行为扩展定义文件
 return [
@@ -33,6 +34,12 @@ return [
             'SysInfo'   => Cache::get('SysInfo'),
             'BlogInfo'  => Cache::get('BlogInfo'),
             'is_mobile' => is_mobile(),
+            'website'   => [
+                'index'    => Config::get('website.index'),
+                'download' => Config::get('website.download'),
+                'blog'     => Config::get('website.blog'),
+                'demo'     => Config::get('website.demo'),
+            ],
         ]);
     },
     // 模块初始化

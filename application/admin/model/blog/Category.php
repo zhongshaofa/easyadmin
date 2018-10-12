@@ -30,6 +30,13 @@ class Category extends ModelService {
      */
     protected $table = 'blog_category';
 
+    /**
+     * 获取分类列数据
+     * @return array|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public static function getCategoryList() {
         $order_category_list = [
             'sort'      => 'desc',

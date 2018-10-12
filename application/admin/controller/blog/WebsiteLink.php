@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Administrator
- * Date: 2018/9/27
- * Time: 1:34
+ * Date: 2018/10/11
+ * Time: 22:59
  */
 
 namespace app\admin\controller\blog;
@@ -11,7 +11,12 @@ namespace app\admin\controller\blog;
 
 use app\common\controller\AdminController;
 
-class Category extends AdminController {
+/**
+ * 友情链接控制器
+ * Class WebsiteLink
+ * @package app\admin\controller\blog
+ */
+class WebsiteLink extends AdminController {
 
     /**
      * 默认模型对象
@@ -24,11 +29,11 @@ class Category extends AdminController {
      */
     public function __construct() {
         parent::__construct();
-        $this->model = new \app\admin\model\blog\Category;
+        $this->model = new \app\admin\model\blog\WebsiteLink;
     }
 
     /**
-     * 文章分类
+     * 列表
      * @return mixed|\think\response\Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -43,7 +48,7 @@ class Category extends AdminController {
                 return json($this->model->getList($page, $limit, $search));
             }
             $basic_data = [
-                'title' => '文章分类',
+                'title' => '友情链接列表',
                 'data'  => '',
             ];
             return $this->fetch('', $basic_data);
@@ -66,14 +71,14 @@ class Category extends AdminController {
     public function add() {
         if (!$this->request->isPost()) {
             $basic_data = [
-                'title' => '添加分类',
+                'title' => '添加友情链接',
             ];
             return $this->fetch('form', $basic_data);
         } else {
             $post = $this->request->post();
 
             //验证数据
-            $validate = $this->validate($post, 'app\admin\validate\blog\Category.add');
+            $validate = $this->validate($post, 'app\admin\validate\blog\WebsiteLink.add');
             if (true !== $validate) return __error($validate);
 
             //保存数据,返回结果
@@ -94,15 +99,15 @@ class Category extends AdminController {
 
             //基础数据
             $basic_data = [
-                'title'    => '修改会员信息',
-                'category' => $data,
+                'title' => '修改友情链接',
+                'data'  => $data,
             ];
             return $this->fetch('form', $basic_data);
         } else {
             $post = $this->request->post();
 
             //验证数据
-            $validate = $this->validate($post, 'app\admin\validate\blog\Category.edit');
+            $validate = $this->validate($post, 'app\admin\validate\blog\WebsiteLink.edit');
             if (true !== $validate) return __error($validate);
 
             //保存数据,返回结果
@@ -119,7 +124,7 @@ class Category extends AdminController {
 
         //验证数据
         if (!is_array($get['id'])) {
-            $validate = $this->validate($get, 'app\admin\validate\blog\Category.del');
+            $validate = $this->validate($get, 'app\admin\validate\blog\WebsiteLink.del');
             if (true !== $validate) return __error($validate);
         }
 
@@ -135,7 +140,7 @@ class Category extends AdminController {
         $get = $this->request->get();
 
         //验证数据
-        $validate = $this->validate($get, 'app\admin\validate\blog\Category.status');
+        $validate = $this->validate($get, 'app\admin\validate\blog\WebsiteLink.status');
         if (true !== $validate) return __error($validate);
 
         //判断状态
@@ -148,5 +153,4 @@ class Category extends AdminController {
         if ($update >= 1) return __success($msg);
         return __error('数据有误，请刷新重试！');
     }
-
 }

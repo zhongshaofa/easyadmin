@@ -1,0 +1,105 @@
+{extend name="admin@public/basic" /}
+{block name="style"}{/block}
+<link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
+{block name="cotent"}
+<form class="layui-form" style="width:80%;">
+    <br>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">轮播标题</label>
+        <div class="layui-input-block">
+            <input type="text" id="title" class="layui-input" lay-verify="required" value="{$data.title|default=''}" placeholder="请输入轮播标题">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">轮播图片</label>
+        <div class="layui-input-block">
+            <div class="layui-upload-drag" id="uploadImage" style="width: 100%;box-sizing: border-box;">
+                {if !isset($data.image)&&empty($data.image)}
+                <i id="upload_icon" class="layui-icon"></i>
+                <p id="upload_icon_p">点击上传，或将图片拖拽到此处(建议：920px * 230px)</p>
+                {/if}
+                <img style="width:300px;" src="{$data.image|default=''}" id="image" lay-filter="image">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">链接地址</label>
+        <div class="layui-input-block">
+            <input type="text" id="href" class="layui-input" lay-verify="required" value="{$data.href|default=''}" placeholder="请输入链接地址">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入备注信息" id="remark" class="layui-textarea">{$data.remark|default=''}</textarea>
+        </div>
+    </div>
+
+    {if !empty($data)}
+    <input type="hidden" class="id" id="id" value="{$data.id|default=''}">
+    {/if}
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-sm" id="addBtn">立即添加</button>
+            <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
+        </div>
+    </div>
+</form>
+{/block}
+
+{block name="script"}
+<script>
+    layui.use(['form', 'layedit', 'laydate', 'upload'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , upload = layui.upload
+            , laydate = layui.laydate;
+
+        /**
+         * 拖拽上传
+         */
+        upload.render({
+            elem: '#uploadImage'
+            , url: "{:url('@admin/api.upload/image')}"
+            , done: function (res) {
+                if (res.code == 0) {
+                    $('#image').attr('src', res.url[0]);
+                    var parent = document.getElementById("uploadImage");
+                    var child = document.getElementById("upload_icon");
+                    var child1 = document.getElementById("upload_icon_p");
+                    parent.removeChild(child);
+                    parent.removeChild(child1);
+                } else {
+                    layer.msg(res.msg);
+                }
+            }
+        });
+
+        /**
+         * 添加、编辑
+         */
+        $("#addBtn").on("click", function () {
+            var url = '{if empty($data)}{:url("$thisClass/add")}{else/}{:url("$thisClass/edit")}{/if}';
+            var data = {
+                id: $("#id").val(),
+                image: $("#image").attr('src'),
+                href: $("#href").val(),
+                title: $("#title").val(),
+                remark: $("#remark").val(),
+            };
+            $.request.post(url, data, function (res) {
+                $.msg.success(res.msg, function () {
+                    $.tool.reload('open');
+                })
+            })
+            return false;
+        });
+
+    })
+</script>
+{/block}

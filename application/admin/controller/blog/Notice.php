@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Administrator
- * Date: 2018/9/27
- * Time: 1:34
+ * Date: 2018/10/11
+ * Time: 22:58
  */
 
 namespace app\admin\controller\blog;
@@ -11,7 +11,12 @@ namespace app\admin\controller\blog;
 
 use app\common\controller\AdminController;
 
-class Category extends AdminController {
+/**
+ * 公告管理控制器
+ * Class Notice
+ * @package app\admin\controller\blog
+ */
+class Notice extends AdminController {
 
     /**
      * 默认模型对象
@@ -24,7 +29,7 @@ class Category extends AdminController {
      */
     public function __construct() {
         parent::__construct();
-        $this->model = new \app\admin\model\blog\Category;
+        $this->model = new \app\admin\model\blog\Notice;
     }
 
     /**
@@ -43,7 +48,7 @@ class Category extends AdminController {
                 return json($this->model->getList($page, $limit, $search));
             }
             $basic_data = [
-                'title' => '文章分类',
+                'title' => '公告列表',
                 'data'  => '',
             ];
             return $this->fetch('', $basic_data);
@@ -66,14 +71,14 @@ class Category extends AdminController {
     public function add() {
         if (!$this->request->isPost()) {
             $basic_data = [
-                'title' => '添加分类',
+                'title' => '添加公告',
             ];
             return $this->fetch('form', $basic_data);
         } else {
             $post = $this->request->post();
 
             //验证数据
-            $validate = $this->validate($post, 'app\admin\validate\blog\Category.add');
+            $validate = $this->validate($post, 'app\admin\validate\blog\Notice.add');
             if (true !== $validate) return __error($validate);
 
             //保存数据,返回结果
@@ -94,15 +99,15 @@ class Category extends AdminController {
 
             //基础数据
             $basic_data = [
-                'title'    => '修改会员信息',
-                'category' => $data,
+                'title' => '修改会员信息',
+                'data'  => $data,
             ];
             return $this->fetch('form', $basic_data);
         } else {
             $post = $this->request->post();
 
             //验证数据
-            $validate = $this->validate($post, 'app\admin\validate\blog\Category.edit');
+            $validate = $this->validate($post, 'app\admin\validate\blog\Notice.edit');
             if (true !== $validate) return __error($validate);
 
             //保存数据,返回结果
@@ -119,7 +124,7 @@ class Category extends AdminController {
 
         //验证数据
         if (!is_array($get['id'])) {
-            $validate = $this->validate($get, 'app\admin\validate\blog\Category.del');
+            $validate = $this->validate($get, 'app\admin\validate\blog\Notice.del');
             if (true !== $validate) return __error($validate);
         }
 
@@ -135,7 +140,7 @@ class Category extends AdminController {
         $get = $this->request->get();
 
         //验证数据
-        $validate = $this->validate($get, 'app\admin\validate\blog\Category.status');
+        $validate = $this->validate($get, 'app\admin\validate\blog\Notice.status');
         if (true !== $validate) return __error($validate);
 
         //判断状态
@@ -148,5 +153,4 @@ class Category extends AdminController {
         if ($update >= 1) return __success($msg);
         return __error('数据有误，请刷新重试！');
     }
-
 }

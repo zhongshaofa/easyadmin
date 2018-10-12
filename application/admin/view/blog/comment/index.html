@@ -9,9 +9,16 @@
     <blockquote id="searchBlock" class="layui-elem-quote quoteBox">
 
         <div class="layui-form-item layui-inline">
-            <label class="layui-form-label-99admin">轮播标题</label>
+            <label class="layui-form-label-99admin">文章标题</label>
             <div class="layui-input-inline">
-                <input type="text" id="title" class="layui-input selectBlock" placeholder="请输入轮播标题"/>
+                <input type="text" id="title" class="layui-input selectBlock" placeholder="请输入文章标题"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">评论信息</label>
+            <div class="layui-input-inline">
+                <input type="text" id="content" class="layui-input selectBlock" placeholder="请输入评论信息"/>
             </div>
         </div>
 
@@ -26,12 +33,6 @@
             <a class="layui-btn" data-search="currentTableId">搜索</a>
         </div>
 
-        {if auth("$thisClass/add")}
-        <div class="layui-form-item layui-inline">
-            <a class="layui-btn layui-btn-normal" data-open='{:url("$thisClass/add")}' data-title="添加轮播图" data-width="800px" data-height="600px">添加</a>
-        </div>
-        {/if}
-
         {if auth("$thisClass/del")}
         <div class="layui-form-item layui-inline">
             <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del-all='{:url("$thisClass/del")}' data-table-id="currentTableId">删除</a>
@@ -43,14 +44,9 @@
 
     <script type="text/html" id="bindMemberInfo">
         <div>
-            <span>{{d.nickname}}</span> <a class="layui-btn layui-btn-xs color-99admin-desc" href="">详情</a>
+            <span>{{d.nickname}}</span> <a class="layui-btn layui-btn-xs color-99admin-desc" data-open='{:url("@admin/blog.member/detail")}?id={{d.member_id}}' data-title="查看会员信息" data-width="1000px" data-height="450px">{{d.username}}</a>
         </div>
     </script>
-
-    <script type="text/html" id="bindImage">
-        <img style="width: 60px; height: 40px;" src="{{d.image}}" layer-src="{{d.image}}" alt="{{d.title}}" data-image="open" lay-filter="modifyHeadImg">
-    </script>
-
 
     <script type="text/html" id="checkStatus">
         <input type="checkbox" name="{{d.id}}" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="modifyStatus" {{ d.status== 0 ? 'checked' : '' }}>
@@ -59,8 +55,8 @@
     <!--操作-->
     <script type="text/html" id="currentTableBar">
 
-        {if auth("$thisClass/edit")}
-        <a class="layui-btn layui-btn-xs" data-open='{:url("$thisClass/edit")}?id={{d.id}}' data-title="修改轮播图信息" data-width="800px" data-height="600px">编辑</a>
+        {if auth("$thisClass/details")}
+        <a class="layui-btn layui-btn-primary layui-btn-xs" href='/blog/article/details/id/{{d.article_id}}.html' target="_blank">查看</a>
         {/if}
 
         {if auth("$thisClass/del")}
@@ -86,17 +82,15 @@
          */
         var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
             {type: "checkbox", width: 50, fixed: "left"},
-            {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center"},
-            {field: 'title', title: '轮播标题', minWidth: 100, align: 'center'},
-            {field: 'image', title: '轮播图片', width: 100, templet: '#bindImage', align: "center"},
-            {field: 'href', title: '链接地址', minWidth: 100, align: "center"},
+            {field: 'memberInfo', title: '用户信息', minWidth: 80, templet: '#bindMemberInfo', align: "center"},
+            {field: 'article_title', title: '文章标题', minWidth: 100, align: 'center'},
+            {field: 'content', title: '评论信息', minWidth: 100, align: 'center'},
             {field: 'remark', title: '备注信息', minWidth: 100, align: "center"},
-            {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
             {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
-            /**{if auth("$thisClass/edit") || auth("$thisClass/del")}**/
+            /**{if auth("$thisClass/del")}**/
             {title: '操作', minWidth: 100, templet: '#currentTableBar', fixed: "right", align: "center"}
             /**{/if}**/
-        ]], true, 'line', 'lg', true);
+        ]]);
 
         /**
          * 日期范围

@@ -9,9 +9,16 @@
     <blockquote id="searchBlock" class="layui-elem-quote quoteBox">
 
         <div class="layui-form-item layui-inline">
-            <label class="layui-form-label-99admin">轮播标题</label>
+            <label class="layui-form-label-99admin">站点名称</label>
             <div class="layui-input-inline">
-                <input type="text" id="title" class="layui-input selectBlock" placeholder="请输入轮播标题"/>
+                <input type="text" id="website_name" class="layui-input selectBlock" placeholder="请输入站点名称"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label-99admin">链接地址</label>
+            <div class="layui-input-inline">
+                <input type="text" id="href" class="layui-input selectBlock" placeholder="请输入链接地址"/>
             </div>
         </div>
 
@@ -28,7 +35,7 @@
 
         {if auth("$thisClass/add")}
         <div class="layui-form-item layui-inline">
-            <a class="layui-btn layui-btn-normal" data-open='{:url("$thisClass/add")}' data-title="添加轮播图" data-width="800px" data-height="600px">添加</a>
+            <a class="layui-btn layui-btn-normal" data-open='{:url("$thisClass/add")}' data-title="添加站点信息" data-width="800px" data-height="350px">添加</a>
         </div>
         {/if}
 
@@ -41,17 +48,6 @@
     </blockquote>
     <table id="currentTable" lay-filter="currentTable"></table>
 
-    <script type="text/html" id="bindMemberInfo">
-        <div>
-            <span>{{d.nickname}}</span> <a class="layui-btn layui-btn-xs color-99admin-desc" href="">详情</a>
-        </div>
-    </script>
-
-    <script type="text/html" id="bindImage">
-        <img style="width: 60px; height: 40px;" src="{{d.image}}" layer-src="{{d.image}}" alt="{{d.title}}" data-image="open" lay-filter="modifyHeadImg">
-    </script>
-
-
     <script type="text/html" id="checkStatus">
         <input type="checkbox" name="{{d.id}}" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="modifyStatus" {{ d.status== 0 ? 'checked' : '' }}>
     </script>
@@ -60,7 +56,7 @@
     <script type="text/html" id="currentTableBar">
 
         {if auth("$thisClass/edit")}
-        <a class="layui-btn layui-btn-xs" data-open='{:url("$thisClass/edit")}?id={{d.id}}' data-title="修改轮播图信息" data-width="800px" data-height="600px">编辑</a>
+        <a class="layui-btn layui-btn-xs" data-open='{:url("$thisClass/edit")}?id={{d.id}}' data-title="修改站点信息" data-width="800px" data-height="350px">编辑</a>
         {/if}
 
         {if auth("$thisClass/del")}
@@ -87,8 +83,7 @@
         var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
             {type: "checkbox", width: 50, fixed: "left"},
             {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center"},
-            {field: 'title', title: '轮播标题', minWidth: 100, align: 'center'},
-            {field: 'image', title: '轮播图片', width: 100, templet: '#bindImage', align: "center"},
+            {field: 'website_name', title: '站点名称', minWidth: 100, align: 'center'},
             {field: 'href', title: '链接地址', minWidth: 100, align: "center"},
             {field: 'remark', title: '备注信息', minWidth: 100, align: "center"},
             {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
@@ -96,7 +91,7 @@
             /**{if auth("$thisClass/edit") || auth("$thisClass/del")}**/
             {title: '操作', minWidth: 100, templet: '#currentTableBar', fixed: "right", align: "center"}
             /**{/if}**/
-        ]], true, 'line', 'lg', true);
+        ]]);
 
         /**
          * 日期范围

@@ -44,7 +44,7 @@
         </div>
 
         <div class="layui-form-item layui-inline">
-            <a class="layui-btn" data-search="memberTableId">搜索</a>
+            <a class="layui-btn" data-search="currentTableId">搜索</a>
         </div>
 
         {if auth("$thisClass/add")}
@@ -55,12 +55,12 @@
 
         {if auth("$thisClass/del")}
         <div class="layui-form-item layui-inline">
-            <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del-all='{:url("$thisClass/del")}' data-table-id="memberTableId">删除</a>
+            <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del-all='{:url("$thisClass/del")}' data-table-id="currentTableId">删除</a>
         </div>
         {/if}
 
     </blockquote>
-    <table id="memberTable" lay-filter="memberTable"></table>
+    <table id="currentTable" lay-filter="currentTable"></table>
 
     <script type="text/html" id="bindHeadImg">
         <img style="width: 30px; height: 30px;" src="{{d.head_img}}" layer-src="{{d.head_img}}" alt="{{d.nickname}}" data-image="open" lay-filter="modifyHeadImg">
@@ -77,7 +77,7 @@
         <a class="layui-btn layui-btn-primary layui-btn-xs" data-open='{:url("$thisClass/detail")}?id={{d.id}}' data-title="查看会员信息" data-width="1000px" data-height="450px">查看</a>
         {/if}
 
-        {if auth("$thisClass/edit_password")}
+        {if auth("$thisClass/reset_password")}
         <a class="layui-btn layui-btn-xs layui-btn-green" data-open='{:url("$thisClass/reset_password")}?id={{d.id}}' data-title="重置密码" data-width="500px" data-height="300px">重置密码</a>
         {/if}
 
@@ -106,7 +106,7 @@
         /**
          * 生成表单
          */
-        var tableIns = $.form.table('member', '{:url("$thisRequest")}?type=ajax', [[
+        var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
             {type: "checkbox", width: 50, fixed: "left"},
             {field: 'username', title: '登录账户', minWidth: 80, align: "center"},
             {field: 'nickname', title: '用户昵称', minWidth: 80, align: "center"},
@@ -119,7 +119,7 @@
             },
             {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
             {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
-            /**{if auth("$thisClass/edit") || auth("$thisClass/del") || auth("$thisClass/edit_password")}**/
+            /**{if auth("$thisClass/edit") || auth("$thisClass/del") || auth("$thisClass/reset_password")}**/
             {title: '操作', minWidth: 250, templet: '#TableBar', fixed: "right", align: "center"}
             /**{/if}**/
         ]]);

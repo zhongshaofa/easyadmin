@@ -12,5 +12,8 @@
 //开放平台地址
 Route::domain('download.99php.cn', 'download');
 
+//博客平台地址
+Route::domain('blog.99php.cn', 'blog');
+
 //刷新缓存地址
 Route::get('cache/clean/:password', 'cache/clean/index');

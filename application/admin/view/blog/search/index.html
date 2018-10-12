@@ -9,9 +9,9 @@
     <blockquote id="searchBlock" class="layui-elem-quote quoteBox">
 
         <div class="layui-form-item layui-inline">
-            <label class="layui-form-label-99admin">标签标题</label>
+            <label class="layui-form-label-99admin">搜索关键词</label>
             <div class="layui-input-inline">
-                <input type="text" id="tag_title" class="layui-input selectBlock" placeholder="请输入标签标题"/>
+                <input type="text" id="word" class="layui-input selectBlock" placeholder="请输入搜索关键词"/>
             </div>
         </div>
 
@@ -26,12 +26,6 @@
             <a class="layui-btn" data-search="currentTableId">搜索</a>
         </div>
 
-        {if auth("$thisClass/add")}
-        <div class="layui-form-item layui-inline">
-            <a class="layui-btn layui-btn-normal" data-open='{:url("$thisClass/add")}' data-title="添加标签" data-width="500px" data-height="300px">添加</a>
-        </div>
-        {/if}
-
         {if auth("$thisClass/del")}
         <div class="layui-form-item layui-inline">
             <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del-all='{:url("$thisClass/del")}' data-table-id="tagTableId">删除</a>
@@ -41,23 +35,8 @@
     </blockquote>
     <table id="currentTable" lay-filter="currentTable"></table>
 
-    <script type="text/html" id="bindMemberInfo">
-        <div>
-            <span>{{d.nickname}}</span> <a class="layui-btn layui-btn-xs color-99admin-desc" href="">详情</a>
-        </div>
-    </script>
-
-
-    <script type="text/html" id="checkStatus">
-        <input type="checkbox" name="{{d.id}}" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="modifyStatus" {{ d.status== 0 ? 'checked' : '' }}>
-    </script>
-
     <!--操作-->
     <script type="text/html" id="currentTableBar">
-
-        {if auth("$thisClass/edit")}
-        <a class="layui-btn layui-btn-xs" data-open='{:url("$thisClass/edit")}?id={{d.id}}' data-title="修改标签信息" data-width="500px" data-height="300px">编辑</a>
-        {/if}
 
         {if auth("$thisClass/del")}
         <a class="layui-btn layui-btn-xs layui-btn-danger" data-title="确定批量删除？" data-del='{:url("$thisClass/del")}?id={{d.id}}'>删除</a>
@@ -82,11 +61,11 @@
          */
         var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
             {type: "checkbox", width: 50, fixed: "left"},
-            {field: 'tag_title', title: '标签标题', minWidth: 100, align: 'center'},
-            {field: 'use_total', title: '使用次数', minWidth: 100, align: "center"},
-            {field: 'remark', title: '备注信息', minWidth: 100, align: "center"},
+            {field: 'word', title: '搜索关键词', minWidth: 100, align: 'center'},
+            {field: 'total', title: '搜索总次数', minWidth: 100, align: "center"},
             {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
-            /**{if auth("$thisClass/edit") || auth("$thisClass/del")}**/
+            {field: 'update_at', title: '更新时间', align: 'center', minWidth: 150},
+            /**{if auth("$thisClass/del")}**/
             {title: '操作', minWidth: 100, templet: '#currentTableBar', fixed: "right", align: "center"}
             /**{/if}**/
         ]]);
@@ -95,12 +74,6 @@
          * 日期范围
          */
         $.laydate.range('create_at');
-
-
-        /**
-         * 修改状态
-         */
-        $.form.switch('modifyStatus', '{:url("$thisClass/status")}');
     })
 </script>
 {/block}

@@ -37,7 +37,7 @@
         </div>
 
         <div class="layui-form-item layui-inline">
-            <a class="layui-btn" data-search="articleTableId">搜索</a>
+            <a class="layui-btn" data-search="currentTableId">搜索</a>
         </div>
 
         {if auth("$thisClass/add")}
@@ -48,12 +48,12 @@
 
         {if auth("$thisClass/del")}
         <div class="layui-form-item layui-inline">
-            <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del-all='{:url("$thisClass/del")}' data-table-id="articleTableId">删除</a>
+            <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del-all='{:url("$thisClass/del")}' data-table-id="currentTableId">删除</a>
         </div>
         {/if}
 
     </blockquote>
-    <table id="articleTable" lay-filter="articleTable"></table>
+    <table id="currentTable" lay-filter="currentTable"></table>
 
     <script type="text/html" id="bindMemberInfo">
         <div>
@@ -78,10 +78,10 @@
     </script>
 
     <!--操作-->
-    <script type="text/html" id="articleTableBar">
+    <script type="text/html" id="currentTableBar">
 
-        {if auth("$thisClass/detail")}
-        <a class="layui-btn layui-btn-primary layui-btn-xs" href='/blog/article/details.html?id={{d.id}}' target="_blank">查看</a>
+        {if auth("$thisClass/details")}
+        <a class="layui-btn layui-btn-primary layui-btn-xs" href='/blog/article/details/id/{{d.id}}.html' target="_blank">查看</a>
         {/if}
 
         {if auth("$thisClass/edit")}
@@ -109,7 +109,7 @@
         /**
          * 生成表单
          */
-        var tableIns = $.form.table('article', '{:url("$thisRequest")}?type=ajax', [[
+        var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
             {type: "checkbox", width: 50, fixed: "left"},
             {field: 'memberInfo', title: '用户信息', minWidth: 80, templet: '#bindMemberInfo', align: "center"},
             // {field: 'head_img', title: '用户头像', width: 100, templet: '#bindHeadImg', align: "center"},
@@ -121,8 +121,8 @@
             {field: 'commont_total', title: '评论量', width: 100, align: "center", sort: true},
             {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
             {field: 'create_at', title: '发布时间', align: 'center', minWidth: 150},
-            /**{if auth('admin_blog/article/edit') || auth('admin_blog/article/del')}**/
-            {title: '操作', minWidth: 100, templet: '#articleTableBar', fixed: "right", align: "center"}
+            /**{if auth('admin_blog/article/edit') || auth('admin_blog/article/del') || auth("$thisClass/details")}**/
+            {title: '操作', minWidth: 100, templet: '#currentTableBar', fixed: "right", align: "center"}
             /**{/if}**/
         ]], true, 'line', 'lg', true);
 

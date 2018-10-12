@@ -70,19 +70,19 @@ class AdminController extends Controller {
 
         //检测登录情况
         if ($this->is_login == true) {
-            $this->checkLogin();
+            $this->__checkLogin();
         }
 
         //判断是否有权限进行访问
         if ($this->is_auth == true) {
-            $this->checkAuth();
+            $this->__checkAuth();
         }
     }
 
     /**
      * 检测登录
      */
-    public function checkLogin() {
+    public function __checkLogin() {
         $user = session('user');
         //判断是否登录
         if (empty($user)) {
@@ -107,7 +107,7 @@ class AdminController extends Controller {
     /**
      * 检测登录情况
      */
-    public function checkAuth() {
+    public function __checkAuth() {
         if (AuthService::checkNode() == false) {
             $data = ['type' => 'error', 'code' => 1, 'msg' => '抱歉，您暂无该权限，请联系管理员！', 'url' => url('@admin')];
             throw new HttpResponseException($this->request->isAjax() ? json($data) : exit(msg_error($data['msg'], $data['url'])));

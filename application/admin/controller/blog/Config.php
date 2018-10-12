@@ -1,23 +1,20 @@
 <?php
-// +----------------------------------------------------------------------
-// | 99PHP [ WE CAN DO IT JUST THINK ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2018~2020 https://www.99php.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: Mr.Chung <chung@99php.cn >
-// +----------------------------------------------------------------------
+/**
+ * Created by PhpStorm.
+ * User: Administrator
+ * Date: 2018/10/11
+ * Time: 23:00
+ */
 
-namespace app\admin\controller;
+namespace app\admin\controller\blog;
 
 
 use app\common\controller\AdminController;
 
 /**
- * 系统配置
+ * 博客配置控制器
  * Class Config
- * @package app\admin\controller
+ * @package app\admin\controller\blog
  */
 class Config extends AdminController {
 
@@ -32,7 +29,7 @@ class Config extends AdminController {
      */
     public function __construct() {
         parent::__construct();
-        $this->model = model('config');
+        $this->model = new \app\admin\model\blog\Config;
     }
 
     /**
@@ -46,12 +43,12 @@ class Config extends AdminController {
                 $page = $this->request->get('page', 1);
                 $limit = $this->request->get('limit', 500);
                 $search = (array)$this->request->get('search', []);
-                return json($this->model->configList($page, $limit, $search));
+                return json($this->model->getList($page, $limit, $search));
             }
 
             //基础数据
             $basic_data = [
-                'title' => '系统参数列表',
+                'title' => '博客配置列表',
             ];
             $this->assign($basic_data);
 

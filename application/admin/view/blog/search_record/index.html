@@ -9,23 +9,28 @@
     <blockquote id="searchBlock" class="layui-elem-quote quoteBox">
 
         <div class="layui-form-item layui-inline">
-            <label class="layui-form-label-99admin">登录账户</label>
+            <label class="layui-form-label-99admin">搜索关键词</label>
             <div class="layui-input-inline">
-                <input type="text" id="username" class="layui-input selectBlock" placeholder="请输入登录账户"/>
+                <input type="text" id="word" class="layui-input selectBlock" placeholder="请输入搜索关键词"/>
             </div>
         </div>
 
         <div class="layui-form-item layui-inline">
-            <label class="layui-form-label-99admin">用户昵称</label>
+            <label class="layui-form-label-99admin">搜索类型</label>
             <div class="layui-input-inline">
-                <input type="text" id="nickname" class="layui-input selectBlock" placeholder="请输入用户昵称"/>
+                <select id="type" lay-filter="type">
+                    <option value="">请选择搜索类型</option>
+                    {foreach $type_list as $vo}
+                    <option value="{$vo.id|default=''}">{$vo.title|default=''}</option>
+                    {/foreach}
+                </select>
             </div>
         </div>
 
         <div class="layui-form-item layui-inline">
-            <label class="layui-form-label-99admin">登录时间</label>
+            <label class="layui-form-label-99admin">搜索时间</label>
             <div class="layui-input-inline">
-                <input type="text" id="create_at" class="layui-input " placeholder="请选择创建时间">
+                <input type="text" id="create_at" class="layui-input " placeholder="请选择搜索时间">
             </div>
         </div>
 
@@ -42,22 +47,8 @@
     </blockquote>
     <table id="currentTable" lay-filter="currentTable"></table>
 
-    <script type="text/html" id="bindHeadImg">
-        <img style="width: 30px; height: 30px;" src="{{d.head_img}}" layer-src="{{d.head_img}}" alt="{{d.nickname}}" data-image="open" lay-filter="modifyHeadImg">
-    </script>
-
-    <script type="text/html" id="checkStatus">
-        <input type="checkbox" name="{{d.id}}" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="modifyStatus" {{ d.status== 0 ? 'checked' : '' }}>
-    </script>
-
     <script type="text/html" id="bindType">
-        {{ d.type== 0 ? '<span style="color: green">退出</span>' : '<span style="color: indianred">登录</span>' }}
-    </script>
-
-    <script type="text/html" id="bindMemberInfo">
-        <div>
-            <span>{{d.nickname}}</span> <a class="layui-btn layui-btn-xs color-99admin-desc" data-open='{:url("@admin/blog.member/detail")}?id={{d.member_id}}' data-title="查看会员信息" data-width="1000px" data-height="450px">{{d.username}}</a>
-        </div>
+        {{ d.type== 1 ? '<span style="color: green">标题</span>' : '<span style="color: indianred">标签</span>' }}
     </script>
 
     <!--操作-->
@@ -86,13 +77,11 @@
          */
         var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
             {type: "checkbox", width: 50, fixed: "left"},
-            {field: 'nickname', title: '用户昵称', minWidth: 80, templet: '#bindMemberInfo', align: "center"},
-            {field: 'head_img', title: '头像', width: 100, templet: '#bindHeadImg', align: "center"},
-            {field: 'type', title: '类型', width: 100, templet: '#bindType', align: "center"},
+            {field: 'word', title: '搜索关键词', minWidth: 100, align: "center"},
+            {field: 'type', title: '搜索类型', width: 100, templet: '#bindType', align: "center"},
             {field: 'ip', title: 'IP地址', minWidth: 100, align: "center"},
-            {field: 'location', title: '登录地点', minWidth: 100, align: "center"},
             {field: 'remark', title: '备注', minWidth: 150, align: "center"},
-            {field: 'create_at', title: '登录时间', align: 'center', minWidth: 150},
+            {field: 'create_at', title: '搜索时间', align: 'center', minWidth: 150},
             /**{if auth("$thisClass/del")}**/
             {title: '操作', minWidth: 175, templet: '#currentTableBar', fixed: "right", align: "center"}
             /**{/if}**/

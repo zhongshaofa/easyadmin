@@ -19,7 +19,7 @@ return [
 
     'appkey'      => '31a730c912d6f890785cb3112a6d0639',
 
-    'callback'    => 'https://www.99php.cn/blog/oauth/callback',
+    'callback'    => 'https://blog.99php.cn/oauth/callback',
 
     'scope'       => 'get_user_info',
 

@@ -1,0 +1,63 @@
+{extend name="admin@public/basic" /}
+{block name="style"}{/block}
+<link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
+{block name="cotent"}
+<form class="layui-form" style="width:80%;">
+    <br>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">公告标题</label>
+        <div class="layui-input-block">
+            <input type="text" id="title" class="layui-input" lay-verify="required" value="{$data.title|default=''}" placeholder="请输入公告标题">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">链接地址</label>
+        <div class="layui-input-block">
+            <input type="text" id="href" class="layui-input" lay-verify="required" value="{$data.href|default=''}" placeholder="请输入链接地址">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">备注信息</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入备注信息" id="remark" class="layui-textarea">{$data.remark|default=''}</textarea>
+        </div>
+    </div>
+
+    {if !empty($data)}
+    <input type="hidden" class="id" id="id" value="{$data.id|default=''}">
+    {/if}
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-sm" id="addBtn">立即添加</button>
+            <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
+        </div>
+    </div>
+</form>
+{/block}
+
+{block name="script"}
+<script>
+
+    /**
+     * 添加、编辑
+     */
+    $("#addBtn").on("click", function () {
+        var url = '{if empty($data)}{:url("$thisClass/add")}{else/}{:url("$thisClass/edit")}{/if}';
+        var data = {
+            id: $("#id").val(),
+            title: $("#title").val(),
+            href: $("#href").val(),
+            remark: $("#remark").val(),
+        };
+        $.request.post(url, data, function (res) {
+            $.msg.success(res.msg, function () {
+                $.tool.reload('open');
+            })
+        })
+        return false;
+    });
+</script>
+{/block}

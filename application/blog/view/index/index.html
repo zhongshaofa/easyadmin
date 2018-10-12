@@ -43,16 +43,16 @@
 
                 {foreach newest_article_list as $vo}
                 <li class="index_arc_item">
-                    <a href="{:url('@blog/article/details')}?id={$vo.id|default=''}" class="pic" target="_blank">
+                    <a href="{:url('@blog/article/details',['id'=>$vo.id])}" class="pic" target="_blank">
                         <img class="lazyload" data-original="{$vo.cover_img|default=''}" alt="{$vo.title|default=''}">
                     </a>
                     <h4 class="title">
-                        <a href="{:url('@blog/article/details')}?id={$vo.id|default=''}" target="_blank">{$vo.title|default=''}</a>
+                        <a href="{:url('@blog/article/details',['id'=>$vo.id])}" target="_blank">{$vo.title|default=''}</a>
                     </h4>
                     <div class="date_hits">
                         <span>{$vo.memberInfo.nickname|default=''}</span>
                         <span>{$vo.create_at|default=''}</span>
-                        <span><a href="{:url('@blog/article')}?category_id={$vo.category_id|default=''}" target="_blank">{$vo.categoryInfo.title|default=''}</a></span>
+                        <span><a href="{:url('@blog/article/index',['category_id'=>$vo.category_id])}" target="_blank">{$vo.categoryInfo.title|default=''}</a></span>
                         <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> {$vo.clicks|default=''} °</p>
                         <p class="commonts"><i class="Hui-iconfont" title="评论"></i> <span class="cy_cmt_count">{$vo.comment_total|default=''}</span></p>
                         <p class="praise"><i class="layui-icon layui-icon-praise" title="点赞"></i> {$vo.praise|default='0'} </p>
@@ -114,7 +114,7 @@
 
                     {foreach recommend_list as $vo}
                     <li>
-                        <a href="{:url('@blog/article/details')}?id={$vo.id|default=''}" target="_blank">{$vo.title|default=''}</a>
+                        <a href="{:url('@blog/article/details',['id'=>$vo.id])}" target="_blank">{$vo.title|default=''}</a>
                         <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> {$vo.clicks|default=''}° </p>
                     </li>
                     {/foreach}
@@ -133,7 +133,7 @@
 
                     {foreach click_ranking_list as $vo}
                     <li>
-                        <a href="{:url('@blog/article/details')}?id={$vo.id|default=''}" target="_blank">{$vo.title|default=''}</a>
+                        <a href="{:url('@blog/article/details',['id'=>$vo.id])}" target="_blank">{$vo.title|default=''}</a>
                         <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> {$vo.clicks|default=''}° </p>
                     </li>
                     {/foreach}

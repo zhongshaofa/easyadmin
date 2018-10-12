@@ -183,10 +183,8 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
                     field: field,
                     value: value,
                 }, function (res) {
-                    $.msg.success(res.msg, function () {
-                        $.tool.reload();
-                    });
-                });
+                    $.msg.success(res.msg);
+                }, true);
                 return false;
             });
         }
@@ -362,7 +360,7 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
      * @param data
      * @param callback
      */
-    function request(type, url, data, callback, isReload) {
+    function request(type, url, data, callback, isReload = false) {
         $.msg.loading('正在加载，请稍等！');
         $.ajax({
             url: url,

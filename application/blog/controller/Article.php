@@ -97,7 +97,7 @@ class Article extends BlogController {
      */
     public function details() {
         if (!$this->request->isPost()) {
-            $id = $this->request->get('id');
+            $id = $this->request->param('id');
             //获取文章信息
             if (empty($id)) return msg_error('暂无文章信息，请稍后再试');
             $details = $this->model->where(['status' => 0, 'is_deleted' => 0, 'id' => $id])->find();

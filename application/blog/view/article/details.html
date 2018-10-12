@@ -180,8 +180,8 @@
                     <!--</div>-->
 
                     <div class="nextinfo">
-                        <p class="last">上一篇：<a data-href="{:url('@blog/article/details')}?id={$last_article.id|default=''}">{$last_article.title}</a></p>
-                        <p class="next">下一篇：<a data-href="{:url('@blog/article/details')}?id={$next_article.id|default=''}">{$next_article.title}</a></p>
+                        <p class="last">上一篇：<a data-href="{:url('@blog/article/details',['id'=>$last_article.id])}">{$last_article.title}</a></p>
+                        <p class="next">下一篇：<a data-href="{:url('@blog/article/details',['id'=>$next_article.id])}">{$next_article.title}</a></p>
                     </div>
 
                 </div>
@@ -198,7 +198,7 @@
                         {foreach relevant_list as $vo}
                         <li>
                             <span class="layui-icon layui-icon-right"></span>
-                            <a data-href="{:url('@blog/article/details')}?id={$vo.id|default=''}">{$vo.title|default=''}</a>
+                            <a data-href="{:url('@blog/article/details',['id'=>$vo.id])}">{$vo.title|default=''}</a>
                         </li>
                         {/foreach}
                     </ul>
@@ -263,7 +263,7 @@
                     <ul class="index_recd">
                         {foreach recommend_list as $vo}
                         <li>
-                            <a data-href="{:url('@blog/article/details')}?id={$vo.id|default=''}">{$vo.title|default=''}</a>
+                            <a data-href="{:url('@blog/article/details',['id'=>$vo.id])}">{$vo.title|default=''}</a>
                             <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> {$vo.clicks|default=''}° </p>
                         </li>
                         {/foreach}
