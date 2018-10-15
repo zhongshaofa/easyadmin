@@ -60,7 +60,7 @@
     /**
      * 生成表单
      */
-    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+    $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
         {type: "checkbox", width: 50, fixed: "left"},
         {field: 'word', title: '搜索关键词', minWidth: 100, align: 'center'},
         {field: 'total', title: '搜索总次数', minWidth: 100, align: "center"},

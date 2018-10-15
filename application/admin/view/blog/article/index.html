@@ -108,7 +108,7 @@
     /**
      * 生成表单
      */
-    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+    $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
         {type: "checkbox", width: 50, fixed: "left"},
         {field: 'memberInfo', title: '用户信息', minWidth: 80, templet: '#bindMemberInfo', align: "center"},
         {field: 'category_title', title: '文章分类', minWidth: 80, align: "center"},

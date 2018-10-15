@@ -82,7 +82,7 @@
     /**
      * 生成表单
      */
-    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+    $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
         {type: "checkbox", width: 50, fixed: "left"},
         {field: 'tag_title', title: '标签标题', minWidth: 100, align: 'center'},
         {field: 'use_total', title: '使用次数', minWidth: 100, align: "center"},

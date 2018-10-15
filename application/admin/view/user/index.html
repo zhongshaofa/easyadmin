@@ -100,7 +100,7 @@
     /**
      * 生成表单
      */
-    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+    $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
         {type: "checkbox", fixed: "left", width: 50},
         {field: 'username', title: '用户名', minWidth: 100, align: "center"},
         {field: 'phone', title: '用户手机', align: 'center'},

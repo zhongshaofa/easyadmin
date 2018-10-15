@@ -87,7 +87,7 @@
     /**
      * 生成表单
      */
-    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+    $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
         {type: "checkbox", width: 50, fixed: "left"},
         {field: 'nickname', title: '用户昵称', minWidth: 80, templet: '#bindMemberInfo', align: "center"},
         {field: 'head_img', title: '头像', width: 100, templet: '#bindHeadImg', align: "center"},

@@ -109,7 +109,7 @@
     /**
      * 生成表单
      */
-    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+    $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
         {type: "checkbox", width: 50, fixed: "left"},
         {field: 'username', title: '登录账户', minWidth: 80, align: "center"},
         {field: 'nickname', title: '用户昵称', minWidth: 80, align: "center"},

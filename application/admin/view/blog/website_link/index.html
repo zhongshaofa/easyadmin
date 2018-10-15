@@ -83,7 +83,7 @@
     /**
      * 生成表单
      */
-    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+    $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
         {type: "checkbox", width: 50, fixed: "left"},
         {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center"},
         {field: 'website_name', title: '站点名称', minWidth: 100, align: 'center'},

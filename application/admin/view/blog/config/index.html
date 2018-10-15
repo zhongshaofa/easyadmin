@@ -20,7 +20,7 @@
     /**
      * 生成表单
      */
-    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+    $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
         {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center", sort: true},
         {field: 'remark', title: '参数说明', align: 'center'},
         {field: 'value', title: '参数值', edit: 'text', minWidth: 200, align: "center", style: 'background-color: #009688; color: #fff; border-radius: 15px;'},

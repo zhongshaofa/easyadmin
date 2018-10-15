@@ -104,7 +104,7 @@
     /**
      * 生成表单
      */
-    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+    $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
         {type: "checkbox", fixed: "left", width: 50,},
         {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center"},
         {

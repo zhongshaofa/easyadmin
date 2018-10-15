@@ -79,7 +79,7 @@
     /**
      * 生成表单
      */
-    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+    $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
         {type: "checkbox", width: 50, fixed: "left"},
         {field: 'word', title: '搜索关键词', minWidth: 100, align: "center"},
         {field: 'type', title: '搜索类型', width: 100, templet: '#bindType', align: "center"},
