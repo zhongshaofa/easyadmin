@@ -61,6 +61,7 @@ class Article extends Validate {
     protected $scene = [
         'add_comment' => ['article_id', 'member_id', 'content'],
         'del'         => ['id'],
+        'status'         => ['id'],
     ];
 
     /**
@@ -94,7 +95,6 @@ class Article extends Validate {
     protected function checkArticleId($value, $rule, $data = []) {
         $where = [
             ['id', '=', $value],
-            ['status', '=', 0],
             ['is_deleted', '=', 0],
         ];
         $article = \app\admin\model\blog\Article::where($where)->find();

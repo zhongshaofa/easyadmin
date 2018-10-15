@@ -30,7 +30,15 @@ class Test extends Controller {
      * 测试
      */
     public function index() {
-        dump(NodeService::getNodeList());
+        return $this->fetch();
+    }
+
+    public function upload() {
+        $data = [
+            'cur' => 'complete',
+            'url' => time() . '.jpg',
+        ];
+        return json($data);
     }
 
     public function test() {

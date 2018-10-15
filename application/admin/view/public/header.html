@@ -11,7 +11,7 @@
                 <a href="javascript:;"><i class="seraph icon-caidan"></i><cite>菜单栏选择</cite></a>
                 <dl class="layui-nav-child">
                     {volist name="nav" id="vo"}
-                    <dd {if $i==1}class="layui-this"{/if}" data-menu="99php_{$vo.id}"><a href="javascript:;"><i class="{if $vo.icon_type==false}layui-icon{else/}seraph {$vo.icon|raw}{/if}" data-icon="{$vo.icon|raw}">{if $vo.icon_type==false}{$vo.icon|raw}{/if}</i><cite>{$vo.title}</cite></a></dd>
+                    <dd {if $i==1}class="layui-this"{/if}" data-menu="99php_{$vo.id}"><a href="javascript:;"><i class="{if $vo.icon_type==false}layui-icon{else/}fa {$vo.icon|raw}{/if}" data-icon="{$vo.icon|raw}">{if $vo.icon_type==false}{$vo.icon|raw}{/if}</i><cite>{$vo.title}</cite></a></dd>
                     {/volist}
                 </dl>
             </li>
@@ -21,7 +21,7 @@
         <ul class="layui-nav topLevelMenus" pc>
             {volist name="nav" id="vo"}
             <li class="layui-nav-item {if $i==1}layui-this{/if}" data-menu="99php_{$vo.id}" pc>
-                <a href="javascript:;"><i class="{if $vo.icon_type==false}layui-icon{else/}seraph {$vo.icon|raw}{/if}" data-icon="{$vo.icon|raw}">{if $vo.icon_type==false}{$vo.icon|raw}{/if}</i><cite>{$vo.title}</cite></a>
+                <a href="javascript:;"><i class="{if $vo.icon_type==false}layui-icon{else/}fa {$vo.icon|raw}{/if}" data-icon="{$vo.icon|raw}">{if $vo.icon_type==false}{$vo.icon|raw}{/if}</i><cite>{$vo.title}</cite></a>
             </li>
             {/volist}
         </ul>
@@ -29,10 +29,11 @@
         <!-- 顶部右侧菜单 -->
         <ul class="layui-nav top_menu">
             <li class="layui-nav-item" pc>
-                <a href="javascript:;" class="clearCache"><i class="layui-icon" data-icon="&#xe639;">&#xe639;</i><cite>清理</cite><span class="layui-badge-dot"></span></a>
+                <a href="javascript:;" class="clearCache"><i class="layui-icon" data-icon="&#xe639;">&#xe639;</i></a>
             </li>
             <li class="layui-nav-item" pc>
-                <a href="javascript:;" class="refresh refreshThis"><i class="layui-icon" data-icon="&#xe666;">&#xe666;</i><cite>刷新</cite><span class="layui-badge-dot"></span></a>
+                <!--<a href="javascript:;" class="refresh refreshThis"><i class="fa fa-refresh fa-spin"></i></span></a>-->
+                <a href="javascript:;" class="refresh refreshThis"><i class="fa fa-refresh"></i></span></a>
             </li>
             <li class="layui-nav-item" id="userInfo">
                 <a href="javascript:;">

@@ -98,7 +98,7 @@ class Menu extends ModelService {
         }
 
         //判断图标类型
-        foreach ($nav as $key => $val) (strpos($nav[$key]['icon'], 'icon-') !== false) ? $nav[$key]['icon_type'] = true : $nav[$key]['icon_type'] = false;
+        foreach ($nav as $key => $val) (strpos($nav[$key]['icon'], 'fa-') !== false) ? $nav[$key]['icon_type'] = true : $nav[$key]['icon_type'] = false;
 
         return $nav;
     }

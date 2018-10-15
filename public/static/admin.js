@@ -262,6 +262,16 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
     })
 
     /**
+     * 注册 data-open 事件
+     * 用于关闭弹出层
+     */
+    $body.on('click', '[data-close]', function () {
+        console.log('关闭');
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    })
+
+    /**
      * 批量删除
      * 注册 data-del-all 事件
      */

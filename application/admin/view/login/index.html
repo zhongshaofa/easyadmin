@@ -46,7 +46,7 @@
                 <a href="#" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>
             </div>
             <div class="layui-form-item">
-                <button class="layui-btn layui-btn-fluid" id="loginBtn">登 入</button>
+                <button class="layui-btn layui-btn-fluid" id="submitBtn">登 入</button>
 
             </div>
             <div class="layui-trans layui-form-item layadmin-user-login-other">
@@ -72,11 +72,15 @@
 
 {block name="script"}
 <script>
+    /**
+     * 跳出ifram框架
+     */
+    if (top.location != self.location) top.location = self.location;
 
     /**
      * 登录
      */
-    $("#loginBtn").click(function () {
+    $("#submitBtn").click(function () {
         var data = {
             username: $("#username").val(),
             password: $("#password").val(),

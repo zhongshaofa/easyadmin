@@ -7,7 +7,9 @@
 {block name="cotent"}
 <form class="layui-form">
 
-    <table id="configTable" lay-filter="configTable"></table>
+    <!--主表单渲染--开始-->
+    <table id="currentTable" lay-filter="currentTable"></table>
+    <!--主表单渲染--结束-->
 
 </form>
 {/block}
@@ -18,7 +20,7 @@
     /**
      * 生成表单
      */
-    var tableIns = $.form.table('config', "{:url('@admin/config/index')}?type=ajax", [[
+    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
         {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center", sort: true},
         {field: 'remark', title: '参数说明', align: 'center'},
         {field: 'value', title: '参数值', edit: 'text', minWidth: 200, align: "center", style: 'background-color: #009688; color: #fff; border-radius: 15px;'},
@@ -29,6 +31,11 @@
     /**
      * 监听字段值编辑
      */
-    $.form.editField('configTable', "{:url('@admin/config/index')}");
+    $.form.editField('currentTable', '{:url("$thisRequest")}');
+
+    /**
+     * 修改状态
+     */
+    $.form.switch('modifyStatus', '{:url("$thisClass/status")}');
 </script>
 {/block}

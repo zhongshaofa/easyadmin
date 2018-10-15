@@ -2,7 +2,7 @@
 {block name="style"}{/block}
 <link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
 {block name="cotent"}
-<form class="layui-form" style="width:80%;">
+<form class="layui-form form-width-99admin">
     <br>
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">权限角色</label>
@@ -24,8 +24,8 @@
 
     <div class="layui-form-item layui-row layui-col-xs12">
         <div class="layui-input-block">
-            <button class="layui-btn layui-btn-sm" id="addBtn">立即添加</button>
-            <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
+            <button class="layui-btn layui-btn-sm" id="submitBtn">提交</button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary" data-close="closeOpen">取消</button>
         </div>
     </div>
 </form>
@@ -37,7 +37,7 @@
     /**
      * 添加、编辑
      */
-    $("#addBtn").on("click", function () {
+    $("#submitBtn").on("click", function () {
         var url = "{if empty($auth)}{:url('@admin/auth/add')}{else/}{:url('@admin/auth/edit')}{/if}";
         var data = {
             id: $("#id").val(),

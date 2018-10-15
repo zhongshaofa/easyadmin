@@ -203,6 +203,7 @@ if (!function_exists('get_location')) {
      */
     function get_location($ip = '') {
         empty($ip) && $ip = get_ip();
+        ini_set('user_agent', 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; GreenBrowser)');
         $url = "http://ip.taobao.com/service/getIpInfo.php?ip={$ip}";
         $ret = file_get_contents($url);
         $arr = json_decode($ret, true);

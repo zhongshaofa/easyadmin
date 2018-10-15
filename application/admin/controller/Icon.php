@@ -31,4 +31,11 @@ class Icon extends AdminController {
         ];
         return $this->fetch('', $basic_data);
     }
+
+    public function fa(){
+        $basic_data = [
+            'title' => 'fa图标列表',
+        ];
+        return $this->fetch('', $basic_data);
+    }
 }

@@ -63,11 +63,11 @@ class Menu extends AdminController {
             $post = $this->request->post();
 
             //验证数据
-            $validate = $this->validate($post, 'app\admin\validate\Menu.edit_field');
+            $validate = $this->validate($post, 'app\admin\validate\Common.edit_field');
             if (true !== $validate) return __error($validate);
 
             //保存数据,返回结果
-            return $this->model->edit_field($post);
+            return $this->model->editField($post);
         }
     }
 
@@ -108,6 +108,7 @@ class Menu extends AdminController {
             //查找所需修改菜单
             $menu = $this->model->where('id', $this->request->get('id'))->find();
             if (empty($menu)) return msg_error('暂无数据，请重新刷新页面！');
+            strpos($menu['icon'], 'fa-') !== false ? $menu['icon_type'] = 'fa' : $menu['icon_type'] = 'layui';
 
             //基础数据
             $basic_data = [

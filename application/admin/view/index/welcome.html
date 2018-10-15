@@ -1,15 +1,410 @@
 {extend name="admin@public/basic" /}
 
 {block name="style"}
-
+<link rel="stylesheet" href="__STATIC__/css/admin/login.css" media="all">
+<style>
+    .layadmin-backlog-body p em {
+        font-style: normal;
+        font-size: 30px;
+        font-weight: 300;
+        color: #009688!important;
+    }
+    .layadmin-backlog-body cite {
+        padding-bottom: 10px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #333;
+    }
+</style>
 {/block}
 
 {block name="cotent"}
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-    <legend>备注：修改菜单，更新权限之类的需要进行刷新缓存才能生效！</legend>
-</fieldset>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md8">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">饼状图</div>
+                        <div class="layui-card-body">
+                            <div id="articleCensus" style="width: 100%;height:200px"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">曲线图</div>
+                        <div class="layui-card-body">
+                            <div id="otherCensus" style="width: 100%;height:200px"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">数据概览</div>
+                        <div class="layui-card-body">
+                            <div id="blogCensus" style="width: 100%;height:400px"></div>
+                        </div>
+                    </div>
+                    <div class="layui-card">
+                        <div class="layui-tab layui-tab-brief layadmin-latestData">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">今日热搜</li>
+                                <li>今日热帖</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="80%">
+                                            <col width="20%">
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <td>文章名称</td>
+                                            <td>搜索次数</td>
+                                        </tr>
+                                        <tr>
+                                            <td>在运维管理下面，新增监管公安机构账户。 只有管理员权限才能进行查看该数据。</td>
+                                            <td>535</td>
+                                        </tr>
+                                        <tr>
+                                            <td>在运维管理下面，新增监管公安机构账户。 只有管理员权限才能进行查看该数据。</td>
+                                            <td>535</td>
+                                        </tr>
+                                        <tr>
+                                            <td>在运维管理下面，新增监管公安机构账户。 只有管理员权限才能进行查看该数据。</td>
+                                            <td>535</td>
+                                        </tr>
+                                        <tr>
+                                            <td>在运维管理下面，新增监管公安机构账户。 只有管理员权限才能进行查看该数据。</td>
+                                            <td>535</td>
+                                        </tr>
+                                        <tr>
+                                            <td>在运维管理下面，新增监管公安机构账户。 只有管理员权限才能进行查看该数据。</td>
+                                            <td>535</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="80%">
+                                            <col width="20%">
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <td>文章名称</td>
+                                            <td>搜索次数</td>
+                                        </tr>
+                                        <tr>
+                                            <td>可以进行服务器部署的excel表格导出。</td>
+                                            <td>200</td>
+                                        </tr>
+                                        <tr>
+                                            <td>可以进行服务器部署的excel表格导出。</td>
+                                            <td>152</td>
+                                        </tr>
+                                        <tr>
+                                            <td>可以进行服务器部署的excel表格导出。</td>
+                                            <td>162</td>
+                                        </tr>
+                                        <tr>
+                                            <td>可以进行服务器部署的excel表格导出。</td>
+                                            <td>135</td>
+                                        </tr>
+                                        <tr>
+                                            <td>可以进行服务器部署的excel表格导出。</td>
+                                            <td>147</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header">代办事项</div>
+                <div class="layui-card-body layui-text" style="height: 200px">
+                    <div class="layui-carousel layadmin-carousel layadmin-backlog">
+                        <div class="panel">
+                            <ul class="layui-row layui-col-space10">
+                                <li class="layui-col-xs4">
+                                    <a href="javascript:;" data-url="page/systemSetting/icons.html" class="layadmin-backlog-body">
+                                        <cite>待审评论</cite>
+                                        <p><em>66</em></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs4">
+                                    <a href="javascript:;" data-url="page/systemSetting/icons.html" class="layadmin-backlog-body">
+                                        <cite>待审帖子</cite>
+                                        <p><em>12</em></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs4">
+                                    <a href="javascript:;" data-url="page/systemSetting/icons.html" class="layadmin-backlog-body">
+                                        <cite>待审商品</cite>
+                                        <p><em>99</em></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs4">
+                                    <a href="javascript:;" data-url="page/systemSetting/icons.html" class="layadmin-backlog-body">
+                                        <cite>待发货</cite>
+                                        <p><em>20</em></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs4">
+                                    <a href="javascript:;" data-url="page/systemSetting/icons.html" class="layadmin-backlog-body">
+                                        <cite>待发货</cite>
+                                        <p><em>20</em></p>
+                                    </a>
+                                </li>
+                                <li class="layui-col-xs4">
+                                    <a href="javascript:;" data-url="page/systemSetting/icons.html" class="layadmin-backlog-body">
+                                        <cite>待发货</cite>
+                                        <p><em>20</em></p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-card">
+                <div class="layui-card-header">效果报告</div>
+                <div class="layui-card-body layadmin-takerates">
+                    <div class="layui-progress" lay-showPercent="yes">
+                        <h3>转化率（日同比 28% <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
+                        <div class="layui-progress-bar" lay-percent="65%"></div>
+                    </div>
+                    <div class="layui-progress" lay-showPercent="yes">
+                        <h3>签到率（日同比 11% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>
+                        <div class="layui-progress-bar" lay-percent="32%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-card">
+                <div class="layui-card-header">实时监控</div>
+                <div class="layui-card-body layadmin-takerates">
+                    <div class="layui-progress" lay-showPercent="yes">
+                        <h3>CPU使用率</h3>
+                        <div class="layui-progress-bar" lay-percent="58%"></div>
+                    </div>
+                    <div class="layui-progress" lay-showPercent="yes">
+                        <h3>内存占用率</h3>
+                        <div class="layui-progress-bar layui-bg-red" lay-percent="90%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-card">
+                <div class="layui-card-header">产品动态</div>
+                <div class="layui-card-body">
+                    <div class="layui-carousel layadmin-carousel layadmin-news" data-autoplay="true" data-anim="fade" lay-filter="news">
+                        <div>
+                            <div><a href="http://fly.layui.com/docs/2/" target="_blank" class="layui-bg-red">99Admin 快速上手文档</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    作者心语
+                    <i class="layui-icon layui-icon-tips" lay-tips="要支持的噢" lay-offset="5"></i>
+                </div>
+                <div class="layui-card-body layui-text layadmin-text">
+                    <p>一直以来，layui 秉承无偿开源的初心，虔诚致力于服务各层次前后端 Web 开发者，在商业横飞的当今时代，这一信念从未动摇。即便身单力薄，仍然重拾决心，埋头造轮，以尽可能地填补产品本身的缺口。</p>
+                    <p>在过去的一段的时间，我一直在寻求持久之道，已维持你眼前所见的一切。而 layuiAdmin 是我们尝试解决的手段之一。我相信真正有爱于 layui 生态的你，定然不会错过这一拥抱吧。</p>
+                    <p>子曰：君子不用防，小人防不住。请务必通过官网正规渠道，获得 <a href="http://www.layui.com/admin/" target="_blank">layuiAdmin</a>！</p>
+                    <p>—— 贤心（<a href="http://www.layui.com/" target="_blank">layui.com</a>）</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 {/block}
 
 {block name="script"}
+<script type="text/javascript" src="__STATIC__/js/admin/main.js"></script>
+<script type="text/javascript" src="__STATIC__/plugs/echarts/echarts.min.js"></script>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var articleChart = echarts.init(document.getElementById('articleCensus'));
+    var otherChart = echarts.init(document.getElementById('otherCensus'));
+    var blogChart = echarts.init(document.getElementById('blogCensus'));
+    articleOption = {
+        title: {
+            text: '某站点用户访问来源',
+            subtext: '纯属虚构',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+        },
+        series: [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '60%'],
+                data: [
+                    {value: 335, name: '直接访问'},
+                    {value: 310, name: '邮件营销'},
+                    {value: 234, name: '联盟广告'},
+                    {value: 135, name: '视频广告'},
+                    {value: 1548, name: '搜索引擎'}
+                ],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
 
+    otherOption = {
+        color: ['#3398DB'],
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                name: '直接访问',
+                type: 'bar',
+                barWidth: '60%',
+                data: [10, 52, 200, 334, 390, 330, 220]
+            }
+        ]
+    };
+
+
+    blogOption = {
+        title: {
+            text: '堆叠区域图'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#6a7985'
+                }
+            }
+        },
+        legend: {
+            data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                boundaryGap: false,
+                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                name: '邮件营销',
+                type: 'line',
+                stack: '总量',
+                areaStyle: {},
+                data: [120, 132, 101, 134, 90, 230, 210]
+            },
+            {
+                name: '联盟广告',
+                type: 'line',
+                stack: '总量',
+                areaStyle: {},
+                data: [220, 182, 191, 234, 290, 330, 310]
+            },
+            {
+                name: '视频广告',
+                type: 'line',
+                stack: '总量',
+                areaStyle: {},
+                data: [150, 232, 201, 154, 190, 330, 410]
+            },
+            {
+                name: '直接访问',
+                type: 'line',
+                stack: '总量',
+                areaStyle: {normal: {}},
+                data: [320, 332, 301, 334, 390, 330, 320]
+            },
+            {
+                name: '搜索引擎',
+                type: 'line',
+                stack: '总量',
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top'
+                    }
+                },
+                areaStyle: {normal: {}},
+                data: [820, 932, 901, 934, 1290, 1330, 1320]
+            }
+        ]
+    };
+    articleChart.setOption(articleOption);
+    otherChart.setOption(otherOption);
+    blogChart.setOption(blogOption);
+</script>
 {/block}

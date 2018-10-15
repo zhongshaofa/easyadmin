@@ -6,6 +6,8 @@
 
 {block name="cotent"}
 <form class="layui-form">
+
+    <!--顶部操作栏--开始-->
     <blockquote id="searchBlock" class="layui-elem-quote quoteBox">
 
         <div class="layui-form-item layui-inline">
@@ -33,9 +35,13 @@
         {/if}
 
     </blockquote>
-    <table id="currentTable" lay-filter="currentTable"></table>
+    <!--顶部操作栏--结束-->
 
-    <!--操作-->
+    <!--主表单渲染--开始-->
+    <table id="currentTable" lay-filter="currentTable"></table>
+    <!--主表单渲染--结束-->
+
+    <!--表单操作栏--开始-->
     <script type="text/html" id="currentTableBar">
 
         {if auth("$thisClass/del")}
@@ -43,37 +49,31 @@
         {/if}
 
     </script>
+    <!--表单操作栏--结束-->
+
 </form>
 {/block}
 
 {block name="script"}
 <script>
-    layui.use(['laydate', 'form', 'layer', 'table', 'laytpl'], function () {
-        var form = layui.form,
-            layer = parent.layer === undefined ? layui.layer : top.layer,
-            $ = layui.jquery,
-            laytpl = layui.laytpl,
-            table = layui.table,
-            laydate = layui.laydate;
 
-        /**
-         * 生成表单
-         */
-        var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
-            {type: "checkbox", width: 50, fixed: "left"},
-            {field: 'word', title: '搜索关键词', minWidth: 100, align: 'center'},
-            {field: 'total', title: '搜索总次数', minWidth: 100, align: "center"},
-            {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
-            {field: 'update_at', title: '更新时间', align: 'center', minWidth: 150},
-            /**{if auth("$thisClass/del")}**/
-            {title: '操作', minWidth: 100, templet: '#currentTableBar', fixed: "right", align: "center"}
-            /**{/if}**/
-        ]]);
+    /**
+     * 生成表单
+     */
+    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+        {type: "checkbox", width: 50, fixed: "left"},
+        {field: 'word', title: '搜索关键词', minWidth: 100, align: 'center'},
+        {field: 'total', title: '搜索总次数', minWidth: 100, align: "center"},
+        {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
+        {field: 'update_at', title: '更新时间', align: 'center', minWidth: 150},
+        /**{if auth("$thisClass/del")}**/
+        {title: '操作', minWidth: 100, templet: '#currentTableBar', fixed: "right", align: "center"}
+        /**{/if}**/
+    ]]);
 
-        /**
-         * 日期范围
-         */
-        $.laydate.range('create_at');
-    })
+    /**
+     * 日期范围
+     */
+    $.laydate.range('create_at');
 </script>
 {/block}

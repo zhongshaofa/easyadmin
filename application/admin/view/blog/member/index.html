@@ -6,6 +6,8 @@
 
 {block name="cotent"}
 <form class="layui-form">
+
+    <!--顶部操作栏--开始-->
     <blockquote id="searchBlock" class="layui-elem-quote quoteBox">
 
         <div class="layui-form-item layui-inline">
@@ -60,8 +62,13 @@
         {/if}
 
     </blockquote>
-    <table id="currentTable" lay-filter="currentTable"></table>
+    <!--顶部操作栏--结束-->
 
+    <!--主表单渲染--开始-->
+    <table id="currentTable" lay-filter="currentTable"></table>
+    <!--主表单渲染--结束-->
+
+    <!--表单模板绑定--开始-->
     <script type="text/html" id="bindHeadImg">
         <img style="width: 30px; height: 30px;" src="{{d.head_img}}" layer-src="{{d.head_img}}" alt="{{d.nickname}}" data-image="open" lay-filter="modifyHeadImg">
     </script>
@@ -69,8 +76,9 @@
     <script type="text/html" id="checkStatus">
         <input type="checkbox" name="{{d.id}}" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="modifyStatus" {{ d.status== 0 ? 'checked' : '' }}>
     </script>
+    <!--表单模板绑定--结束-->
 
-    <!--操作-->
+    <!--表单操作栏--开始-->
     <script type="text/html" id="TableBar">
 
         {if auth("$thisClass/detail")}
@@ -90,50 +98,44 @@
         {/if}
 
     </script>
+    <!--表单操作栏--结束-->
+
 </form>
 {/block}
 
 {block name="script"}
 <script>
-    layui.use(['laydate', 'form', 'layer', 'table', 'laytpl'], function () {
-        var form = layui.form,
-            layer = parent.layer === undefined ? layui.layer : top.layer,
-            $ = layui.jquery,
-            laytpl = layui.laytpl,
-            table = layui.table,
-            laydate = layui.laydate;
 
-        /**
-         * 生成表单
-         */
-        var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
-            {type: "checkbox", width: 50, fixed: "left"},
-            {field: 'username', title: '登录账户', minWidth: 80, align: "center"},
-            {field: 'nickname', title: '用户昵称', minWidth: 80, align: "center"},
-            {field: 'head_img', title: '用户头像', width: 100, templet: '#bindHeadImg', align: "center"},
-            {field: 'phone', title: '用户手机', width: 120, align: 'center'},
-            {
-                field: 'email', title: '用户邮箱', width: 150, align: 'center', templet: function (d) {
-                    return '<a class="layui-blue" href="#">' + d.email + '</a>';
-                }
-            },
-            {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
-            {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
-            /**{if auth("$thisClass/edit") || auth("$thisClass/del") || auth("$thisClass/reset_password")}**/
-            {title: '操作', minWidth: 250, templet: '#TableBar', fixed: "right", align: "center"}
-            /**{/if}**/
-        ]]);
+    /**
+     * 生成表单
+     */
+    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+        {type: "checkbox", width: 50, fixed: "left"},
+        {field: 'username', title: '登录账户', minWidth: 80, align: "center"},
+        {field: 'nickname', title: '用户昵称', minWidth: 80, align: "center"},
+        {field: 'head_img', title: '用户头像', width: 100, templet: '#bindHeadImg', align: "center"},
+        {field: 'phone', title: '用户手机', width: 120, align: 'center'},
+        {
+            field: 'email', title: '用户邮箱', width: 150, align: 'center', templet: function (d) {
+                return '<a class="layui-blue" href="#">' + d.email + '</a>';
+            }
+        },
+        {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
+        {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
+        /**{if auth("$thisClass/edit") || auth("$thisClass/del") || auth("$thisClass/reset_password")}**/
+        {title: '操作', minWidth: 250, templet: '#TableBar', fixed: "right", align: "center"}
+        /**{/if}**/
+    ]]);
 
-        /**
-         * 日期范围
-         */
-        $.laydate.range('create_at');
+    /**
+     * 日期范围
+     */
+    $.laydate.range('create_at');
 
 
-        /**
-         * 修改状态
-         */
-        $.form.switch('modifyStatus', '{:url("$thisClass/status")}');
-    })
+    /**
+     * 修改状态
+     */
+    $.form.switch('modifyStatus', '{:url("$thisClass/status")}');
 </script>
 {/block}

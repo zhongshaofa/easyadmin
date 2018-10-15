@@ -2,7 +2,7 @@
 {block name="style"}{/block}
 <link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
 {block name="cotent"}
-<form class="layui-form" style="width:80%;">
+<form class="layui-form form-width-99admin">
     <br>
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">上级菜单</label>
@@ -42,7 +42,11 @@
         <div class="magb15 layui-col-md4 layui-col-xs12">
             <label class="layui-form-label">图标样式</label>
             <span class='layui-btn layui-btn-primary' style='padding:0 12px;min-width:45px'>
-                <i id='icon-preview' class="layui-icon" data-icon="{$menu.icon|raw|default=''}">{$menu.icon|raw|default=''}</i>
+                {if isset($menu.icon_type) && $menu.icon_type=='fa'}
+                <i id='icon-preview' class="fa  {$menu.icon|raw|default=''}"></i>
+                {else/}
+                <i id='icon-preview' class="layui-icon " data-icon="{$menu.icon|raw|default=''}">{$menu.icon|raw|default=''}</i>
+                {/if}
              </span>
             <button data-icon='icon' type='button' class='layui-btn layui-btn-primary select_icon'>选择图标</button>
         </div>
@@ -69,8 +73,8 @@
 
     <div class="layui-form-item layui-row layui-col-xs12">
         <div class="layui-input-block">
-            <button class="layui-btn layui-btn-sm" id="addBtn">立即添加</button>
-            <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
+            <button class="layui-btn layui-btn-sm" id="submitBtn">提交</button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary" data-close="closeOpen">取消</button>
         </div>
     </div>
 </form>
@@ -82,7 +86,7 @@
     /**
      * 添加、编辑
      */
-    $("#addBtn").on("click", function () {
+    $("#submitBtn").on("click", function () {
         var url = "{if empty($menu.id)}{:url('@admin/menu/add')}{else/}{:url('@admin/menu/edit')}{/if}";
         var data = {
             id: $("#id").val(),
@@ -108,8 +112,8 @@
         var selectIcon = layer.open({
             title: "选择图标",
             type: 2,
-            area: ['800px', '500px'],
-            content: "{:url('@admin/icon/index')}",
+            area: ['1000px', '600px'],
+            content: "{:url('@admin/icon/fa')}",
             success: function (layero, selectIcon) {
                 var body = layer.getChildFrame('body', selectIcon);
             },
@@ -117,7 +121,8 @@
                 var icon = window.sessionStorage.getItem("icon");
                 $('#icon').attr('value', icon);
                 $('#icon-preview').attr('data-icon', icon);
-                $("#icon-preview").html(icon);
+                $('#icon-preview').attr('class', 'fa ' + icon);
+                // $("#icon-preview").html(icon);
                 window.sessionStorage.removeItem("icon");
             }
         })

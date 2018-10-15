@@ -6,6 +6,8 @@
 
 {block name="cotent"}
 <form class="layui-form">
+
+    <!--顶部操作栏--开始-->
     <blockquote id="searchBlock" class="layui-elem-quote quoteBox">
 
         <div class="layui-form-item layui-inline">
@@ -45,13 +47,20 @@
         {/if}
 
     </blockquote>
-    <table id="currentTable" lay-filter="currentTable"></table>
+    <!--顶部操作栏--结束-->
 
+    <!--主表单渲染--开始-->
+    <table id="currentTable" lay-filter="currentTable"></table>
+    <!--主表单渲染--结束-->
+
+    <!--表单模板绑定--开始-->
     <script type="text/html" id="bindType">
         {{ d.type== 1 ? '<span style="color: green">标题</span>' : '<span style="color: indianred">标签</span>' }}
     </script>
+    <!--表单模板绑定--结束-->
 
-    <!--操作-->
+
+    <!--表单操作栏--开始-->
     <script type="text/html" id="currentTableBar">
 
         {if auth("$thisClass/del")}
@@ -59,38 +68,32 @@
         {/if}
 
     </script>
+    <!--表单操作栏--结束-->
+
 </form>
 {/block}
 
 {block name="script"}
 <script>
-    layui.use(['laydate', 'form', 'layer', 'table', 'laytpl'], function () {
-        var form = layui.form,
-            layer = parent.layer === undefined ? layui.layer : top.layer,
-            $ = layui.jquery,
-            laytpl = layui.laytpl,
-            table = layui.table,
-            laydate = layui.laydate;
 
-        /**
-         * 生成表单
-         */
-        var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
-            {type: "checkbox", width: 50, fixed: "left"},
-            {field: 'word', title: '搜索关键词', minWidth: 100, align: "center"},
-            {field: 'type', title: '搜索类型', width: 100, templet: '#bindType', align: "center"},
-            {field: 'ip', title: 'IP地址', minWidth: 100, align: "center"},
-            {field: 'remark', title: '备注', minWidth: 150, align: "center"},
-            {field: 'create_at', title: '搜索时间', align: 'center', minWidth: 150},
-            /**{if auth("$thisClass/del")}**/
-            {title: '操作', minWidth: 175, templet: '#currentTableBar', fixed: "right", align: "center"}
-            /**{/if}**/
-        ]]);
+    /**
+     * 生成表单
+     */
+    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+        {type: "checkbox", width: 50, fixed: "left"},
+        {field: 'word', title: '搜索关键词', minWidth: 100, align: "center"},
+        {field: 'type', title: '搜索类型', width: 100, templet: '#bindType', align: "center"},
+        {field: 'ip', title: 'IP地址', minWidth: 100, align: "center"},
+        {field: 'remark', title: '备注', minWidth: 150, align: "center"},
+        {field: 'create_at', title: '搜索时间', align: 'center', minWidth: 150},
+        /**{if auth("$thisClass/del")}**/
+        {title: '操作', minWidth: 175, templet: '#currentTableBar', fixed: "right", align: "center"}
+        /**{/if}**/
+    ]]);
 
-        /**
-         * 日期范围
-         */
-        $.laydate.range('create_at');
-    })
+    /**
+     * 日期范围
+     */
+    $.laydate.range('create_at');
 </script>
 {/block}

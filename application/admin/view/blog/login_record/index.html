@@ -6,6 +6,8 @@
 
 {block name="cotent"}
 <form class="layui-form">
+
+    <!--顶部操作栏--开始-->
     <blockquote id="searchBlock" class="layui-elem-quote quoteBox">
 
         <div class="layui-form-item layui-inline">
@@ -40,8 +42,13 @@
         {/if}
 
     </blockquote>
-    <table id="currentTable" lay-filter="currentTable"></table>
+    <!--顶部操作栏--结束-->
 
+    <!--主表单渲染--开始-->
+    <table id="currentTable" lay-filter="currentTable"></table>
+    <!--主表单渲染--结束-->
+
+    <!--表单模板绑定--开始-->
     <script type="text/html" id="bindHeadImg">
         <img style="width: 30px; height: 30px;" src="{{d.head_img}}" layer-src="{{d.head_img}}" alt="{{d.nickname}}" data-image="open" lay-filter="modifyHeadImg">
     </script>
@@ -59,8 +66,9 @@
             <span>{{d.nickname}}</span> <a class="layui-btn layui-btn-xs color-99admin-desc" data-open='{:url("@admin/blog.member/detail")}?id={{d.member_id}}' data-title="查看会员信息" data-width="1000px" data-height="450px">{{d.username}}</a>
         </div>
     </script>
+    <!--表单模板绑定--结束-->
 
-    <!--操作-->
+    <!--表单操作栏--开始-->
     <script type="text/html" id="currentTableBar">
 
         {if auth("$thisClass/del")}
@@ -68,40 +76,34 @@
         {/if}
 
     </script>
+    <!--表单操作栏--结束-->
+
 </form>
 {/block}
 
 {block name="script"}
 <script>
-    layui.use(['laydate', 'form', 'layer', 'table', 'laytpl'], function () {
-        var form = layui.form,
-            layer = parent.layer === undefined ? layui.layer : top.layer,
-            $ = layui.jquery,
-            laytpl = layui.laytpl,
-            table = layui.table,
-            laydate = layui.laydate;
 
-        /**
-         * 生成表单
-         */
-        var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
-            {type: "checkbox", width: 50, fixed: "left"},
-            {field: 'nickname', title: '用户昵称', minWidth: 80, templet: '#bindMemberInfo', align: "center"},
-            {field: 'head_img', title: '头像', width: 100, templet: '#bindHeadImg', align: "center"},
-            {field: 'type', title: '类型', width: 100, templet: '#bindType', align: "center"},
-            {field: 'ip', title: 'IP地址', minWidth: 100, align: "center"},
-            {field: 'location', title: '登录地点', minWidth: 100, align: "center"},
-            {field: 'remark', title: '备注', minWidth: 150, align: "center"},
-            {field: 'create_at', title: '登录时间', align: 'center', minWidth: 150},
-            /**{if auth("$thisClass/del")}**/
-            {title: '操作', minWidth: 175, templet: '#currentTableBar', fixed: "right", align: "center"}
-            /**{/if}**/
-        ]]);
+    /**
+     * 生成表单
+     */
+    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+        {type: "checkbox", width: 50, fixed: "left"},
+        {field: 'nickname', title: '用户昵称', minWidth: 80, templet: '#bindMemberInfo', align: "center"},
+        {field: 'head_img', title: '头像', width: 100, templet: '#bindHeadImg', align: "center"},
+        {field: 'type', title: '类型', width: 100, templet: '#bindType', align: "center"},
+        {field: 'ip', title: 'IP地址', minWidth: 100, align: "center"},
+        {field: 'location', title: '登录地点', minWidth: 100, align: "center"},
+        {field: 'remark', title: '备注', minWidth: 150, align: "center"},
+        {field: 'create_at', title: '登录时间', align: 'center', minWidth: 150},
+        /**{if auth("$thisClass/del")}**/
+        {title: '操作', minWidth: 175, templet: '#currentTableBar', fixed: "right", align: "center"}
+        /**{/if}**/
+    ]]);
 
-        /**
-         * 日期范围
-         */
-        $.laydate.range('create_at');
-    })
+    /**
+     * 日期范围
+     */
+    $.laydate.range('create_at');
 </script>
 {/block}

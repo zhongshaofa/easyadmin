@@ -32,6 +32,10 @@
     background-color: #ffffff !important;
 }
 
+.form-width-99admin {
+    width: 98%;
+}
+
 .color-99admin-blue {
     background-color: #0000FF;
 }

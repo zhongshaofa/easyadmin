@@ -59,11 +59,11 @@ class Auth extends AdminController {
             $post = $this->request->post();
 
             //验证数据
-            $validate = $this->validate($post, 'app\admin\validate\Auth.edit_field');
+            $validate = $this->validate($post, 'app\admin\validate\Common.edit_field');
             if (true !== $validate) return __error($validate);
 
             //保存数据,返回结果
-            return $this->model->edit_field($post);
+            return $this->model->editField($post);
         }
     }
 

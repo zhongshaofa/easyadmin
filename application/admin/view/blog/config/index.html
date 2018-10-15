@@ -6,48 +6,36 @@
 
 {block name="cotent"}
 <form class="layui-form">
+
+    <!--主表单渲染--开始-->
     <table id="currentTable" lay-filter="currentTable"></table>
-    <script type="text/html" id="checkStatus">
-        <input type="checkbox" name="{{d.id}}" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="modifyStatus" {{ d.status== 0 ? 'checked' : '' }}>
-    </script>
+    <!--主表单渲染--结束-->
+
 </form>
 {/block}
 
 {block name="script"}
 <script>
-    layui.use(['laydate', 'form', 'layer', 'table', 'laytpl'], function () {
-        var form = layui.form,
-            layer = parent.layer === undefined ? layui.layer : top.layer,
-            $ = layui.jquery,
-            laytpl = layui.laytpl,
-            table = layui.table,
-            laydate = layui.laydate;
 
-        /**
-         * 生成表单
-         */
-        var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
-            {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center", sort: true},
-            {field: 'remark', title: '参数说明', align: 'center'},
-            {field: 'value', title: '参数值', edit: 'text', minWidth: 200, align: "center", style: 'background-color: #009688; color: #fff; border-radius: 15px;'},
-            {field: 'name', title: '参数名', align: 'center', sort: true},
-            {field: 'group', title: '组名', width: 200, align: 'center', sort: true},
-        ]], false, 'line', 'lg', false);
+    /**
+     * 生成表单
+     */
+    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+        {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center", sort: true},
+        {field: 'remark', title: '参数说明', align: 'center'},
+        {field: 'value', title: '参数值', edit: 'text', minWidth: 200, align: "center", style: 'background-color: #009688; color: #fff; border-radius: 15px;'},
+        {field: 'name', title: '参数名', align: 'center', sort: true},
+        {field: 'group', title: '组名', width: 200, align: 'center', sort: true},
+    ]], false, 'line', 'lg', false);
 
-        /**
-         * 日期范围
-         */
-        $.laydate.range('create_at');
+    /**
+     * 监听字段值编辑
+     */
+    $.form.editField('currentTable', '{:url("$thisRequest")}');
 
-        /**
-         * 监听字段值编辑
-         */
-        $.form.editField('currentTable', '{:url("$thisRequest")}');
-
-        /**
-         * 修改状态
-         */
-        $.form.switch('modifyStatus', '{:url("$thisClass/status")}');
-    })
+    /**
+     * 修改状态
+     */
+    $.form.switch('modifyStatus', '{:url("$thisClass/status")}');
 </script>
 {/block}

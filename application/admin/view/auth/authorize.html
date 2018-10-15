@@ -44,7 +44,7 @@
     <input type="hidden" id="auth_id" name="auth_id" value="{$auth.id|default=''}">
     <div class="layui-form-item layui-row layui-col-xs12">
         <div class="layui-input-block">
-            <button class="layui-btn layui-btn-sm" id="editAuthBtn">修改</button>
+            <button class="layui-btn layui-btn-sm" id="submitBtn">提交</button>
             <button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">取消</button>
         </div>
     </div>
@@ -66,7 +66,7 @@
             , isopen: true  //加载完毕后的展开状态，默认值：true
         });
 
-        $("#editAuthBtn").click(function () {
+        $("#submitBtn").click(function () {
             var node_id = [];
             var oCks = xtree3.GetChecked();
             for (var i = 0; i < oCks.length; i++) {

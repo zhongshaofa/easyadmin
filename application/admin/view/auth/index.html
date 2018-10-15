@@ -7,7 +7,8 @@
 {block name="cotent"}
 <form class="layui-form">
 
-    <blockquote class="layui-elem-quote quoteBox">
+    <!--顶部操作栏--开始-->
+    <blockquote id="searchBlock" class="layui-elem-quote quoteBox">
 
         <div class="layui-form-item layui-inline">
             <label class="layui-form-label-99admin">角色名称</label>
@@ -36,168 +37,85 @@
         </div>
 
         <div class="layui-form-item layui-inline">
-            <a id="searchBtn" class="layui-btn" data-type="reload">搜索</a>
+            <a class="layui-btn" data-search="currentTableId">搜索</a>
         </div>
 
-        {if auth('admin/auth/add')}
+        {if auth("$thisClass/add")}
         <div class="layui-form-item layui-inline">
-            <a id="addBtn" class="layui-btn layui-btn-normal">添加</a>
+            <a class="layui-btn layui-btn-normal" data-open='{:url("$thisClass/add")}' data-title="添加文章">添加</a>
         </div>
         {/if}
 
-        {if auth('admin/auth/del')}
+        {if auth("$thisClass/del")}
         <div class="layui-form-item layui-inline">
-            <a id="delAllBtn" class="layui-btn layui-btn-danger layui-btn-normal">删除</a>
+            <a class="layui-btn layui-btn-danger layui-btn-normal" data-title="确定批量删除？" data-del-all='{:url("$thisClass/del")}' data-table-id="currentTableId">删除</a>
         </div>
         {/if}
 
     </blockquote>
+    <!--顶部操作栏--结束-->
 
-    <table id="authTable" lay-filter="authTable"></table>
+    <!--主表单渲染--开始-->
+    <table id="currentTable" lay-filter="currentTable"></table>
+    <!--主表单渲染--结束-->
 
+    <!--表单模板绑定--开始-->
     <script type="text/html" id="checkStatus">
         <input type="checkbox" name="{{d.id}}" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="modifyStatus" {{ d.status== 1 ? 'checked' : '' }}>
     </script>
+    <!--表单模板绑定--结束-->
 
+    <!--表单操作栏--开始-->
+    <script type="text/html" id="currentTableBar">
 
-    <!--操作-->
-    <script type="text/html" id="authTableBar">
-
-        {if auth('admin/auth/authorize')}
-        <a class="layui-btn layui-btn-xs layui-btn-green" lay-event="authorizeBtn">授权</a>
+        {if auth("$thisClass/authorize")}
+        <a class="layui-btn layui-btn-xs layui-btn-green" data-open='{:url("$thisClass/authorize")}?id={{d.id}}' data-title="角色授权">授权</a>
         {/if}
 
-        {if auth('admin/auth/edit')}
-        <a class="layui-btn layui-btn-xs" lay-event="editBtn">编辑</a>
+        {if auth("$thisClass/edit")}
+        <a class="layui-btn layui-btn-xs" data-open='{:url("$thisClass/edit")}?id={{d.id}}' data-title="修改菜单信息">编辑</a>
         {/if}
 
-        {if auth('admin/auth/del')}
-        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delBtn">删除</a>
+        {if auth("$thisClass/del")}
+        <a class="layui-btn layui-btn-xs layui-btn-danger" data-title="确定批量删除？" data-del='{:url("$thisClass/del")}?id={{d.id}}'>删除</a>
         {/if}
 
     </script>
+    <!--表单操作栏--结束-->
 </form>
 {/block}
 
 {block name="script"}
 <script>
-    layui.use(['laydate', 'form', 'layer', 'table', 'laytpl'], function () {
-        var form = layui.form,
-            layer = parent.layer === undefined ? layui.layer : top.layer,
-            $ = layui.jquery,
-            laytpl = layui.laytpl,
-            table = layui.table,
-            laydate = layui.laydate;
 
-        /**
-         * 日期范围
-         */
-        $.laydate.range('create_at');
+    /**
+     * 生成表单
+     */
+    var tableIns = $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+        {type: "checkbox", fixed: "left", width: 50,},
+        {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center", sort: true},
+        {field: 'title', title: '角色名称', minWidth: 200, align: 'center', sort: true},
+        {field: 'remark', title: '备注信息', edit: 'text', minWidth: 200, align: "center", style: 'background-color: #009688; color: #fff;', sort: true},
+        {field: 'create_at', title: '创建时间', align: 'center', sort: true},
+        {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
+        /**{if auth("$thisClass/authorize") || auth("$thisClass/edit") || auth("$thisClass/del")}**/
+        {title: '操作', minWidth: 110, templet: '#currentTableBar', fixed: "right", align: "center"},
+        /**{/if}**/
+    ]], false);
 
-        /**
-         * 生成表单
-         */
-        var tableIns = $.form.table('auth', "{:url('@admin/auth/index')}?type=ajax", [[
-            {type: "checkbox", fixed: "left", width: 50,},
-            {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center", sort: true},
-            {field: 'title', title: '角色名称', minWidth: 200, align: 'center', sort: true},
-            {field: 'remark', title: '备注信息', edit: 'text', minWidth: 200, align: "center", style: 'background-color: #009688; color: #fff;', sort: true},
-            {field: 'create_at', title: '创建时间', align: 'center', sort: true},
-            {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
-            /**{if auth('admin/auth/edit') || auth('admin/auth/del') || auth('admin/auth/authorize')}**/
-            {title: '操作', minWidth: 110, templet: '#authTableBar', fixed: "right", align: "center"},
-            /**{/if}**/
-        ]])
+    /**
+     * 日期范围
+     */
+    $.laydate.range('create_at');
 
-        /**
-         * 表单搜索
-         */
-        $("#searchBtn").on("click", function () {
-            var search = {
-                title: $("#title").val(),
-                status: $("#status").val(),
-                create_at: $("#create_at").val(),
-            };
-            $.form.search('authTableId', search);
-            return false;
-        });
+    /**
+     * 监听字段值编辑
+     */
+    $.form.editField('currentTable', '{:url("$thisRequest")}');
 
-        /**
-         * 添加信息
-         */
-        $("#addBtn").on("click", function () {
-            $.form.open('添加角色', "{:url('@admin/auth/add')}", "500px", "300px")
-            return false;
-        });
-
-        /**
-         * 批量删除
-         */
-        $("#delAllBtn").on("click", function () {
-            var checkStatus = table.checkStatus('authTableId'),
-                data = checkStatus.data,
-                id = [];
-            if (data.length > 0) {
-                for (let i in data) {
-                    id.push(data[i].id);
-                }
-                $.msg.confirm('确定删除？', function () {
-                    $.request.get("{:url('@admin/auth/del')}", {id: id}, function (res) {
-                        $.msg.success(res.msg, function () {
-                            $.tool.reload();
-                        })
-                    })
-                });
-            } else {
-                $.msg.error('请选择需要删除的信息!');
-            }
-            return false;
-        });
-
-        /**
-         * 工具栏操作
-         */
-        table.on('tool(authTable)', function (obj) {
-            var layEvent = obj.event,
-                data = obj.data;
-
-            //编辑
-            if (layEvent === 'editBtn') {
-                var url = "{:url('@admin/auth/edit')}?id=" + data.id;
-                $.form.open('编辑', url, "500px", "300px");
-                return false;
-            }
-
-            //角色授权
-            else if (layEvent === 'authorizeBtn') {
-                var url = "{:url('@admin/auth/authorize')}?id=" + data.id;
-                $.form.open('角色授权', url, "700px", "80%");
-                return false;
-            }
-
-            //删除
-            else if (layEvent === 'delBtn') {
-                $.msg.confirm('确定删除？', function () {
-                    $.request.get("{:url('@admin/auth/del')}", {id: data.id}, function (res) {
-                        $.msg.success(res.msg, function () {
-                            $.tool.reload();
-                        })
-                    })
-                });
-                return false;
-            }
-        });
-
-        /**
-         * 监听字段值编辑
-         */
-        $.form.editField('authTable', "{:url('@admin/auth/index')}");
-
-        /**
-         * 修改状态
-         */
-        $.form.switch('modifyStatus', "{:url('@admin/auth/status')}");
-
-    })
+    /**
+     * 修改状态
+     */
+    $.form.switch('modifyStatus', '{:url("$thisClass/status")}');
 </script>
 {/block}

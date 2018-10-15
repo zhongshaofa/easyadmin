@@ -6,13 +6,13 @@
 
 {block name="cotent"}
 
-<!--{if empty($module_list)}-->
+{if empty($module_list)}
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
     <legend>暂无节点信息，可以先刷新节点信息 =》
         <button class="layui-btn layui-btn-normal refresh_node">刷新节点</button>
     </legend>
 </fieldset>
-<!--{/if}-->
+{/if}
 
 <div class="layui-tab layui-tab-brief" lay-filter="module">
     <ul class="layui-tab-title">
@@ -45,7 +45,7 @@
             element = layui.element;
 
         /**{foreach module_list as $vo}**/
-        $.form.table("{$vo.node}", "{:url('@admin/node/index')}?module={$vo.node}", [[
+        $.form.table("{$vo.node}", '{:url("$thisRequest")}?module={$vo.node}', [[
             {field: 'node', title: '系统节点', minWidth: 200, align: 'left', sort: true},
             {field: 'title', title: '节点名称', edit: 'text', minWidth: 200, align: "center", style: 'background-color: #009688; color: #fff;', sort: true},
             {field: 'create_at', title: '创建时间', align: 'center', sort: true},
@@ -63,13 +63,13 @@
         /**
          * 修改状态
          */
-        $.form.switch('modifyStatus', "{:url('@admin/node/status')}");
+        $.form.switch('modifyStatus', '{:url("$thisClass/status")}');
 
         /**
          * 监听字段值编辑
          */
         /**{foreach module_list as $vo}**/
-        $.form.editField("{$vo.node}Table", "{:url('@admin/node/index')}");
+        $.form.editField("{$vo.node}Table", '{:url("$thisRequest")}');
         /**{/foreach}**/
 
 
@@ -84,7 +84,7 @@
             //删除
             if (layEvent === 'delBtn') {
                 $.msg.confirm('确定删除？', function () {
-                    $.request.post("{:url('@admin/node/del')}", {id: data.id}, function (res) {
+                    $.request.post('{:url("$thisClass/del")}', {id: data.id}, function (res) {
                         $.msg.success(res.msg, function () {
                             $.tool.reload();
                         });

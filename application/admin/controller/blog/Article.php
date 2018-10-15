@@ -141,7 +141,7 @@ class Article extends AdminController {
         $get = $this->request->get();
 
         //验证数据
-        $validate = $this->validate($get, 'app\admin\validate\blog\Member.status');
+        $validate = $this->validate($get, 'app\admin\validate\blog\Article.status');
         if (true !== $validate) return __error($validate);
 
         //判断状态
