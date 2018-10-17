@@ -35,7 +35,8 @@
         <div class="layui-input-block">
             <select id="category_id" lay-filter="category_id">
                 {foreach category_list as $vo}
-                <option value="{$vo.id|default=''}" {if !empty($article.category_id) and $article.category_id eq $vo.id}selected{/if}>{$vo.title|default=''}</option>
+                <option value="{$vo.id|default=''}" {if !empty($article.category_id) and $article.category_id eq $vo.id}selected{
+                /if}>{$vo.title|default=''}</option>
                 {/foreach}
             </select>
         </div>
@@ -48,16 +49,12 @@
         </div>
     </div>
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">文章LOGO</label>
-        <div class="layui-input-block">
-            <div class="layui-upload-drag" id="uploadLogo" style="width: 100%;box-sizing: border-box;">
-                {if !isset($article.cover_img)&&empty($article.cover_img)}
-                <i id="upload_icon" class="layui-icon"></i>
-                <p id="upload_icon_p">点击上传，或将图片拖拽到此处</p>
-                {/if}
-                <img style="width:300px;" src="{$article.cover_img|default=''}" id="cover_img" lay-filter="cover_img">
-            </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">文章封面</label>
+        <div class="layui-input-block" id="upload_image_div">
+            <input type="hidden" id="cover_img" value="{$article.cover_img|default=''}">
+            <img class="upload-image-2-row" data-upload-image="one" data-upload-id="cover_img" data-upload-div="upload_image_div" src="{$article.cover_img|default='__STATIC__/image/admin/upload.png'}">
         </div>
     </div>
 
@@ -139,26 +136,6 @@
         var sampleTags = JSON.parse('{$sample_tags|json_encode|raw}');
 
         /**
-         * 拖拽上传
-         */
-        upload.render({
-            elem: '#uploadLogo'
-            , url: "{:url('@admin/api.upload/image')}"
-            , done: function (res) {
-                if (res.code == 0) {
-                    $('#cover_img').attr('src', res.url[0]);
-                    var parent = document.getElementById("uploadLogo");
-                    var child = document.getElementById("upload_icon");
-                    var child1 = document.getElementById("upload_icon_p");
-                    parent.removeChild(child);
-                    parent.removeChild(child1);
-                } else {
-                    layer.msg(res.msg);
-                }
-            }
-        });
-
-        /**
          * 文章标签处理
          */
         $('#tag_list').tagit({
@@ -180,7 +157,7 @@
                 title: $('#title').val(),
                 tag_list: $('#tag_list').val(),
                 category_id: $('#category_id').val(),
-                cover_img: $('#cover_img').attr('src'),
+                cover_img: $('#cover_img').val(),
                 describe: $('#describe').val(),
                 content: editor.txt.html(),
             };

@@ -26,9 +26,21 @@ class Common extends AdminController {
     public function getMenu() {
         $SysInfo = cache('SysInfo');
         if (!isset($SysInfo['AdminModuleName'])) {
-            return __error('后台菜单数据有误，请刷新缓存！');
+            return __error('后台绑定模块名数据有误，请刷新缓存或修改数据库配置！');
         }
         $this->redirect(url("{$SysInfo['AdminModuleName']}.php\api.menu\getMenu"));
+    }
+
+    /**
+     * 打开图片上传窗口
+     * @return \think\response\Json
+     */
+    public function uploadIamge($type = 'one') {
+        $SysInfo = cache('SysInfo');
+        if (!isset($SysInfo['AdminModuleName'])) {
+            return __error('后台绑定模块名数据有误，请刷新缓存或修改数据库配置！');
+        }
+        $this->redirect(url("{$SysInfo['AdminModuleName']}.php\\tool.upload\image") . "?type=" . $type);
     }
 
     /**

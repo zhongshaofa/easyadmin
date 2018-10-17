@@ -1,0 +1,180 @@
+{extend name="admin@public/basic" /}
+
+{block name="style"}
+<link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
+<style>
+    .layui-icon {font-size: 25px !important;}
+    .layui-icon:hover {font-size: 50px !important;}
+</style>
+{/block}
+
+{block name="cotent"}
+<textarea id="copyText"></textarea>
+<ul class="icons layui-row">
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-rate-half"></i><div class="doc-icon-code"  >&amp;#xe6c9;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-rate"></i><div class="doc-icon-code">&amp;#xe67b;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-rate-solid"></i><div class="doc-icon-code">&amp;#xe67a;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-cellphone"></i><div class="doc-icon-code">&amp;#xe678;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-vercode"></i><div class="doc-icon-code">&amp;#xe679;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-login-wechat"></i><div class="doc-icon-code">&amp;#xe677;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-login-qq"></i><div class="doc-icon-code">&amp;#xe676;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-login-weibo"></i><div class="doc-icon-code">&amp;#xe675;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-password"></i><div class="doc-icon-code">&amp;#xe673;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-username"></i><div class="doc-icon-code">&amp;#xe66f;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-refresh-3"></i><div class="doc-icon-code">&amp;#xe9aa;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-auz"></i><div class="doc-icon-code">&amp;#xe672;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-spread-left"></i><div class="doc-icon-code">&amp;#xe66b;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-shrink-right"></i><div class="doc-icon-code">&amp;#xe668;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-snowflake"></i><div class="doc-icon-code">&amp;#xe6b1;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-tips"></i><div class="doc-icon-code">&amp;#xe702;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-note"></i><div class="doc-icon-code">&amp;#xe66e;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-home"></i><div class="doc-icon-code">&amp;#xe68e;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-senior"></i><div class="doc-icon-code">&amp;#xe674;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-refresh"></i><div class="doc-icon-code">&amp;#xe669;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-refresh-1"></i><div class="doc-icon-code">&amp;#xe666;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-flag"></i><div class="doc-icon-code">&amp;#xe66c;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-theme"></i><div class="doc-icon-code">&amp;#xe66a;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-notice"></i><div class="doc-icon-code">&amp;#xe667;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-website"></i><div class="doc-icon-code">&amp;#xe7ae;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-console"></i><div class="doc-icon-code">&amp;#xe665;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-face-surprised"></i><div class="doc-icon-code">&amp;#xe664;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-set"></i><div class="doc-icon-code">&amp;#xe716;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-template-1"></i><div class="doc-icon-code">&amp;#xe656;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-app"></i><div class="doc-icon-code">&amp;#xe653;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-template"></i><div class="doc-icon-code">&amp;#xe663;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-praise"></i><div class="doc-icon-code">&amp;#xe6c6;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-tread"></i><div class="doc-icon-code">&amp;#xe6c5;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-male"></i><div class="doc-icon-code">&amp;#xe662;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-female"></i><div class="doc-icon-code">&amp;#xe661;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-camera"></i><div class="doc-icon-code">&amp;#xe660;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-camera-fill"></i><div class="doc-icon-code">&amp;#xe65d;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-more"></i><div class="doc-icon-code">&amp;#xe65f;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-more-vertical"></i><div class="doc-icon-code">&amp;#xe671;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-rmb"></i><div class="doc-icon-code">&amp;#xe65e;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-dollar"></i><div class="doc-icon-code">&amp;#xe659;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-diamond"></i><div class="doc-icon-code">&amp;#xe735;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-fire"></i><div class="doc-icon-code">&amp;#xe756;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-return"></i><div class="doc-icon-code">&amp;#xe65c;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-location"></i><div class="doc-icon-code">&amp;#xe715;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-read"></i><div class="doc-icon-code">&amp;#xe705;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-survey"></i><div class="doc-icon-code">&amp;#xe6b2;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-face-smile"></i><div class="doc-icon-code">&amp;#xe6af;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-face-cry"></i><div class="doc-icon-code">&amp;#xe69c;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-cart-simple"></i><div class="doc-icon-code">&amp;#xe698;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-cart"></i><div class="doc-icon-code">&amp;#xe657;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-next"></i><div class="doc-icon-code">&amp;#xe65b;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-prev"></i><div class="doc-icon-code">&amp;#xe65a;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-upload-drag"></i><div class="doc-icon-code">&amp;#xe681;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-upload"></i><div class="doc-icon-code">&amp;#xe67c;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-download-circle"></i><div class="doc-icon-code">&amp;#xe601;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-component"></i><div class="doc-icon-code">&amp;#xe857;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-file-b"></i><div class="doc-icon-code">&amp;#xe655;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-user"></i><div class="doc-icon-code">&amp;#xe770;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-find-fill"></i><div class="doc-icon-code">&amp;#xe670;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i><div
+            class="doc-icon-code">&amp;#xe63d;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-loading-1 layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i><div class="doc-icon-code">&amp;#xe63e;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-add-1"></i><div class="doc-icon-code">&amp;#xe654;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-play"></i><div class="doc-icon-code">&amp;#xe652;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-pause"></i><div class="doc-icon-code">&amp;#xe651;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-headset"></i><div class="doc-icon-code">&amp;#xe6fc;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-video"></i><div class="doc-icon-code">&amp;#xe6ed;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-voice"></i><div class="doc-icon-code">&amp;#xe688;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-speaker"></i><div class="doc-icon-code">&amp;#xe645;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-fonts-del"></i><div class="doc-icon-code">&amp;#xe64f;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-fonts-code"></i><div class="doc-icon-code">&amp;#xe64e;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-fonts-html"></i><div class="doc-icon-code">&amp;#xe64b;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-fonts-strong"></i><div class="doc-icon-code">&amp;#xe62b;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-unlink"></i><div class="doc-icon-code">&amp;#xe64d;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-picture"></i><div class="doc-icon-code">&amp;#xe64a;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-link"></i><div class="doc-icon-code">&amp;#xe64c;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-face-smile-b"></i><div class="doc-icon-code">&amp;#xe650;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-align-left"></i><div class="doc-icon-code">&amp;#xe649;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-align-right"></i><div class="doc-icon-code">&amp;#xe648;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-align-center"></i><div class="doc-icon-code">&amp;#xe647;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-fonts-u"></i><div class="doc-icon-code">&amp;#xe646;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-fonts-i"></i><div class="doc-icon-code">&amp;#xe644;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-tabs"></i><div class="doc-icon-code">&amp;#xe62a;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-radio"></i><div class="doc-icon-code">&amp;#xe643;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-circle"></i><div class="doc-icon-code">&amp;#xe63f;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-edit"></i><div class="doc-icon-code">&amp;#xe642;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-share"></i><div class="doc-icon-code">&amp;#xe641;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-delete"></i><div class="doc-icon-code">&amp;#xe640;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-form"></i><div class="doc-icon-code">&amp;#xe63c;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-cellphone-fine"></i><div class="doc-icon-code">&amp;#xe63b;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-dialogue"></i><div class="doc-icon-code">&amp;#xe63a;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-fonts-clear"></i><div class="doc-icon-code">&amp;#xe639;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-layer"></i><div class="doc-icon-code">&amp;#xe638;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-date"></i><div class="doc-icon-code">&amp;#xe637;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-water"></i><div class="doc-icon-code">&amp;#xe636;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-code-circle"></i><div class="doc-icon-code">&amp;#xe635;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-carousel"></i><div class="doc-icon-code">&amp;#xe634;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-prev-circle"></i><div class="doc-icon-code">&amp;#xe633;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-layouts"></i><div class="doc-icon-code">&amp;#xe632;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-util"></i><div class="doc-icon-code">&amp;#xe631;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-templeate-1"></i><div class="doc-icon-code">&amp;#xe630;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-upload-circle"></i><div class="doc-icon-code">&amp;#xe62f;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-tree"></i><div class="doc-icon-code">&amp;#xe62e;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-table"></i><div class="doc-icon-code">&amp;#xe62d;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-chart"></i><div class="doc-icon-code">&amp;#xe62c;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-chart-screen"></i><div class="doc-icon-code">&amp;#xe629;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-engine"></i><div class="doc-icon-code">&amp;#xe628;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-triangle-d"></i><div class="doc-icon-code">&amp;#xe625;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-triangle-r"></i><div class="doc-icon-code">&amp;#xe623;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-file"></i><div class="doc-icon-code">&amp;#xe621;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-set-sm"></i><div class="doc-icon-code">&amp;#xe620;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-add-circle"></i><div class="doc-icon-code">&amp;#xe61f;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-404"></i><div class="doc-icon-code">&amp;#xe61c;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-about"></i><div class="doc-icon-code">&amp;#xe60b;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-up"></i><div class="doc-icon-code">&amp;#xe619;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-down"></i><div class="doc-icon-code">&amp;#xe61a;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-left"></i><div class="doc-icon-code">&amp;#xe603;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-right"></i><div class="doc-icon-code">&amp;#xe602;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-circle-dot"></i><div class="doc-icon-code">&amp;#xe617;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-search"></i><div class="doc-icon-code">&amp;#xe615;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-set-fill"></i><div class="doc-icon-code">&amp;#xe614;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-group"></i><div class="doc-icon-code">&amp;#xe613;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-friends"></i><div class="doc-icon-code">&amp;#xe612;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-reply-fill"></i><div class="doc-icon-code">&amp;#xe611;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-menu-fill"></i><div class="doc-icon-code">&amp;#xe60f;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-log"></i><div class="doc-icon-code">&amp;#xe60e;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-picture-fine"></i><div class="doc-icon-code">&amp;#xe60d;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-face-smile-fine"></i><div class="doc-icon-code">&amp;#xe60c;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-list"></i><div class="doc-icon-code">&amp;#xe60a;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-release"></i><div class="doc-icon-code">&amp;#xe609;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-ok"></i><div class="doc-icon-code">&amp;#xe605;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-help"></i><div class="doc-icon-code">&amp;#xe607;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-chat"></i><div class="doc-icon-code">&amp;#xe606;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-top"></i><div class="doc-icon-code">&amp;#xe604;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-star"></i><div class="doc-icon-code">&amp;#xe600;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-star-fill"></i><div class="doc-icon-code">&amp;#xe658;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-close-fill"></i><div class="doc-icon-code">&amp;#x1007;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-close"></i><div class="doc-icon-code">&amp;#x1006;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-ok-circle"></i><div class="doc-icon-code">&amp;#x1005;</div></li>
+    <li class='layui-col-xs4 layui-col-sm3 layui-col-md2 layui-col-lg1 '><i class="layui-icon layui-icon-add-circle-fine"></i><div class="doc-icon-code">&amp;#xe608;</div></li>
+</ul>
+{/block}
+
+{block name="script"}
+<script>
+    layui.use(['form', 'layer', 'jquery'], function () {
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : top.layer,
+            element = layui.element;
+        $ = layui.jquery;
+
+        /**
+         * 复制图标编码至粘贴板
+         */
+        $("body").on("click",".icons li",function(){
+            var copyText = document.getElementById("copyText");
+            copyText.innerText = $(this).html();
+            copyText.select();
+            document.execCommand("copy");
+            window.sessionStorage.setItem("icon",$(this).text());
+            var selectIcon = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(selectIcon);
+        })
+    })
+</script>
+{/block}

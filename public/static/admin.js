@@ -349,6 +349,73 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
     });
 
     /**
+     * 注册 data-upload-image 事件
+     * 表单图片上传
+     */
+    $body.on('click', '[data-upload-image]', function () {
+        var upload_type = $(this).attr('data-upload-image'),
+            upload_id = $(this).attr('data-upload-id'),
+            upload_class = $(this).attr('class'),
+            upload_src = $(this).attr('src'),
+            upload_url = '/api/admin.common/uploadIamge',
+            divId = $(this).attr('data-upload-div');
+        if (upload_type == 'one') {
+            var title = '上传单图片';
+            var url = upload_url + "?type=one";
+        } else {
+            var title = '上传多图片';
+            var url = upload_url + "?type=multi";
+        }
+        var uploadImage = layer.open({
+            title: title,
+            type: 2,
+            area: ['700px', '450px'],
+            content: url,
+            success: function (layero, selectIcon) {
+                var body = layer.getChildFrame('body', uploadImage);
+            },
+            end: function () {
+                var upload_iamges = window.sessionStorage.getItem("upload_iamges");
+                console.log(upload_iamges);
+                if (upload_iamges != null) {
+                    if (upload_type == 'one') {
+                        $('#' + upload_id).attr('value', upload_iamges);
+                        $(this).attr('src', upload_iamges);
+
+                        //获取隐藏的div
+                        var upload_id_html = '<input type="hidden" id="' + upload_id + '" value="' + upload_iamges + '">';
+                        //重新渲染显示层
+                        var upload_image_html = '<img class="' + upload_class + '" data-upload-image="one" data-upload-id="' + upload_id + '" data-upload-div="' + divId + '"  src="' + upload_iamges + '">';
+                        //插入到html内
+                        var uploadDiv = document.getElementById(divId);
+                        uploadDiv.innerHTML = upload_id_html + upload_image_html;
+
+                    } else {
+                        var upload_url = $('#' + upload_id).attr('value');
+                        if (upload_url == '') {
+                            $('#' + upload_id).attr('value', upload_iamges);
+                        } else {
+                            upload_iamges = upload_url + '|' + upload_iamges;
+                            $('#' + upload_id).attr('value',);
+                        }
+                        //切割图片重新生成写入
+                        arr = upload_iamges.split("|");
+                        var uploadDiv = document.getElementById(divId);
+                        var html = '';
+                        arr.forEach(function (value, i) {
+                            html = html + '<img class="upload-image" src="' + value + '">';
+                        });
+                        uploadDiv.innerHTML = uploadDiv.innerHTML + html;
+                    }
+                }
+                window.sessionStorage.removeItem("upload_iamges");
+            }
+        })
+        return false;
+        return false;
+    });
+
+    /**
      * 封装请求
      */
     $.request = new function () {
@@ -422,23 +489,4 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
         console.log(res);
         console.log('======================================');
     }
-
-    /**
-     * 图片放大
-     */
-    function hoverOpenImg() {
-        var img_show = null; // tips提示
-        $('td img').hover(function () {
-            //alert($(this).attr('src'));
-            var img = "<img class='img_msg' src='" + $(this).attr('src') + "' style='width:130px;' />";
-            img_show = layer.tips(img, this, {
-                tips: [2, 'rgba(41,41,41,.5)']
-                , area: ['160px']
-            });
-        }, function () {
-            layer.close(img_show);
-        });
-        $('td img').attr('style', 'max-width:70px');
-    }
-
 })

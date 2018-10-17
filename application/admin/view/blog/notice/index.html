@@ -80,35 +80,35 @@
 {block name="script"}
 <script>
 
-        /**
-         * 生成表单
-         */
-        $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
-            {type: "checkbox", width: 50, fixed: "left"},
-            {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center"},
-            {field: 'title', title: '公告标题', minWidth: 250, align: 'center'},
-            {field: 'href', title: '链接地址', minWidth: 100, align: "center"},
-            {field: 'remark', title: '备注信息', minWidth: 100, align: "center"},
-            {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
-            {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
-            /**{if auth("$thisClass/edit") || auth("$thisClass/del")}**/
-            {title: '操作', minWidth: 100, templet: '#currentTableBar', fixed: "right", align: "center"}
-            /**{/if}**/
-        ]]);
+    /**
+     * 生成表单
+     */
+    $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
+        {type: "checkbox", width: 50, fixed: "left"},
+        {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center"},
+        {field: 'title', title: '公告标题', minWidth: 250, align: 'center'},
+        {field: 'href', title: '链接地址', minWidth: 100, align: "center"},
+        {field: 'remark', title: '备注信息', minWidth: 100, align: "center"},
+        {field: 'status', title: '启用状态', width: 110, templet: '#checkStatus', unresize: true, align: "center"},
+        {field: 'create_at', title: '创建时间', align: 'center', minWidth: 150},
+        /**{if auth("$thisClass/edit") || auth("$thisClass/del")}**/
+        {title: '操作', minWidth: 100, templet: '#currentTableBar', fixed: "right", align: "center"}
+        /**{/if}**/
+    ]]);
 
-        /**
-         * 日期范围
-         */
-        $.laydate.range('create_at');
+    /**
+     * 日期范围
+     */
+    $.laydate.range('create_at');
 
-        /**
-         * 监听字段值编辑
-         */
-        $.form.editField('currentTable', '{:url("$thisRequest")}');
+    /**
+     * 监听字段值编辑
+     */
+    $.form.editField('currentTable', '{:url("$thisRequest")}');
 
-        /**
-         * 修改状态
-         */
-        $.form.switch('modifyStatus', '{:url("$thisClass/status")}');
+    /**
+     * 修改状态
+     */
+    $.form.switch('modifyStatus', '{:url("$thisClass/status")}');
 </script>
 {/block}

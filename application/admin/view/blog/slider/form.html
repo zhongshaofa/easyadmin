@@ -13,14 +13,9 @@
 
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">轮播图片</label>
-        <div class="layui-input-block">
-            <div class="layui-upload-drag" id="uploadImage" style="width: 100%;box-sizing: border-box;">
-                {if !isset($data.image)&&empty($data.image)}
-                <i id="upload_icon" class="layui-icon"></i>
-                <p id="upload_icon_p">点击上传，或将图片拖拽到此处(建议：920px * 230px)</p>
-                {/if}
-                <img style="width:300px;" src="{$data.image|default=''}" id="image" lay-filter="image">
-            </div>
+        <div class="layui-input-block" id="upload_image_div">
+            <input type="hidden" id="image" value="{$data.image|default=''}">
+            <img class="upload-image-2-row" data-upload-image="one" data-upload-id="image" data-upload-div="upload_image_div" src="{$data.image|default='__STATIC__/image/admin/upload.png'}">
         </div>
     </div>
 
@@ -60,25 +55,6 @@
             , upload = layui.upload
             , laydate = layui.laydate;
 
-        /**
-         * 拖拽上传
-         */
-        upload.render({
-            elem: '#uploadImage'
-            , url: "{:url('@admin/api.upload/image')}"
-            , done: function (res) {
-                if (res.code == 0) {
-                    $('#image').attr('src', res.url[0]);
-                    var parent = document.getElementById("uploadImage");
-                    var child = document.getElementById("upload_icon");
-                    var child1 = document.getElementById("upload_icon_p");
-                    parent.removeChild(child);
-                    parent.removeChild(child1);
-                } else {
-                    layer.msg(res.msg);
-                }
-            }
-        });
 
         /**
          * 添加、编辑
@@ -87,7 +63,7 @@
             var url = '{if empty($data)}{:url("$thisClass/add")}{else/}{:url("$thisClass/edit")}{/if}';
             var data = {
                 id: $("#id").val(),
-                image: $("#image").attr('src'),
+                image: $("#image").val(),
                 href: $("#href").val(),
                 title: $("#title").val(),
                 remark: $("#remark").val(),
