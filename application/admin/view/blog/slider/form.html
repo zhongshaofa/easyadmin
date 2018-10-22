@@ -15,7 +15,8 @@
         <label class="layui-form-label">轮播图片</label>
         <div class="layui-input-block" id="upload_image_div">
             <input type="hidden" id="image" value="{$data.image|default=''}">
-            <img class="upload-image-2-row" data-upload-image="one" data-upload-id="image" data-upload-div="upload_image_div" src="{$data.image|default='__STATIC__/image/admin/upload.png'}">
+            <div class="uploadimage" data-upload-image="one"  data-upload-id="image" data-upload-div="upload_image_div" style="background-image: url(__STATIC__/image/admin/upload.png);">
+            </div>
         </div>
     </div>
 
@@ -48,34 +49,31 @@
 
 {block name="script"}
 <script>
-    layui.use(['form', 'layedit', 'laydate', 'upload'], function () {
-        var form = layui.form
-            , layer = layui.layer
-            , layedit = layui.layedit
-            , upload = layui.upload
-            , laydate = layui.laydate;
 
+    /**
+     * 上传图片处理
+     */
+    $.form.imageRender('upload_image_div', 'one');
 
-        /**
-         * 添加、编辑
-         */
-        $("#submitBtn").on("click", function () {
-            var url = '{if empty($data)}{:url("$thisClass/add")}{else/}{:url("$thisClass/edit")}{/if}';
-            var data = {
-                id: $("#id").val(),
-                image: $("#image").val(),
-                href: $("#href").val(),
-                title: $("#title").val(),
-                remark: $("#remark").val(),
-            };
-            $.request.post(url, data, function (res) {
-                $.msg.success(res.msg, function () {
-                    $.tool.reload('open');
-                })
+    /**
+     * 添加、编辑
+     */
+    $("#submitBtn").on("click", function () {
+        var url = '{if empty($data)}{:url("$thisClass/add")}{else/}{:url("$thisClass/edit")}{/if}';
+        var data = {
+            id: $("#id").val(),
+            image: $("#image").val(),
+            href: $("#href").val(),
+            title: $("#title").val(),
+            remark: $("#remark").val(),
+        };
+        $.request.post(url, data, function (res) {
+            $.msg.success(res.msg, function () {
+                $.tool.reload('open');
             })
-            return false;
-        });
+        })
+        return false;
+    });
 
-    })
 </script>
 {/block}

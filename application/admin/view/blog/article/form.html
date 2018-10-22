@@ -54,7 +54,8 @@
         <label class="layui-form-label">文章封面</label>
         <div class="layui-input-block" id="upload_image_div">
             <input type="hidden" id="cover_img" value="{$article.cover_img|default=''}">
-            <img class="upload-image-2-row" data-upload-image="one" data-upload-id="cover_img" data-upload-div="upload_image_div" src="{$article.cover_img|default='__STATIC__/image/admin/upload.png'}">
+            <div class="uploadimage" data-upload-image="one" data-upload-id="cover_img" data-upload-div="upload_image_div" style="background-image: url(__STATIC__/image/admin/upload.png);">
+            </div>
         </div>
     </div>
 
@@ -100,6 +101,11 @@
             , layedit = layui.layedit
             , upload = layui.upload
             , laydate = layui.laydate;
+
+        /**
+         * 上传图片处理
+         */
+        $.form.imageRender('upload_image_div', 'one');
 
         /**
          *编辑器初始化

@@ -4,11 +4,13 @@
 {block name="cotent"}
 <form class="layui-form form-width-99admin">
     <br>
+
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">用户头像</label>
-        <div class="layui-input-block" id="upload_head_image">
+        <div class="layui-input-block" id="upload_image_div">
             <input type="hidden" id="head_img" value="{$member.head_img|default=''}">
-            <img class="upload-image" data-upload-image="one" data-upload-id="head_img" data-upload-div="upload_head_image" src="{$member.head_img|default='__STATIC__/image/admin/upload.png'}">
+            <div class="uploadimage" data-upload-image="one" data-upload-id="head_img" data-upload-div="upload_image_div" style="background-image: url(__STATIC__/image/admin/upload.png);">
+            </div>
         </div>
     </div>
 
@@ -76,6 +78,11 @@
 
 {block name="script"}
 <script>
+
+    /**
+     * 上传图片处理
+     */
+    $.form.imageRender('upload_image_div', 'one');
 
     /**
      * 添加、编辑

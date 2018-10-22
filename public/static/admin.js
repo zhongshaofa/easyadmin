@@ -224,6 +224,84 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
                 layui.layer.full(index);
             }
         }
+
+        /**
+         * 渲染图片列表
+         * @param type
+         */
+        this.imageRender = function (divId, type = 'one') {
+            var $uploadParent = $("#" + divId);
+            var $inputParent = $uploadParent.children('input');
+            var $parent = $uploadParent.children('div');
+            var url = $inputParent.attr('value');
+            if (url == '' || url == undefined) return false;
+            if (type == 'one') {
+                var style = 'background-image: url("' + url + '");';
+                $parent.attr('style', style);
+                $parent.attr('data-upload-image', 'one');
+            }
+            else {
+                var url_array = url.split("|"); //所有图片url数组
+                var upload_id = $inputParent.attr('id');
+                var upload_class = $parent.attr('class');
+                var upload_style = $parent.attr('style');
+                var uploadDiv = document.getElementById(divId);
+                var upload_id_html = '<input type="hidden" id="' + upload_id + '" value="' + url + '">';
+                var upload_image_html = '<div class="' + upload_class + '" data-upload-image="more" data-upload-id="' + upload_id + '" data-upload-div="' + divId + '" style="' + upload_style + '"> </div>';
+                var html = '';
+                //对新的所有图片url进行重新拼接
+                $.each(url_array, function (index, value, arr) {
+                    html = html + '<div class="' + upload_class + '" data-upload-url="' + value + '" style="background-image: url(' + value + ');"> <em class="layui-icon upload-icon-tip" style="float: right; display: none;">&#x1006;</em> </div>';
+                })
+                uploadDiv.innerHTML = upload_id_html + html + upload_image_html;
+            }
+            $.form.imageListen();
+            return false;
+        }
+
+        /**
+         * 上传图片监听器
+         * @param id
+         */
+        this.imageListen = function (id) {
+            //对删除图片的显示隐藏操作
+            $(".uploadimage").hover(function () {
+                $(this).children('em').show();
+            }, function () {
+                $(this).children('em').hide();
+            })
+
+            //删除图片操作
+            $('.upload-icon-tip').on('click', function () {
+                //获取操作元素对象
+                var $parent = $(this).parent('div');
+                var $uploadParent = $parent.parent('div');
+                var $inputParent = $uploadParent.children('input');
+
+                var current_upload_url = $parent.attr('data-upload-url'); //当前图片url
+                var all_upload_url = $inputParent.attr('value'); //所有图片url
+                var all_upload_url_array = all_upload_url.split("|"); //所有图片url数组
+                var all_upload_url_new = ''; //新的所有图片url
+
+                //对新的所有图片url进行重新拼接
+                $.each(all_upload_url_array, function (index, vaule, arr) {
+                    if (vaule != current_upload_url) {
+                        if (all_upload_url_new == '') {
+                            all_upload_url_new = vaule;
+                        } else {
+                            all_upload_url_new = all_upload_url_new + '|' + vaule;
+                        }
+                    }
+                })
+
+                //进行图片删除操作
+                var dialogIndex = $.msg.confirm('确定要移除这张图片吗？', function () {
+                    $inputParent.attr('value', all_upload_url_new);
+                    $parent.remove();
+                    $.msg.close(dialogIndex);
+                });
+            });
+        }
     }
 
     /**
@@ -266,7 +344,6 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
      * 用于关闭弹出层
      */
     $body.on('click', '[data-close]', function () {
-        console.log('关闭');
         var index = parent.layer.getFrameIndex(window.name);
         parent.layer.close(index);
     })
@@ -325,6 +402,30 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
     });
 
     /**
+     * 多图片上传放大图片
+     */
+    $body.on('click', '[data-upload-url]', function () {
+        var url = $(this).attr('data-upload-url');
+        console.log(url);
+        var img = new Image();
+        img.src = url;
+        var width = img.width + 'px';
+        var height = (img.height + 45) + 'px';
+        if (url == '' || url == undefined) {
+            $.form.msg('数据有误！');
+            return false;
+        } else {
+            layer.open({
+                title: "查看图片",
+                type: 2,
+                area: [width, height],
+                content: url,
+            })
+        }
+        return false;
+    });
+
+    /**
      * 注册 data-search 事件
      * 用于表格搜索
      */
@@ -357,6 +458,7 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
             upload_id = $(this).attr('data-upload-id'),
             upload_class = $(this).attr('class'),
             upload_src = $(this).attr('src'),
+            upload_style = $(this).attr('style'),
             upload_url = '/api/admin.common/uploadIamge',
             divId = $(this).attr('data-upload-div');
         if (upload_type == 'one') {
@@ -385,7 +487,8 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
                         //获取隐藏的div
                         var upload_id_html = '<input type="hidden" id="' + upload_id + '" value="' + upload_iamges + '">';
                         //重新渲染显示层
-                        var upload_image_html = '<img class="' + upload_class + '" data-upload-image="one" data-upload-id="' + upload_id + '" data-upload-div="' + divId + '"  src="' + upload_iamges + '">';
+                        var upload_image_html = '<div class="' + upload_class + '" data-upload-image="one" data-upload-id="' + upload_id + '" data-upload-div="' + divId + '" style="background-image: url(' + upload_iamges + ');"> </div>';
+
                         //插入到html内
                         var uploadDiv = document.getElementById(divId);
                         uploadDiv.innerHTML = upload_id_html + upload_image_html;
@@ -398,20 +501,25 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
                             upload_iamges = upload_url + '|' + upload_iamges;
                             $('#' + upload_id).attr('value',);
                         }
+
+                        var uploadDiv = document.getElementById(divId);
+                        var upload_id_html = '<input type="hidden" id="' + upload_id + '" value="' + upload_iamges + '">';
+                        var upload_image_html = '<div class="' + upload_class + '" data-upload-image="more" data-upload-id="' + upload_id + '" data-upload-div="' + divId + '" style="' + upload_style + '"> </div>';
+                        var html = '';
+
                         //切割图片重新生成写入
                         arr = upload_iamges.split("|");
-                        var uploadDiv = document.getElementById(divId);
-                        var html = '';
                         arr.forEach(function (value, i) {
-                            html = html + '<img class="upload-image" src="' + value + '">';
+                            html = html + '<div class="' + upload_class + '" data-upload-url="' + value + '" style="background-image: url(' + value + ');"> <em class="layui-icon upload-icon-tip" style="float: right; display: none;">&#x1006;</em> </div>';
                         });
-                        uploadDiv.innerHTML = uploadDiv.innerHTML + html;
+
+                        uploadDiv.innerHTML = upload_id_html + html + upload_image_html;
+                        $.form.imageListen();
                     }
                 }
                 window.sessionStorage.removeItem("upload_iamges");
             }
         })
-        return false;
         return false;
     });
 
@@ -489,4 +597,5 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
         console.log(res);
         console.log('======================================');
     }
+
 })

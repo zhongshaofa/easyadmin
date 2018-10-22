@@ -8,6 +8,20 @@
     height: 80px;
 }
 
+.uploadimage {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    background-size: cover;
+    cursor: pointer;
+}
+
+.upload-icon-tip {
+    display: none;
+    background-color: #76787b;
+    color: white;
+}
+
 .layui-inline {
     margin-right: 2px !important;
 }

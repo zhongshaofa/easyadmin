@@ -30,7 +30,7 @@ class Test extends Controller {
      * 测试
      */
     public function index() {
-        return $this->fetch();
+        return $this->fetch('');
     }
 
     public function upload() {
