@@ -49,8 +49,8 @@ class Article extends BlogController {
      * @return mixed
      */
     public function index($category_id = '') {
-        if (empty($category_id)) {
-            $current_category = model('Category')->getCategoryTop();
+        if (empty($category_id) || $category_id == 0) {
+            $current_category = ['id' => 0, 'title' => '全部分类', 'create_at' => ''];
         } else {
             $current_category = model('Category')->where(['id' => $category_id, 'status' => 0])->find();
         }
@@ -62,6 +62,7 @@ class Article extends BlogController {
             'recommend_list'   => model('Article')->getRecommendList(),
             'category_list'    => model('Category')->getCategoryList(),
         ];
+//        dump($basic_data);die;
         return $this->fetch('', $basic_data);
     }
 

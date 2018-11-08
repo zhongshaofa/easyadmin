@@ -40,6 +40,10 @@ class Index extends AdminController {
      * @return mixed
      */
     public function welcome() {
-        return $this->fetch();
+
+        $basic_data = [
+            'quick_nav' => \app\admin\model\Nav::getQuickNav(),
+        ];
+        return $this->fetch('', $basic_data);
     }
 }

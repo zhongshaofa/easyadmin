@@ -15,12 +15,14 @@ namespace app\blog\controller;
 use app\common\controller\BlogController;
 use app\common\service\MailService;
 use app\common\service\SmsService;
+use think\Db;
 use think\File;
 
 class Test extends BlogController {
 
-    public function email() {
-        dump(cache('chung@99php.cn_code'));
+    public function log() {
+        $article = Db::name('BlogArticle')->select();
+        P($article);
     }
 
     public function index() {

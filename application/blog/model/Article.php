@@ -54,10 +54,12 @@ class Article extends ModelService {
      */
     public function getArticleCategoryList($category_id, $page = 15) {
         $where_article_list = [
-            ['category_id', '=', $category_id],
-            ['status', '=', 0],
-            ['is_deleted', '=', 0],
+            'status'     => 0,
+            'is_deleted' => 0,
         ];
+        if ($category_id != 0) {
+            $where_article_list['category_id'] = $category_id;
+        }
         $article_list = $this->where($where_article_list)->order('create_at', 'desc')->paginate($page, false, ['query' => ['category_id' => $category_id]])
             ->each(function ($item, $key) {
                 $item->memberInfo;

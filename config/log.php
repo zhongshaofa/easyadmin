@@ -18,7 +18,7 @@ return [
     // 日志保存目录
     'path'        => '',
     // error和sql日志单独记录
-    'apart_level' => ['error', 'print', 'login', 'sql','action'],
+    'apart_level' => ['error', 'print', 'login', 'sql', 'action', 'record'],
     // 日志记录级别
     'level'       => [],
     // 单文件日志写入

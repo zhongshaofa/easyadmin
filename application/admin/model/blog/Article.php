@@ -191,4 +191,13 @@ class Article extends ModelService {
         return $list;
     }
 
+    /**
+     * 统计分类文章
+     * @param $category_id
+     * @return float|string
+     */
+    public static function articleCount($category_id) {
+        return self::where(['category_id' => $category_id, 'status' => 0, 'is_deleted' => 0])->count('id');
+    }
+
 }

@@ -7,8 +7,9 @@
         font-style: normal;
         font-size: 30px;
         font-weight: 300;
-        color: #009688!important;
+        color: #009688 !important;
     }
+
     .layadmin-backlog-body cite {
         padding-bottom: 10px;
         font-size: 12px;
@@ -25,7 +26,7 @@
             <div class="layui-row layui-col-space15">
                 <div class="layui-col-md6">
                     <div class="layui-card">
-                        <div class="layui-card-header">饼状图</div>
+                        <div class="layui-card-header">文章统计</div>
                         <div class="layui-card-body">
                             <div id="articleCensus" style="width: 100%;height:200px"></div>
                         </div>
@@ -135,42 +136,14 @@
                     <div class="layui-carousel layadmin-carousel layadmin-backlog">
                         <div class="panel">
                             <ul class="layui-row layui-col-space10">
+                                {foreach $quick_nav as $vo}
                                 <li class="layui-col-xs4">
-                                    <a href="javascript:;" data-url="page/systemSetting/icons.html" class="layadmin-backlog-body">
-                                        <cite>待审评论</cite>
+                                    <a href="javascript:;" data-url="{$vo.href|default=''}" class="layadmin-backlog-body">
+                                        <cite>{$vo.title|default=''}</cite>
                                         <p><em>66</em></p>
                                     </a>
                                 </li>
-                                <li class="layui-col-xs4">
-                                    <a href="javascript:;" data-url="page/systemSetting/icons.html" class="layadmin-backlog-body">
-                                        <cite>待审帖子</cite>
-                                        <p><em>12</em></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs4">
-                                    <a href="javascript:;" data-url="page/systemSetting/icons.html" class="layadmin-backlog-body">
-                                        <cite>待审商品</cite>
-                                        <p><em>99</em></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs4">
-                                    <a href="javascript:;" data-url="page/systemSetting/icons.html" class="layadmin-backlog-body">
-                                        <cite>待发货</cite>
-                                        <p><em>20</em></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs4">
-                                    <a href="javascript:;" data-url="page/systemSetting/icons.html" class="layadmin-backlog-body">
-                                        <cite>待发货</cite>
-                                        <p><em>20</em></p>
-                                    </a>
-                                </li>
-                                <li class="layui-col-xs4">
-                                    <a href="javascript:;" data-url="page/systemSetting/icons.html" class="layadmin-backlog-body">
-                                        <cite>待发货</cite>
-                                        <p><em>20</em></p>
-                                    </a>
-                                </li>
+                                {/foreach}
                             </ul>
                         </div>
                     </div>
@@ -242,44 +215,50 @@
     var articleChart = echarts.init(document.getElementById('articleCensus'));
     var otherChart = echarts.init(document.getElementById('otherCensus'));
     var blogChart = echarts.init(document.getElementById('blogCensus'));
-    articleOption = {
-        title: {
-            text: '某站点用户访问来源',
-            subtext: '纯属虚构',
-            x: 'center'
-        },
-        tooltip: {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-        legend: {
-            orient: 'vertical',
-            left: 'left',
-            data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
-        },
-        series: [
-            {
-                name: '访问来源',
-                type: 'pie',
-                radius: '55%',
-                center: ['50%', '60%'],
-                data: [
-                    {value: 335, name: '直接访问'},
-                    {value: 310, name: '邮件营销'},
-                    {value: 234, name: '联盟广告'},
-                    {value: 135, name: '视频广告'},
-                    {value: 1548, name: '搜索引擎'}
-                ],
-                itemStyle: {
-                    emphasis: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+    $.ajax({
+        url: "{:url('@admin/api.welcome/article_census')}",
+        data: {},
+        cache: false,
+        async: true,
+        type: "GET",
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        dataType: "json",
+        success: function (result) {
+            articleOption = {
+                title: {
+                    text: '博客文章类型统计',
+                    subtext: '99PHP社区',
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: result.data.category
+                },
+                series: [
+                    {
+                        name: '访问来源',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data: result.data.categoryData,
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
                     }
-                }
-            }
-        ]
-    };
+                ]
+            };
+            articleChart.setOption(articleOption);
+        }
+    });
 
     otherOption = {
         color: ['#3398DB'],
@@ -403,7 +382,6 @@
             }
         ]
     };
-    articleChart.setOption(articleOption);
     otherChart.setOption(otherOption);
     blogChart.setOption(blogOption);
 </script>

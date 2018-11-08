@@ -203,7 +203,7 @@ if (!function_exists('get_location')) {
      */
     function get_location($ip = '') {
         empty($ip) && $ip = get_ip();
-        ini_set('user_agent', 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; GreenBrowser)');
+        ini_set('user_agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3559.6 Safari/537.36');
         $url = "http://ip.taobao.com/service/getIpInfo.php?ip={$ip}";
         $ret = file_get_contents($url);
         $arr = json_decode($ret, true);
@@ -351,8 +351,8 @@ if (!function_exists('__success')) {
      * @param $msg 消息
      * @return \think\response\Json
      */
-    function __success($msg) {
-        return json(['code' => 0, 'msg' => $msg]);
+    function __success($msg, $data = '') {
+        return json(['code' => 0, 'msg' => $msg, 'data' => $data]);
     }
 }
 
@@ -363,8 +363,8 @@ if (!function_exists('__error')) {
      * @param $msg 消息
      * @return \think\response\Json
      */
-    function __error($msg) {
-        return json(['code' => 1, 'msg' => $msg]);
+    function __error($msg, $data = '') {
+        return json(['code' => 1, 'msg' => $msg, 'data' => $data]);
     }
 }
 
@@ -427,5 +427,15 @@ if (!function_exists('get_config')) {
             'name'  => $name,
         ])->value('value');
         return $value;
+    }
+}
+if (!function_exists('P')) {
+
+    /**
+     * 打印日志
+     * @param $data
+     */
+    function P($data) {
+        \think\facade\Log::record($data, 'record');
     }
 }

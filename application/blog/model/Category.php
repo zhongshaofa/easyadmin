@@ -42,10 +42,14 @@ class Category extends ModelService {
             'sort'      => 'desc',
             'create_at' => 'asc',
         ];
-        $category_list = $this->field('id, title, create_at')
+        $category_list[] = ['id' => 0, 'title' => '全部分类', 'create_at' => ''];
+        $list = $this->field('id, title, create_at')
             ->where(['status' => 0])
             ->order($order_category_list)
-            ->select();
+            ->select()->toArray();
+        foreach ($list as $vo) {
+            $category_list[] = $vo;
+        }
         return $category_list;
     }
 
