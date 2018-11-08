@@ -1521,5 +1521,4 @@ CREATE TABLE `system_user` (
 -- ----------------------------
 -- Records of system_user
 -- ----------------------------
-INSERT INTO `system_user` VALUES ('1', '[\"1\",\"6\"]', 'admin', 'ed696eb5bba1f7460585cc6975e6cf9bf24903dd', '22222222+', 'zhongshaofa@qq.com', '13617343800', '', '22499', '2018-04-17 20:58:27', '1', '0', '0', '2015-11-13 15:14:22', null, '2018-07-18 01:31:58');
 INSERT INTO `system_user` VALUES ('10014', '[\"6\"]', 'ceshi', 'ed696eb5bba1f7460585cc6975e6cf9bf24903dd', '2286', '2@qq.com', '13659797497', '', '0', null, '1', '0', '0', '2018-09-22 05:20:18', null, null);
