@@ -17,14 +17,14 @@
 return [
 
     //七牛云公钥
-    'AccessKey' => 'v-lV3tXev7yyHWD1jRc6_8rFOhFYGQvvjsAQxdrB',
+    'AccessKey' => '',
 
     //七牛云私钥
-    'SecretKey' => 'XOhYRR9JNqxsWVEO-mHWB4193vSwJeQADuORaXzr',
+    'SecretKey' => '',
 
     //七牛云存储空间
-    'Bucket'    => 'blog',
+    'Bucket'    => '',
 
     //七牛云站点
-    'url'       => 'https://static.99php.cn',
+    'url'       => '',
 ];
