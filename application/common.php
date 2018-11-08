@@ -203,11 +203,20 @@ if (!function_exists('get_location')) {
      */
     function get_location($ip = '') {
         empty($ip) && $ip = get_ip();
-        ini_set('user_agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3559.6 Safari/537.36');
-        $url = "http://ip.taobao.com/service/getIpInfo.php?ip={$ip}";
-        $ret = file_get_contents($url);
-        $arr = json_decode($ret, true);
-        return $arr['data'];
+        //接口有问题
+//        ini_set('user_agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3559.6 Safari/537.36');
+//        $url = "http://ip.taobao.com/service/getIpInfo.php?ip={$ip}";
+//        $ret = file_get_contents($url);
+//        $arr = json_decode($ret, true);
+//        $data =$arr['data'];
+        $data = [
+            'ip'      => $ip,
+            'country' => '',
+            'region'  => '',
+            'city'    => '',
+            'isp'     => '',
+        ];
+        return $data;
     }
 }
 

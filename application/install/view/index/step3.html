@@ -64,6 +64,16 @@
     <form class="layui-form layui-form-pane" action="?step=5" method="post">
         <input type="hidden" name="install_dir" value="{$install_dir}">
         <fieldset class="layui-elem-field layui-field-title">
+            <legend>后台路径设置</legend>
+        </fieldset>
+        <div class="layui-form-item">
+            <label class="layui-form-label">后台的地址</label>
+            <div class="layui-input-inline w200">
+                <input type="text" class="layui-input admin_url" name="admin_url" lay-verify="title">
+            </div>
+            <div class="layui-form-mid layui-word-aux">后台的地址默认为admin（建议不要设置为admin）</div>
+        </div>
+        <fieldset class="layui-elem-field layui-field-title">
             <legend>管理账号设置</legend>
         </fieldset>
         <div class="layui-form-item">
@@ -132,13 +142,13 @@
                 $.ajax({
                     type: "POST",
                     url: "{:url('index')}?step=5",
-                    data: {username: $(".username").val(), password: $(".password").val()},
+                    data: {admin_url: $(".admin_url").val(), username: $(".username").val(), password: $(".password").val()},
                     dataType: 'json',
                     success: function (res) {
                         console.log(res);
                         if (res.code == 1) {
                             layer.msg(res.msg, function () {
-                                window.location.href = "{:url('@admin')}";
+                                window.location.href = '/' + $(".admin_url").val() + '.php';
                             });
                         } else {
                             layer.msg(res.msg);

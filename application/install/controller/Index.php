@@ -158,7 +158,7 @@ class Index extends Controller {
             $post = $this->request->post();
 
             //验证数据
-            $validate = $this->validate($post, ['username|管理员账号' => 'require|alphaNum', 'password|管理员密码' => 'require|length:6,20']);
+            $validate = $this->validate($post, ['admin_url|后台路径必须设置' => 'require', 'username|管理员账号' => 'require|alphaNum', 'password|管理员密码' => 'require|length:6,20']);
             if (true !== $validate) return $this->error($validate);
 
             //初始化数据库
@@ -176,7 +176,7 @@ class Index extends Controller {
                     }
                 }
             }
-
+            $admin_module_name = Db::name('system_config')->where(['group' => 'basic', 'name' => 'AdminModuleName'])->value('value');
             //初始化后台登录账号
             $insert = [
                 'username' => $post['username'],
@@ -189,21 +189,22 @@ class Index extends Controller {
             Db::startTrans();
             try {
                 Db::table('system_user')->insert($insert);
+                Db::name('system_config')->where(['group' => 'basic', 'name' => 'AdminModuleName'])->update(['value' => $post['admin_url']]);
                 Db::commit();
             } catch (\Exception $e) {
                 Db::rollback();
                 return $this->error($e->getMessage());
             }
-
             //打印安装信息
             $create_at = date('Y-m-d H:i:s');
             $install_info = <<<INFO
 创建时间：{$create_at}
 温馨提示：如需进行重新安装，请先删除此文件！
 INFO;
-
+            $this->mkAdmin($post['admin_url'], $admin_module_name);
             file_put_contents(Env::get('config_path') . 'lock/install.lock', $install_info);
-            return $this->success('恭喜你，99Admin创建成功！');
+            app('cache')->clear();
+            return $this->success('恭喜你，99Blog创建成功！');
 
         }
     }
@@ -300,6 +301,49 @@ INFO;
         }
 
         return $items;
+    }
+
+    /**
+     * 生成后台入口文件
+     * @param $name
+     * @return string
+     */
+    private function mkAdmin($name, $admin_module_name) {
+        unlink(Env::get('root_path') . 'public\\' . $admin_module_name . '.php');
+        $code = <<<INFO
+<?php
+// +----------------------------------------------------------------------
+// | ThinkPHP [ WE CAN DO IT JUST THINK ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2006-2018 http://thinkphp.cn All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: liu21st <liu21st@gmail.com>
+// +----------------------------------------------------------------------
+
+namespace think;
+
+/**
+ * 后台地址入口
+ */
+// 加载基础文件
+require __DIR__ . '/../thinkphp/base.php';
+
+//判断应用是否已安装
+if (file_exists('../config/lock/install.lock') == false) {
+    header("location:./install.php");
+    exit;
+}
+
+// 执行应用并响应
+Container::get('app')->bind('admin')->run()->send();
+INFO;
+        try {
+            file_put_contents(Env::get('root_path') . 'public\\' . $name . '.php', $code);
+        } catch (Exception $e) {
+            return msg_error($e);
+        }
     }
 
     /**

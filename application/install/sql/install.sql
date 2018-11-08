@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2018-11-08 12:46:17
+Date: 2018-11-08 12:59:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1016,7 +1016,7 @@ INSERT INTO `system_config` VALUES ('45', 'CodeDieTime', 'code', 'int', '300', '
 INSERT INTO `system_config` VALUES ('46', 'FileType', 'file', 'int', '2', '文件保存方法（1：本地，2：七牛云）', '0', '2018-09-17 11:44:12', '0', null, null);
 INSERT INTO `system_config` VALUES ('47', 'FileKey', 'file', 'string', '690c7175d2b4439646b437b8b48f92fb147eccf0', '文件路径加密秘钥（www.99php.cn）', '0', '2018-09-17 16:51:29', '0', null, null);
 INSERT INTO `system_config` VALUES ('48', 'LoginDuration', 'basic', 'int', '7200', '后台登录有效时间', '0', '2018-09-30 01:02:53', '0', null, null);
-INSERT INTO `system_config` VALUES ('49', 'AdminModuleName', 'basic', 'int', 'chung', '后台登录模块名', '0', '2018-10-01 01:22:05', '0', null, null);
+INSERT INTO `system_config` VALUES ('49', 'AdminModuleName', 'basic', 'int', 'admin', '后台登录模块名', '0', '2018-10-01 01:22:05', '0', null, null);
 INSERT INTO `system_config` VALUES ('50', 'CleanCachePassword', 'basic', 'string', 'chung951222', '刷新缓存的密码', '0', '2018-10-01 01:42:16', '0', null, null);
 
 -- ----------------------------
