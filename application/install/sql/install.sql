@@ -1013,7 +1013,7 @@ INSERT INTO `system_config` VALUES ('42', 'AccessKeySecret', 'sms', 'string', ''
 INSERT INTO `system_config` VALUES ('43', 'SignName', 'sms', 'string', '久久PHP', '短信注册模板', '0', '2018-09-01 00:08:55', '0', null, null);
 INSERT INTO `system_config` VALUES ('44', 'CodeTime', 'code', 'int', '60', '验证码发送间隔时间', '0', '2018-09-04 18:03:52', '0', null, null);
 INSERT INTO `system_config` VALUES ('45', 'CodeDieTime', 'code', 'int', '300', '验证码有效期', '0', '2018-09-04 18:17:26', '0', null, null);
-INSERT INTO `system_config` VALUES ('46', 'FileType', 'file', 'int', '2', '文件保存方法（1：本地，2：七牛云）', '0', '2018-09-17 11:44:12', '0', null, null);
+INSERT INTO `system_config` VALUES ('46', 'FileType', 'file', 'int', '1', '文件保存方法（1：本地，2：七牛云）', '0', '2018-09-17 11:44:12', '0', null, null);
 INSERT INTO `system_config` VALUES ('47', 'FileKey', 'file', 'string', '690c7175d2b4439646b437b8b48f92fb147eccf0', '文件路径加密秘钥（www.99php.cn）', '0', '2018-09-17 16:51:29', '0', null, null);
 INSERT INTO `system_config` VALUES ('48', 'LoginDuration', 'basic', 'int', '7200', '后台登录有效时间', '0', '2018-09-30 01:02:53', '0', null, null);
 INSERT INTO `system_config` VALUES ('49', 'AdminModuleName', 'basic', 'int', 'admin', '后台登录模块名', '0', '2018-10-01 01:22:05', '0', null, null);
