@@ -309,7 +309,7 @@ INFO;
      * @return string
      */
     private function mkAdmin($name, $admin_module_name) {
-        unlink(Env::get('root_path') . 'public\\' . $admin_module_name . '.php');
+        unlink(Env::get('root_path') . 'public/' . $admin_module_name . '.php');
         $code = <<<INFO
 <?php
 // +----------------------------------------------------------------------
