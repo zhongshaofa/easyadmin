@@ -162,7 +162,7 @@ class Index extends Controller {
             if (true !== $validate) return $this->error($validate);
 
             //初始化数据库
-            $sql_file = Env::get('app_path') . 'install\sql\install.sql';
+            $sql_file = Env::get('app_path') . '/install/sql/install.sql';
             if (!file_exists($sql_file)) return $this->error('app/install/sql/install.sql文件不存在');
             $sql = file_get_contents($sql_file);
             $sql_list = parse_sql($sql);
@@ -340,7 +340,7 @@ if (file_exists('../config/lock/install.lock') == false) {
 Container::get('app')->bind('admin')->run()->send();
 INFO;
         try {
-            file_put_contents(Env::get('root_path') . 'public\\' . $name . '.php', $code);
+            file_put_contents(Env::get('root_path') . 'public/' . $name . '.php', $code);
         } catch (Exception $e) {
             return msg_error($e);
         }
