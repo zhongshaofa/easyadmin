@@ -1,3 +1,19 @@
+99Blog社区博客系统
+===============
+框架主要使用thinkphp5.1 + layui + jquery，后台基于99Admin进行开发。
+
+## 系统环境及安装
+ + git clone https://gitee.com/zhongshaofa/99Blog.git，或者直接下载安装包
+ + 环境推荐PHP7.0版本以上 + Apache（Nginx也可以）
+ + 网站入口请部署至public文件夹下（即 99Blog/public 目录下）
+ + 运行安装目录，运行 http://域名/install（例如：https://blog.99php.cn/install） 即可进行根据提示进行安装
+ + 安装会进行后台路径和管理员的初始化（后台路径不建议设置为admin，容易被人发现后台入口）
+ + 安装后会在config/lock文件夹下生成install.lock文件的安装锁（如果需要重新安装，请删除该文件夹即可）
+
+## 疑问解答
+有问题请加[QQ群：763822524](https://jq.qq.com/?_wv=1027&k=5IHJawE)，或者请前往[99PHP社区](https://blog.99php.cn)进行提问。
+
+
 ThinkPHP 5.1
 ===============
 
