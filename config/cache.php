@@ -17,7 +17,7 @@
 return [
     // 缓存配置为复合类型
     'type'    => 'complex',
-    'file'    => [
+    'default'    => [
         // 驱动方式
         'type'   => 'file',
         // 缓存保存目录
@@ -27,7 +27,7 @@ return [
         // 缓存有效期 0表示永久缓存
         'expire' => 0,
     ],
-    'default' => [
+    'redis' => [
         // 驱动方式
         'type'   => 'redis',
         // 缓存保存目录
