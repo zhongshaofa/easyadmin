@@ -21,14 +21,16 @@ use think\facade\Env;
  * Class Index
  * @package app\install\controller
  */
-class Index extends Controller {
+class Index extends Controller
+{
 
     /**
      * 安装引导页面
      * @param int $step
      * @return mixed|void
      */
-    public function index($step = 0) {
+    public function index($step = 0)
+    {
 
         switch ($step) {
             case 2:
@@ -65,7 +67,8 @@ class Index extends Controller {
      * 第二步：环境检测
      * @return mixed
      */
-    private function step2() {
+    private function step2()
+    {
         $data = [];
         $data['env'] = self::checkNnv();
         $data['dir'] = self::checkDir();
@@ -78,7 +81,8 @@ class Index extends Controller {
      * 第三步：初始化配置
      * @return mixed
      */
-    private function step3() {
+    private function step3()
+    {
         $install_dir = $_SERVER["SCRIPT_NAME"];
         $install_dir = install_substring($install_dir, strripos($install_dir, "/") + 1);
         $this->assign('install_dir', $install_dir);
@@ -89,7 +93,8 @@ class Index extends Controller {
      * 第四步：执行安装
      * @return mixed
      */
-    private function step4() {
+    private function step4()
+    {
         if ($this->request->isPost()) {
             if (!is_writable(Env::get('config_path') . 'database.php')) {
                 return $this->error('[app/database.php]无读写权限！');
@@ -153,7 +158,8 @@ class Index extends Controller {
      * 第五步：数据库安装
      * @return mixed
      */
-    private function step5() {
+    private function step5()
+    {
         if ($this->request->isPost()) {
             $post = $this->request->post();
 
@@ -166,6 +172,11 @@ class Index extends Controller {
             if (!file_exists($sql_file)) return $this->error('app/install/sql/install.sql文件不存在');
             $sql = file_get_contents($sql_file);
             $sql_list = parse_sql($sql);
+            try {
+                $admin_module_name = Db::name('system_config')->where(['group' => 'basic', 'name' => 'AdminModuleName'])->value('value');
+            } catch (\Exception $e) {
+                $admin_module_name = '';
+            }
             if ($sql_list) {
                 $sql_list = array_filter($sql_list);
                 foreach ($sql_list as $v) {
@@ -176,7 +187,9 @@ class Index extends Controller {
                     }
                 }
             }
-            $admin_module_name = Db::name('system_config')->where(['group' => 'basic', 'name' => 'AdminModuleName'])->value('value');
+            if (empty($admin_module_name)) {
+                $admin_module_name = Db::name('system_config')->where(['group' => 'basic', 'name' => 'AdminModuleName'])->value('value');
+            }
             //初始化后台登录账号
             $insert = [
                 'username' => $post['username'],
@@ -213,7 +226,8 @@ INFO;
      * 环境检测
      * @return array
      */
-    private function checkNnv() {
+    private function checkNnv()
+    {
         $items = [
             'os'  => ['操作系统', '不限制', 'Windows/Unix', PHP_OS, 'ok'],
             'php' => ['PHP版本', '5.5', '5.5及以上', PHP_VERSION, 'ok'],
@@ -240,7 +254,8 @@ INFO;
      * 目录权限检查
      * @return array
      */
-    private function checkDir() {
+    private function checkDir()
+    {
         $items = [
             ['dir', '../application', '读写', '读写', 'ok'],
             ['dir', '../config', '读写', '读写', 'ok'],
@@ -275,7 +290,8 @@ INFO;
      * 函数及扩展检查
      * @return array
      */
-    private function checkFunc() {
+    private function checkFunc()
+    {
         $items = [
             ['pdo', '支持', 'yes', '类'],
             ['pdo_mysql', '支持', 'yes', '模块'],
@@ -308,8 +324,14 @@ INFO;
      * @param $name
      * @return string
      */
-    private function mkAdmin($name, $admin_module_name) {
-        unlink(Env::get('root_path') . 'public/' . $admin_module_name . '.php');
+    private function mkAdmin($name, $admin_module_name)
+    {
+        try {
+            unlink(Env::get('root_path') . 'public/' . $admin_module_name . '.php');
+        } catch (\Exception $e) {
+
+        }
+
         $code = <<<INFO
 <?php
 // +----------------------------------------------------------------------
@@ -342,7 +364,7 @@ INFO;
         try {
             file_put_contents(Env::get('root_path') . 'public/' . $name . '.php', $code);
         } catch (Exception $e) {
-            return msg_error($e);
+            return msg_error($e->getMessage());
         }
     }
 
@@ -350,7 +372,8 @@ INFO;
      * 生成数据库配置文件
      * @return array
      */
-    private function mkDatabase(array $data) {
+    private function mkDatabase(array $data)
+    {
         $code = <<<INFO
 <?php
 /// +----------------------------------------------------------------------

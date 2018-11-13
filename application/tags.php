@@ -19,28 +19,30 @@ return [
     'app_init'     => [],
     // 应用开始
     'app_begin'    => function () {
-        //缓存系统配置信息
-        Cache::tag('basic')->remember('SysInfo', function () {
-            $SysInfo = new \app\admin\model\Config;
-            return $SysInfo->getBasicConfig();
-        });
-        //缓存博客配置信息
-        Cache::tag('blog_basic')->remember('BlogInfo', function () {
-            $BlogInfo = new \app\blog\model\Config;
-            return $BlogInfo->getBlogConfig();
-        });
-        //渲染到视图层
-        app('view')->init(config('template.'))->assign([
-            'SysInfo'   => Cache::get('SysInfo'),
-            'BlogInfo'  => Cache::get('BlogInfo'),
-            'is_mobile' => is_mobile(),
-            'website'   => [
-                'index'    => Config::get('website.index'),
-                'download' => Config::get('website.download'),
-                'blog'     => Config::get('website.blog'),
-                'demo'     => Config::get('website.demo'),
-            ],
-        ]);
+        if (app('request')->module() != 'install') {
+            //缓存系统配置信息
+            Cache::tag('basic')->remember('SysInfo', function () {
+                $SysInfo = new \app\admin\model\Config;
+                return $SysInfo->getBasicConfig();
+            });
+            //缓存博客配置信息
+            Cache::tag('blog_basic')->remember('BlogInfo', function () {
+                $BlogInfo = new \app\blog\model\Config;
+                return $BlogInfo->getBlogConfig();
+            });
+            //渲染到视图层
+            app('view')->init(config('template.'))->assign([
+                'SysInfo'   => Cache::get('SysInfo'),
+                'BlogInfo'  => Cache::get('BlogInfo'),
+                'is_mobile' => is_mobile(),
+                'website'   => [
+                    'index'    => Config::get('website.index'),
+                    'download' => Config::get('website.download'),
+                    'blog'     => Config::get('website.blog'),
+                    'demo'     => Config::get('website.demo'),
+                ],
+            ]);
+        }
     },
     // 模块初始化
     'module_init'  => [],
