@@ -18,6 +18,9 @@
 + 配置七牛云上传，减轻服务器资源访问压力。
 修改config/qiniu.php文件，配置对应的AccessKey、SecretKey、Bucket、url，另外还在修改数据库中system_config，name为FileType的value的值为2 (文件保存方法 1：本地，2：七牛云)。
 
+## 常见问题
+> 系统菜单栏显示不正常，请手动刷新系统缓存。
+
 ## 疑问解答
 > 有问题请加[QQ群：763822524](https://jq.qq.com/?_wv=1027&k=5IHJawE)，或者请前往[99PHP社区](https://blog.99php.cn)进行提问。
 
