@@ -50,7 +50,7 @@
                         <a href="{:url('@blog/article/details',['id'=>$vo.id])}" target="_blank">{$vo.title|default=''}</a>
                     </h4>
                     <div class="date_hits">
-                        <span>{$vo.memberInfo.nickname|default=''}</span>
+                        <span>{if $vo.member_id == 0}管理员{else/}{$vo.memberInfo.nickname|default=''}{/if}</span>
                         <span>{$vo.create_at|default=''}</span>
                         <span><a href="{:url('@blog/article/index',['category_id'=>$vo.category_id])}" target="_blank">{$vo.categoryInfo.title|default=''}</a></span>
                         <p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> {$vo.clicks|default=''} °</p>
