@@ -60,7 +60,7 @@ class Collect extends Command {
                 if (empty($article)) {
                     P("正在采集文章：{$vo['title']}");
                     $insert[] = [
-                        'category_id' => 0,
+                        'category_id' => 1,
                         'member_id'   => 0,
                         'title'       => $vo['title'],
                         'cover_img'   => $vo['cover_img'],
