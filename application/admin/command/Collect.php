@@ -67,7 +67,7 @@ class Collect extends Command {
                         'describe'    => $vo['describe'],
                         'content'     => $vo['content'],
                         'clicks'      => $vo['clicks'],
-                        'create_at'   => $vo['create_at'],
+                        'create_at'   => $vo['create_time'],
                     ];
                 } else {
                     P("数据库中已存在该文章：{$vo['title']}");
