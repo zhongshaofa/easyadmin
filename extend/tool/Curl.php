@@ -18,192 +18,45 @@ namespace tool;
  * Class Curl
  */
 class Curl {
-    /**
-     * @请求的host
-     */
-    private $host_;
 
     /**
-     * @curl 句柄
+     * post和get请求模拟
+     * @param        $url          访问的URL
+     * @param string $post         post数据(不填则为GET)
+     * @param string $cookie       提交的$cookies
+     * @param int    $returnCookie 是否返回$cookies
+     * @return mixed|string
      */
-    private $ch_;
-
-    /**
-     * @超时限制时间
-     */
-    const time_=5;
-    /**
-     * @请求的设置
-     */
-    private $options_;
-
-    /**
-     * @保存请求头信息
-     */
-    private $request_header_;
-
-    /**
-     * @保存响应头信息
-     */
-    private $response_header_;
-
-    /**
-     * @body_ 用于保存curl请求返回的结果
-     */
-    private $body_;
-
-    /**
-     * @读取cookie
-     */
-    private $cookie_file_;
-
-    /**
-     * @写入cookie
-     */
-    private $cookie_jar_;
-
-    /**
-     * @todo proxy
-     * @构造函数，初始化CURL回话
-     */
-    public function Start($url){
-        $this->ch_ = curl_init($url);
-        curl_setopt($this->ch_, CURLOPT_HEADER, 1);
-        curl_setopt($this->ch_, CURLOPT_RETURNTRANSFER , 1 );
-    }
-
-    /**
-     * @返回响应头
-     */
-    public function ResponseHeader($url){
-        if (!function_exists('http_parse_headers')) {
-            function http_parse_headers ($raw_headers){
-                $headers = array();
-                foreach (explode("\n", $raw_headers) as $i => $h) {
-                    $h = explode(':', $h, 2);
-                    if (isset($h[1])) {
-                        if(!isset($headers[$h[0]])) {
-                            $headers[$h[0]] = trim($h[1]);
-                        } else if(is_array($headers[$h[0]])) {
-                            $tmp = array_merge($headers[$h[0]],array(trim($h[1])));
-                            $headers[$h[0]] = $tmp;
-                        } else {
-                            $tmp = array_merge(array($headers[$h[0]]),array(trim($h[1])));
-                            $headers[$h[0]] = $tmp;
-                        }
-                    }
-                }
-                return $headers;
-            }
+    public static function request($url, $post = '', $cookie = '', $returnCookie = 0) {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)');
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
+        curl_setopt($curl, CURLOPT_REFERER, "http://XXX");
+        if ($post) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post));
         }
-        $this->Start($url);
-        curl_setopt($this->ch_, CURLOPT_TIMEOUT, Curl::time_);
-        $this->body_=$this->Execx();
-        $header_size = curl_getinfo($this->ch_, CURLINFO_HEADER_SIZE);
-        $this->response_header_ = substr($this->body_, $start = 0, $offset = $header_size);
-        $this->response_header_ = http_parse_headers($this->response_header_);
-        print_r($this->response_header_);
-        return $this->Close($this->body_);
-    }
-    /**
-     * @读取cookie
-     */
-    public function LoadCookie($url,$cookie_file){
-        $this->Start($url);
-        curl_setopt($this->ch_, CURLOPT_COOKIE, 1);
-        curl_setopt($this->ch_, CURLOPT_COOKIEFILE , $cookie_file);
-        $this->body_=$this->Execx();
-        return $this->Close($this->body_);
-    }
-
-    /**
-     * @写入cookie
-     */
-    public function SaveCookie($url){
-        $this->Start($url);
-        curl_setopt($this->ch_, CURLOPT_COOKIE, 1);
-        curl_setopt($this->ch_, CURLOPT_COOKIEFILE ,'cookie.txt');
-        curl_setopt($this->ch_, CURLOPT_COOKIEJAR , 'cookie.txt');
-        $this->body_=$this->Execx();
-        return $this->Close($this->body_);
-    }
-
-    /**
-     * @设置HEADER
-     */
-
-    public function SetHeader($headers = null){
-        if (is_array($headers) && count($headers) > 0) {
-            curl_setopt($this->ch_, CURLOPT_HTTPHEADER, $headers);
+        if ($cookie) {
+            curl_setopt($curl, CURLOPT_COOKIE, $cookie);
         }
-    }
-
-    /**
-     * @GET请求
-     */
-    public function Get($url, array $params = array()) {
-        if ($params) {
-            if (strpos($url, '?')) {
-                $url .= "&".http_build_query($params);
-            }
-            else {
-                $url .= "?".http_build_query($params);
-            }
+        curl_setopt($curl, CURLOPT_HEADER, $returnCookie);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $data = curl_exec($curl);
+        if (curl_errno($curl)) {
+            return curl_error($curl);
         }
-        $this->Start($url);
-        curl_setopt($this->ch_, CURLOPT_TIMEOUT, Curl::time_);
-        if (strpos($url, 'https') === 0) {
-            curl_setopt($this->ch_, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($this->ch_, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_close($curl);
+        if ($returnCookie) {
+            list($header, $body) = explode("\r\n\r\n", $data, 2);
+            preg_match_all("/Set\-Cookie:([^;]*);/", $header, $matches);
+            $info['cookie'] = substr($matches[1][0], 1);
+            $info['content'] = $body;
+            return json_decode($info, true);
+        } else {
+            return json_decode($data, true);
         }
-        $this->body_=$this->Execx();
-        return $this->Close($this->body_);
-    }
-
-    /**
-     * @POST请求
-     */
-    public function Post($url, array $params = array()) {
-        $this->Start($url);
-        curl_setopt($this->ch_, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($this->ch_, CURLOPT_HTTPHEADER, array("Content-Type: application/x-www-form-urlencoded"));
-        curl_setopt($this->ch_, CURLOPT_POST, true);
-        curl_setopt($this->ch_, CURLOPT_TIMEOUT, Curl::time_);
-        if ($params) {
-            curl_setopt($this->ch_, CURLOPT_POSTFIELDS, http_build_query($params));
-        }
-        $this->body_=$this->Execx();
-        return $this->Close($this->body_);
-    }
-
-    /**
-     * @tips: google http head 方法
-     */
-    public function Head($url, array $params = array()) {
-        $this->Start($url);
-        curl_setopt($this->ch_, CURLOPT_TIMEOUT, Curl::time_);
-        curl_setopt($this->ch_, CURLOPT_RETURNTRANSFER , 0);
-        curl_setOpt($this->ch_,CURLOPT_NOBODY, true);
-        $this->body_=$this->Execx();
-        return $this->Close($this->body_);
-    }
-
-    /**
-     * @执行CURL会话
-     */
-    public function Execx(){
-        return curl_exec($this->ch_);
-    }
-
-    /**
-     * @关闭CURL句柄
-     */
-    public function Close($body_){
-        if ($body_ === false) {
-            echo "CURL Error: " . curl_error($body_);
-            return false;
-        }
-        curl_close($this->ch_);
-        return $body_;
     }
 }

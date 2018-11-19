@@ -10,5 +10,5 @@
 // +----------------------------------------------------------------------
 
 return [
-    'hello' => 'app\admin\command\Hello',
+    'collect' => 'app\admin\command\Collect', //采集文章
 ];
