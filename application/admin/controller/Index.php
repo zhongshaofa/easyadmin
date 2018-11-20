@@ -22,12 +22,12 @@ class Index extends AdminController {
      * @return mixed
      */
     public function index() {
-
         Cache::remember('Home', function () {
             return model('menu')->getHome();
         });
+        $sys_info = Cache::get('SysInfo');
         $basic_data = [
-            'title' => '99Admin后台管理',
+            'title' => $sys_info['ManageName'],
             'nav'   => model('menu')->getNav(),
             'home'  => Cache::get('Home'),
             'data'  => '',
