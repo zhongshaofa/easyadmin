@@ -29,7 +29,7 @@ class Node extends AdminController {
      */
     public function getNodeTree($id) {
         $list = [];
-        $module = model('node')->where(['type' => 1, 'is_auth' => 1])->order(['node'=>'asc'])->select();
+        $module = model('node')->where(['type' => 1, 'is_auth' => 1])->order(['node' => 'asc'])->select();
         foreach ($module as $k => $val) {
             $list[$k] = [
                 'title' => $this->__biuldGetNodeTree($val['node'], $val['title']),
@@ -38,7 +38,7 @@ class Node extends AdminController {
             ];
             $is_checked = model('auth_node')->where(['auth' => $id, 'node' => $val['id']])->find();
             !empty($is_checked) && $list[$k]['checked'] = true;
-            $data_1 = model('node')->where([['type', '=', 2], ['is_auth', '=', 1], ['node', 'LIKE', $val['node'] . '%']])->select();
+            $data_1 = model('node')->where([['type', '=', 2], ['is_auth', '=', 1], ['node', 'LIKE', "{$val['node']}/%"]])->select();
             foreach ($data_1 as $k_1 => $val_1) {
                 $list[$k]['data'][$k_1] = [
                     'title' => $this->__biuldGetNodeTree($val_1['node'], $val_1['title']),
@@ -47,7 +47,7 @@ class Node extends AdminController {
                 ];
                 $is_checked_1 = model('auth_node')->where(['auth' => $id, 'node' => $val_1['id']])->find();
                 !empty($is_checked_1) && $list[$k]['data'][$k_1]['checked'] = true;
-                $data_2 = model('node')->where([['type', '=', 3], ['is_auth', '=', 1], ['node', 'LIKE', $val_1['node'] . '%']])->select();
+                $data_2 = model('node')->where([['type', '=', 3], ['is_auth', '=', 1], ['node', 'LIKE', "{$val_1['node']}/%"]])->select();
                 foreach ($data_2 as $k_2 => $val_2) {
                     $list[$k]['data'][$k_1]['data'][$k_2] = [
                         'title' => $this->__biuldGetNodeTree($val_2['node'], $val_2['title']),
