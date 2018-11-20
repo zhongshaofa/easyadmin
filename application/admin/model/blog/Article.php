@@ -159,7 +159,8 @@ class Article extends ModelService {
         }
 
         $count = self::where($where)->count();
-        $data = self::where($where)->page($page, $limit)->order(['create_at' => 'desc'])->select()
+        $data = self::where($where)->field('id,category_id,member_id,title,cover_img,describe,recommend,praise,clicks,sort,remark,status,is_open,create_at')
+            ->page($page, $limit)->order(['create_at' => 'desc'])->select()
             ->each(function ($item, $key) {
                 $memberInfo = $item->memberInfo;
                 $categoryInfo = $item->categoryInfo;
