@@ -226,4 +226,39 @@ class User extends AdminController {
         if ($update >= 1) return __success($msg);
         return __error('数据有误，请刷新重试！');
     }
+
+    /**
+     * 修改自己的信息
+     * @return mixed|string|\think\response\Json
+     */
+    public function edit_self() {
+        if (!$this->request->isPost()) {
+
+            //查找所需修改用户
+            $user = $this->model->where('id', $this->user['id'])->find();
+            if (empty($user)) return msg_error('暂无数据，请重新刷新页面！');
+
+            //基础数据
+            $basic_data = [
+                'title' => '修改管理员信息',
+                'user'  => $user->hidden(['password']),
+            ];
+            $this->assign($basic_data);
+
+            return $this->fetch('form_self');
+        } else {
+            $post = $this->request->post();
+
+            //验证数据
+            $validate = $this->validate($post, 'app\admin\validate\User.edit_self');
+            if (true !== $validate) return __error($validate);
+
+            //清空菜单缓存
+            clear_menu();
+
+            //保存数据,返回结果
+            return $this->model->edit($post);
+        }
+    }
+
 }

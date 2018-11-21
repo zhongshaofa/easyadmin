@@ -54,17 +54,6 @@
         </div>
     </div>
 
-
-    <div class="layui-form-item layui-row">
-        <label class="layui-form-label">用户权限</label>
-        <div class="layui-input-block">
-            {foreach auth as $vo}
-            <input type="checkbox" id="auth_id" name="auth_id" class="layui-input auth_id" value="{$vo.id|default=''}" lay-skin="primary" title="{$vo.title|default=''}" {eq name='$vo.is_checked|default=false' value='true' }checked{/eq}>
-            {/foreach}
-
-        </div>
-    </div>
-
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">备注信息</label>
         <div class="layui-input-block">
@@ -97,10 +86,6 @@
      * 添加、编辑
      */
     $("#submitBtn").on("click", function () {
-        auth_id = [];
-        $("input:checkbox[name='auth_id']:checked").each(function () {
-            auth_id.push($(this).val());
-        });
         var url = "{if empty($user)}{:url('@admin/user/add')}{else/}{:url('@admin/user/edit')}{/if}";
         var data = {
             id: $("#id").val(),
@@ -111,7 +96,6 @@
             phone: $("#phone").val(),
             qq: $("#qq").val(),
             mail: $("#mail").val(),
-            auth_id: auth_id,
             remark: $("#remark").val(),
         };
         $.request.post(url, data, function (res) {

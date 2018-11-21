@@ -118,9 +118,15 @@ class User extends ModelService {
      * @return \think\response\Json
      */
     public function editPassword($update) {
-        $update = $this->where('id', $update['id'])->update(['password' => password($update['password'])]);
-        if ($update >= 1) return __success('密码修改成功');
-        return __error('密码修改失败，请检查！');
+        $this->startTrans();
+        try {
+            $this->where('id', $update['id'])->update(['password' => password($update['password'])]);
+            $this->commit();
+        } catch (\Exception $e) {
+            $this->rollback();
+            return __error($e->getMessage());
+        }
+        return __success('密码修改成功');
     }
 
     /**
@@ -147,11 +153,15 @@ class User extends ModelService {
             }
         }
 
-        $field = 'id, auth_id, username, qq, mail, phone, remark, status, create_by, create_at';
+        $field = 'id, auth_id, username, head_img, qq, mail, phone, remark, status, create_by, create_at';
         $count = $this->where($where)->count();
         $data = $this->where($where)->field($field)->page($page, $limit)->select()
             ->each(function ($item, $key) {
-                $auth_title = model('auth')->where(['id' => $item['auth_id'], 'status' => 1])->value('title');
+                list($auth_id_list, $auth_title) = [json_decode($item['auth_id'], true), ''];
+                foreach ($auth_id_list as $auth_id) {
+                    $title = model('auth')->where(['id' => $auth_id, 'status' => 1])->value('title');
+                    $auth_title = empty($auth_title) ? $title : "{$auth_title}，{$title}";
+                }
                 $create_by_username = $this->where(['id' => $item['create_by'], 'status' => 1, 'is_deleted' => 0])->value('username');
                 empty($auth_title) ? $item['auth_title'] = '暂无权限信息' : $item['auth_title'] = $auth_title;
                 empty($create_by_username) ? $item['create_by_username'] = '暂未创建者信息' : $item['create_by_username'] = $create_by_username;

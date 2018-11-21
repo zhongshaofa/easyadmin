@@ -70,8 +70,11 @@ class User extends Validate {
         //修改管理员
         'edit'          => ['username', 'phone', 'mail', 'auth_id', 'qq', 'remark'],
 
+        //修改自己的信息
+        'edit'          => ['username', 'phone', 'mail', 'qq', 'remark'],
+
         //修改登录密码
-        'edit_password' => ['id', 'old_password', 'password', 'password1'],
+        'edit_password' => ['id', 'password', 'password1'],
 
         //删除管理员
         'del'           => ['id'],

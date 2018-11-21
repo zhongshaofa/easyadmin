@@ -69,6 +69,10 @@
     <!--主表单渲染--结束-->
 
     <!--表单模板绑定--开始-->
+    <script type="text/html" id="bindHeadImg">
+        <img style="width: 30px; height: 30px;" src="{{d.head_img}}" layer-src="{{d.head_img}}" alt="{{d.nickname}}" data-image="open" lay-filter="modifyHeadImg">
+    </script>
+
     <script type="text/html" id="checkStatus">
         <input type="checkbox" name="{{d.id}}" value="{{d.status}}" lay-skin="switch" lay-text="启用|禁用" lay-filter="modifyStatus" {{ d.status== 1 ? 'checked' : '' }}>
     </script>
@@ -103,6 +107,7 @@
     $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
         {type: "checkbox", fixed: "left", width: 50},
         {field: 'username', title: '用户名', minWidth: 100, align: "center"},
+        {field: 'head_img', title: '用户头像', width: 100, templet: '#bindHeadImg', align: "center"},
         {field: 'phone', title: '用户手机', align: 'center'},
         {
             field: 'mail', title: '用户邮箱', minWidth: 200, align: 'center', templet: function (d) {
