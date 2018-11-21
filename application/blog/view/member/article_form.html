@@ -144,11 +144,10 @@
              */
             upload.render({
                 elem: '#uploadLogo'
-                , url: "{:url('@blog/api.upload/layui_image')}"
+                , url: "{:url('@blog/api.upload/image')}"
                 , done: function (res) {
-                    console.log(res)
                     if (res.code == 0) {
-                        $('#cover_img').attr('src', res.data.src);
+                        $('#cover_img').attr('src', res.url[0]);
                         var parent = document.getElementById("uploadLogo");
                         var child = document.getElementById("upload_icon");
                         var child1 = document.getElementById("upload_icon_p");
