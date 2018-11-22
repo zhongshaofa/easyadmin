@@ -59,6 +59,7 @@ class Collect extends Command {
                 $article = Db::name('blog_article')->where(['title' => $vo['title'], 'is_deleted' => 0])->find();
                 if (empty($article)) {
                     P("正在采集文章：{$vo['title']}");
+                    $vo['cover_img'] = empty($vo['cover_img']) ? 'https://static.99php.cn/c5746182181fa9cdae1d6f8793a29eb8.jpg' : $vo['cover_img'];
                     $insert[] = [
                         'category_id' => 1,
                         'member_id'   => 0,
