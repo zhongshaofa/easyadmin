@@ -40,7 +40,6 @@ class AuthService {
         if (empty($is_auth)) return true;
 
         //获取当前用户角色组信息 ,拆表
-//        $auth_id_list = json_decode(session('user.auth_id'), true);
         $user = new \app\admin\model\User;
         $auth_id_list = json_decode($user->where(['id' => session('user.id'), 'status' => 1, 'is_deleted' => 0])->value('auth_id'), true);
         //去除失效的角色组信息

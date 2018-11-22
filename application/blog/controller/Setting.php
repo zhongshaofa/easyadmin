@@ -177,66 +177,31 @@ class Setting extends BlogController {
         }
     }
 
-     /**
-     * 编辑个人信息
-     * @return mixed
-     */
-    public function form_info2(){
-         $basic_data = [
-            'title'       => '用户信息',
-            'nav_top'     => 'setting_info',
-            'member_info' => $this->model->where(['id' => $this->member['id'], 'status' => 0, 'is_deleted' => 0])->find(),
-            'last_time'   => model('LoginRecord')->getLastTime($this->member['id']),
-        ];
-         return $this->fetch('setting/form/info', $basic_data);
-
-    }
     /**
      * 编辑个人信息
      * @return mixed
      */
-    public function edit_form_info2($username){
-        //获取当前用户信息
-        $datainfo=db('blog_member')->where('username',$username)->find();
-          //$datainfo=db('blog_member')->find($username);
-        if(request()->isPost()){
-        $data=input('post.');
-           //如果提交的数据为空则取原数据
-           if(!$data['nickname']){
-            $data['nickname']=$datainfo['nickname'];
-           }
-           if(!$data['phone']){
-             $data['phone']=$datainfo['phone'];
-           }
-           if(!$data['email']){
-             $data['email']=$datainfo['email'];
-           }
-           if(!$data['sign']){
-            $data['sign']=$datainfo['sign'];
-           }
-           if(!$data['password']){
-             $data['password']=$datainfo['password'];
-           }
-           else{
-            $data['password']=md5($data['password']);
-           }
-           //dump($data);
-           $isdp=Db::name('blog_member') ->where('username',$username)->update($data);
-           if($isdp){
-            $this->success("更新数据成功",url('info'));
-           }
-           else{
-            $this->error('更新数据失败');
-           }
-        }
-        //渲染模板
-         $basic_data = [
+    public function form_info2() {
+        $basic_data = [
             'title'       => '用户信息',
             'nav_top'     => 'setting_info',
             'member_info' => $this->model->where(['id' => $this->member['id'], 'status' => 0, 'is_deleted' => 0])->find(),
             'last_time'   => model('LoginRecord')->getLastTime($this->member['id']),
         ];
-         return $this->fetch('setting/form/info', $basic_data);
+        return $this->fetch('setting/form/info', $basic_data);
+
+    }
+
+    /**
+     * 修改个人信息
+     * @return mixed
+     */
+    public function edit_info() {
+        $basic_data = [
+            'title'       => '修改用户信息',
+            'member_info' => $this->model->where(['id' => $this->member['id'], 'status' => 0, 'is_deleted' => 0])->find(),
+        ];
+        return $this->fetch('', $basic_data);
     }
 
 }

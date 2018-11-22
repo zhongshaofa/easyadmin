@@ -629,3 +629,15 @@ ul.infos p {
         -moz-transform: translateY(0)
     }
 }
+
+.form-width-99admin {
+    width: 98%;
+}
+
+.uploadimage {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    background-size: cover;
+    cursor: pointer;
+}

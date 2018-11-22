@@ -1,0 +1,88 @@
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/blog/common.css"/>
+<link rel="stylesheet" href="__STATIC__/plugs/layui/css/layui.css" media="all"/>
+<form class="layui-form form-width-99admin">
+    <br>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">用户头像</label>
+        <div class="layui-input-block" id="upload_image_div">
+            <input type="hidden" id="head_img" value="{$member_info.head_img|default=''}">
+            <div class="uploadimage" data-upload-image="one" data-upload-id="head_img" data-upload-div="upload_image_div" style="background-image: url(__STATIC__/image/admin/upload.png);">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">用户昵称</label>
+        <div class="layui-input-block">
+            <input type="text" id="nickname" class="layui-input phone" value="{$member_info.nickname|default=''}" placeholder="请输入昵称">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">用户账号</label>
+        <div class="layui-input-block">
+            <input type="text" id="username" {if !empty($member_info.username)}disabled{/if} class="layui-input phone" value="{$member_info.username|default=''}" placeholder="请输入用户名">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">用户手机</label>
+        <div class="layui-input-block">
+            <input type="text" id="phone" class="layui-input phone" value="{$member_info.phone|default=''}" placeholder="请输入手机">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">用户邮箱</label>
+        <div class="layui-input-block">
+            <input type="email" id="email" class="layui-input mail" value="{$member_info.email|default=''}" placeholder="请输入邮箱">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">个性签名</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入个性签名" name="sign" class="layui-textarea remark">{$member_info.sign|default=''}</textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-sm" id="submitBtn">提交</button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary" data-close="closeOpen">取消</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="__STATIC__/plugs/jquery/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="__STATIC__/plugs/layui/layui.all.js"></script>
+<script type="text/javascript" src="__STATIC__/blog.js"></script>
+<script>
+
+    /**
+     * 上传图片处理
+     */
+    $.form.imageRender('upload_image_div', 'one');
+
+    /**
+     * 添加、编辑
+     */
+    $("#submitBtn").on("click", function () {
+        var url = '{:url("$thisRequest")}';
+        var data = {
+            head_img: $('#head_img').val(),
+            nickname: $('#nickname').val(),
+            username: $('#username').val(),
+            phone: $('#phone').val(),
+            email: $('#email').val(),
+            sign: $('#sign').val(),
+        };
+        $.request.post(url, data, function (res) {
+            $.msg.success(res.msg, function () {
+                index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+                window.parent.location.reload();
+            })
+        })
+        return false;
+    });
+</script>

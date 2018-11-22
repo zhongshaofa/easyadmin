@@ -41,7 +41,10 @@
                 <li class='name-left'>个性签名</li>
                 <li class='name-right'>{$member_info.sign|default='<span class="layui-red">暂未设置</span>'|raw}</li>
             </div>
-            <div class='user-info-edit'><a href='{:url('edit_form_info2',array('username'=>$member_info["username"]))}' class="layui-btn layui-btn-primary" onclick="edit()">编辑</a></div>        </div>
+            <div class='user-info-edit'>
+                <a class="layui-btn layui-btn-primary" data-open="{:url('@blog/setting/edit_info')}" data-width="800px" data-height="600px" data-title="修改个人信息">编辑</a>
+            </div>
+        </div>
     </div>
 
 </div>
