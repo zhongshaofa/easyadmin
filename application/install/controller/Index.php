@@ -167,11 +167,15 @@ class Index extends Controller
             $validate = $this->validate($post, ['admin_url|后台路径必须设置' => 'require', 'username|管理员账号' => 'require|alphaNum', 'password|管理员密码' => 'require|length:6,20']);
             if (true !== $validate) return $this->error($validate);
 
+            P('=============初始化数据库=============');
             //初始化数据库
             $sql_file = Env::get('app_path') . '/install/sql/install.sql';
             if (!file_exists($sql_file)) return $this->error('app/install/sql/install.sql文件不存在');
             $sql = file_get_contents($sql_file);
             $sql_list = parse_sql($sql);
+
+            P('=============获取sql语句=============');
+
             try {
                 $admin_module_name = Db::name('system_config')->where(['group' => 'basic', 'name' => 'AdminModuleName'])->value('value');
             } catch (\Exception $e) {
@@ -179,14 +183,32 @@ class Index extends Controller
             }
             if ($sql_list) {
                 $sql_list = array_filter($sql_list);
-                foreach ($sql_list as $v) {
-                    try {
+
+                P('=============sql语句=============');
+                P($sql_list);
+
+                Db::startTrans();
+                try {
+                    foreach ($sql_list as $v) {
+
+                        P('=============sql单条语句=============');
+                        P($v);
+
                         Db::execute($v);
-                    } catch (\Exception $e) {
-                        return $this->error('导入SQL失败，请检查install.sql的语句是否正确。' . $e);
                     }
+                    Db::commit();
+                } catch (\Exception $e) {
+                    Db::rollback();
+
+                    P('=============sql导入失败=============');
+                    P($e->getMessage());
+
+                    return $this->error('导入SQL失败，请检查install.sql的语句是否正确。' . $e->getMessage());
                 }
             }
+
+            P('==============完成数据的导入=============');
+
             if (empty($admin_module_name)) {
                 $admin_module_name = Db::name('system_config')->where(['group' => 'basic', 'name' => 'AdminModuleName'])->value('value');
             }
@@ -199,6 +221,8 @@ class Index extends Controller
                 'status'   => 1,
             ];
 
+            P('=============初始化账号密码=============');
+
             Db::startTrans();
             try {
                 Db::table('system_user')->insert($insert);
@@ -208,14 +232,27 @@ class Index extends Controller
                 Db::rollback();
                 return $this->error($e->getMessage());
             }
+
+            P('=============完成初始化账号密码=============');
+
             //打印安装信息
             $create_at = date('Y-m-d H:i:s');
             $install_info = <<<INFO
 创建时间：{$create_at}
 温馨提示：如需进行重新安装，请先删除此文件！
 INFO;
+
+            P('=============写入admin地址=============');
+
             $this->mkAdmin($post['admin_url'], $admin_module_name);
+
+            P('=============完成写入admin地址=============');
+            P('=============写入install地址=============');
+
             file_put_contents(Env::get('config_path') . 'lock/install.lock', $install_info);
+
+            P('=============完成写入install地址=============');
+
             app('cache')->clear();
             return $this->success('恭喜你，99Blog创建成功！');
 
