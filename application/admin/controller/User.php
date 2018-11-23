@@ -257,7 +257,7 @@ class User extends AdminController {
             clear_menu();
 
             //保存数据,返回结果
-            return $this->model->edit($post);
+            return $this->model->editSelf($post);
         }
     }
 

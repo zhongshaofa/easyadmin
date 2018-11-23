@@ -86,7 +86,7 @@
      * 添加、编辑
      */
     $("#submitBtn").on("click", function () {
-        var url = "{if empty($user)}{:url('@admin/user/add')}{else/}{:url('@admin/user/edit')}{/if}";
+        var url = '{:url("$thisRequest")}';
         var data = {
             id: $("#id").val(),
             head_img: $("#head_img").val(),

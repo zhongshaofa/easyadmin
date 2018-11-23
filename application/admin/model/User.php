@@ -113,6 +113,24 @@ class User extends ModelService {
     }
 
     /**
+     * 修改管理员自己的信息
+     * @param $update
+     * @return \think\response\Json
+     */
+    public function editSelf($update) {
+        $update = $this->where('id', $update['id'])->update($update);
+        if ($update >= 1) return __success('信息修改成功');
+
+        //重新刷新session
+        $user =  $this->where('id', $update['id'])->find();
+        unset($user['password']);
+        $user['login_at'] = time();
+        session('user', $user);
+
+        return __error('数据没有修改！');
+    }
+
+    /**
      * 修改管理员密码
      * @param $update 需要修改的数据
      * @return \think\response\Json

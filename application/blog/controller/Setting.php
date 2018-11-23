@@ -197,11 +197,24 @@ class Setting extends BlogController {
      * @return mixed
      */
     public function edit_info() {
-        $basic_data = [
-            'title'       => '修改用户信息',
-            'member_info' => $this->model->where(['id' => $this->member['id'], 'status' => 0, 'is_deleted' => 0])->find(),
-        ];
-        return $this->fetch('', $basic_data);
+        if (!$this->request->isPost()) {
+            $basic_data = [
+                'title'       => '修改用户信息',
+                'member_info' => $this->model->where(['id' => $this->member['id'], 'status' => 0, 'is_deleted' => 0])->find(),
+            ];
+            return $this->fetch('', $basic_data);
+        } else {
+            $post = $this->request->post();
+            $post['id'] = $this->member['id'];
+
+            //验证数据
+            $validate = $this->validate($post, 'app\blog\validate\Setting.edit_info');
+            if (true !== $validate) return __error($validate);
+
+
+            //保存数据,返回结果
+            return $this->model->updateSelf($post);
+        }
     }
 
 }

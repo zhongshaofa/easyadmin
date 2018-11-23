@@ -18,10 +18,15 @@ class Setting extends Validate {
      * @var array
      */
     protected $rule = [
-        'type'  => 'require',
-        'email' => 'require|email',
-        'phone' => 'require|number|length:11',
-        'code'  => 'require|number|length:6',
+        'id'       => 'require',
+        'head_img' => 'require',
+        'nickname' => 'require|max:20',
+        'username' => 'require|max:20',
+        'sign'     => 'max:250',
+        'type'     => 'require',
+        'email'    => 'require|email',
+        'phone'    => 'require|number|length:11',
+        'code'     => 'require|number|length:6',
     ];
 
     /**
@@ -47,6 +52,7 @@ class Setting extends Validate {
     protected $scene = [
         'code_email' => ['type', 'email'],
         'code_phone' => ['type', 'phone'],
+        'edit_info'  => ['id', 'head_img', 'nickname', 'username', 'phone', 'email', 'sign'],
     ];
 
     /**

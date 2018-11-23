@@ -16,6 +16,7 @@ namespace app\blog\model;
 
 
 use app\common\service\ModelService;
+use think\Db;
 
 /**
  * 博客会员表数据
@@ -88,5 +89,30 @@ class Member extends ModelService {
     public function getMemberInfo($member_id) {
         $info = $this->where(['id' => $member_id, 'status' => 0, 'is_deleted' => 0])->find();
         return $info;
+    }
+
+    /**
+     * 更新会员数据
+     * @param $update
+     * @return \think\response\Json
+     * @throws \think\exception\PDOException
+     */
+    public function updateSelf($update) {
+        $this->startTrans();
+        try {
+            $this->where(['id' => $update['id']])->update($update);
+            $this->commit();
+        } catch (\Exception $e) {
+            $this->rollback();
+            return __error($e->getMessage());
+        }
+
+        //重新刷新session
+        $member = $this->where(['id' => $update['id']])->find();
+        unset($member['password']);
+        $member['login_at'] = time();
+        session('member', $member);
+
+        return __success('更新成功');
     }
 }
