@@ -27,6 +27,7 @@ class User extends Validate {
      */
     protected $rule = [
         'id'           => 'require|number|checkDelId',
+        'head_img'     => 'require',
         'username'     => 'require|min:5|max:15|checkUsername',
         'old_password' => 'require|min:6|max:20|checkOldPassword',
         'password'     => 'require|min:6|max:20|checkPassword',
@@ -45,6 +46,7 @@ class User extends Validate {
     protected $message = [
         'id.require'        => '编号必须',
         'username.require'  => '名称必须',
+        'head_img.require'  => '头像必须',
         'username.min'      => '名称不能少于5个字符',
         'username.max'      => '名称最多不能超过15个字符',
         'password.require'  => '密码必须',
@@ -70,9 +72,6 @@ class User extends Validate {
         //修改管理员
         'edit'          => ['username', 'phone', 'mail', 'auth_id', 'qq', 'remark'],
 
-        //修改自己的信息
-        'edit'          => ['username', 'phone', 'mail', 'qq', 'remark'],
-
         //修改登录密码
         'edit_password' => ['id', 'password', 'password1'],
 
@@ -80,7 +79,7 @@ class User extends Validate {
         'del'           => ['id'],
 
         //更改管理员状态
-        'status'       => ['id'],
+        'status'        => ['id'],
     ];
 
     /**
@@ -88,15 +87,25 @@ class User extends Validate {
      * @return User
      */
     public function sceneEdit() {
-        return $this->only(['phone', 'mail', 'auth_id'])
+        return $this->only(['head_img', 'phone', 'mail', 'auth_id'])
+            ->remove('phone', 'checkPhone')
+            ->remove('mail', 'checkMail');
+    }
+
+    /**
+     * 修改自己的信息
+     * @return User
+     */
+    public function sceneEditSelf() {
+        return $this->only(['head_img', 'phone', 'mail', 'remark'])
             ->remove('phone', 'checkPhone')
             ->remove('mail', 'checkMail');
     }
 
     /**
      * 检测删除时用户ID
-     * @param $value
-     * @param $rule
+     * @param       $value
+     * @param       $rule
      * @param array $data
      * @return bool|string
      * @throws \think\db\exception\DataNotFoundException
@@ -112,8 +121,8 @@ class User extends Validate {
 
     /**
      * 检测启用或者禁用时的用户ID
-     * @param $value
-     * @param $rule
+     * @param       $value
+     * @param       $rule
      * @param array $data
      * @return bool|string
      * @throws \think\db\exception\DataNotFoundException
@@ -129,8 +138,8 @@ class User extends Validate {
 
     /**
      * 检查用户名是否已存在
-     * @param $value
-     * @param $rule
+     * @param       $value
+     * @param       $rule
      * @param array $data
      * @return bool|string
      * @throws \think\db\exception\DataNotFoundException
@@ -149,8 +158,8 @@ class User extends Validate {
 
     /**
      * 判断两个输入的密码是否一致
-     * @param $value
-     * @param $rule
+     * @param       $value
+     * @param       $rule
      * @param array $data
      * @return bool|string
      * @throws \think\db\exception\DataNotFoundException
@@ -174,8 +183,8 @@ class User extends Validate {
 
     /**
      * 判断是否存在相同的手机号
-     * @param $value
-     * @param $rule
+     * @param       $value
+     * @param       $rule
      * @param array $data
      * @return bool|string
      * @throws \think\db\exception\DataNotFoundException
@@ -194,8 +203,8 @@ class User extends Validate {
 
     /**
      * 判断是否存在相同的邮箱
-     * @param $value
-     * @param $rule
+     * @param       $value
+     * @param       $rule
      * @param array $data
      * @return bool|string
      * @throws \think\db\exception\DataNotFoundException

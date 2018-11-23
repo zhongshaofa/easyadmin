@@ -117,17 +117,16 @@ class User extends ModelService {
      * @param $update
      * @return \think\response\Json
      */
-    public function editSelf($update) {
-        $update = $this->where('id', $update['id'])->update($update);
-        if ($update >= 1) return __success('信息修改成功');
+    public function editSelf($data) {
+        $this->where('id', $data['id'])->update($data);
 
         //重新刷新session
-        $user =  $this->where('id', $update['id'])->find();
+        $user =  $this->where('id', $data['id'])->find();
         unset($user['password']);
         $user['login_at'] = time();
         session('user', $user);
 
-        return __error('数据没有修改！');
+        return __success('信息修改成功');
     }
 
     /**

@@ -250,7 +250,7 @@ class User extends AdminController {
             $post = $this->request->post();
 
             //验证数据
-            $validate = $this->validate($post, 'app\admin\validate\User.edit_self');
+            $validate = $this->validate($post, 'app\admin\validate\User.editSelf');
             if (true !== $validate) return __error($validate);
 
             //清空菜单缓存
