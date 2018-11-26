@@ -120,43 +120,30 @@
                 data: _form.serialize(),
                 dataType: 'json',
                 success: function (res) {
-                    console.log(res);
-                    if (res.code == 1) {
-                        sessionStorage.setItem("install", 1);
-                    } else {
-                        sessionStorage.setItem("install", 0);
-                    }
                     layer.msg(res.msg);
                 }
             });
             return false;
         });
         form.on('submit(formSubmit)', function (data) {
-            console.log(data);
-            console.log(sessionStorage.getItem("install"));
-            if (sessionStorage.getItem("install") == 0) {
-                layer.msg('请先点击并通过测试数据连接！');
-                return false;
-            } else {
-                layer.msg('数据文件正在创建，请稍后...', {time: 500000});
-                $.ajax({
-                    type: "POST",
-                    url: "{:url('index')}?step=5",
-                    data: {admin_url: $(".admin_url").val(), username: $(".username").val(), password: $(".password").val()},
-                    dataType: 'json',
-                    success: function (res) {
-                        console.log(res);
-                        if (res.code == 1) {
-                            layer.msg(res.msg, function () {
-                                window.location.href = '/' + $(".admin_url").val() + '.php';
-                            });
-                        } else {
-                            layer.msg(res.msg);
-                        }
+            layer.msg('数据文件正在创建，请稍后...', {time: 500000});
+            $.ajax({
+                type: "POST",
+                url: "{:url('index')}?step=5",
+                data: {admin_url: $(".admin_url").val(), username: $(".username").val(), password: $(".password").val()},
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 1) {
+                        layer.msg(res.msg, function () {
+                            window.location.href = '/' + $(".admin_url").val() + '.php';
+                        });
+                    } else {
+                        layer.msg(res.msg);
                     }
-                });
-                return false;
-            }
+                }
+            });
+            return false;
         });
 
 

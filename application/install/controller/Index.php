@@ -148,6 +148,7 @@ class Index extends Controller
             if (!$db_connect->execute("CREATE DATABASE IF NOT EXISTS `{$database}` DEFAULT CHARACTER SET utf8")) {
                 return $this->error($db_connect->getError());
             }
+            session('db_connect', true);
             return $this->success('数据库连接成功', '');
         } else {
             return $this->error('非法访问');
@@ -162,6 +163,11 @@ class Index extends Controller
     {
         if ($this->request->isPost()) {
             $post = $this->request->post();
+
+            //判断数据库连接是否正确
+            if (session('db_connect') == null || session('db_connect') != true) {
+                return $this->error('请先点击 【测试数据连接】 再及进行安装！');
+            }
 
             //验证数据
             $validate = $this->validate($post, ['admin_url|后台路径必须设置' => 'require', 'username|管理员账号' => 'require|alphaNum', 'password|管理员密码' => 'require|length:6,20']);
@@ -254,6 +260,7 @@ INFO;
             P('=============完成写入install地址=============');
 
             app('cache')->clear();
+            session('db_connect', null);
             return $this->success('恭喜你，99Blog创建成功！');
 
         }
