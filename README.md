@@ -4,6 +4,7 @@
 > 项目会不定时进行更新，建议star和fork一份，另外有问题请加QQ群：[763822524](https://jq.qq.com/?_wv=1027&k=5IHJawE)。
 
 ## 演示站点
+![Image text](http://demo.99php.cn/static/image/admin/1111.png)
 > 博客地址：[99PHP社区](https://blog.99php.cn)，后台地址：[99Admin后台管理](http://demo.99php.cn/admindemo.php)（账号：99blog，密码：99blog。备注：只有查看信息的权限）
 
 ## 系统环境及安装
