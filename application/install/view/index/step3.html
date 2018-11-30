@@ -92,7 +92,7 @@
         </div>
         <div class="step-btns">
             <a href="?step=2" class="layui-btn layui-btn-primary layui-btn-big fl">返回上一步</a>
-            <button id="installBtn" type="submit" class="layui-btn layui-btn-big layui-btn-normal fr" lay-submit="" lay-filter="formSubmit">立即执行安装</button>
+            <button  type="submit" class="layui-btn layui-btn-big layui-btn-normal fr" lay-submit="" lay-filter="formSubmit">立即执行安装</button>
         </div>
     </form>
 </div>
@@ -125,12 +125,18 @@
             });
             return false;
         });
-        $("#installBtn").on("click", function () {
+        form.on('submit(formSubmit)', function (data) {
+            var _form = '';
+            if ($(this).attr('data-form')) {
+                _form = $($(this).attr('data-form'));
+            } else {
+                _form = $(this).parents('form');
+            }
             console.log('执行安装');
             layer.msg('数据文件正在创建，请稍后...', {time: 500000});
             $.ajax({
                 type: "POST",
-                url: "{:url('index')}?step=5",
+                url: _form.attr('action'),
                 data: {admin_url: $(".admin_url").val(), username: $(".username").val(), password: $(".password").val()},
                 dataType: 'json',
                 success: function (res) {
