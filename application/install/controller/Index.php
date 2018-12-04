@@ -254,9 +254,12 @@ INFO;
 
             P('=============完成写入admin地址=============');
             P('=============写入install地址=============');
-
-            file_put_contents(Env::get('config_path') . 'lock/install.lock', $install_info);
-
+            try {
+                mkdir(Env::get('config_path') . 'lock');
+                file_put_contents(Env::get('config_path') . 'lock/install.lock', $install_info);
+            } catch (\Exception $e) {
+                return $this->error($e->getMessage());
+            }
             P('=============完成写入install地址=============');
 
             app('cache')->clear();
