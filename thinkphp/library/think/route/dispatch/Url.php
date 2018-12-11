@@ -58,6 +58,11 @@ class Url extends Dispatch
         } else {
             // 解析控制器
             $controller = !empty($path) ? array_shift($path) : null;
+
+            //修复没有开启强制路由的情况下可能的getshell漏洞
+            if ($controller && !preg_match('/^[A-Za-z](\w|\.)*$/', $controller)) {
+                throw new HttpException(404, 'controller not exists:' . $controller);
+            }
         }
 
         // 解析操作
