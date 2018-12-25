@@ -25,10 +25,11 @@ class Index extends AdminController {
         Cache::remember('Home', function () {
             return model('menu')->getHome();
         });
+        $apimenu = new \app\admin\controller\api\Menu();
         $sys_info = Cache::get('SysInfo');
         $basic_data = [
             'title' => $sys_info['ManageName'],
-            'nav'   => model('menu')->getNav(),
+            'nav'   => $apimenu->getNav(),
             'home'  => Cache::get('Home'),
             'data'  => '',
         ];

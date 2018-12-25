@@ -288,7 +288,7 @@ class Menu extends ModelService {
                 }
             }
         }
-        return $menu_list;
+        return array_filter($menu_list);
     }
 
     /**
