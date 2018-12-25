@@ -499,7 +499,7 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
                             $('#' + upload_id).attr('value', upload_iamges);
                         } else {
                             upload_iamges = upload_url + '|' + upload_iamges;
-                            $('#' + upload_id).attr('value',);
+                            $('#' + upload_id).attr('value',upload_iamges);
                         }
 
                         var uploadDiv = document.getElementById(divId);
