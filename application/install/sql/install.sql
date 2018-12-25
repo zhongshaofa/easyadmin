@@ -643,7 +643,7 @@ INSERT INTO `system_menu` VALUES (189, 178, '广告管理', 0, '', '&#xe857;', '
 INSERT INTO `system_menu` VALUES (190, 189, '轮播图配置', 0, '', '&#xe64a;', 'admin/blog.slider/index', '', '_self', 2.00, 1, '', 0, '2018-9-21 01:17:44', NULL, NULL);
 INSERT INTO `system_menu` VALUES (210, 185, '登录记录', 0, '', '&#xe665;', 'admin/blog.login_record/index', '', '_self', 2.00, 1, '', 0, '2018-9-26 17:33:29', NULL, NULL);
 INSERT INTO `system_menu` VALUES (211, 179, '文章分类', 0, '', '&#xe664;', 'admin/blog.category/index', '', '_self', 0.00, 1, '', 0, '2018-9-27 01:34:06', NULL, NULL);
-INSERT INTO `system_menu` VALUES (212, 179, '文章评论', 0, '', '&#xe66a;', 'admin\\blog.comment\\index', '', '_self', 0.00, 1, '', 0, '2018-10-11 21:04:53', NULL, NULL);
+INSERT INTO `system_menu` VALUES (212, 179, '文章评论', 0, '', '&#xe66a;', 'admin/blog.comment/index', '', '_self', 0.00, 1, '', 0, '2018-10-11 21:04:53', NULL, NULL);
 INSERT INTO `system_menu` VALUES (213, 178, '常用工具', 0, '', '&#xe665;', '#', '', '_self', 0.00, 1, '', 0, '2018-10-11 22:18:28', NULL, NULL);
 INSERT INTO `system_menu` VALUES (214, 213, '配置管理', 0, '', '&#xe716;', 'admin/blog.config/index', '', '_self', 0.00, 1, '', 0, '2018-10-11 22:19:02', NULL, NULL);
 INSERT INTO `system_menu` VALUES (215, 213, '友情链接', 0, '', '&#xe64d;', 'admin/blog.website_link/index', '', '_self', 0.00, 1, '', 0, '2018-10-11 22:19:32', NULL, NULL);
