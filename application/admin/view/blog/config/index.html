@@ -1,52 +1,138 @@
 {extend name="admin@public/basic" /}
-
 {block name="style"}
 <link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
-<style>
-    .uploadimage{
-        width: 80px!important;
-        height: 80px!important;
-        margin-left: 10px;
-    }
-</style>
 {/block}
-
 {block name="cotent"}
-<form class="layui-form form-width-99admin layui-form-pane">
-    <br>
-    <div class="layui-form-item">
-        <label class="layui-form-label">网站名称</label>
-        <div class="layui-input-inline">
-            <input type="text" name="password" placeholder="请输入网站名称" autocomplete="off" class="layui-input">
-        </div>
-        <div class="layui-form-mid layui-word-aux">请务必填写网站名称</div>
-    </div>
+<form onsubmit="return false;" action="{:request()->url()}" data-auto="true" method="post" class='form-horizontal layui-form padding-top-20'>
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">登录时长</label>
-        <div class="layui-input-inline">
-            <input type="text" name="LoginDuration" placeholder="请输入登录时长" autocomplete="off" class="layui-input">
-        </div>
-        <div class="layui-form-mid layui-word-aux">请务必填写登录时长</div>
-    </div>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>站点配置</legend>
+    </fieldset>
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">我的关注</label>
-        <div class="layui-input-block" id="upload_image_div">
-            <input type="hidden" id="ScanFollow" value="{$member.ScanFollow|default=''}">
-            <div class="uploadimage" data-upload-image="one" data-upload-id="ScanFollow" data-upload-div="upload_image_div" style="background-image: url(__STATIC__/image/admin/upload.png);">
+    <div class="layui-form  top-10">
+        <div class="layui-form-item">
+            <label class="layui-form-label">SiteName<i class="require"></i></label>
+            <div class="layui-input-inline">
+                <input type="text" id="SiteName" value="{$data.SiteName|default=''}" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">站点名称</div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">SiteKeywords<i class="require"></i></label>
+            <div class="layui-input-inline">
+                <input type="text" id="SiteKeywords" value="{$data.SiteKeywords|default=''}" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">站点关键词</div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">SiteDescription<i class="require"></i></label>
+            <div class="layui-input-inline">
+                <textarea id="SiteDescription" class="layui-textarea">{$data.SiteDescription|default=''}</textarea>
+            </div>
+            <div class="layui-form-mid layui-word-aux">站点描述</div>
+        </div>
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>登录配置</legend>
+        </fieldset>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">LoginDuration<i class="require"></i></label>
+            <div class="layui-input-inline">
+                <input type="number" id="LoginDuration" value="{$data.LoginDuration|default=''}" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">登录有效时长（秒）</div>
+        </div>
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>站长信息</legend>
+        </fieldset>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">SiteUsername<i class="require"></i></label>
+            <div class="layui-input-inline">
+                <input type="text" id="SiteUsername" value="{$data.SiteUsername|default=''}" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">站长姓名</div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">SiteJob<i class="require"></i></label>
+            <div class="layui-input-inline">
+                <input type="text" id="SiteJob" value="{$data.SiteJob|default=''}" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">站长职业</div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">SiteEmail<i class="require"></i></label>
+            <div class="layui-input-inline">
+                <input type="text" id="SiteEmail" value="{$data.SiteEmail|default=''}" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">站长邮箱</div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">SiteLocation<i class="require"></i></label>
+            <div class="layui-input-inline">
+                <input type="text" id="SiteLocation" value="{$data.SiteLocation|default=''}" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">工作地址</div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">ScanFollow<i class="require"></i></label>
+            <div class="layui-input-inline" id="upload_image_div">
+                <input type="hidden" id="ScanFollow" value="{$data.ScanFollow|default=''}">
+                <div class="uploadimage" data-upload-image="one" data-upload-id="ScanFollow" data-upload-div="upload_image_div" style="background-image: url(__STATIC__/image/admin/upload.png);">
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux">扫我关注</div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" id="configBtn">确认保存</button>
             </div>
         </div>
     </div>
 
-    <div class="layui-form-item layui-row layui-col-xs12">
-        <div class="layui-input-block">
-            <button class="layui-btn layui-btn-lg" id="submitBtn">保存配置</button>
-        </div>
-    </div>
 </form>
 {/block}
 
 {block name="script"}
+<script>
 
+    /**
+     * 上传图片处理
+     */
+    $.form.imageRender('upload_image_div', 'one');
+
+    /**
+     * 修改
+     */
+    $("#configBtn").on("click", function () {
+        var url = '{:url("$thisRequest")}';
+        var data = {
+            SiteName: $("#SiteName").val(),
+            SiteKeywords: $("#SiteKeywords").val(),
+            SiteDescription: $("#SiteDescription").val(),
+            LoginDuration: $("#LoginDuration").val(),
+            SiteUsername: $("#SiteUsername").val(),
+            SiteJob: $("#SiteJob").val(),
+            SiteEmail: $("#SiteEmail").val(),
+            SiteLocation: $("#SiteLocation").val(),
+            ScanFollow: $("#ScanFollow").val(),
+        };
+        $.request.post(url, data, function (res) {
+            $.msg.success(res.msg, function () {
+                $.tool.reload();
+            })
+        })
+        return false;
+    });
+
+</script>
 {/block}

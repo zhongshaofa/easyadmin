@@ -16,7 +16,8 @@ use app\common\service\ModelService;
  * Class Config
  * @package app\admin\model\blog
  */
-class Config extends ModelService {
+class Config extends ModelService
+{
 
     /**
      * 绑定数据表
@@ -26,8 +27,8 @@ class Config extends ModelService {
 
     /**
      * 获取系统配置列表
-     * @param int   $page
-     * @param int   $limit
+     * @param int $page
+     * @param int $limit
      * @param array $search
      * @param array $where
      * @return array
@@ -35,7 +36,8 @@ class Config extends ModelService {
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public static function getList($page = 1, $limit = 500, $search = []) {
+    public static function getList($page = 1, $limit = 500, $search = [])
+    {
         $where = [];
 
         //搜索条件
@@ -60,5 +62,34 @@ class Config extends ModelService {
             'data'  => $data,
         ];
         return $list;
+    }
+
+    /**
+     * 获取配置信息
+     * @return array|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function getDataList()
+    {
+        $data = self::column('name,value');
+        return $data;
+    }
+
+    /**
+     * 修改数据
+     * @param $data
+     * @return \think\response\Json
+     */
+    public static function editDataList($data)
+    {
+        foreach ($data as $key => $val) {
+            self::where('name', $key)->update([
+                'value' => $val,
+            ]);
+        }
+
+        return __success('修改成功');
     }
 }

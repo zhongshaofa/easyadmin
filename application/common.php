@@ -16,12 +16,43 @@ use think\Request;
 use app\common\service\AuthService;
 use think\facade\Cache;
 
+if (!function_exists('sysconf')) {
+
+    /**
+     * 获取系统配置
+     * @param $group 分组
+     * @param $name 变量名
+     * @return mixed
+     */
+    function sysconf($group, $name)
+    {
+        $value = \app\admin\model\Config::where(['group' => $group, 'name' => $name])->value('value');
+        return $value;
+    }
+}
+
+if (!function_exists('blogconf')) {
+
+    /**
+     * 获取博客配置
+     * @param $group 分组
+     * @param $name 变量名
+     * @return mixed
+     */
+    function blogconf($group, $name)
+    {
+        $value = \app\admin\model\blog\Config::where(['group' => $group, 'name' => $name])->value('value');
+        return $value;
+    }
+}
+
 if (!function_exists('check_login')) {
 
     /**
      * 检测前端用户是否登录
      */
-    function check_login() {
+    function check_login()
+    {
         if (empty(session('user'))) {
             return false;
         } else {
@@ -40,7 +71,8 @@ if (!function_exists('auth')) {
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    function auth($node) {
+    function auth($node)
+    {
         return AuthService::checkNode($node);
     }
 }
@@ -52,7 +84,8 @@ if (!function_exists('parseNodeStr')) {
      * @param string $node
      * @return string
      */
-    function parseNodeStr($node) {
+    function parseNodeStr($node)
+    {
         $tmp = [];
         foreach (explode('/', $node) as $name) {
             $tmp[] = strtolower(trim(preg_replace("/[A-Z]/", "_\\0", $name), "_"));
@@ -69,7 +102,8 @@ if (!function_exists('password')) {
      * @param $type  加密类型，默认为md5 （md5, hash）
      * @return mixed
      */
-    function password($value) {
+    function password($value)
+    {
         $value = sha1('blog_') . md5($value) . md5('_encrypt') . sha1($value);
         return sha1($value);
     }
@@ -83,7 +117,8 @@ if (!function_exists('__buildData')) {
      * @param $data   模型数据
      * @param $method 模型方法
      */
-    function __buildData(&$data, $method) {
+    function __buildData(&$data, $method)
+    {
         foreach ($data as &$vo) {
             $vo->$method;
         }
@@ -94,13 +129,14 @@ if (!function_exists('alert')) {
 
     /**
      * 弹出层提示
-     * @param string $msg  提示信息
-     * @param string $url  跳转链接
-     * @param int    $time 停留时间 默认2秒
-     * @param int    $icon 提示图标
+     * @param string $msg 提示信息
+     * @param string $url 跳转链接
+     * @param int $time 停留时间 默认2秒
+     * @param int $icon 提示图标
      * @return string
      */
-    function alert($msg = '', $url = '', $time = 3, $icon = 6) {
+    function alert($msg = '', $url = '', $time = 3, $icon = 6)
+    {
         $success = '<meta name="renderer" content="webkit">';
         $success .= '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">';
         $success .= '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">';
@@ -119,13 +155,14 @@ if (!function_exists('msg_success')) {
 
     /**
      * 成功时弹出层提示信息
-     * @param string $msg  提示信息
-     * @param string $url  跳转链接
-     * @param int    $time 停留时间 默认2秒
-     * @param int    $icon 提示图标
+     * @param string $msg 提示信息
+     * @param string $url 跳转链接
+     * @param int $time 停留时间 默认2秒
+     * @param int $icon 提示图标
      * @return string
      */
-    function msg_success($msg = '', $url = '', $time = 3, $icon = 1) {
+    function msg_success($msg = '', $url = '', $time = 3, $icon = 1)
+    {
         return alert($msg, $url, $time, $icon);
     }
 }
@@ -134,13 +171,14 @@ if (!function_exists('msg_error')) {
 
     /**
      * 失败时弹出层提示信息
-     * @param string $msg  提示信息
-     * @param string $url  跳转链接
-     * @param int    $time 停留时间 默认2秒
-     * @param int    $icon 提示图标
+     * @param string $msg 提示信息
+     * @param string $url 跳转链接
+     * @param int $time 停留时间 默认2秒
+     * @param int $icon 提示图标
      * @return string
      */
-    function msg_error($msg = '', $url = '', $time = 3, $icon = 2) {
+    function msg_error($msg = '', $url = '', $time = 3, $icon = 2)
+    {
         return alert($msg, $url, $time, $icon);
     }
 }
@@ -150,7 +188,8 @@ if (!function_exists('clear_menu')) {
     /**
      * 清空菜单缓存
      */
-    function clear_menu() {
+    function clear_menu()
+    {
         Cache::clear('menu');
     }
 }
@@ -161,7 +200,8 @@ if (!function_exists('clear_basic')) {
     /**
      * 清空菜单缓存
      */
-    function clear_basic() {
+    function clear_basic()
+    {
         Cache::clear('basic');
     }
 }
@@ -172,7 +212,8 @@ if (!function_exists('get_ip')) {
      * 获取用户ip地址
      * @return array|false|string
      */
-    function get_ip() {
+    function get_ip()
+    {
         $ip = false;
         if (!empty($_SERVER["HTTP_CLIENT_IP"])) {
             $ip = $_SERVER["HTTP_CLIENT_IP"];
@@ -201,7 +242,8 @@ if (!function_exists('get_location')) {
      * @param string $ip
      * @return mixed
      */
-    function get_location($ip = '') {
+    function get_location($ip = '')
+    {
         empty($ip) && $ip = get_ip();
         //接口有问题
 //        ini_set('user_agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3559.6 Safari/537.36');
@@ -229,7 +271,8 @@ if (!function_exists('install_substring')) {
      * @param int $start
      * @return string
      */
-    function install_substring($str, $lenth, $start = 0) {
+    function install_substring($str, $lenth, $start = 0)
+    {
         $len = strlen($str);
         $r = [];
         $n = 0;
@@ -274,10 +317,11 @@ if (!function_exists('parse_sql')) {
     /**
      * 格式化导入的sql语句
      * @param string $sql
-     * @param int    $limit
+     * @param int $limit
      * @return array|string
      */
-    function parse_sql($sql = '', $limit = 0) {
+    function parse_sql($sql = '', $limit = 0)
+    {
         if ($sql != '') {
             // 纯sql内容
             $pure_sql = [];
@@ -348,7 +392,8 @@ if (!function_exists('curl')) {
      * 模拟请求
      * @return \app\common\service\CurlService
      */
-    function curl() {
+    function curl()
+    {
         return new \tool\Curl();
     }
 }
@@ -360,7 +405,8 @@ if (!function_exists('__success')) {
      * @param $msg 消息
      * @return \think\response\Json
      */
-    function __success($msg, $data = '') {
+    function __success($msg, $data = '')
+    {
         return json(['code' => 0, 'msg' => $msg, 'data' => $data]);
     }
 }
@@ -372,7 +418,8 @@ if (!function_exists('__error')) {
      * @param $msg 消息
      * @return \think\response\Json
      */
-    function __error($msg, $data = '') {
+    function __error($msg, $data = '')
+    {
         return json(['code' => 1, 'msg' => $msg, 'data' => $data]);
     }
 }
@@ -383,7 +430,8 @@ if (!function_exists('is_mobile')) {
      * 判断客户端是否为手机
      * @return bool
      */
-    function is_mobile() {
+    function is_mobile()
+    {
         $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
         $is_pc = (strpos($agent, 'windows nt')) ? true : false;
         $is_mac = (strpos($agent, 'mac os')) ? true : false;
@@ -404,7 +452,8 @@ if (!function_exists('get_time')) {
      * 获取当前时间
      * @return false|string
      */
-    function get_time() {
+    function get_time()
+    {
         return date('Y-m-d H:i:s');
     }
 }
@@ -416,7 +465,8 @@ if (!function_exists('code')) {
      * @param string $num
      * @return int
      */
-    function code($num = '6') {
+    function code($num = '6')
+    {
         $max = pow(10, $num) - 1;
         $min = pow(10, $num - 1);
         return rand($min, $max);
@@ -430,7 +480,8 @@ if (!function_exists('get_config')) {
      * @param $group
      * @param $name
      */
-    function get_config($group, $name) {
+    function get_config($group, $name)
+    {
         $value = Db::name('SystemConfig')->where([
             'group' => $group,
             'name'  => $name,
@@ -444,7 +495,8 @@ if (!function_exists('P')) {
      * 打印日志
      * @param $data
      */
-    function P($data) {
+    function P($data)
+    {
         \think\facade\Log::record($data, 'record');
     }
 }

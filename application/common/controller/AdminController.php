@@ -21,7 +21,8 @@ use app\common\service\AuthService;
  * Class AdminController
  * @package controller
  */
-class AdminController extends Controller {
+class AdminController extends Controller
+{
 
     /**
      * 开启登录控制
@@ -63,7 +64,8 @@ class AdminController extends Controller {
      * 初始化数据
      * Index constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         list($this->nav, $this->title, $this->is_login, $this->is_auth,) = ['', '', true, true];
         $this->SysInfo = cache('SysInfo');
@@ -82,7 +84,8 @@ class AdminController extends Controller {
     /**
      * 检测登录
      */
-    public function __checkLogin() {
+    public function __checkLogin()
+    {
         $user = session('user');
         //判断是否登录
         if (empty($user)) {
@@ -107,7 +110,8 @@ class AdminController extends Controller {
     /**
      * 检测登录情况
      */
-    public function __checkAuth() {
+    public function __checkAuth()
+    {
         if (AuthService::checkNode() == false) {
             $data = ['type' => 'error', 'code' => 1, 'msg' => '抱歉，您暂无该权限，请联系管理员！', 'url' => url('@admin')];
             throw new HttpResponseException($this->request->isAjax() ? json($data) : exit(msg_error($data['msg'], $data['url'])));

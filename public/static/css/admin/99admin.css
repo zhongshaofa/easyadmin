@@ -91,3 +91,70 @@
 .color-99admin-desc {
     background-color: #393D49;
 }
+
+.admin-blue {
+    color: #0000FF;
+}
+
+.admin-black {
+    color: #000000;
+}
+
+.admin-green {
+    color: #008000;
+}
+
+.admin-cyan {
+    color: #00FFFF;
+}
+
+.admin-red {
+    color: #FF0000;
+}
+
+.admin-gray {
+    color: #d2d2d2;
+}
+
+.admin-brown {
+    color: #A52A2A;
+}
+
+.admin-desc {
+    color: #393D49;
+}
+
+/*必填项*/
+.require {
+    overflow: hidden;
+}
+
+.require::before {
+    content: '*';
+    margin-left: 5px;
+    color: #f00;
+}
+
+.require:active::before {
+    opacity: 0; /* IE9+ */
+}
+
+.top-10 {
+    margin-top: 10px;
+}
+
+.top-20 {
+    margin-top: 20px;
+}
+
+.top-30 {
+    margin-top: 30px;
+}
+
+.top-40 {
+    margin-top: 40px;
+}
+
+.top-50 {
+    margin-top: 50px;
+}
