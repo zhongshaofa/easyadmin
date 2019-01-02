@@ -2,40 +2,51 @@
 
 {block name="style"}
 <link rel="stylesheet" href="__STATIC__/css/admin/public.css" media="all"/>
+<style>
+    .uploadimage{
+        width: 80px!important;
+        height: 80px!important;
+        margin-left: 10px;
+    }
+</style>
 {/block}
 
 {block name="cotent"}
-<form class="layui-form">
+<form class="layui-form form-width-99admin layui-form-pane">
+    <br>
+    <div class="layui-form-item">
+        <label class="layui-form-label">网站名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="password" placeholder="请输入网站名称" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">请务必填写网站名称</div>
+    </div>
 
-    <!--主表单渲染--开始-->
-    <table id="currentTable" lay-filter="currentTable"></table>
-    <!--主表单渲染--结束-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">登录时长</label>
+        <div class="layui-input-inline">
+            <input type="text" name="LoginDuration" placeholder="请输入登录时长" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">请务必填写登录时长</div>
+    </div>
 
+    <div class="layui-form-item">
+        <label class="layui-form-label">我的关注</label>
+        <div class="layui-input-block" id="upload_image_div">
+            <input type="hidden" id="ScanFollow" value="{$member.ScanFollow|default=''}">
+            <div class="uploadimage" data-upload-image="one" data-upload-id="ScanFollow" data-upload-div="upload_image_div" style="background-image: url(__STATIC__/image/admin/upload.png);">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-lg" id="submitBtn">保存配置</button>
+        </div>
+    </div>
 </form>
 {/block}
 
 {block name="script"}
-<script>
 
-    /**
-     * 生成表单
-     */
-    $.form.table('current', '{:url("$thisRequest")}?type=ajax', [[
-        {field: 'sort', title: '排序', width: 100, edit: 'text', align: "center", sort: true},
-        {field: 'remark', title: '参数说明', align: 'center'},
-        {field: 'value', title: '参数值', edit: 'text', minWidth: 200, align: "center", style: 'background-color: #009688; color: #fff; border-radius: 15px;'},
-        {field: 'name', title: '参数名', align: 'center', sort: true},
-        {field: 'group', title: '组名', width: 200, align: 'center', sort: true},
-    ]], false, 'line', 'lg', false);
-
-    /**
-     * 监听字段值编辑
-     */
-    $.form.editField('currentTable', '{:url("$thisRequest")}');
-
-    /**
-     * 修改状态
-     */
-    $.form.switch('modifyStatus', '{:url("$thisClass/status")}');
-</script>
 {/block}
