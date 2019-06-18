@@ -1,6 +1,6 @@
 99Blog社区博客系统
 ===============
-> 框架主要使用thinkphp5.1 + layui + jquery。后台基于99Admin进行开发，具备auth权限认证管理功能。
+> 框架主要使用 thinkphp 5.1 + layui + jquery。后台基于99Admin进行开发，具备auth权限认证管理功能。
 > 项目会不定时进行更新，建议star和fork一份，另外有问题请加QQ群：[763822524](https://jq.qq.com/?_wv=1027&k=5IHJawE)。
 
 ## 演示站点
