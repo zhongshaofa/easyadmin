@@ -5,7 +5,7 @@
 
 ## 演示站点
 ![Image text](https://files.gitee.com/group1/M00/08/5C/PaAvDF0av7uANv5KAAHZRSmmizI425.jpg)
-> 博客地址：[99PHP社区](https://blog.99php.cn)，后台地址：[99Admin后台管理](http://demo.99php.cn/admindemo.php)（账号：99blog，密码：99blog。备注：只有查看信息的权限）
+> 后台地址：[99Admin后台管理](http://demo.99php.cn/admindemo.php)（账号：99blog，密码：99blog。备注：只有查看信息的权限）
 
 ## 系统环境及安装
  + git clone https://gitee.com/zhongshaofa/99Blog.git，或者直接下载安装包
