@@ -97,7 +97,7 @@ abstract class AdBaseController
      * @param $rule
      * @return bool
      */
-    public function validate($rule)
+    protected function validate($rule)
     {
         $validate = Validate::rule($rule);
         if (!$validate->check($this->parame)) {
@@ -112,7 +112,7 @@ abstract class AdBaseController
      * @param $param
      * @return array
      */
-    public function setSelectParam($param)
+    protected function setSelectParam($param)
     {
         foreach ($param as $vo) {
             if (isset($this->parame[$vo])) {

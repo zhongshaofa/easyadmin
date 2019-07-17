@@ -14,12 +14,6 @@ class Index extends AdBaseController
         return view();
     }
 
-    public function test(){
-        $data = NodeService::getNodelist();
-
-        dump($data);
-    }
-
     public function welcome(){
         return view();
     }

@@ -47,29 +47,44 @@ if (!function_exists('password')) {
 if (!function_exists('convertUnderline')) {
     /**
      * 下划线转驼峰
-     * @param $str
+     * @param $string
      * @return null|string|string[]
      */
-    function convertUnderline($str)
+    function convertUnderline($string)
     {
-        $str = preg_replace_callback('/([-_]+([a-z]{1}))/i', function ($matches) {
+        $string = preg_replace_callback('/([-_]+([a-z]{1}))/i', function ($matches) {
             return strtoupper($matches[2]);
-        }, $str);
-        return $str;
+        }, $string);
+        return $string;
     }
 }
 
 if (!function_exists('humpToLine')) {
     /**
      * 驼峰转下划线
-     * @param $str
+     * @param $string
      * @return null|string|string[]
      */
-    function humpToLine($str)
+    function humpToLine($string)
     {
-        $str = preg_replace_callback('/([A-Z]{1})/', function ($matches) {
-            return '_' . strtolower($matches[0]);
-        }, $str);
-        return $str;
+        $newString = null;
+        $stringArr = explode('.', $string);
+
+        foreach ($stringArr as $vo) {
+            $str = parse_name($vo);
+            if (empty($newString)) {
+                $newString = $str;
+            } else {
+                $newString .= '.' . $str;
+            }
+        }
+
+        return $newString;
+
+//        $str = preg_replace_callback('/([A-Z]{1})/', function ($matches) {
+//            return '_' . strtolower($matches[0]);
+//        }, $str);
+        return $string;
+
     }
 }

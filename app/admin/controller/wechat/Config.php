@@ -17,5 +17,7 @@ use app\common\controller\AdBaseController;
 
 class Config extends AdBaseController
 {
+    public function index(){
 
+    }
 }
