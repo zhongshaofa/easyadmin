@@ -16,7 +16,8 @@ class NodeService
     protected $config = [
         'system_node'             => 'system_node',                              // 节点表
         'admin_controller_object' => 'app\common\controller\AdBaseController',   // 后台控制器对象，必须继承才能获取到
-        'read_module'             => ['admin', 'index'],                         // 读取节点的模块
+        'read_module'             => ['admin'],                                  // 读取节点的模块
+        'not_read_controller'     => ['Ajax'],                                   // 不读取该控制器
         'not_read_action'         => ['_', 'initialize'],                        // 不读取方法名首次出现该字符的方法
     ];
 
@@ -119,6 +120,7 @@ class NodeService
         list($modulePath, $controllers) = [App::getBasePath() . '/' . $module, []];
         $fileList = glob("{$modulePath}/controller/*");
         $this->buildListControllers($controllers, $fileList);
+        $controllers = array_diff($controllers, $this->config['not_read_controller']);
         return $controllers;
     }
 
@@ -153,7 +155,6 @@ class NodeService
         $parentClassObject = get_parent_class($classObject);
 
         if (strpos($parentClassObject, $this->config['admin_controller_object']) !== false) {
-//            $actions = array_diff(get_class_methods($classObject), get_class_methods($parentClassObject));
             $actions = get_class_methods($parentClassObject);
             foreach ($actions as $key => $action) {
                 foreach ($this->config['not_read_action'] as $notReadAction) {
