@@ -14,19 +14,14 @@
 // +----------------------------------------------------------------------
 
 return [
-
-    //使用服务器保存session
-    'type'           => '',
-
-    //使用redis保存session
-//    'type'     => 'redis',
-//    'host'     => '127.0.0.1',
-//    'port'     => 6379,
-//    'password' => '',
-
-    //session有效期为24小时
-    'expire'         => 86400,
-    'prefix'         => '99php_session_',
-    'auto_start'     => true,
-
+    // session name
+    'name'           => '',
+    // SESSION_ID的提交变量,解决flash上传跨域
+    'var_session_id' => '',
+    // 驱动方式 支持file redis memcache memcached
+    'type'           => 'file',
+    // 过期时间
+    'expire'         => 0,
+    // 前缀
+    'prefix'         => '',
 ];

@@ -1,0 +1,30 @@
+{extend name="admin@public/basic" /}
+
+{block name="style"}
+<link rel="stylesheet" href="__STATIC__/admin/css/login.css" media="all">
+{/block}
+{block name="cotent"}
+<div id="container">
+    <div></div>
+    <div class="admin-login-background">
+        <div class="admin-header">
+            <span>layuimini</span>
+        </div>
+        <form class="layui-form" action="">
+            <div>
+                <i class="layui-icon layui-icon-username admin-icon"></i>
+                <input type="text" name="username" placeholder="请输入用户名"  lay-reqtext="请输入用户名" lay-verify="required" autocomplete="off" class="layui-input admin-input admin-input-username">
+            </div>
+            <div>
+                <i class="layui-icon layui-icon-password admin-icon"></i>
+                <input type="password" name="password" placeholder="请输入密码" lay-reqtext="请输入密码" lay-verify="required" autocomplete="off" class="layui-input admin-input">
+            </div>
+            <div>
+                <input type="text" name="captcha" placeholder="请输入验证码" autocomplete="off" class="layui-input admin-input admin-input-verify">
+                <img class="admin-captcha" width="90" height="30" src="__STATIC__/admin/images/captcha.jpg">
+            </div>
+            <button class="layui-btn admin-button" lay-submit="" lay-filter="login">登 陆</button>
+        </form>
+    </div>
+</div>
+{/block}

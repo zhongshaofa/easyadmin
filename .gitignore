@@ -1,6 +1,4 @@
 /.idea
-/.svn
-/config
-/logs
-/runtime
-/public/static/uploads
+/.vscode
+*.log
+.env

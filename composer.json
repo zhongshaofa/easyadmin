@@ -16,21 +16,26 @@
         }
     ],
     "require": {
-        "php": ">=5.6.0",
-        "topthink/framework": "5.1.*",
-        "topthink/think-captcha": "^2.0",
-        "phpmailer/phpmailer": "^6.0",
-        "qiniu/php-sdk": "^7.2"
+        "php": ">=7.1.0",
+        "topthink/framework": "6.0.*-dev",
+        "topthink/think-view": "^1.0",
+        "symfony/var-dumper":"^4.2"
     },
     "autoload": {
         "psr-4": {
-            "app\\": "application"
+            "app\\": "app"
+        },
+        "psr-0": {
+            "": "extend/"
         }
-    },
-    "extra": {
-        "think-path": "thinkphp"
     },
     "config": {
         "preferred-install": "dist"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php think service:discover",
+            "@php think vendor:publish"
+        ]
     }
 }
