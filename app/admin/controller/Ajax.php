@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 use app\common\controller\AdBaseController;
 use app\common\service\MenuService;
+use app\common\service\NodeService;
 use think\facade\Cache;
 
 /**
@@ -27,18 +28,18 @@ class Ajax extends AdBaseController
         $clearInfo = [
             'clearUrl' => url_build('admin/ajax/clear'),
         ];
-        $homeInfo  = [
+        $homeInfo = [
             'title' => '首页',
             'icon'  => 'fa fa-home',
             'href'  => url_build('admin/index/welcome'),
         ];
-        $logoInfo  = [
+        $logoInfo = [
             'title' => '99AdminV2',
             'image' => '/static/admin/images/logo.png',
             'href'  => '',
         ];
-        $menuInfo  = (new MenuService(1))->makeMenuTree();
-        $initData  = [
+        $menuInfo = (new MenuService(1))->makeMenuTree();
+        $initData = [
             'clearInfo' => $clearInfo,
             'logoInfo'  => $logoInfo,
             'homeInfo'  => $homeInfo,
@@ -59,5 +60,15 @@ class Ajax extends AdBaseController
             'code' => 1,
             'msg'  => '清理缓存成功',
         ]);
+    }
+
+    /**
+     * 更新系统节点
+     * @return \think\response\Json
+     */
+    public function updateNode()
+    {
+        $data = (new NodeService())->updateNode();
+        return json($data);
     }
 }

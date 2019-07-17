@@ -45,6 +45,7 @@ class NodeService
                     $value = [
                         'node'       => $value,
                         'createtime' => $createtime,
+                        'updatetime' => $createtime,
                     ];
                 }
                 Db::name($this->config['system_node'])->insertAll($inserNodelist);
