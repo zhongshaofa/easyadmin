@@ -17,5 +17,6 @@ return [
     'user'     => null,
     // 指令定义
     'commands' => [
+        'backups' => 'app\admin\command\Backups',
     ],
 ];
