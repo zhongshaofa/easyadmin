@@ -58,6 +58,12 @@ abstract class AdBaseController
     protected $adminId;
 
     /**
+     * 当前模型对象
+     * @var
+     */
+    protected $model;
+
+    /**
      * 构造方法
      * @access public
      * @param App $app 应用对象
