@@ -21,7 +21,7 @@ class Ajax extends AdBaseController
      */
     public function init()
     {
-        $initData = cache('initData');
+        $initData = cache(session('admin.id') . '_initData');
         if (!empty($initData)) {
             $this->success('获取初始化数据成功', null, $initData);
         }
@@ -38,14 +38,14 @@ class Ajax extends AdBaseController
             'image' => '/static/admin/images/logo.png',
             'href'  => '',
         ];
-        $menuInfo = (new MenuService(1))->makeMenuTree();
+        $menuInfo = (new MenuService(session('admin.id')))->makeMenuTree();
         $initData = [
             'clearInfo' => $clearInfo,
             'logoInfo'  => $logoInfo,
             'homeInfo'  => $homeInfo,
             'menuInfo'  => $menuInfo,
         ];
-        cache('initData', $initData);
+        cache(session('admin.id') . '_initData', $initData);
         $this->success('获取初始化数据成功', null, $initData);
     }
 

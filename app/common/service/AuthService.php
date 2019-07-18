@@ -115,7 +115,7 @@ class AuthService
     public function getAdminNode()
     {
         $nodeList = [];
-        $adminInfo = Db::name($this->config['admin_user'])
+        $adminInfo = Db::name($this->config['system_admin'])
             ->where([
                 'id'     => $this->adminId,
                 'status' => 1,

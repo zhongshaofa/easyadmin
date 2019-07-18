@@ -30,7 +30,7 @@ class Login extends AdBaseController
     public function index()
     {
         if ($this->request->isPost()) {
-            $rule     = [
+            $rule = [
                 'username|用户名' => 'require',
                 'password|密码'  => 'require',
             ];
@@ -43,9 +43,12 @@ class Login extends AdBaseController
             if ($logicResult['code'] == 0) {
                 $this->error($logicResult['msg']);
             } else {
-                $this->success($logicResult['msg'], url_build('@admin', [], false));
+                $lastUrl = session('lastUrl');
+                $url = !empty($lastUrl) ? $lastUrl : url_build('@admin', [], false);
+                $this->success($logicResult['msg'], $url);
             }
         }
+        session('lastUrl', $_SERVER['HTTP_REFERER']);
         return view();
     }
 

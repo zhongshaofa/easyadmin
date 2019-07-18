@@ -35,13 +35,17 @@ return [
             // 单文件日志写入
             'single'      => false,
             // 独立日志级别
-            'apart_level' => [],
+            'apart_level' => ['debug', 'error', 'sql'],
             // 最大日志文件数量
             'max_files'   => 0,
             // 使用JSON格式记录
             'json'        => false,
             // 日志处理
             'processor'   => null,
+            // 时间格式
+            'time_format' => 'Y-m-d H:i:s',
+            // 日志数据格式
+            'format'      => '[%s][%s]:%s',
         ],
         // 其它日志通道配置
     ],

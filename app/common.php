@@ -10,7 +10,17 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+if (!function_exists('debug')) {
 
+    /**
+     * 输出debug日志
+     * @param $data
+     */
+    function debug($data)
+    {
+        trace($data, 'debug');
+    }
+}
 
 if (!function_exists('url_build')) {
 
