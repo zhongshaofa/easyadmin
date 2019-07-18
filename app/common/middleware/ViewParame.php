@@ -20,12 +20,24 @@ class ViewParame
             $request->controller(),
             $request->action(),
         ];
+
+        list($thisControllerArr, $jsPath) = [explode('.', $thisController), null];
+        foreach ($thisControllerArr as $vo) {
+            if (empty($jsPath)) {
+                $jsPath = parse_name($vo);
+            } else {
+                $jsPath .= '/' . parse_name($vo);
+            }
+        }
+
         View::assign([
-            'thisModule'     => $thisModule,
-            'thisController' => parse_name($thisController),
-            'thisAction'     => parse_name($thisAction),
-            'thisRequest'    => parse_name("{$thisModule}/{$thisController}/{$thisAction}"),
+            'thisModule'           => $thisModule,
+            'thisController'       => parse_name($thisController),
+            'thisAction'           => parse_name($thisAction),
+            'thisRequest'          => parse_name("{$thisModule}/{$thisController}/{$thisAction}"),
+            'thisControllerJsPath' => "{$thisModule}/js/{$jsPath}",
         ]);
+
         return $next($request);
     }
 
