@@ -1,12 +1,14 @@
 layui.config({
-    base: '/static/plugs/lay-module/'
+    base: '/static/plugs/'
 }).extend({
-    treetable: "treetable-lay/treetable",
+    treetable: "lay-module/treetable-lay/treetable",
+    tool: "layuimini/layuimini-tool",
 });
-layui.define(['table', 'treetable'], function (exports) {
-    var $ = layui.jquery;
-    var table = layui.table;
-    var treetable = layui.treetable;
+layui.define(['table', 'treetable', 'tool'], function (exports) {
+    var $ = layui.jquery,
+        table = layui.table,
+        tool = layui.tool,
+        treetable = layui.treetable;
 
     var controller = new function () {
 
@@ -21,13 +23,13 @@ layui.define(['table', 'treetable'], function (exports) {
                 page: false,
                 cols: [[
                     {type: 'numbers'},
-                    {field: 'title', width: 250, title: '权限名称'},
+                    {field: 'title', width: 250, title: '菜单名称'},
                     {
                         field: 'icon', width: 80, align: 'center', title: '图标', templet: function (d) {
                             return '<i class="' + d.icon + '"></i>';
                         }
                     },
-                    {field: 'href', minWidth: 120, title: '菜单url'},
+                    {field: 'href', minWidth: 120, title: '菜单链接'},
                     {
                         field: 'is_home', width: 80, align: 'center', title: '类型', templet: function (d) {
                             if (d.is_home == 1) {

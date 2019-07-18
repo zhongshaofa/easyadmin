@@ -2,20 +2,39 @@
 
 {block name="style"}
 <link rel="stylesheet" href="__STATIC__/plugs/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
-<style>
-    .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
-        height: 34px;
-        line-height: 34px;
-        padding: 0 8px;
-    }
-</style>
 {/block}
 
 {block name="cotent"}
 <div class="layuimini-container">
+
+    <fieldset class="layui-elem-field layuimini-search">
+        <legend>搜索信息</legend>
+        <div style="margin: 10px 10px 10px 10px">
+            <form class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">菜单名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="title" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">菜单链接</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="url" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </fieldset>
+
     <div class="layui-btn-group">
-        <button class="layui-btn" id="btn-expand">全部展开</button>
-        <button class="layui-btn" id="btn-fold">全部折叠</button>
+        <button class="layui-btn data-add-btn" data-open="{:url('admin/system.menu/add')}"  data-title="添加菜单">添加</button>
+        <button class="layui-btn layui-btn-danger data-delete-btn">删除</button>
     </div>
     <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
 </div>

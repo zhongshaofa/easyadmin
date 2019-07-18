@@ -100,6 +100,68 @@ layui.define(["element", "jquery"], function (exports) {
     };
 
     /**
+     * 封装 form 方法
+     */
+    tool.form = new function () {
+
+        /**
+         * 弹出新窗口
+         * @param title 标题
+         * @param url 链接
+         * @param width 宽
+         * @param height 高
+         * @param isResize 窗口变动，是否重置
+         */
+        this.open = function (title, url, width, height, isResize) {
+            if (isResize == undefined) isResize = true;
+            var index = layer.open({
+                title: title,
+                type: 2,
+                maxmin: true,
+                area: [width, height],
+                content: url,
+                success: function (layero, index) {
+                    var body = layer.getChildFrame('body', index);
+                }
+            });
+            if (tool.check.checkMobile() || width == undefined || height == undefined) {
+                layer.full(index);
+            } else {
+                if (width.replace("px", "") > window.innerWidth || height.replace("px", "") > window.innerHeight) {
+                    layer.full(index);
+                }
+            }
+            if (isResize == true) {
+                $(window).on("resize", function () {
+                    layer.full(index);
+                })
+            }
+        }
+    };
+
+    tool.check = new function () {
+
+        /**
+         * 判断是否为手机
+         */
+        this.checkMobile = function () {
+            var ua = navigator.userAgent.toLocaleLowerCase();
+            var pf = navigator.platform.toLocaleLowerCase();
+            var isAndroid = (/android/i).test(ua) || ((/iPhone|iPod|iPad/i).test(ua) && (/linux/i).test(pf))
+                || (/ucweb.*linux/i.test(ua));
+            var isIOS = (/iPhone|iPod|iPad/i).test(ua) && !isAndroid;
+            var isWinPhone = (/Windows Phone|ZuneWP7/i).test(ua);
+            var clientWidth = document.documentElement.clientWidth;
+            if (!isAndroid && !isIOS && !isWinPhone && clientWidth > 768) {
+                return false;
+            } else {
+                return true;
+            }
+        };
+
+    };
+
+    /**
      * 封装请求方法
      */
     tool.request = new function () {
@@ -152,6 +214,19 @@ layui.define(["element", "jquery"], function (exports) {
             tool.request.ajax('post', url, data, callback);
         };
     };
+
+    /**
+     * 注册 data-open 事件
+     * 用于打开弹出层
+     */
+    $('body').on('click', '[data-open]', function () {
+        var title = $(this).attr('data-title'),
+            url = $(this).attr('data-open'),
+            width = $(this).attr('data-width'),
+            height = $(this).attr('data-height'),
+            isResize = $(this).attr('data-resize');
+        tool.form.open(title, url, width, height, isResize);
+    });
 
     exports("tool", tool);
 });
