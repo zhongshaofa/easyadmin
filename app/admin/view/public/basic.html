@@ -6,28 +6,27 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="__STATIC__/plugs/layui-v2.5.4/css/layui.css" media="all">
-    <link rel="stylesheet" href="__STATIC__/plugs/layuimini/layuimini-public.css" media="all">
+    <link rel="stylesheet" href="__STATIC__/plugs/layui-v2.5.4/css/layui.css?v={:time()}" media="all">
+    <link rel="stylesheet" href="__STATIC__/plugs/layuimini/layuimini-public.css?v={:time()}" media="all">
     <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js?v={:time()}"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js?v={:time()}"></script>
     <![endif]-->
     {block name="style"}{/block}
 </head>
 <body>
 {block name="cotent"}{/block}
-<script src="__STATIC__/plugs/layui-v2.5.4/layui.js" charset="utf-8"></script>
-<script src="__STATIC__/plugs/require-2.3.6/require.js" charset="utf-8"></script>
-<script src="__STATIC__/config.js" charset="utf-8"></script>
+<script src="__STATIC__/plugs/layui-v2.5.4/layui.js?v={:time()}" charset="utf-8"></script>
+<script src="__STATIC__/plugs/require-2.3.6/require.js?v={:time()}" charset="utf-8"></script>
+<script src="__STATIC__/config.js?v={:time()}" charset="utf-8"></script>
 {block name="script"}{/block}
 <script>
     layui.config({
-        base: "/static/"
-    });
-    layui.extend({
+        base: "/static/",
+        version: true
+    }).extend({
         controller: "{$thisControllerJsPath|default='###'}",
-    });
-    layui.use(['controller'], function () {
+    }).use(['controller'], function () {
         var $ = layui.jquery,
             controller = layui.controller;
         var action = "{$thisAction|default='###'}";
