@@ -18,7 +18,6 @@ namespace app\admin\controller\api;
 use app\common\controller\AdminController;
 use app\common\service\QiniuService;
 use think\Db;
-use think\File;
 
 /**
  * 后台上传通用接口
@@ -42,14 +41,12 @@ class Upload extends AdminController
 
     /**
      * 编辑器多图片上传
-     * @param null $fileType 允许上传文件类型
      * @return \think\response\Json
      * @throws \Exception
      */
-    public function image($fileType = null)
+    public function image()
     {
         $files = request()->file();
-        !empty($fileType) && $this->fileType = $fileType;
         if (is_array($files)) {
             foreach ($files as $vo) {
                 $info = $vo->validate(['size' => $this->size, 'ext' => $this->fileType])->move('../public/static/uploads');
