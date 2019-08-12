@@ -18,23 +18,41 @@ namespace app\admin\controller\api;
 use app\common\controller\AdminController;
 use app\common\service\QiniuService;
 use think\Db;
+use think\File;
 
 /**
  * 后台上传通用接口
  * Class Upload
  * @package app\admin\controller\api
  */
-class Upload extends AdminController {
+class Upload extends AdminController
+{
+
+    /**
+     * 允许上传文件大小
+     * @var int
+     */
+    protected $size = 10240000;
+
+    /**
+     * 允许上传文件类型
+     * @var int
+     */
+    protected $fileType = 'jpg,jpeg,png,gif,ico,bmp,tiff,psd,swf,svg,zip,rar,gz,7z,doc,docx,excel';
 
     /**
      * 编辑器多图片上传
+     * @param null $fileType 允许上传文件类型
      * @return \think\response\Json
+     * @throws \Exception
      */
-    public function image() {
+    public function image($fileType = null)
+    {
         $files = request()->file();
+        !empty($fileType) && $this->fileType = $fileType;
         if (is_array($files)) {
             foreach ($files as $vo) {
-                $info = $vo->move('../public/static/uploads');
+                $info = $vo->validate(['size' => $this->size, 'ext' => $this->fileType])->move('../public/static/uploads');
                 if ($info) {
                     $url[] = '/static/uploads/' . date('Ymd') . '/' . $info->getFilename();
                 } else {
