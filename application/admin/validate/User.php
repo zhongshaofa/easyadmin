@@ -75,6 +75,9 @@ class User extends Validate {
         //修改登录密码
         'edit_password' => ['id', 'password', 'password1'],
 
+        //修改个人登录密码
+        'edit_self_password' => ['id', 'password', 'password1'],
+
         //删除管理员
         'del'           => ['id'],
 

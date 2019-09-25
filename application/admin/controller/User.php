@@ -203,6 +203,36 @@ class User extends AdminController {
     }
 
     /**
+     * 修改个人用户密码
+     * @return mixed|string|\think\response\Json
+     */
+    public function edit_self_password() {
+        if (!$this->request->isPost()) {
+            $where_user = [
+                'id'         => $this->user['id'],
+                'is_deleted' => 0,
+            ];
+            $user = $this->model->where($where_user)->field('id, username')->find();
+            if (empty($user)) return msg_error('暂无用户信息，请关闭页面刷新重试！');
+            $basic_data = [
+                'title' => '修改密码',
+                'user'  => $user,
+            ];
+            return $this->fetch('', $basic_data);
+        } else {
+            $post = $this->request->post();
+
+            //验证数据
+            $validate = $this->validate($post, 'app\admin\validate\User.edit_self_password');
+            if (true !== $validate) return __error($validate);
+            $post['id'] = $this->user['id'];
+            //修改密码数据
+            return $this->model->editPassword($post);
+        }
+    }
+
+
+    /**
      * 更改管理员状态
      * @return \think\response\Json
      */
