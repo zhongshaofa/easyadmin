@@ -498,8 +498,10 @@ layui.use(['laydate', 'form', 'layer', 'table', 'laytpl', 'jquery'], function ()
                         if (upload_url == '') {
                             $('#' + upload_id).attr('value', upload_iamges);
                         } else {
-                            upload_iamges = upload_url + '|' + upload_iamges;
-                            $('#' + upload_id).attr('value',upload_iamges);
+                            if(upload_url != undefined){
+                                upload_iamges = upload_url + '|' + upload_iamges;
+                                $('#' + upload_id).attr('value',upload_iamges);
+                            }
                         }
 
                         var uploadDiv = document.getElementById(divId);
