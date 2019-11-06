@@ -25,12 +25,28 @@ class CheckAdmin
     use \app\common\traits\JumpTrait;
 
     /**
+     * 不需要验证登录的控制器
+     * @var array
+     */
+    protected $noLoginController = [
+        'login',
+    ];
+
+    /**
      * 不需要验证登录的节点
      * @var array
      */
     protected $noLoginNode = [
         'login/index',
         'login/out',
+    ];
+
+    /**
+     * 不需要验证权限的控制器
+     * @var array
+     */
+    protected $noAuthController = [
+        'ajax',
     ];
 
     /**
@@ -44,16 +60,24 @@ class CheckAdmin
 
     public function handle($request, \Closure $next)
     {
-        $adminId     = session('admin.id');
-        $authService = new AuthService($adminId);
-        $currentNode = $authService->getCurrentNode();
-        if (!in_array($currentNode, $this->noLoginNode)) {
+        $adminId           = session('admin.id');
+        $authService       = new AuthService($adminId);
+        $currentNode       = $authService->getCurrentNode();
+        $currentController = parse_name($request->controller());
+
+        // 验证登录
+        if (!in_array($currentController, $this->noLoginController) &&
+            !in_array($currentNode, $this->noLoginNode)) {
             empty($adminId) && $this->error('请先登录后台', [], __url('login/index'));
         }
-        if (!in_array($currentNode, $this->noAuthNode)) {
+
+        // 验证权限
+        if (!in_array($currentController, $this->noAuthController) &&
+            !in_array($currentNode, $this->noAuthNode)) {
             $check = $authService->checkNode($currentNode);
             !$check && $this->error('暂无权限访问该页面，请联系超级管理员');
         }
+
         return $next($request);
     }
 

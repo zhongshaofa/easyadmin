@@ -14,11 +14,10 @@ namespace app\admin\controller;
 
 use app\common\controller\AdminController;
 use app\common\service\MenuService;
+use think\facade\Cache;
 
 class Ajax extends AdminController
 {
-
-    protected $isAuth = false;
 
     /**
      * 初始化后台接口地址
@@ -29,10 +28,14 @@ class Ajax extends AdminController
      */
     public function initAdmin()
     {
+        $cacheData = cache('initAdmin_' . session('admin.id'));
+        if (!empty($cacheData)) {
+            return json($cacheData);
+        }
         $menuService = new MenuService();
         $data        = [
             'clearInfo' => [
-                'clearUrl' => __url('ajax/clear'),
+                'clearUrl' => __url('ajax/clearCache'),
             ],
             'logoInfo'  => [
                 'title' => 'EasyAdmin',
@@ -42,7 +45,17 @@ class Ajax extends AdminController
             'homeInfo'  => $menuService->getHomeInfo(),
             'menuInfo'  => $menuService->getMenuTree(),
         ];
+        cache('initAdmin_' . session('admin.id'), $data);
         return json($data);
+    }
+
+    /**
+     * 清理缓存接口
+     */
+    public function clearCache()
+    {
+        Cache::clear();
+        $this->success('清理缓存成功');
     }
 
 }
