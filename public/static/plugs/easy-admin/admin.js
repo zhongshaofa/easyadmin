@@ -114,8 +114,10 @@ define(["jquery"], function ($) {
             }
         },
         table: {
-            tool:function (option, data) {
-
+            tool:function (data,option) {
+                console.log('========tool========');
+                // console.log(data);
+                // console.log(option);
             },
             // 表格开关
             switch: function (option, data) {

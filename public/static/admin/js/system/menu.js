@@ -82,9 +82,7 @@ define(["jquery", "admin", "treetable"], function ($, admin) {
                                 open: 'system.menu/edit',
                                 extend: ""
                             }
-                        ], templet: function (d) {
-                            return admin.table.tool(this, d)
-                        }
+                        ], templet: admin.table.tool
                     }
                 ]],
                 done: function () {
