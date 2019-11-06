@@ -48,7 +48,7 @@ class CheckAdmin
         $authService = new AuthService($adminId);
         $currentNode = $authService->getCurrentNode();
         if (!in_array($currentNode, $this->noLoginNode)) {
-            empty($adminId) && $this->error('请先登录后台');
+            empty($adminId) && $this->error('请先登录后台', [], __url('login/index'));
         }
         if (!in_array($currentNode, $this->noAuthNode)) {
             $check = $authService->checkNode($currentNode);
