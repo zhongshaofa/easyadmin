@@ -20,7 +20,7 @@ define(["jquery"], function ($) {
                 option.data = option.data || {};
                 option.prefix = option.prefix || false;
                 option.statusName = option.statusName || 'code';
-                option.statusCode = option.statusCode || 0;
+                option.statusCode = option.statusCode || 1;
                 ok = ok || function (res) {
 
                 };
@@ -44,9 +44,9 @@ define(["jquery"], function ($) {
                     success: function (res) {
                         admin.msg.close(index);
                         if (eval('res.' + option.statusName) == option.statusCode) {
-                            ok(res);
+                            return ok(res);
                         } else {
-                            no(res);
+                            return no(res);
                         }
                     },
                     error: function (xhr, textstatus, thrown) {

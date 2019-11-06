@@ -20,6 +20,8 @@ use think\facade\View;
 class AdminController extends BaseController
 {
 
+    use \app\common\traits\JumpTrait;
+
     /**
      * 是否开启权限控制
      * @var bool
@@ -62,6 +64,24 @@ class AdminController extends BaseController
     public function fetch($template = '', $vars = [])
     {
         return View::fetch($template, $vars);
+    }
+
+    /**
+     * 重写验证规则
+     * @param array $data
+     * @param array|string $validate
+     * @param array $message
+     * @param bool $batch
+     * @return array|bool|string|true
+     */
+    public function validate(array $data, $validate, array $message = [], bool $batch = false)
+    {
+        try {
+            parent::validate($data, $validate, $message, $batch);
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
+        }
+        return true;
     }
 
 }
