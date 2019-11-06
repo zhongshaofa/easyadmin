@@ -29,6 +29,7 @@ class AdminController extends BaseController
 
     /**
      * 当前模型
+     * @Model
      * @var object
      */
     protected $model;

@@ -28,6 +28,8 @@ use think\App;
 class Menu extends AdminController
 {
 
+    use \app\admin\traits\Curd;
+
     public function __construct(App $app)
     {
         parent::__construct($app);
@@ -74,31 +76,6 @@ class Menu extends AdminController
     public function del()
     {
         return $this->fetch();
-    }
-
-    /**
-     * 修改字段属性值
-     */
-    public function modify()
-    {
-        $post = $this->request->post();
-        $rule = [
-            'id|ID'    => 'require',
-            'field|字段' => 'require',
-            'value|值'  => 'require',
-        ];
-        $this->validate($post, $rule);
-        $row = $this->model->find($post['id']);
-        empty($row) && $this->error('数据不存在');
-        !in_array($post['field'], SystemConstant::ALLOW_MODIFY_FIELD) && $this->error('该字段不允许修改：' . $post['field']);
-        try {
-            $row->save([
-                $post['field'] => $post['value'],
-            ]);
-        } catch (\Exception $e) {
-            $this->error($e->getMessage());
-        }
-        $this->success('保存成功');
     }
 
 }
