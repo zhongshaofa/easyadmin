@@ -29,7 +29,9 @@ define(["jquery", "jquery-particleground", "admin"], function ($, undefined, adm
                     prefix: true,
                     data: data,
                 }, function (res) {
-
+                    admin.msg.success(res.msg, function () {
+                        window.location = admin.url('index');
+                    })
                 });
                 return false;
             });

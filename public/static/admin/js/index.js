@@ -1,11 +1,17 @@
 define(["jquery", "admin", "echarts", "layuimini", "echarts-theme"], function ($, admin, echarts, undefined) {
+
     var Controller = {
         index: function () {
             var layuimini = layui.layuimini;
             layuimini.init(admin.url('ajax/initAdmin'));
             $('.login-out').on("click", function () {
-                layer.msg('退出登录成功', function () {
-                    window.location = '/page/login-1.html';
+                admin.request.get({
+                    url: 'login/out',
+                    prefix: true,
+                }, function (res) {
+                    admin.msg.success(res.msg, function () {
+                        window.location = admin.url('login/index');
+                    })
                 });
             });
         },
