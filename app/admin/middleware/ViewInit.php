@@ -41,6 +41,7 @@ class ViewInit
             'autoloadJs'           => $autoloadJs,
         ];
         View::assign($data);
+        $request->adminModuleName = $adminModuleName;
         return $next($request);
     }
 

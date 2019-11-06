@@ -13,19 +13,27 @@
 namespace app\admin\controller;
 
 
+use app\admin\model\SystemAdmin;
 use app\common\controller\AdminController;
+use think\facade\Env;
 
-
+/**
+ * Class Login
+ * @package app\admin\controller
+ */
 class Login extends AdminController
 {
-    protected $isLogin = false;
 
+    /**
+     * 初始化方法
+     */
     public function initialize()
     {
         parent::initialize();
         $action = $this->request->action();
         if (!empty(session('admin')) && !in_array($action, ['out'])) {
-            $this->redirect(__url('@admin', [], false));
+            $adminModuleName = Env::get('easyadmin.admin', 'admin');
+            $this->success('已登录，无需再次登录', [], __url("@{$adminModuleName}"));
         }
     }
 
@@ -43,7 +51,23 @@ class Login extends AdminController
                 'password|密码'  => 'require',
             ];
             $this->validate($post, $rule);
-            $this->success('请求成功');
+            $admin = SystemAdmin::where([
+                'username' => $post['username'],
+            ])
+                ->find();
+            if (empty($admin)) {
+                $this->error('用户不存在');
+            }
+            if (password($post['password']) != $admin->password) {
+                $this->error('密码输入有误');
+            }
+            if ($admin->status == 0) {
+                $this->error('账号已被禁用');
+            }
+            $admin = $admin->toArray();
+            unset($admin['password']);
+            session('admin', $admin);
+            $this->success('登录成功');
         }
         return $this->fetch();
     }

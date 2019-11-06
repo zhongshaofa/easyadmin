@@ -126,7 +126,7 @@ trait JumpTrait
             $params = [];
         }
 
-        $response = Response::create($url, 'redirect', $code)->params($params);
+        $response = Response::create($url, 'redirect', $code);
         throw new HttpResponseException($response);
     }
 

@@ -22,17 +22,6 @@ class AdminController extends BaseController
 
     use \app\common\traits\JumpTrait;
 
-    /**
-     * 是否开启权限控制
-     * @var bool
-     */
-    protected $isAuth = true;
-
-    /**
-     * 是否登录控制
-     * @var bool
-     */
-    protected $isLogin = true;
 
     /**
      * 初始化方法
