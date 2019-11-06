@@ -15,7 +15,7 @@ namespace app\admin\model;
 
 use app\common\model\TimeModel;
 
-class SystemmMenu extends TimeModel
+class SystemMenu extends TimeModel
 {
 
 }

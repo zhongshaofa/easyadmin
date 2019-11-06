@@ -16,17 +16,22 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
         <div>
-            <div class="layui-btn-group">
-                <button class="layui-btn" id="btn-expand">全部展开</button>
-                <button class="layui-btn" id="btn-fold">全部折叠</button>
-            </div>
             <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
         </div>
     </div>
 </div>
+
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="addMenu">添加菜单</button>
+        <button class="layui-btn layui-btn-sm" lay-event="deleteAll">删除选中</button>
+    </div>
+</script>
+
 <!-- 操作列 -->
 <script type="text/html" id="auth-state">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
+
 {/block}

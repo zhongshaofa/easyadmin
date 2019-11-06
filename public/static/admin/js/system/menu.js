@@ -17,31 +17,48 @@ define(["jquery", "admin","treetable"], function ($,admin) {
             layer.load(2);
             treetable.render({
                 treeColIndex: 1,
-                treeSpid: -1,
-                treeIdName: 'authorityId',
-                treePidName: 'parentId',
+                treeSpid: 0,
+                homdPid: 99999999,
+                treeIdName: 'id',
+                treePidName: 'pid',
                 elem: '#munu-table',
                 url: init.index_url,
+                toolbar: '#toolbar',
                 page: false,
                 cols: [[
-                    {type: 'numbers'},
-                    {field: 'authorityName', minWidth: 200, title: '权限名称'},
-                    {field: 'authority', title: '权限标识'},
-                    {field: 'menuUrl', title: '菜单url'},
-                    {field: 'orderNumber', width: 80, align: 'center', title: '排序号'},
+                    {type:'checkbox'},
+                    {field: 'title', width: 250, title: '菜单名称'},
                     {
-                        field: 'isMenu', width: 80, align: 'center', templet: function (d) {
-                            if (d.isMenu == 1) {
-                                return '<span class="layui-badge layui-bg-gray">按钮</span>';
+                        field: 'icon', width: 80, align: 'center', title: '图标', templet: function (d) {
+                            return '<i class="' + d.icon + '"></i>';
+                        }
+                    },
+                    {field: 'href', minWidth: 120, title: '菜单链接'},
+                    {
+                        field: 'is_home', width: 80, align: 'center', title: '类型', templet: function (d) {
+                            if (d.pid == 99999999) {
+                                return '<span class="layui-badge layui-bg-blue">首页</span>';
                             }
-                            if (d.parentId == -1) {
-                                return '<span class="layui-badge layui-bg-blue">目录</span>';
+                            if (d.pid == 0) {
+                                return '<span class="layui-badge layui-bg-gray">模块</span>';
                             } else {
                                 return '<span class="layui-badge-rim">菜单</span>';
                             }
-                        }, title: '类型'
+                        }
                     },
-                    {templet: '#auth-state', width: 120, align: 'center', title: '操作'}
+                    {field: 'status', width: 80, align: 'center', title: '排序'},
+                    {
+                        field: 'status', width: 80, align: 'center', title: '状态', templet: function (d) {
+                            if (d.status == 0) {
+                                return '<span class="layui-badge layui-bg-gray">禁用</span>';
+                            } else if (d.status == 1) {
+                                return '<span class="layui-badge layui-bg-blue">启用</span>';
+                            } else {
+                                return '<span class=" layui-badge layui-bg-red">未知</span>';
+                            }
+                        }
+                    },
+                    {templet: '#auth-state', width: 200, align: 'center', title: '操作'}
                 ]],
                 done: function () {
                     layer.closeAll('loading');
@@ -55,6 +72,18 @@ define(["jquery", "admin","treetable"], function ($,admin) {
             $('#btn-fold').click(function () {
                 treetable.foldAll('#munu-table');
             });
+
+            //头工具栏事件
+            table.on('toolbar(munu-table)', function(obj){
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch(obj.event){
+                    case 'deleteAll':
+                        var data = checkStatus.data;
+                        layer.alert(JSON.stringify(data));
+                        break;
+                };
+            });
+
 
             //监听工具条
             table.on('tool(munu-table)', function (obj) {

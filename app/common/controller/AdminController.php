@@ -15,12 +15,23 @@ namespace app\common\controller;
 
 
 use app\BaseController;
+use think\Model;
 use think\facade\View;
 
+/**
+ * Class AdminController
+ * @package app\common\controller
+ */
 class AdminController extends BaseController
 {
 
     use \app\common\traits\JumpTrait;
+
+    /**
+     * 当前模型
+     * @var object
+     */
+    protected $model;
 
 
     /**
