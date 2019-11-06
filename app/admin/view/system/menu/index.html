@@ -1,7 +1,6 @@
-{extend name="Public:basic" /}
+{extend name="Public:iframe" /}
 
 {block name="style"}
-<link rel="stylesheet" href="__STATIC__/plugs/lay-module/layuimini/layuimini-public.css?v={:time()}" media="all">
 <link rel="stylesheet" href="__STATIC__/plugs/lay-module/treetable-lay/treetable.css?v={:time()}" media="all">
 <style>
     .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
@@ -11,32 +10,14 @@
     }
 </style>
 {/block}
-
 {block name="cotent"}
 <div class="layuimini-container">
     <div class="layuimini-main">
-        <div>
-            <table id="currentTable" class="layui-table" lay-filter="currentTable"></table>
-        </div>
+        <table id="currentTable" class="layui-table" lay-filter="currentTable"></table>
     </div>
 </div>
-
 <script type="text/html" id="toolbar">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="addMenu">添加菜单</button>
-        <button class="layui-btn layui-btn-sm" lay-event="deleteAll">删除选中</button>
-    </div>
+    <button class="layui-btn layui-btn-sm" data-open="system.menu/add" data-title="添加菜单">添加菜单</button>
+    <button class="layui-btn layui-btn-sm" lay-event="deleteAll">删除选中</button>
 </script>
-
-<script type="text/html" id="switchTpl">
-    <!-- 这里的 checked 的状态只是演示 -->
-    <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="女|男" lay-filter="sexDemo" {{ d.id == 10003 ? 'checked' : '' }}>
-</script>
-
-<!-- 操作列 -->
-<script type="text/html" id="auth-state">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
-
 {/block}

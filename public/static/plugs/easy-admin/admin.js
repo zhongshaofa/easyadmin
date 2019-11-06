@@ -1,7 +1,7 @@
 define(["jquery"], function ($) {
 
     var form = layui.form,
-        layer = parent.layer === undefined ? layui.layer : top.layer,
+        layer = layui.layer,
         laytpl = layui.laytpl,
         table = layui.table,
         laydate = layui.laydate;
@@ -114,13 +114,29 @@ define(["jquery"], function ($) {
             }
         },
         table: {
-            tool:function (data,option) {
-                console.log('========tool========');
-                // console.log(data);
-                // console.log(option);
+            tool: function (data, option) {
+                option.operat = option.operat || [];
+                var html = '';
+                $.each(option.operat, function (i, v) {
+                    // 初始化数据
+                    v.class = v.class || '';
+                    v.text = v.text || '';
+                    v.event = v.event || '';
+                    v.icon = v.icon || '';
+                    v.open = v.open || '';
+                    v.title = v.title || v.text || '';
+                    v.extend = v.extend || '';
+                    // 组合数据
+                    v.icon = v.icon != '' ? '<i class="' + v.icon + '"></i>' : '';
+                    v.class = v.class != '' ? 'class="' + v.class + '" ' : '';
+                    v.open = v.open != '' ? 'data-open="' + v.open + '" data-title="' + v.title + '" ' : '';
+                    v.event = v.event != '' ? 'lay-event="' + v.event + '" ' : '';
+                    html += '<a ' + v.class + v.open + v.event + v.extend + '>' + v.icon + v.text + '</a>';
+                });
+                return html;
             },
             // 表格开关
-            switch: function (option, data) {
+            switch: function (data, option) {
                 option.filter = option.filter || option.field || null;
                 option.checked = option.checked || 1;
                 option.tips = option.tips || '开|关';
@@ -162,6 +178,64 @@ define(["jquery"], function ($) {
                 });
             }
         },
+        // 检测是否为手机
+        checkMobile: function () {
+            var userAgentInfo = navigator.userAgent;
+            var mobileAgents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+            var mobile_flag = false;
+            //根据userAgent判断是否是手机
+            for (var v = 0; v < mobileAgents.length; v++) {
+                if (userAgentInfo.indexOf(mobileAgents[v]) > 0) {
+                    mobile_flag = true;
+                    break;
+                }
+            }
+            var screen_width = window.screen.width;
+            var screen_height = window.screen.height;
+            //根据屏幕分辨率判断是否是手机
+            if (screen_width < 600 && screen_height < 800) {
+                mobile_flag = true;
+            }
+            return mobile_flag;
+        },
+        // 打开弹出层
+        open: function (title, url, width, height, isResize) {
+            if (isResize == undefined) isResize = true;
+            var index = layui.layer.open({
+                title: title,
+                type: 2,
+                area: [width, height],
+                content: url,
+                success: function (layero, index) {
+                    var body = layui.layer.getChildFrame('body', index);
+                }
+            });
+            if (admin.checkMobile() || width == undefined || height == undefined) {
+                layer.full(index);
+            } else {
+                if (width.replace("px", "") > window.innerWidth || height.replace("px", "") > window.innerHeight) {
+                    layer.full(index);
+                }
+            }
+            if (isResize == true) {
+                $(window).on("resize", function () {
+                    layer.full(index);
+                })
+            }
+        },
+        // 触发全局监听事件
+        listen: function () {
+
+            // 监听弹出层的打开
+            $('body').on('click', '[data-open]', function () {
+                admin.open(
+                    $(this).attr('data-title'),
+                    admin.url($(this).attr('data-open')),
+                    $(this).attr('data-width'),
+                    $(this).attr('data-height')
+                );
+            })
+        }
     };
     return admin;
 });

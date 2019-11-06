@@ -48,9 +48,7 @@ define(["jquery", "admin", "treetable"], function ($, admin) {
                         }
                     },
                     {
-                        field: 'status', title: '性别', width: 85, unresize: true, filter: 'status', templet: function (d) {
-                            return admin.table.switch(this, d)
-                        }
+                        field: 'status', title: '性别', width: 85, unresize: true, filter: 'status', templet: admin.table.switch
                     },
                     {field: 'status', width: 80, align: 'center', title: '排序'},
                     {
@@ -65,24 +63,26 @@ define(["jquery", "admin", "treetable"], function ($, admin) {
                         }
                     },
                     {
-                        width: 200, align: 'center', title: '操作', operat: [
+                        width: 200, align: 'center', title: '操作', templet: admin.table.tool, operat: [
+                            {
+                                class: 'layui-btn layui-btn-primary layui-btn-xs',
+                                text: '审核1',
+                                open: 'system.menu/edit1',
+                                extend: ""
+                            },
                             {
                                 class: 'layui-btn layui-btn-primary layui-btn-xs',
                                 text: '编辑',
-                                event: 'edit',
-                                icon: 'fa fa-gears',
-                                open: 'system.menu/edit',
+                                open: 'system.menu/edit2',
                                 extend: ""
                             },
                             {
                                 class: 'layui-btn layui-btn-danger layui-btn-xs',
                                 text: '删除',
-                                event: 'del',
-                                icon: 'fa fa-gears',
-                                open: 'system.menu/edit',
+                                open: 'system.menu/edit3',
                                 extend: ""
                             }
-                        ], templet: admin.table.tool
+                        ]
                     }
                 ]],
                 done: function () {
@@ -126,8 +126,8 @@ define(["jquery", "admin", "treetable"], function ($, admin) {
                     layer.msg('修改' + data.id);
                 }
             });
+            admin.listen();
         },
-
     };
     return Controller;
 });
