@@ -5,6 +5,7 @@ require.config({
         "layuiall": ["plugs/layui-v2.5.4/layui.all"],
         "layui": ["plugs/layui-v2.5.4/layui"],
         "layuimini": ["plugs/lay-module/layuimini/layuimini"],
+        "treetable": ["plugs/lay-module/treetable-lay/treetable"],
         "echarts": ["plugs/echarts/echarts.min"],
         "echarts-theme": ["plugs/echarts/echarts-theme"],
         "jquery": ["plugs/jquery-3.4.1/jquery-3.4.1.min"],
