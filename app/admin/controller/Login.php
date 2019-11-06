@@ -44,7 +44,6 @@ class Login extends AdminController
      */
     public function index()
     {
-        xdebug('测试打印');
         if ($this->request->isPost()) {
             $post = $this->request->post();
             $rule = [
