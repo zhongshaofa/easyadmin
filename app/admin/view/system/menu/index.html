@@ -16,7 +16,7 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
         <div>
-            <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
+            <table id="currentTable" class="layui-table" lay-filter="currentTable"></table>
         </div>
     </div>
 </div>
@@ -26,6 +26,11 @@
         <button class="layui-btn layui-btn-sm" lay-event="addMenu">添加菜单</button>
         <button class="layui-btn layui-btn-sm" lay-event="deleteAll">删除选中</button>
     </div>
+</script>
+
+<script type="text/html" id="switchTpl">
+    <!-- 这里的 checked 的状态只是演示 -->
+    <input type="checkbox" name="sex" value="{{d.id}}" lay-skin="switch" lay-text="女|男" lay-filter="sexDemo" {{ d.id == 10003 ? 'checked' : '' }}>
 </script>
 
 <!-- 操作列 -->
