@@ -1,10 +1,9 @@
-{extend name="admin@public/basic" /}
+{extend name="Public:basic" /}
 
 {block name="style"}
-<link rel="stylesheet" href="__STATIC__/plugs/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
-<link rel="stylesheet" href="__STATIC__/admin/css/welcome.css" media="all">
+<link rel="stylesheet" href="__STATIC__/plugs/lay-module/layuimini/layuimini-public.css?v={:time()}" media="all">
+<link rel="stylesheet" href="__STATIC__/admin/css/welcome.css?v={:time()}" media="all">
 {/block}
-
 {block name="cotent"}
 <div class="layuimini-container">
     <div class="layui-row layui-col-space15">

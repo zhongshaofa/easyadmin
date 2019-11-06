@@ -48,13 +48,8 @@ class Caster
      */
     public static function castObject($obj, $class, $hasDebugInfo = false)
     {
-        if ($hasDebugInfo) {
-            $a = $obj->__debugInfo();
-        } elseif ($obj instanceof \Closure) {
-            $a = [];
-        } else {
-            $a = (array) $obj;
-        }
+        $a = $obj instanceof \Closure ? [] : (array) $obj;
+
         if ($obj instanceof \__PHP_Incomplete_Class) {
             return $a;
         }
@@ -67,8 +62,8 @@ class Caster
             foreach ($a as $k => $v) {
                 if (isset($k[0]) ? "\0" !== $k[0] : \PHP_VERSION_ID >= 70200) {
                     if (!isset($publicProperties[$class])) {
-                        foreach (get_class_vars($class) as $prop => $v) {
-                            $publicProperties[$class][$prop] = true;
+                        foreach ((new \ReflectionClass($class))->getProperties(\ReflectionProperty::IS_PUBLIC) as $prop) {
+                            $publicProperties[$class][$prop->name] = true;
                         }
                     }
                     if (!isset($publicProperties[$class][$k])) {
@@ -85,6 +80,17 @@ class Caster
                     $keys[$i] = $k;
                 }
                 $a = array_combine($keys, $a);
+            }
+        }
+
+        if ($hasDebugInfo && \is_array($debugInfo = $obj->__debugInfo())) {
+            foreach ($debugInfo as $k => $v) {
+                if (!isset($k[0]) || "\0" !== $k[0]) {
+                    $k = self::PREFIX_VIRTUAL.$k;
+                }
+
+                unset($a[$k]);
+                $a[$k] = $v;
             }
         }
 

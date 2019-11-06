@@ -4,9 +4,10 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit71d82035f4a09510d5c7a62ebb6f9051
+class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
 {
     public static $files = array (
+        '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
         '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
@@ -17,11 +18,14 @@ class ComposerStaticInit71d82035f4a09510d5c7a62ebb6f9051
         't' => 
         array (
             'think\\view\\driver\\' => 18,
+            'think\\trace\\' => 12,
+            'think\\app\\' => 10,
             'think\\' => 6,
         ),
         'a' => 
         array (
             'app\\' => 4,
+            'addons\\' => 7,
         ),
         'S' => 
         array (
@@ -45,6 +49,16 @@ class ComposerStaticInit71d82035f4a09510d5c7a62ebb6f9051
             'League\\Flysystem\\Cached\\' => 24,
             'League\\Flysystem\\' => 17,
         ),
+        'E' => 
+        array (
+            'EasyAdmin\\' => 10,
+            'EasyAddons\\' => 11,
+        ),
+        'D' => 
+        array (
+            'Doctrine\\Common\\Lexer\\' => 22,
+            'Doctrine\\Common\\Annotations\\' => 28,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -52,14 +66,28 @@ class ComposerStaticInit71d82035f4a09510d5c7a62ebb6f9051
         array (
             0 => __DIR__ . '/..' . '/topthink/think-view/src',
         ),
+        'think\\trace\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/topthink/think-trace/src',
+        ),
+        'think\\app\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/topthink/think-multi-app/src',
+        ),
         'think\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/framework/src/think',
-            1 => __DIR__ . '/..' . '/topthink/think-template/src',
+            1 => __DIR__ . '/..' . '/topthink/think-helper/src',
+            2 => __DIR__ . '/..' . '/topthink/think-orm/src',
+            3 => __DIR__ . '/..' . '/topthink/think-template/src',
         ),
         'app\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
+        ),
+        'addons\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/addons',
         ),
         'Symfony\\Polyfill\\Php72\\' => 
         array (
@@ -101,6 +129,22 @@ class ComposerStaticInit71d82035f4a09510d5c7a62ebb6f9051
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
         ),
+        'EasyAdmin\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zhongshaofa/easy-admin/src',
+        ),
+        'EasyAddons\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zhongshaofa/easy-addons/src',
+        ),
+        'Doctrine\\Common\\Lexer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer',
+        ),
+        'Doctrine\\Common\\Annotations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
+        ),
     );
 
     public static $fallbackDirsPsr0 = array (
@@ -110,9 +154,9 @@ class ComposerStaticInit71d82035f4a09510d5c7a62ebb6f9051
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit71d82035f4a09510d5c7a62ebb6f9051::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit71d82035f4a09510d5c7a62ebb6f9051::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr0 = ComposerStaticInit71d82035f4a09510d5c7a62ebb6f9051::$fallbackDirsPsr0;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr0 = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$fallbackDirsPsr0;
 
         }, null, ClassLoader::class);
     }

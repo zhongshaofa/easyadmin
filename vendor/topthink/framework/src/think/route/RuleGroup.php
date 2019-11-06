@@ -59,12 +59,6 @@ class RuleGroup extends Rule
     protected $fullName;
 
     /**
-     * 所在域名
-     * @var string
-     */
-    protected $domain;
-
-    /**
      * 分组别名
      * @var string
      */
@@ -457,7 +451,7 @@ class RuleGroup extends Rule
      * @access public
      * @param  Rule   $rule   路由规则
      * @param  string $method 请求类型
-     * @return RuleItem
+     * @return $this
      */
     public function addRuleItem(Rule $rule, string $method = '*')
     {

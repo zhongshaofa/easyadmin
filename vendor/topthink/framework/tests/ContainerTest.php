@@ -6,8 +6,8 @@ use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use stdClass;
 use think\Container;
-use think\Exception;
 use think\exception\ClassNotFoundException;
+use think\exception\FuncNotFoundException;
 
 class Taylor
 {
@@ -20,10 +20,14 @@ class Taylor
 
     public function some(Container $container)
     {
-
     }
 
-    public static function static(Container $container)
+    protected function protectionFun()
+    {
+        return true;
+    }
+
+    public static function test(Container $container)
     {
         return $container;
     }
@@ -37,6 +41,8 @@ class Taylor
 class SomeClass
 {
     public $container;
+
+    public $count = 0;
 
     public function __construct(Container $container)
     {
@@ -199,12 +205,35 @@ class ContainerTest extends TestCase
         $this->assertSame($this, Container::getInstance());
     }
 
+    public function testResolving()
+    {
+        $container = new Container();
+        $container->bind(Container::class, $container);
+
+        $container->resolving(function (SomeClass $taylor, Container $container) {
+            $taylor->count++;
+        });
+        $container->resolving(SomeClass::class, function (SomeClass $taylor, Container $container) {
+            $taylor->count++;
+        });
+
+        /** @var SomeClass $someClass */
+        $someClass = $container->invokeClass(SomeClass::class);
+        $this->assertEquals(2, $someClass->count);
+    }
+
     public function testInvokeFunctionWithoutMethodThrowsException()
     {
-        $this->expectException(Exception::class);
+        $this->expectException(FuncNotFoundException::class);
         $this->expectExceptionMessage('function not exists: ContainerTestCallStub()');
-        $container = new Container;
+        $container = new Container();
         $container->invokeFunction('ContainerTestCallStub', []);
+    }
+
+    public function testInvokeProtectionMethod()
+    {
+        $container = new Container();
+        $this->assertTrue($container->invokeMethod([Taylor::class, 'protectionFun'], [], true));
     }
 
     public function testInvoke()
@@ -221,7 +250,11 @@ class ContainerTest extends TestCase
 
         $container->invokeMethod([$stub, 'some']);
 
-        $this->assertSame($container, $container->invokeMethod(Taylor::class . '::static'));
+        $this->assertEquals('48', $container->invoke('ord', ['0']));
+
+        $this->assertSame($container, $container->invoke(Taylor::class . '::test', []));
+
+        $this->assertSame($container, $container->invokeMethod(Taylor::class . '::test'));
 
         $reflect = new ReflectionMethod($container, 'exists');
 
@@ -231,7 +264,7 @@ class ContainerTest extends TestCase
             return $container;
         }));
 
-        $this->assertSame($container, $container->invoke(Taylor::class . '::static'));
+        $this->assertSame($container, $container->invoke(Taylor::class . '::test'));
 
         $object = $container->invokeClass(SomeClass::class);
         $this->assertInstanceOf(SomeClass::class, $object);
@@ -251,7 +284,7 @@ class ContainerTest extends TestCase
     public function testInvokeMethodNotExists()
     {
         $container = $this->resolveContainer();
-        $this->expectException(Exception::class);
+        $this->expectException(FuncNotFoundException::class);
 
         $container->invokeMethod([SomeClass::class, 'any']);
     }

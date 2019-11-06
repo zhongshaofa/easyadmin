@@ -14,6 +14,7 @@ namespace think;
 
 /**
  * 配置管理类
+ * @package think
  */
 class Config
 {
@@ -84,8 +85,8 @@ class Config
      */
     protected function parse(string $file, string $name): array
     {
-        $type = pathinfo($file, PATHINFO_EXTENSION);
-
+        $type   = pathinfo($file, PATHINFO_EXTENSION);
+        $config = [];
         switch ($type) {
             case 'php':
                 $config = include $file;
@@ -104,7 +105,7 @@ class Config
                 break;
         }
 
-        return isset($config) && is_array($config) ? $this->set($config, strtolower($name)) : [];
+        return is_array($config) ? $this->set($config, strtolower($name)) : [];
     }
 
     /**

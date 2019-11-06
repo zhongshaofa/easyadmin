@@ -8,11 +8,11 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+declare (strict_types = 1);
 
 namespace think\cache\driver;
 
 use think\cache\Driver;
-use think\contract\CacheHandlerInterface;
 
 /**
  * Redis缓存驱动，适合单机部署、有前端代理实现高可用的场景，性能最好
@@ -21,8 +21,11 @@ use think\contract\CacheHandlerInterface;
  * 要求安装phpredis扩展：https://github.com/nicolasff/phpredis
  * @author    尘缘 <130775@qq.com>
  */
-class Redis extends Driver implements CacheHandlerInterface
+class Redis extends Driver
 {
+    /** @var \Predis\Client|\Redis */
+    protected $handler;
+
     /**
      * 配置参数
      * @var array
@@ -43,7 +46,7 @@ class Redis extends Driver implements CacheHandlerInterface
     /**
      * 架构函数
      * @access public
-     * @param  array $options 缓存参数
+     * @param array $options 缓存参数
      */
     public function __construct(array $options = [])
     {
@@ -91,28 +94,28 @@ class Redis extends Driver implements CacheHandlerInterface
     /**
      * 判断缓存
      * @access public
-     * @param  string $name 缓存变量名
+     * @param string $name 缓存变量名
      * @return bool
      */
     public function has($name): bool
     {
-        return $this->handler->exists($this->getCacheKey($name));
+        return $this->handler->exists($this->getCacheKey($name)) ? true : false;
     }
 
     /**
      * 读取缓存
      * @access public
-     * @param  string $name 缓存变量名
-     * @param  mixed  $default 默认值
+     * @param string $name    缓存变量名
+     * @param mixed  $default 默认值
      * @return mixed
      */
-    public function get($name, $default = false)
+    public function get($name, $default = null)
     {
         $this->readTimes++;
 
         $value = $this->handler->get($this->getCacheKey($name));
 
-        if (is_null($value) || false === $value) {
+        if (false === $value) {
             return $default;
         }
 
@@ -122,9 +125,9 @@ class Redis extends Driver implements CacheHandlerInterface
     /**
      * 写入缓存
      * @access public
-     * @param  string            $name 缓存变量名
-     * @param  mixed             $value  存储数据
-     * @param  integer|\DateTime $expire  有效时间（秒）
+     * @param string            $name   缓存变量名
+     * @param mixed             $value  存储数据
+     * @param integer|\DateTime $expire 有效时间（秒）
      * @return bool
      */
     public function set($name, $value, $expire = null): bool
@@ -151,8 +154,8 @@ class Redis extends Driver implements CacheHandlerInterface
     /**
      * 自增缓存（针对数值缓存）
      * @access public
-     * @param  string $name 缓存变量名
-     * @param  int    $step 步长
+     * @param string $name 缓存变量名
+     * @param int    $step 步长
      * @return false|int
      */
     public function inc(string $name, int $step = 1)
@@ -167,8 +170,8 @@ class Redis extends Driver implements CacheHandlerInterface
     /**
      * 自减缓存（针对数值缓存）
      * @access public
-     * @param  string $name 缓存变量名
-     * @param  int    $step 步长
+     * @param string $name 缓存变量名
+     * @param int    $step 步长
      * @return false|int
      */
     public function dec(string $name, int $step = 1)
@@ -183,15 +186,15 @@ class Redis extends Driver implements CacheHandlerInterface
     /**
      * 删除缓存
      * @access public
-     * @param  string $name 缓存变量名
+     * @param string $name 缓存变量名
      * @return bool
      */
     public function delete($name): bool
     {
         $this->writeTimes++;
 
-        $this->handler->del($this->getCacheKey($name));
-        return true;
+        $result = $this->handler->del($this->getCacheKey($name));
+        return $result > 0;
     }
 
     /**
@@ -210,7 +213,7 @@ class Redis extends Driver implements CacheHandlerInterface
     /**
      * 删除缓存标签
      * @access public
-     * @param  array  $keys 缓存标识列表
+     * @param array $keys 缓存标识列表
      * @return void
      */
     public function clearTag(array $keys): void
@@ -222,8 +225,8 @@ class Redis extends Driver implements CacheHandlerInterface
     /**
      * 追加（数组）缓存数据
      * @access public
-     * @param  string $name 缓存标识
-     * @param  mixed  $value 数据
+     * @param string $name  缓存标识
+     * @param mixed  $value 数据
      * @return void
      */
     public function push(string $name, $value): void
@@ -234,7 +237,7 @@ class Redis extends Driver implements CacheHandlerInterface
     /**
      * 获取标签包含的缓存标识
      * @access public
-     * @param  string $tag 缓存标签
+     * @param string $tag 缓存标签
      * @return array
      */
     public function getTagItems(string $tag): array

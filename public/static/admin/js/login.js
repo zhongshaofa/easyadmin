@@ -1,36 +1,40 @@
-require(["jquery", "jquery-particleground"], function ($, undefined) {
+define(["jquery", "jquery-particleground", "admin"], function ($, undefined, admin) {
 
-    layui.extend({
-        tool: "plugs/layuimini/layuimini-tool",
-    }).define(['form', 'tool'], function (exports) {
-        var $ = layui.jquery,
-            form = layui.form,
-            tool = layui.tool;
+    var Controller = {
+        index: function () {
+            var form = layui.form,
+                layer = layui.layer;
 
-        var controller = new function () {
-
-            this.index = function () {
-                if (top.location != self.location) top.location = self.location;
-                $(document).ready(function(){
-                    $('#container').particleground({
-                        dotColor:'#5cbdaa',
-                        lineColor:'#5cbdaa'
-                    });
+            if (top.location != self.location) {
+                top.location = self.location;
+            }
+            $(document).ready(function () {
+                $('.layui-container').particleground({
+                    dotColor: '#5cbdaa',
+                    lineColor: '#5cbdaa'
                 });
-                form.on('submit(login)', function (data) {
-                    data = data.field;
-                    tool.request.post("/admin/login/index", data, function (res) {
-                        tool.msg.success(res.msg, function () {
-                            window.location.href = res.url;
-                        });
-                    });
+            });
+            form.on('submit(login)', function (data) {
+                var data = data.field;
+                if (data.username == '') {
+                    layer.msg('用户名不能为空');
                     return false;
+                }
+                if (data.password == '') {
+                    layer.msg('密码不能为空');
+                    return false;
+                }
+                admin.request.post({
+                    url: 'login/index',
+                    prefix: true,
+                    data: data,
+                }, function (res) {
+
                 });
-            };
+                return false;
+            });
+        },
 
-        };
-
-        exports("controller", controller);
-    });
-
+    };
+    return Controller;
 });

@@ -8,8 +8,6 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
-
 namespace think;
 
 /**
@@ -60,7 +58,6 @@ class Facade
     /**
      * 带参数实例化当前Facade类
      * @access public
-     * @param  array $args 变量
      * @return object
      */
     public static function instance(...$args)
@@ -78,7 +75,7 @@ class Facade
      * @param  bool       $newInstance 是否每次创建新的实例
      * @return object
      */
-    public static function make(string $class, $args = [], bool $newInstance = false)
+    public static function make(string $class, $args = [], $newInstance = false)
     {
         if (__CLASS__ != static::class) {
             return self::__callStatic('make', func_get_args());

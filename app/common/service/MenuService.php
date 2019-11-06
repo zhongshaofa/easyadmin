@@ -1,60 +1,78 @@
 <?php
 
+// +----------------------------------------------------------------------
+// | EasyAdmin
+// +----------------------------------------------------------------------
+// | PHP交流群: 763822524
+// +----------------------------------------------------------------------
+// | 开源协议  https://mit-license.org 
+// +----------------------------------------------------------------------
+// | github开源项目：https://github.com/zhongshaofa/EasyAdmin
+// +----------------------------------------------------------------------
 
 namespace app\common\service;
 
+use app\common\constants\MenuConstant;
 use think\facade\Db;
 
-/**
- * 菜单服务类
- * Class MenuService
- * @package app\common\service
- */
 class MenuService
 {
 
     /**
-     * 后台用户ID
-     * @var null
+     * 管理员ID
+     * @var integer
      */
-    protected $adminId = null;
+    protected $adminId;
 
     /**
-     * 配置信息
-     * @var array
-     */
-    protected $config = [
-        'system_menu' => 'system_menu', // 菜单表
-    ];
-
-    /**
-     * 构造函数
-     * MenuService constructor.
+     * 设置管理员ID
      * @param $adminId
+     * @return $this
      */
-    public function __construct($adminId)
+    public function setAdminId($adminId)
     {
         $this->adminId = $adminId;
         return $this;
     }
 
     /**
-     * 构建后台菜单信息
+     * 获取后台菜单树信息
      * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
      */
-    public function makeMenuTree()
+    public function getMenuTree()
     {
         list($menuTreeList, $data) = [[], $this->getMenuData()];
         foreach ($data as $vo) {
-            if ($vo['pid'] == 0 && $vo['id'] != 1) {
+            if ($vo['pid'] == 0) {
                 $child = $this->buildMenuChild($vo['id'], $data);
                 if (!empty($child)) {
-                    $vo['child'] = $child;
-                    $menuTreeList['module_' . $vo['id']] = $vo;
+                    $vo['child']                                           = $child;
+                    $menuTreeList[MenuConstant::MODULE_PREFIX . $vo['id']] = $vo;
                 }
             }
         }
         return $menuTreeList;
+    }
+
+    /**
+     * 获取首页信息
+     * @return array|\think\Model|null
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function getHomeInfo()
+    {
+        $data = Db::name('system_menu')
+            ->field('title,icon,href')
+            ->where("delete_time is null")
+            ->where('pid', MenuConstant::HOME_PID)
+            ->find();
+        !empty($data) && $data['href'] = __url($data['href']);
+        return $data;
     }
 
     /**
@@ -63,12 +81,14 @@ class MenuService
      * @param $data
      * @return array
      */
-    public function buildMenuChild($pid, $data)
+    protected function buildMenuChild($pid, $data)
     {
         $menuList = [];
-        foreach ($data as $vo) {
-            // 权限判断
-            $check = (new AuthService($this->adminId))->checkNode($vo['href']);
+        foreach ($data as &$vo) {
+            // TODO 后续这里做权限判断
+//            $check = (new AuthService($this->adminId))->checkNode($vo['href']);
+            $check = true;
+            !empty($vo['href']) && $vo['href'] = __url($vo['href']);
             if ($vo['pid'] == $pid && $check) {
                 $child = $this->buildMenuChild($vo['id'], $data);
                 if (!empty($child)) {
@@ -81,21 +101,23 @@ class MenuService
     }
 
     /**
-     * 获取所有菜单
+     * 获取所有菜单数据
      * @return \think\Collection
      * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      */
-    public function getMenuData()
+    protected function getMenuData()
     {
-        $menuData = Db::name($this->config['system_menu'])
+        $menuData = Db::name('system_menu')
             ->field('id,pid,title,icon,href,target')
+            ->where("delete_time is null")
             ->where([
                 ['status', '=', '1'],
+                ['pid', '<>', MenuConstant::HOME_PID],
             ])
             ->order([
-                'sort' => 'asc',
+                'sort' => 'desc',
                 'id'   => 'asc',
             ])
             ->select();

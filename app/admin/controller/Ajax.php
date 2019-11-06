@@ -1,74 +1,48 @@
 <?php
 
+// +----------------------------------------------------------------------
+// | EasyAdmin
+// +----------------------------------------------------------------------
+// | PHP交流群: 763822524
+// +----------------------------------------------------------------------
+// | 开源协议  https://mit-license.org 
+// +----------------------------------------------------------------------
+// | github开源项目：https://github.com/zhongshaofa/EasyAdmin
+// +----------------------------------------------------------------------
+
 namespace app\admin\controller;
 
-use app\common\controller\AdBaseController;
+use app\common\controller\AdminController;
 use app\common\service\MenuService;
-use app\common\service\NodeService;
-use think\facade\Cache;
 
-/**
- * 后台通用接口
- * Class Ajax
- * @package app\admin\controller
- */
-class Ajax extends AdBaseController
+class Ajax extends AdminController
 {
 
-    /**
-     * 初始化后台前端框架接口
-     * @return \think\response\Json
-     */
-    public function init()
-    {
-        $initData = cache(session('admin.id') . '_initData');
-        if (!empty($initData)) {
-            $this->success('获取初始化数据成功', null, $initData);
-        }
-        $clearInfo = [
-            'clearUrl' => url_build('admin/ajax/clear'),
-        ];
-        $homeInfo = [
-            'title' => '首页',
-            'icon'  => 'fa fa-home',
-            'href'  => url_build('admin/index/welcome'),
-        ];
-        $logoInfo = [
-            'title' => '99AdminV2',
-            'image' => '/static/admin/images/logo.png',
-            'href'  => '',
-        ];
-        $menuInfo = (new MenuService(session('admin.id')))->makeMenuTree();
-        $initData = [
-            'clearInfo' => $clearInfo,
-            'logoInfo'  => $logoInfo,
-            'homeInfo'  => $homeInfo,
-            'menuInfo'  => $menuInfo,
-        ];
-        cache(session('admin.id') . '_initData', $initData);
-        $this->success('获取初始化数据成功', null, $initData);
-    }
+    protected $isAuth = false;
 
     /**
-     *  清理缓存接口
+     * 初始化后台接口地址
      * @return \think\response\Json
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
      */
-    public function clear()
+    public function initAdmin()
     {
-        Cache::clear();
-        return json([
-            'code' => 1,
-            'msg'  => '清理缓存成功',
-        ]);
-    }
-
-    /**
-     * 更新系统节点
-     * @return \think\response\Json
-     */
-    public function updateNode()
-    {
-        $data = (new NodeService())->updateNode();
+        $menuService = new MenuService();
+        $data        = [
+            'clearInfo' => [
+                'clearUrl' => __url('ajax/clear'),
+            ],
+            'logoInfo'  => [
+                'title' => 'EasyAdmin',
+                'image' => null,
+                'href'  => null,
+            ],
+            'homeInfo'  => $menuService->getHomeInfo(),
+            'menuInfo'  => $menuService->getMenuTree(),
+        ];
         return json($data);
     }
+
 }

@@ -1,24 +1,22 @@
 <?php
 
-
 namespace app\admin\controller;
 
-use app\common\controller\AdBaseController;
-use think\facade\Db;
 
-class Index extends AdBaseController
+use app\common\controller\AdminController;
+use think\App;
+
+class Index extends AdminController
 {
 
-    public function index(){
-        return view();
+    public function index()
+    {
+        return $this->fetch();
     }
 
-    public function welcome(){
-        return view();
+    public function welcome()
+    {
+        return $this->fetch();
     }
 
-    public function test(){
-       $data = Db::name('system_admin')->find();
-        debug($data);
-    }
 }

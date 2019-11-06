@@ -12,18 +12,34 @@ declare (strict_types = 1);
 
 namespace think;
 
-use Opis\Closure\SerializableClosure;
-use think\exception\ClassNotFoundException;
+use think\event\AppInit;
+use think\helper\Str;
 use think\initializer\BootService;
 use think\initializer\Error;
 use think\initializer\RegisterService;
 
 /**
  * App 基础类
+ * @property Route      $route
+ * @property Config     $config
+ * @property Cache      $cache
+ * @property Request    $request
+ * @property Http       $http
+ * @property Console    $console
+ * @property Env        $env
+ * @property Event      $event
+ * @property Middleware $middleware
+ * @property Log        $log
+ * @property Lang       $lang
+ * @property Db         $db
+ * @property Cookie     $cookie
+ * @property Session    $session
+ * @property Validate   $validate
+ * @property Filesystem $filesystem
  */
 class App extends Container
 {
-    const VERSION = '6.0.0RC3';
+    const VERSION = '6.0.0';
 
     /**
      * 应用调试模式
@@ -74,6 +90,12 @@ class App extends Container
     protected $runtimePath = '';
 
     /**
+     * 路由定义目录
+     * @var string
+     */
+    protected $routePath = '';
+
+    /**
      * 配置后缀
      * @var string
      */
@@ -100,6 +122,38 @@ class App extends Container
      * @var bool
      */
     protected $initialized = false;
+
+    /**
+     * 容器绑定标识
+     * @var array
+     */
+    protected $bind = [
+        'app'                     => App::class,
+        'cache'                   => Cache::class,
+        'config'                  => Config::class,
+        'console'                 => Console::class,
+        'cookie'                  => Cookie::class,
+        'db'                      => Db::class,
+        'env'                     => Env::class,
+        'event'                   => Event::class,
+        'http'                    => Http::class,
+        'lang'                    => Lang::class,
+        'log'                     => Log::class,
+        'middleware'              => Middleware::class,
+        'request'                 => Request::class,
+        'response'                => Response::class,
+        'route'                   => Route::class,
+        'session'                 => Session::class,
+        'validate'                => Validate::class,
+        'view'                    => View::class,
+        'filesystem'              => Filesystem::class,
+        'think\DbManager'         => Db::class,
+        'think\LogManager'        => Log::class,
+        'think\CacheManager'      => Cache::class,
+
+        // 接口依赖注入
+        'Psr\Log\LoggerInterface' => Log::class,
+    ];
 
     /**
      * 架构方法
@@ -265,9 +319,9 @@ class App extends Container
 
     /**
      * 设置应用目录
-     * @param $path
+     * @param string $path 应用目录
      */
-    public function setAppPath($path)
+    public function setAppPath(string $path)
     {
         $this->appPath = $path;
     }
@@ -284,9 +338,9 @@ class App extends Container
 
     /**
      * 设置runtime目录
-     * @param $path
+     * @param string $path 定义目录
      */
-    public function setRuntimePath($path)
+    public function setRuntimePath(string $path): void
     {
         $this->runtimePath = $path;
     }
@@ -374,7 +428,7 @@ class App extends Container
         $this->loadLangPack($langSet);
 
         // 监听AppInit
-        $this->event->trigger('AppInit');
+        $this->event->trigger(AppInit::class);
 
         date_default_timezone_set($this->config->get('app.default_timezone', 'Asia/Shanghai'));
 
@@ -440,10 +494,10 @@ class App extends Container
         $appPath = $this->getAppPath();
 
         if (is_file($appPath . 'common.php')) {
-            include $appPath . 'common.php';
+            include_once $appPath . 'common.php';
         }
 
-        include $this->thinkPath . 'helper.php';
+        include_once $this->thinkPath . 'helper.php';
 
         $configPath = $this->getConfigPath();
 
@@ -526,7 +580,7 @@ class App extends Container
     {
         $name  = str_replace(['/', '.'], '\\', $name);
         $array = explode('\\', $name);
-        $class = self::parseName(array_pop($array), 1);
+        $class = Str::studly(array_pop($array));
         $path  = $array ? implode('\\', $array) . '\\' : '';
 
         return $this->namespace . '\\' . $layer . '\\' . $path . $class;
@@ -553,83 +607,4 @@ class App extends Container
         return $path . DIRECTORY_SEPARATOR;
     }
 
-    /**
-     * 字符串命名风格转换
-     * type 0 将Java风格转换为C的风格 1 将C风格转换为Java的风格
-     * @access public
-     * @param string  $name    字符串
-     * @param integer $type    转换类型
-     * @param bool    $ucfirst 首字母是否大写（驼峰规则）
-     * @return string
-     */
-    public static function parseName(string $name = null, int $type = 0, bool $ucfirst = true): string
-    {
-        if ($type) {
-            $name = preg_replace_callback('/_([a-zA-Z])/', function ($match) {
-                return strtoupper($match[1]);
-            }, $name);
-            return $ucfirst ? ucfirst($name) : lcfirst($name);
-        }
-
-        return strtolower(trim(preg_replace("/[A-Z]/", "_\\0", $name), "_"));
-    }
-
-    /**
-     * 获取类名(不包含命名空间)
-     * @access public
-     * @param string|object $class
-     * @return string
-     */
-    public static function classBaseName($class): string
-    {
-        $class = is_object($class) ? get_class($class) : $class;
-        return basename(str_replace('\\', '/', $class));
-    }
-
-    /**
-     * 创建工厂对象实例
-     * @access public
-     * @param string $name      工厂类名
-     * @param string $namespace 默认命名空间
-     * @param array  $args
-     * @return mixed
-     */
-    public static function factory(string $name, string $namespace = '', ...$args)
-    {
-        $class = false !== strpos($name, '\\') ? $name : $namespace . ucwords($name);
-
-        if (class_exists($class)) {
-            return Container::getInstance()->invokeClass($class, $args);
-        }
-
-        throw new ClassNotFoundException('class not exists:' . $class, $class);
-    }
-
-    /**
-     * @param $data
-     * @codeCoverageIgnore
-     * @return string
-     */
-    public static function serialize($data): string
-    {
-        SerializableClosure::enterContext();
-        SerializableClosure::wrapClosures($data);
-        $data = \serialize($data);
-        SerializableClosure::exitContext();
-        return $data;
-    }
-
-    /**
-     * @param string $data
-     * @codeCoverageIgnore
-     * @return mixed|string
-     */
-    public static function unserialize(string $data)
-    {
-        SerializableClosure::enterContext();
-        $data = \unserialize($data);
-        SerializableClosure::unwrapClosures($data);
-        SerializableClosure::exitContext();
-        return $data;
-    }
 }

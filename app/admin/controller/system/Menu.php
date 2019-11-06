@@ -1,50 +1,60 @@
 <?php
 
+// +----------------------------------------------------------------------
+// | EasyAdmin
+// +----------------------------------------------------------------------
+// | PHP交流群: 763822524
+// +----------------------------------------------------------------------
+// | 开源协议  https://mit-license.org 
+// +----------------------------------------------------------------------
+// | github开源项目：https://github.com/zhongshaofa/EasyAdmin
+// +----------------------------------------------------------------------
 
 namespace app\admin\controller\system;
 
 
-use app\common\controller\AdBaseController;
-use app\common\model\SystemMenu;
-use think\App;
+use EasyAdmin\annotation\ControllerAnnotation;
+use EasyAdmin\annotation\NodeAnotation;
+use app\common\controller\AdminController;
 
-class Menu extends AdBaseController
+/**
+ * Class Menu
+ * @package app\admin\controller\system
+ * @ControllerAnnotation(title="菜单管理",auth=true)
+ */
+class Menu extends AdminController
 {
 
-    public function __construct(App $app)
-    {
-        parent::__construct($app);
-        $this->model = new SystemMenu();
-    }
-
+    /**
+     * @NodeAnotation(title="菜单列表",auth=true)
+     */
     public function index()
     {
-        if ($this->request->get('type') == 'ajax') {
-
-            $data = $this->model->select();
-            $count = $this->model->count();
-
-            $data1 = [
-                [
-                    'id'    => 2,
-                    'title' => '系统管理',
-                    'pid'   => -1,
-                ],
-                [
-                    'id'    => 3,
-                    'title' => '系统管理2',
-                    'pid'   => 1,
-                ],
-            ];
-
-            $list = [
-                'code'  => 0,
-                'msg'   => '获取成功',
-                'count' => $count,
-                'data'  => $data,
-            ];
-            return json($list);
-        }
-        return view();
+        return $this->fetch();
     }
+
+    /**
+     * @NodeAnotation(title="添加菜单",auth=true)
+     */
+    public function add()
+    {
+        echo __METHOD__;
+    }
+
+    /**
+     * @NodeAnotation(title="编辑菜单",auth=true)
+     */
+    public function edit()
+    {
+        echo __METHOD__;
+    }
+
+    /**
+     * @NodeAnotation(title="删除菜单",auth=true)
+     */
+    public function del()
+    {
+        echo __METHOD__;
+    }
+
 }

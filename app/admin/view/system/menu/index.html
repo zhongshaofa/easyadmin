@@ -1,47 +1,10 @@
-{extend name="admin@public/basic" /}
-
-{block name="style"}
-<link rel="stylesheet" href="__STATIC__/plugs/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
-{/block}
-
-{block name="cotent"}
-<div class="layuimini-container">
-
-    <fieldset class="layui-elem-field layuimini-search">
-        <legend>搜索信息</legend>
-        <div style="margin: 10px 10px 10px 10px">
-            <form class="layui-form layui-form-pane" action="">
-                <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label">菜单名称</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="title" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">菜单链接</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="url" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <a class="layui-btn" lay-submit="" lay-filter="data-search-btn">搜索</a>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </fieldset>
-
-    <div class="layui-btn-group">
-        <button class="layui-btn data-add-btn" data-open="{:url('admin/system.menu/add')}"  data-title="添加菜单">添加</button>
-        <button class="layui-btn layui-btn-danger data-delete-btn">删除</button>
-    </div>
-    <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
-</div>
-
-<script type="text/html" id="auth-state">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
-
-{/block}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+123
+</body>
+</html>

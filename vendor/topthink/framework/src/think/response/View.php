@@ -8,9 +8,11 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+declare (strict_types = 1);
 
 namespace think\response;
 
+use think\Cookie;
 use think\Response;
 use think\View as BaseView;
 
@@ -55,10 +57,12 @@ class View extends Response
      */
     protected $isContent = false;
 
-    public function __construct(BaseView $view, $data = '', int $code = 200)
+    public function __construct(Cookie $cookie, BaseView $view, $data = '', int $code = 200)
     {
-        parent::__construct($data, $code);
-        $this->view = $view;
+        $this->init($data, $code);
+
+        $this->cookie = $cookie;
+        $this->view   = $view;
     }
 
     /**
@@ -83,8 +87,7 @@ class View extends Response
     {
         // 渲染模板输出
         return $this->view->filter($this->filter)
-            ->assign($this->vars)
-            ->fetch($data, $this->isContent);
+            ->fetch($data, $this->vars, $this->isContent);
     }
 
     /**
@@ -105,12 +108,17 @@ class View extends Response
     /**
      * 模板变量赋值
      * @access public
-     * @param  array $vars  变量
+     * @param  string|array $name  模板变量
+     * @param  mixed        $value 变量值
      * @return $this
      */
-    public function assign(array $vars)
+    public function assign($name, $value = null)
     {
-        $this->vars = array_merge($this->vars, $vars);
+        if (is_array($name)) {
+            $this->vars = array_merge($this->vars, $name);
+        } else {
+            $this->vars[$name] = $value;
+        }
 
         return $this;
     }
