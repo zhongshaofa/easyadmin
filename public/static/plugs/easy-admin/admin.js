@@ -30,12 +30,15 @@ define(["jquery"], function ($) {
                 ok = ok || function (res) {
                 };
                 no = no || function (res) {
-                    admin.msg.error(res.msg);
+                    var msg = res.msg == undefined ? '返回数据格式有误' : res.msg;
+                    admin.msg.error(msg);
+                    return false;
                 };
                 ex = ex || function (res) {
                 };
                 if (option.url == '') {
-                    return admin.msg.error('请求地址不能为空');
+                    admin.msg.error('请求地址不能为空');
+                    return false;
                 }
                 if (option.prefix == true) {
                     option.url = admin.url(option.url);
@@ -60,6 +63,7 @@ define(["jquery"], function ($) {
                         admin.msg.error('Status:' + xhr.status + '，' + xhr.statusText + '，请稍后再试！', function () {
                             ex(this);
                         });
+                        return false;
                     }
                 });
             }
@@ -135,7 +139,6 @@ define(["jquery"], function ($) {
                 });
                 return html;
             },
-            // 表格开关
             switch: function (data, option) {
                 option.filter = option.filter || option.field || null;
                 option.checked = option.checked || 1;
@@ -143,7 +146,6 @@ define(["jquery"], function ($) {
                 var checked = data.status == option.checked ? 'checked' : '';
                 return '<input type="checkbox" name="' + option.field + '" value="' + data.id + '" lay-skin="switch" lay-text="' + option.tips + '" lay-filter="' + option.filter + '" ' + checked + ' >';
             },
-            // 表格开关监听
             listenSwitch: function (option, ok) {
                 option.filter = option.filter || '';
                 option.url = option.url || '';
@@ -178,7 +180,6 @@ define(["jquery"], function ($) {
                 });
             }
         },
-        // 检测是否为手机
         checkMobile: function () {
             var userAgentInfo = navigator.userAgent;
             var mobileAgents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
@@ -198,7 +199,6 @@ define(["jquery"], function ($) {
             }
             return mobile_flag;
         },
-        // 打开弹出层
         open: function (title, url, width, height, isResize) {
             if (isResize == undefined) isResize = true;
             var index = layui.layer.open({
@@ -223,8 +223,7 @@ define(["jquery"], function ($) {
                 })
             }
         },
-        // 触发全局监听事件
-        listen: function () {
+        listen: function (formCallback) {
 
             // 监听弹出层的打开
             $('body').on('click', '[data-open]', function () {
@@ -234,8 +233,75 @@ define(["jquery"], function ($) {
                     $(this).attr('data-width'),
                     $(this).attr('data-height')
                 );
-            })
-        }
+            });
+
+            // 监听表单提交事件
+            $('body').on('click', '[lay-submit]', function () {
+                var filter = $(this).attr('lay-filter'),
+                    url = $(this).attr('lay-submit');
+                if (url == undefined || url == '' || url == null) {
+                    url = window.location.href;
+                } else {
+                    url = admin.url(url);
+                }
+                if (filter == undefined || filter == '' || filter == null) {
+                    admin.msg.error('请设置lay-filter提交事件');
+                    return false;
+                }
+                form.on('submit(' + filter + ')', function (data) {
+                    var dataField = data.field;
+                    if (typeof formCallback === 'function') {
+                        formCallback(url, dataField);
+                    } else {
+                        admin.api.form(url, dataField);
+                    }
+                    return false;
+                });
+            });
+        },
+        api: {
+            form: function (url, data, ok, no, ex) {
+                ok = ok || function (res) {
+                    res.msg = res.msg || '';
+                    admin.msg.success(res.msg, function () {
+                        admin.api.closeCurrentOpen({
+                            refreshTable: true
+                        });
+                    });
+                    return false;
+                };
+                admin.request.post({
+                    url: url,
+                    data: data,
+                }, ok, no, ex);
+                return false;
+            },
+            closeCurrentOpen: function (option) {
+                option = option || {};
+                option.refreshTable = option.refreshTable|| false;
+                option.refreshFrame = option.refreshFrame || false;
+                if(option.refreshTable == true){
+                    option.refreshTable = 'currentTable';
+                }
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+                if (option.refreshTable != false) {
+                    parent.layui.table.reload(option.refreshTable);
+                }
+                if (option.refreshFrame) {
+                    parent.location.reload();
+                }
+                return false;
+            },
+            refreshFrame: function () {
+                location.reload();
+                return false;
+            },
+            refreshTable: function (tableName) {
+                tableName = tableName | 'currentTable';
+                table.reload(tableName);
+            }
+        },
     };
     return admin;
 });

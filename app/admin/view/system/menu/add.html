@@ -4,7 +4,7 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
 
-        <div class="layui-form layuimini-form">
+        <form id="app-form" class="layui-form layuimini-form">
             <div class="layui-form-item">
                 <label class="layui-form-label required">网站名称</label>
                 <div class="layui-input-block">
@@ -68,10 +68,12 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="setting">确认保存</button>
+                    <button type="submit" class="layui-btn" lay-submit lay-filter="saveForm">确认</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                 </div>
             </div>
-        </div>
+        </form>
+
     </div>
 </div>
 {/block}

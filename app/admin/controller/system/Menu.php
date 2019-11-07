@@ -59,6 +59,9 @@ class Menu extends AdminController
      */
     public function add()
     {
+        if ($this->request->isAjax()) {
+            $this->success('添加成功');
+        }
         return $this->fetch();
     }
 

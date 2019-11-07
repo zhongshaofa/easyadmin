@@ -1,10 +1,11 @@
 define(["jquery", "admin", "treetable"], function ($, admin) {
 
+    var table = layui.table;
+    var form = layui.form;
+    var treetable = layui.treetable;
+
     var Controller = {
         index: function () {
-            var table = layui.table;
-            var form = layui.form;
-            var treetable = layui.treetable;
 
             var init = {
                 index_url: 'system.menu/index',
@@ -14,8 +15,6 @@ define(["jquery", "admin", "treetable"], function ($, admin) {
                 table: 'currentTable',
             };
 
-            // 渲染表格
-            layer.load(2);
             treetable.render({
                 treeColIndex: 1,
                 treeSpid: 0,
@@ -85,9 +84,6 @@ define(["jquery", "admin", "treetable"], function ($, admin) {
                         ]
                     }
                 ]],
-                done: function () {
-                    layer.closeAll('loading');
-                }
             });
 
             $('#btn-expand').click(function () {
@@ -128,6 +124,9 @@ define(["jquery", "admin", "treetable"], function ($, admin) {
             });
             admin.listen();
         },
+        add:function () {
+            admin.listen();
+        }
     };
     return Controller;
 });
