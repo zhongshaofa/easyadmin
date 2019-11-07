@@ -1,10 +1,9 @@
 define(["jquery", "jquery-particleground", "admin"], function ($, undefined, admin) {
+    var form = layui.form,
+        layer = layui.layer;
 
     var Controller = {
         index: function () {
-            var form = layui.form,
-                layer = layui.layer;
-
             if (top.location != self.location) {
                 top.location = self.location;
             }
@@ -14,26 +13,10 @@ define(["jquery", "jquery-particleground", "admin"], function ($, undefined, adm
                     lineColor: '#5cbdaa'
                 });
             });
-            form.on('submit(login)', function (data) {
-                var data = data.field;
-                if (data.username == '') {
-                    layer.msg('用户名不能为空');
-                    return false;
-                }
-                if (data.password == '') {
-                    layer.msg('密码不能为空');
-                    return false;
-                }
-                admin.request.post({
-                    url: 'login/index',
-                    prefix: true,
-                    data: data,
-                }, function (res) {
-                    admin.msg.success(res.msg, function () {
-                        window.location = admin.url('index');
-                    })
-                });
-                return false;
+            admin.listen('', function (res) {
+                admin.msg.success(res.msg, function () {
+                    window.location = admin.url('index');
+                })
             });
         },
 

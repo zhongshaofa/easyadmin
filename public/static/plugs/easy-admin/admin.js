@@ -231,7 +231,7 @@ define(["jquery"], function ($) {
                 })
             }
         },
-        listen: function (formCallback) {
+        listen: function (formCallback, ok, no, ex) {
 
             // 监听弹出层的打开
             $('body').on('click', '[data-open]', function () {
@@ -277,7 +277,7 @@ define(["jquery"], function ($) {
                     if (typeof formCallback === 'function') {
                         formCallback(url, dataField);
                     } else {
-                        admin.api.form(url, dataField);
+                        admin.api.form(url, dataField, ok, no, ex);
                     }
                     return false;
                 });
