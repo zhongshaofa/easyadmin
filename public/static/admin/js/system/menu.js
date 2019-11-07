@@ -66,20 +66,20 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "path"], function ($, ad
                         width: 200, align: 'center', title: '操作', templet: admin.table.tool, operat: [
                             {
                                 class: 'layui-btn layui-btn-primary layui-btn-xs',
-                                text: '审核1',
-                                open: 'system.menu/edit1',
+                                text: '添加下级',
+                                open: 'system.menu/add',
                                 extend: ""
                             },
                             {
                                 class: 'layui-btn layui-btn-primary layui-btn-xs',
                                 text: '编辑',
-                                open: 'system.menu/edit2',
+                                open: 'system.menu/edit',
                                 extend: ""
                             },
                             {
                                 class: 'layui-btn layui-btn-danger layui-btn-xs',
                                 text: '删除',
-                                open: 'system.menu/edit3',
+                                request: 'system.menu/del',
                                 extend: ""
                             }
                         ]
@@ -126,7 +126,6 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "path"], function ($, ad
             admin.listen();
         },
         add: function () {
-
             iconPickerFa.render({
                 elem: '#icon',
                 url: PATH_CONFIG.iconLess,
@@ -138,7 +137,41 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "path"], function ($, ad
                     console.log(d);
                 }
             });
-            admin.listen();
+            admin.listen(function (url, data) {
+                admin.api.form(url, data, function (res) {
+                    admin.msg.success(res.msg, function () {
+                        admin.api.closeCurrentOpen({
+                            refreshTable: true,
+                            refreshFrame: true
+                        });
+                    });
+                });
+                return false;
+            });
+        },
+        edit:function () {
+            iconPickerFa.render({
+                elem: '#icon',
+                url: PATH_CONFIG.iconLess,
+                limit: 12,
+                click: function (data) {
+                    console.log(data);
+                },
+                success: function (d) {
+                    console.log(d);
+                }
+            });
+            admin.listen(function (url, data) {
+                admin.api.form(url, data, function (res) {
+                    admin.msg.success(res.msg, function () {
+                        admin.api.closeCurrentOpen({
+                            refreshTable: true,
+                            refreshFrame: true
+                        });
+                    });
+                });
+                return false;
+            });
         }
     };
     return Controller;

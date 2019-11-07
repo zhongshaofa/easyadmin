@@ -128,14 +128,22 @@ define(["jquery"], function ($) {
                     v.event = v.event || '';
                     v.icon = v.icon || '';
                     v.open = v.open || '';
+                    v.request = v.request || '';
                     v.title = v.title || v.text || '';
                     v.extend = v.extend || '';
+                    if (v.open != '') {
+                        v.open = v.open.indexOf("?") != -1 ? v.open + '&id=' + data.id : v.open + '?id=' + data.id;
+                    }
+                    if (v.request != '') {
+                        v.request = v.request.indexOf("?") != -1 ? v.request + '&id=' + data.id : v.request + '?id=' + data.id;
+                    }
                     // 组合数据
                     v.icon = v.icon != '' ? '<i class="' + v.icon + '"></i>' : '';
                     v.class = v.class != '' ? 'class="' + v.class + '" ' : '';
                     v.open = v.open != '' ? 'data-open="' + v.open + '" data-title="' + v.title + '" ' : '';
+                    v.request = v.request != '' ? 'data-request="' + v.request + '" data-title="' + v.title + '" ' : '';
                     v.event = v.event != '' ? 'lay-event="' + v.event + '" ' : '';
-                    html += '<a ' + v.class + v.open + v.event + v.extend + '>' + v.icon + v.text + '</a>';
+                    html += '<a ' + v.class + v.open + v.request + v.event + v.extend + '>' + v.icon + v.text + '</a>';
                 });
                 return html;
             },
@@ -235,6 +243,22 @@ define(["jquery"], function ($) {
                 );
             });
 
+            /**
+             * 监听请求
+             */
+            $('body').on('click', '[data-request]', function () {
+                var title = $(this).attr('data-title'),
+                    url = admin.url($(this).attr('data-request'));
+                admin.request.get({
+                    url: url,
+                }, function (res) {
+                    admin.msg.success(res.msg, function () {
+                        table.reload(option.tableName);
+                    });
+                })
+
+            });
+
             // 监听表单提交事件
             $('body').on('click', '[lay-submit]', function () {
                 var filter = $(this).attr('lay-filter'),
@@ -278,14 +302,16 @@ define(["jquery"], function ($) {
             },
             closeCurrentOpen: function (option) {
                 option = option || {};
-                option.refreshTable = option.refreshTable|| false;
+                option.refreshTable = option.refreshTable || false;
                 option.refreshFrame = option.refreshFrame || false;
-                if(option.refreshTable == true){
+                if (option.refreshTable == true) {
                     option.refreshTable = 'currentTable';
                 }
                 var index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);
                 if (option.refreshTable != false) {
+                    console.log('刷新重载');
+                    console.log(option.refreshTable);
                     parent.layui.table.reload(option.refreshTable);
                 }
                 if (option.refreshFrame) {

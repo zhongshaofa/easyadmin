@@ -12,7 +12,7 @@
 
 namespace app\common\service;
 
-use app\common\constants\MenuConstant;
+use app\common\constants\MenuParams;
 use think\facade\Db;
 
 class MenuService
@@ -49,8 +49,8 @@ class MenuService
             if ($vo['pid'] == 0) {
                 $child = $this->buildMenuChild($vo['id'], $data);
                 if (!empty($child)) {
-                    $vo['child']                                           = $child;
-                    $menuTreeList[MenuConstant::MODULE_PREFIX . $vo['id']] = $vo;
+                    $vo['child']                                         = $child;
+                    $menuTreeList[MenuParams::MODULE_PREFIX . $vo['id']] = $vo;
                 }
             }
         }
@@ -69,7 +69,7 @@ class MenuService
         $data = Db::name('system_menu')
             ->field('title,icon,href')
             ->where("delete_time is null")
-            ->where('pid', MenuConstant::HOME_PID)
+            ->where('pid', MenuParams::HOME_PID)
             ->find();
         !empty($data) && $data['href'] = __url($data['href']);
         return $data;
@@ -114,7 +114,7 @@ class MenuService
             ->where("delete_time is null")
             ->where([
                 ['status', '=', '1'],
-                ['pid', '<>', MenuConstant::HOME_PID],
+                ['pid', '<>', MenuParams::HOME_PID],
             ])
             ->order([
                 'sort' => 'desc',

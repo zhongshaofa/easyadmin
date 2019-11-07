@@ -17,7 +17,7 @@ namespace app\common\constants;
  * Class MenuConstant
  * @package app\common\constants
  */
-class MenuConstant
+class MenuParams
 {
 
     /**
