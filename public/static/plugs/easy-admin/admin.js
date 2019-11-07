@@ -152,6 +152,14 @@ define(["jquery"], function ($) {
                 });
                 return html;
             },
+            image: function (data, option) {
+                option.imageWidth = option.imageWidth || 200;
+                option.imageHeight = option.imageHeight || 40;
+                option.title = option.title || option.field;
+                var src = data[option.field],
+                    title = data[option.title];
+                return '<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + src + '" data-image="' + title + '"  src="' + title + '">';
+            },
             switch: function (data, option) {
                 option.filter = option.filter || option.field || null;
                 option.checked = option.checked || 1;
@@ -247,6 +255,31 @@ define(["jquery"], function ($) {
                     $(this).attr('data-height')
                 );
             });
+
+            // 放大图片
+            $('body').on('click', '[data-image]', function () {
+                var title = $(this).attr('data-image'),
+                    src = $(this).attr('src'),
+                    alt = $(this).attr('alt');
+                var photos = {
+                    "title": title,
+                    "id": Math.random(),
+                    "data": [
+                        {
+                            "alt": alt,
+                            "pid": Math.random(),
+                            "src": src,
+                            "thumb": src
+                        }
+                    ]
+                };
+                layer.photos({
+                    photos: photos,
+                    anim: 5
+                });
+                return false;
+            });
+
 
             // 监听动态表格刷新
             $('body').on('click', '[data-table-refresh]', function () {

@@ -24,10 +24,10 @@ define(["jquery", "admin",], function ($, admin) {
                 limit: 15,
                 limits: [10, 15, 20, 25, 50, 100],
                 cols: [[
-                    {type: "checkbox", width: 50, fixed: "left"},
+                    {type: "checkbox"},
                     {field: 'id', width: 80, title: 'ID', sort: true, align: "center"},
                     {field: 'username', minWidth: 80, title: '登录账户', align: "center"},
-                    {field: 'head_img', minWidth: 80, title: '头像', align: "center"},
+                    {field: 'head_img', minWidth: 80, title: '头像', imageHeight: 40, align: "center", templet: admin.table.image},
                     {field: 'phone', minWidth: 80, title: '手机', align: "center"},
                     {field: 'login_num', minWidth: 80, title: '登录次数', align: "center"},
                     {field: 'remark', minWidth: 80, title: '备注信息', align: "center"},
