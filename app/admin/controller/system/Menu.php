@@ -46,11 +46,12 @@ class Menu extends AdminController
     public function index()
     {
         if ($this->request->isAjax()) {
+            $count = $this->model->count();
             $list = $this->model->select();
             $data = [
                 'code'  => 0,
                 'msg'   => '',
-                'count' => 19,
+                'count' => $count,
                 'data'  => $list,
             ];
             return json($data);

@@ -47,31 +47,18 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "path"], function ($, ad
                             }
                         }
                     },
-                    {
-                        field: 'status', title: '性别', width: 85, unresize: true, filter: 'status', templet: admin.table.switch
-                    },
+                    {field: 'status', title: '状态', width: 85, align: "center", filter: 'status', templet: admin.table.switch},
                     {field: 'status', width: 80, align: 'center', title: '排序'},
-                    {
-                        field: 'status', width: 80, align: 'center', title: '状态', templet: function (d) {
-                            if (d.status == 0) {
-                                return '<span class="layui-badge layui-bg-gray">禁用</span>';
-                            } else if (d.status == 1) {
-                                return '<span class="layui-badge layui-bg-blue">启用</span>';
-                            } else {
-                                return '<span class=" layui-badge layui-bg-red">未知</span>';
-                            }
-                        }
-                    },
                     {
                         width: 200, align: 'center', title: '操作', templet: admin.table.tool, operat: [
                             {
-                                class: 'layui-btn layui-btn-primary layui-btn-xs',
+                                class: 'layui-btn layui-btn-xs',
                                 text: '添加下级',
                                 open: 'system.menu/add',
                                 extend: ""
                             },
                             {
-                                class: 'layui-btn layui-btn-primary layui-btn-xs',
+                                class: 'layui-btn layui-btn-normal layui-btn-xs',
                                 text: '编辑',
                                 open: 'system.menu/edit',
                                 extend: ""
@@ -107,10 +94,7 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "path"], function ($, ad
             });
 
             // 监听开关切换
-            admin.table.listenSwitch({
-                filter: 'status',
-                url: init.modify_url
-            });
+            admin.table.listenSwitch({filter: 'status', url: init.modify_url});
 
             //监听工具条
             table.on('tool(currentTable)', function (obj) {
@@ -131,7 +115,7 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "path"], function ($, ad
                 url: PATH_CONFIG.iconLess,
                 limit: 12,
                 click: function (data) {
-                    console.log(data);
+                    $('#icon').val('fa ' + data.icon);
                 },
                 success: function (d) {
                     console.log(d);
@@ -149,13 +133,13 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "path"], function ($, ad
                 return false;
             });
         },
-        edit:function () {
+        edit: function () {
             iconPickerFa.render({
                 elem: '#icon',
                 url: PATH_CONFIG.iconLess,
                 limit: 12,
                 click: function (data) {
-                    console.log(data);
+                    $('#icon').val('fa ' + data.icon);
                 },
                 success: function (d) {
                     console.log(d);

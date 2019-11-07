@@ -36,23 +36,57 @@ trait Curd
      */
     public function add()
     {
-
+        if ($this->request->isAjax()) {
+            $post = $this->request->post();
+            $rule = [];
+            $this->validate($post, $rule);
+            try {
+                $save = $this->model->save($post);
+            } catch (\Exception $e) {
+                $this->error('保存失败');
+            }
+            $save ? $this->success('保存成功') : $this->error('保存失败');
+        }
+        return $this->fetch();
     }
 
     /**
      * @NodeAnotation(title="编辑")
      */
-    public function edit()
+    public function edit($id)
     {
-
+        $row = $this->model->find($id);
+        empty($row) && $this->error('数据不存在');
+        if ($this->request->isAjax()) {
+            $post = $this->request->post();
+            $rule = [];
+            $this->validate($post, $rule);
+            try {
+                $save = $row->save($post);
+            } catch (\Exception $e) {
+                $this->error('保存失败');
+            }
+            $save ? $this->success('保存成功') : $this->error('保存失败');
+        }
+        $this->assign([
+            'row' => $row,
+        ]);
+        return $this->fetch();
     }
 
     /**
      * @NodeAnotation(title="删除")
      */
-    public function del()
+    public function del($id)
     {
-
+        $row = $this->model->whereIn('id', $id)->select();
+        empty($row) && $this->error('数据不存在');
+        try {
+            $save = $row->delete();
+        } catch (\Exception $e) {
+            $this->error('删除失败');
+        }
+        $save ? $this->success('删除成功') : $this->error('删除失败');
     }
 
     /**

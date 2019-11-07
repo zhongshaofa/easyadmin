@@ -85,4 +85,17 @@ class AdminController extends BaseController
         return true;
     }
 
+    /**
+     * 构建请求参数
+     * @return array
+     */
+    protected function buildRequest()
+    {
+        $get = $this->request->get();
+        $page = isset($get['page']) && !empty($get['page']) ? $get['page'] : 1;
+        $limit = isset($get['limit']) && !empty($get['limit']) ? $get['limit'] : 15;
+        $where = isset($get['where']) && !empty($get['where']) ? $get['where'] : [];
+        return [$page, $limit, $where];
+    }
+
 }
