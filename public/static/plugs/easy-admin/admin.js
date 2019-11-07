@@ -6,6 +6,11 @@ define(["jquery"], function ($) {
         table = layui.table,
         laydate = layui.laydate;
 
+    var init = {
+        table_elem: 'currentTable',
+        table_render_id: 'currentTableRenderId',
+    };
+
     var admin = {
         config: {
             shade: [0.02, '#000'],
@@ -234,7 +239,7 @@ define(["jquery"], function ($) {
         listen: function (formCallback, ok, no, ex) {
 
             // 监听弹出层的打开
-            $('body').on('click', '[data-open]', function () {
+            $('body').on('click', '.data-table-refresh', function () {
                 admin.open(
                     $(this).attr('data-title'),
                     admin.url($(this).attr('data-open')),
@@ -243,9 +248,16 @@ define(["jquery"], function ($) {
                 );
             });
 
-            /**
-             * 监听请求
-             */
+            // 监听动态表格刷新
+            $('body').on('click', '[data-table-refresh]', function () {
+                var tableId = $(this).attr('data-table-refresh');
+                if (tableId == undefined || tableId == '' || tableId == null) {
+                    tableId = init.table_render_id;
+                }
+                table.reload(tableId);
+            });
+
+            // 监听请求
             $('body').on('click', '[data-request]', function () {
                 var title = $(this).attr('data-title'),
                     url = admin.url($(this).attr('data-request'));

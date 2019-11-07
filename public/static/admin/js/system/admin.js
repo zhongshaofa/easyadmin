@@ -3,7 +3,8 @@ define(["jquery", "admin",], function ($, admin) {
     var form = layui.form;
 
     var init = {
-        table_id: 'currentTable',
+        table_elem: 'currentTable',
+        table_render_id: 'currentTableRenderId',
         index_url: 'system.admin/index',
         add_url: 'system.admin/add',
         edit_url: 'system.admin/edit',
@@ -15,9 +16,13 @@ define(["jquery", "admin",], function ($, admin) {
 
         index: function () {
             table.render({
-                elem: '#' + init.table_id,
+                elem: '#' + init.table_elem,
+                id: init.table_render_id,
                 url: admin.url(init.index_url),
                 toolbar: '#toolbar',
+                page: true,
+                limit: 15,
+                limits: [10, 15, 20, 25, 50, 100],
                 cols: [[
                     {type: "checkbox", width: 50, fixed: "left"},
                     {field: 'id', width: 80, title: 'ID', sort: true, align: "center"},
@@ -51,9 +56,6 @@ define(["jquery", "admin",], function ($, admin) {
                         ]
                     }
                 ]],
-                limits: [10, 15, 20, 25, 50, 100],
-                limit: 15,
-                page: true
             });
 
             admin.table.listenSwitch({filter: 'status', url: init.modify_url});

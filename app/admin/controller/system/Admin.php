@@ -15,8 +15,14 @@ namespace app\admin\controller\system;
 
 use app\admin\model\SystemAdmin;
 use app\common\controller\AdminController;
+use EasyAdmin\annotation\ControllerAnnotation;
 use think\App;
 
+/**
+ * Class Admin
+ * @package app\admin\controller\system
+ * @ControllerAnnotation(title="管理员管理")
+ */
 class Admin extends AdminController
 {
 
