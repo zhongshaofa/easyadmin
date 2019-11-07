@@ -7,7 +7,7 @@ define(["jquery", "jquery-particleground", "admin"], function ($, undefined, adm
             if (top.location != self.location) {
                 top.location = self.location;
             }
-            $(document).ready(function () {
+            $(function () {
                 $('.layui-container').particleground({
                     dotColor: '#5cbdaa',
                     lineColor: '#5cbdaa'
@@ -17,6 +17,10 @@ define(["jquery", "jquery-particleground", "admin"], function ($, undefined, adm
                 admin.msg.success(res.msg, function () {
                     window.location = admin.url('index');
                 })
+            }, function (res) {
+                admin.msg.error(res.msg, function () {
+                    $('#refreshCaptcha').trigger("click");
+                });
             });
         },
 

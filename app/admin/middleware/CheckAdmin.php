@@ -47,6 +47,7 @@ class CheckAdmin
      */
     protected $noAuthController = [
         'ajax',
+        'login',
     ];
 
     /**
@@ -60,9 +61,9 @@ class CheckAdmin
 
     public function handle($request, \Closure $next)
     {
-        $adminId           = session('admin.id');
-        $authService       = new AuthService($adminId);
-        $currentNode       = $authService->getCurrentNode();
+        $adminId = session('admin.id');
+        $authService = new AuthService($adminId);
+        $currentNode = $authService->getCurrentNode();
         $currentController = parse_name($request->controller());
 
         // 验证登录

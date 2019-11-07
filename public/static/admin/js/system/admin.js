@@ -34,7 +34,7 @@ define(["jquery", "admin",], function ($, admin) {
                     {field: 'status', title: '状态', width: 85, align: "center", filter: 'status', templet: admin.table.switch},
                     {field: 'create_time', minWidth: 80, title: '创建时间', align: "center"},
                     {
-                        width: 200, align: 'center', title: '操作', templet: admin.table.tool, operat: [
+                        width: 250, align: 'center', title: '操作', templet: admin.table.tool, operat: [
                             {
                                 class: 'layui-btn layui-btn-xs',
                                 text: '编辑',
@@ -45,6 +45,12 @@ define(["jquery", "admin",], function ($, admin) {
                                 class: 'layui-btn layui-btn-normal layui-btn-xs',
                                 text: '授权',
                                 open: init.edit_url,
+                                extend: ""
+                            },
+                            {
+                                class: 'layui-btn layui-btn-xs',
+                                text: '设置密码',
+                                open: 'system.admin/setPassword',
                                 extend: ""
                             },
                             {

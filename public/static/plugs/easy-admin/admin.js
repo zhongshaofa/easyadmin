@@ -239,7 +239,7 @@ define(["jquery"], function ($) {
         listen: function (formCallback, ok, no, ex) {
 
             // 监听弹出层的打开
-            $('body').on('click', '.data-table-refresh', function () {
+            $('body').on('click', '[data-open]', function () {
                 admin.open(
                     $(this).attr('data-title'),
                     admin.url($(this).attr('data-open')),

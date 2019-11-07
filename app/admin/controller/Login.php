@@ -15,6 +15,7 @@ namespace app\admin\controller;
 
 use app\admin\model\SystemAdmin;
 use app\common\controller\AdminController;
+use think\captcha\facade\Captcha;
 use think\facade\Env;
 
 /**
@@ -44,12 +45,14 @@ class Login extends AdminController
      */
     public function index()
     {
+        $captcha = Env::get('easyadmin.captcha', 1);
         if ($this->request->isPost()) {
             $post = $this->request->post();
             $rule = [
                 'username|用户名' => 'require',
                 'password|密码'  => 'require',
             ];
+            $captcha == 1 && $rule[] = ['captcha|验证码' => 'require|captcha'];
             $this->validate($post, $rule);
             $admin = SystemAdmin::where([
                 'username' => $post['username'],
@@ -69,6 +72,7 @@ class Login extends AdminController
             session('admin', $admin);
             $this->success('登录成功');
         }
+        $this->assign('captcha', $captcha);
         return $this->fetch();
     }
 
@@ -80,5 +84,14 @@ class Login extends AdminController
     {
         session('admin', null);
         $this->success('退出登录成功');
+    }
+
+    /**
+     * 验证码
+     * @return \think\Response
+     */
+    public function captcha()
+    {
+        return Captcha::create();
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca390c7bd6ac8ec429f58d452dae149b",
+    "content-hash": "442652e3e01b1b4234c22523c6f6c9cf",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -639,6 +639,61 @@
                 "thinkphp"
             ],
             "time": "2019-10-23T23:28:43+00:00"
+        },
+        {
+            "name": "topthink/think-captcha",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-captcha.git",
+                "reference": "0b4305da19e118cefd934007875a8112f9352f01"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-captcha/zipball/0b4305da19e118cefd934007875a8112f9352f01",
+                "reference": "0b4305da19e118cefd934007875a8112f9352f01",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "topthink/framework": "^6.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [
+                        "think\\captcha\\CaptchaService"
+                    ],
+                    "config": {
+                        "captcha": "src/config.php"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "think\\captcha\\": "src/"
+                },
+                "files": [
+                    "src/helper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "description": "captcha package for thinkphp",
+            "time": "2019-10-03T07:45:11+00:00"
         },
         {
             "name": "topthink/think-helper",

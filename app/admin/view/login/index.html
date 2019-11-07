@@ -5,7 +5,6 @@
 {/block}
 
 {block name="cotent"}
-<body>
 <div class="layui-container">
     <div class="admin-login-background">
         <div class="layui-form login-form">
@@ -13,21 +12,27 @@
                 <div class="layui-form-item logo-title">
                     <h1>EasyAdmin后台登录</h1>
                 </div>
+
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-username"></label>
-                    <input type="text" name="username" lay-verify="required" placeholder="用户名或者邮箱" autocomplete="off" class="layui-input" value="admin">
+                    <input type="text" name="username" lay-verify="required" lay-reqtext="请输入登录账号" placeholder="请输入登录账号" autocomplete="off" class="layui-input">
                 </div>
+
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-password"></label>
-                    <input type="password" name="password" lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input" value="123456">
+                    <input type="password" name="password" lay-verify="required" lay-reqtext="请输入登录密码" placeholder="请输入登录密码" autocomplete="off" class="layui-input">
                 </div>
+
+                {if $captcha == 1}
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-vercode"></label>
-                    <input type="text" name="captcha" lay-verify="required" placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha" value="xszg">
+                    <input type="text" name="captcha" lay-verify="required" placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha">
                     <div class="captcha-img">
-                        <img id="captchaPic" src="__STATIC__/admin/images/captcha.jpg">
+                        <img id="refreshCaptcha" src="{:url('login/captcha')}" alt="captcha" onclick="this.src='{:url(\'login/captcha\')}?seed='+Math.random()">
                     </div>
                 </div>
+                {/if}
+
                 <div class="layui-form-item">
                     <input type="checkbox" name="rememberMe" value="true" lay-skin="primary" title="记住密码">
                 </div>
@@ -38,5 +43,4 @@
         </div>
     </div>
 </div>
-</body>
 {/block}

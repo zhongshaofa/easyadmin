@@ -12,6 +12,7 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -19,6 +20,7 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         array (
             'think\\view\\driver\\' => 18,
             'think\\trace\\' => 12,
+            'think\\captcha\\' => 14,
             'think\\app\\' => 10,
             'think\\' => 6,
         ),
@@ -69,6 +71,10 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'think\\trace\\' => 
         array (
             0 => __DIR__ . '/..' . '/topthink/think-trace/src',
+        ),
+        'think\\captcha\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/topthink/think-captcha/src',
         ),
         'think\\app\\' => 
         array (
