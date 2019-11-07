@@ -1,8 +1,9 @@
-define(["jquery", "admin", "treetable"], function ($, admin) {
+define(["jquery", "admin", "treetable", "iconPickerFa", "path"], function ($, admin, path) {
 
     var table = layui.table;
     var form = layui.form;
     var treetable = layui.treetable;
+    var iconPickerFa = layui.iconPickerFa;
 
     var Controller = {
         index: function () {
@@ -124,7 +125,19 @@ define(["jquery", "admin", "treetable"], function ($, admin) {
             });
             admin.listen();
         },
-        add:function () {
+        add: function () {
+
+            iconPickerFa.render({
+                elem: '#icon',
+                url: PATH_CONFIG.iconLess,
+                limit: 12,
+                click: function (data) {
+                    console.log(data);
+                },
+                success: function (d) {
+                    console.log(d);
+                }
+            });
             admin.listen();
         }
     };

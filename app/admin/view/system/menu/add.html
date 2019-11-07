@@ -1,75 +1,76 @@
 {extend name="Public:iframe" /}
 
 {block name="cotent"}
+<style>
+    .layui-iconpicker-body.layui-iconpicker-body-page .hide {display: none;}
+</style>
 <div class="layuimini-container">
     <div class="layuimini-main">
 
         <form id="app-form" class="layui-form layuimini-form">
-            <div class="layui-form-item">
-                <label class="layui-form-label required">网站名称</label>
+
+            <div class="layui-form-item  layui-row layui-col-xs12">
+                <label class="layui-form-label required">上级菜单</label>
                 <div class="layui-input-block">
-                    <input type="text" name="sitename" lay-verify="required" lay-reqtext="网站域名不能为空" placeholder="请输入网站名称"  value="layuimini" class="layui-input">
-                    <tip>填写自己部署网站的名称。</tip>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label required">网站域名</label>
-                <div class="layui-input-block">
-                    <input type="text" name="domain" lay-verify="required" lay-reqtext="网站域名不能为空" placeholder="请输入网站域名"  value="http://layuimini.99php.cn" class="layui-input">
+                    <select name="pid">
+                        {foreach $pidMenuList as $vo}
+                        <option value="{$vo.id}">{$vo.title|raw}</option>
+                        {/foreach}
+                    </select>
                 </div>
             </div>
 
             <div class="layui-form-item">
-                <label class="layui-form-label">缓存时间</label>
-                <div class="layui-input-inline" style="width: 80px;">
-                    <input type="text" name="cache" lay-verify="number" value="0" class="layui-input">
-                </div>
-                <div class="layui-input-inline layui-input-company">分钟</div>
-                <div class="layui-form-mid layui-word-aux">本地开发一般推荐设置为 0，线上环境建议设置为 10。</div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">最大文件上传</label>
-                <div class="layui-input-inline" style="width: 80px;">
-                    <input type="text" name="cache" lay-verify="number" value="2048" class="layui-input">
-                </div>
-                <div class="layui-input-inline layui-input-company">KB</div>
-                <div class="layui-form-mid layui-word-aux">提示：1 M = 1024 KB</div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">上传文件类型</label>
+                <label class="layui-form-label required">菜单名称</label>
                 <div class="layui-input-block">
-                    <input type="text" name="cache" value="png|gif|jpg|jpeg|zip|rar" class="layui-input">
+                    <input type="text" name="title" class="layui-input" lay-verify="required" lay-reqtext="请输入菜单名称" placeholder="请输入菜单名称"  value="">
+                    <tip>填写菜单名称。</tip>
                 </div>
             </div>
 
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label required">首页标题</label>
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单链接</label>
                 <div class="layui-input-block">
-                    <textarea name="title" class="layui-textarea">layuimini 简洁易用后台管理模板</textarea>
+                    <input type="text" name="href" class="layui-input" lay-reqtext="请输入菜单链接" placeholder="请输入菜单链接"  value="">
+                    <tip>填写菜单链接。</tip>
                 </div>
             </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">META关键词</label>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">选择图标</label>
                 <div class="layui-input-block">
-                    <textarea name="keywords" class="layui-textarea" placeholder="多个关键词用英文状态 , 号分割"></textarea>
+                    <input type="text" id="icon" name="icon" lay-filter="icon" class="hide" value="fa-list">
                 </div>
             </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label">META描述</label>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label required">target属性</label>
                 <div class="layui-input-block">
-                    <textarea name="descript" class="layui-textarea">layuimini，最简洁、清爽、易用的layui后台框架模板。</textarea>
+                    <input type="radio" name="target" value="_self" title="self" checked="">
+                    <input type="radio" name="target" value="_blank" title="blank">
+                    <input type="radio" name="target" value="_parent" title="parent">
+                    <input type="radio" name="target" value="_top" title="top">
                 </div>
             </div>
-            <div class="layui-form-item layui-form-text">
-                <label class="layui-form-label required">版权信息</label>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单排序</label>
                 <div class="layui-input-block">
-                    <textarea name="copyright" class="layui-textarea">© 2019 layuimini.99php.cn MIT license</textarea>
+                    <input type="number" name="sort" lay-reqtext="菜单排序不能为空" placeholder="请输入菜单排序"  value="0" class="layui-input">
+                </div>
+            </div>
+
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注信息</label>
+                <div class="layui-input-block">
+                    <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button type="submit" class="layui-btn" lay-submit lay-filter="saveForm">确认</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button type="submit" class="layui-btn layui-btn-sm" lay-submit lay-filter="saveForm">确认</button>
+                    <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
                 </div>
             </div>
         </form>

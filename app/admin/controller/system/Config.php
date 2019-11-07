@@ -13,9 +13,11 @@
 namespace app\admin\controller\system;
 
 
+use app\admin\model\SystemConfig;
 use app\common\controller\AdminController;
 use EasyAdmin\annotation\ControllerAnnotation;
 use EasyAdmin\annotation\NodeAnotation;
+use think\App;
 
 /**
  * Class Config
@@ -26,5 +28,11 @@ class Config extends AdminController
 {
 
     use \app\admin\traits\Curd;
+
+    public function __construct(App $app)
+    {
+        parent::__construct($app);
+        $this->model = new SystemConfig();
+    }
 
 }

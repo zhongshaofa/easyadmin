@@ -12,8 +12,6 @@
 
 namespace app\admin\controller\system;
 
-
-use app\admin\model\SystemMenu;
 use app\common\constants\SystemConstant;
 use EasyAdmin\annotation\ControllerAnnotation;
 use EasyAdmin\annotation\NodeAnotation;
@@ -62,6 +60,8 @@ class Menu extends AdminController
         if ($this->request->isAjax()) {
             $this->success('添加成功');
         }
+        $pidMenuList = $this->model->getPidMenuList();
+        $this->assign('pidMenuList',$pidMenuList);
         return $this->fetch();
     }
 
