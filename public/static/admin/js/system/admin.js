@@ -23,6 +23,11 @@ define(["jquery", "admin",], function ($, admin) {
                 page: true,
                 limit: 15,
                 limits: [10, 15, 20, 25, 50, 100],
+                defaultToolbar: ['filter', {
+                    title: '查询'
+                    ,layEvent: 'TABLE_SEARCH'
+                    ,icon: 'layui-icon-search'
+                }],
                 cols: [[
                     {type: "checkbox"},
                     {field: 'id', width: 80, title: 'ID', sort: true, align: "center"},

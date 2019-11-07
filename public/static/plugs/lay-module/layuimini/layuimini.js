@@ -280,6 +280,14 @@ layui.define(["element", "jquery"], function (exports) {
                 {
                     headerRight: '#1aa094',
                     headerRightThis: '#197971',
+                    headerLogo: '#0c0c0c',
+                    menuLeft: '#23262e',
+                    menuLeftThis: '#1aa094',
+                    menuLeftHover: '#3b3f4b',
+                },
+                {
+                    headerRight: '#1aa094',
+                    headerRightThis: '#197971',
                     headerLogo: '#243346',
                     menuLeft: '#2f4056',
                     menuLeftThis: '#1aa094',
@@ -300,14 +308,6 @@ layui.define(["element", "jquery"], function (exports) {
                     menuLeft: '#1f1f1f',
                     menuLeftThis: '#ffa4d1',
                     menuLeftHover: '#1f1f1f',
-                },
-                {
-                    headerRight: '#1aa094',
-                    headerRightThis: '#197971',
-                    headerLogo: '#0c0c0c',
-                    menuLeft: '#23262e',
-                    menuLeftThis: '#1aa094',
-                    menuLeftHover: '#3b3f4b',
                 },
                 {
                     headerRight: '#1e9fff',

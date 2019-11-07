@@ -246,6 +246,33 @@ define(["jquery"], function ($) {
         },
         listen: function (formCallback, ok, no, ex) {
 
+            //监听工具条
+            table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+                if(layEvent === 'detail'){ //查看
+                    //do somehing
+                } else if(layEvent === 'del'){ //删除
+                    layer.confirm('真的删除行么', function(index){
+                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                        layer.close(index);
+                        //向服务端发送删除指令
+                    });
+                } else if(layEvent === 'edit'){ //编辑
+                    //do something
+
+                    //同步更新缓存对应的值
+                    obj.update({
+                        username: '123'
+                        ,title: 'xxx'
+                    });
+                } else if(layEvent === 'LAYTABLE_TIPS'){
+                    layer.alert('Hi，头部工具栏扩展的右侧图标。');
+                }
+            });
+
             // 监听弹出层的打开
             $('body').on('click', '[data-open]', function () {
                 admin.open(
