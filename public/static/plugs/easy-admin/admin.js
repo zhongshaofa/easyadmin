@@ -141,11 +141,12 @@ define(["jquery"], function ($) {
                     icon: 'layui-icon-search'
                 }];
                 if (options.search == true) {
-                    admin.table.renderSearch(options.cols);
+                    admin.table.renderSearch(options.cols, options.elem, options.id);
                 }
-                return table.render(options);
+                var newTable = table.render(options);
+                return newTable;
             },
-            renderSearch: function (cols) {
+            renderSearch: function (cols, elem, tableId) {
                 // TODO 只初始化第一个table搜索字段，如果存在多个(绝少数需求)，得自己去扩展
                 cols = cols[0] || {};
                 var newCols = [];
@@ -166,7 +167,7 @@ define(["jquery"], function ($) {
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<input name="' + d.fieldAlias + '" data-search-op="' + d.searchOp + '" value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '<input id="c-' + d.fieldAlias + '" name="' + d.fieldAlias + '" data-search-op="' + d.searchOp + '" value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
                                     '</div>\n' +
                                     '</div>';
                                 break;
@@ -183,7 +184,7 @@ define(["jquery"], function ($) {
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<select class="layui-select" name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '" >\n' +
+                                    '<select class="layui-select" id="c-' + d.fieldAlias + '" name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '" >\n' +
                                     '<option value="">- 全部 -</option> \n' +
                                     selectHtml +
                                     '</select>\n' +
@@ -195,7 +196,7 @@ define(["jquery"], function ($) {
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<input name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '"  value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '<input id="c-' + d.fieldAlias + '" name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '"  value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
                                     '</div>\n' +
                                     '</div>';
                                 break;
@@ -204,7 +205,7 @@ define(["jquery"], function ($) {
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<input name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '"  value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '<input id="c-' + d.fieldAlias + '" name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '"  value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
                                     '</div>\n' +
                                     '</div>';
                                 break;
@@ -213,12 +214,14 @@ define(["jquery"], function ($) {
                     }
                 });
                 if (formHtml != '') {
-                    $('#currentTable').before('<fieldset class="table-search-fieldset">\n' +
+
+
+                    $(elem).before('<fieldset class="table-search-fieldset">\n' +
                         '<legend>条件搜索</legend>\n' +
                         '<form class="layui-form layui-form-pane">\n' +
                         formHtml +
                         '<div class="layui-form-item layui-inline">\n' +
-                        '<button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>\n' +
+                        '<button type="submit" class="layui-btn layui-btn-primary" data-type="tableSearch" data-table-search="' + tableId + '" lay-submit lay-filter="' + tableId + '_filter"><i class="layui-icon">&#xe615;</i> 搜 索</button>\n' +
                         ' </div>' +
                         '</form>' +
                         '</fieldset>');
@@ -358,33 +361,6 @@ define(["jquery"], function ($) {
         },
         listen: function (formCallback, ok, no, ex) {
 
-            //监听工具条
-            table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-                var data = obj.data; //获得当前行数据
-                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-                var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
-
-                if (layEvent === 'detail') { //查看
-                    //do somehing
-                } else if (layEvent === 'del') { //删除
-                    layer.confirm('真的删除行么', function (index) {
-                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                        layer.close(index);
-                        //向服务端发送删除指令
-                    });
-                } else if (layEvent === 'edit') { //编辑
-                    //do something
-
-                    //同步更新缓存对应的值
-                    obj.update({
-                        username: '123'
-                        , title: 'xxx'
-                    });
-                } else if (layEvent === 'LAYTABLE_TIPS') {
-                    layer.alert('Hi，头部工具栏扩展的右侧图标。');
-                }
-            });
-
             // 监听弹出层的打开
             $('body').on('click', '[data-open]', function () {
                 admin.open(
@@ -446,26 +422,59 @@ define(["jquery"], function ($) {
             // 监听表单提交事件
             $('body').on('click', '[lay-submit]', function () {
                 var filter = $(this).attr('lay-filter'),
-                    url = $(this).attr('lay-submit');
-                if (url == undefined || url == '' || url == null) {
-                    url = window.location.href;
+                    url = $(this).attr('lay-submit'),
+                    type = $(this).attr('data-type');
+                type = type || 'commonSubmit';
+                if (type == 'tableSearch') {
+                    // 表格搜索重载
+                    var tableId = $(this).attr('data-table-search');
+                    form.on('submit(' + filter + ')', function (data) {
+                        var dataField = data.field;
+                        var formatFilter = {},
+                            formatOp = {};
+                        $.each(dataField, function (key, val) {
+                            if (val != '') {
+                                formatFilter[key] = val;
+                                var op = $('#c-' + key).attr('data-search-op');
+                                op = op || '%*%';
+                                formatOp[key] = op;
+                            }
+                        });
+                        table.reload(tableId, {
+                            page: {
+                                curr: 1
+                            }
+                            , where: {
+                                filter: JSON.stringify(formatFilter),
+                                op: JSON.stringify(formatOp)
+                            }
+                        }, 'data');
+                        admin.msg.success('表格搜索重载');
+                        return false;
+                    });
                 } else {
-                    url = admin.url(url);
-                }
-                if (filter == undefined || filter == '' || filter == null) {
-                    admin.msg.error('请设置lay-filter提交事件');
-                    return false;
-                }
-                form.on('submit(' + filter + ')', function (data) {
-                    var dataField = data.field;
-                    if (typeof formCallback === 'function') {
-                        formCallback(url, dataField);
+                    // 普通数据提交
+                    if (url == undefined || url == '' || url == null) {
+                        url = window.location.href;
                     } else {
-                        admin.api.form(url, dataField, ok, no, ex);
+                        url = admin.url(url);
                     }
-                    return false;
-                });
+                    if (filter == undefined || filter == '' || filter == null) {
+                        admin.msg.error('请设置lay-filter提交事件');
+                        return false;
+                    }
+                    form.on('submit(' + filter + ')', function (data) {
+                        var dataField = data.field;
+                        if (typeof formCallback === 'function') {
+                            formCallback(url, dataField);
+                        } else {
+                            admin.api.form(url, dataField, ok, no, ex);
+                        }
+                        return false;
+                    });
+                }
             });
+
         },
         api: {
             form: function (url, data, ok, no, ex) {
