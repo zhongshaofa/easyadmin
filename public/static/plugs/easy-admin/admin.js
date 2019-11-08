@@ -155,17 +155,19 @@ define(["jquery"], function ($) {
                     d.searchTip = d.searchTip || '请输入' + d.title || '';
                     d.searchValue = d.searchValue || '';
                     d.timeType = d.timeType || 'date';
+                    d.searchOp = d.searchOp || '%*%';
                     if (d.field != false && d.search != false) {
                         switch (d.search) {
                             case true:
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<input name="' + d.field + '" value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '<input name="' + d.field + '" data-search-op="' + d.searchOp + '" value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
                                     '</div>\n' +
                                     '</div>';
                                 break;
                             case  'select':
+                                d.searchOp = '=';
                                 var selectHtml = '';
                                 $.each(d.selectList, function (sI, sV) {
                                     var selected = '';
@@ -177,7 +179,7 @@ define(["jquery"], function ($) {
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<select class="layui-select" name="' + d.field + '">\n' +
+                                    '<select class="layui-select" name="' + d.field + '"  data-search-op="' + d.searchOp + '" >\n' +
                                     '<option value="">- 全部 -</option> \n' +
                                     selectHtml +
                                     '</select>\n' +
@@ -185,18 +187,20 @@ define(["jquery"], function ($) {
                                     '</div>';
                                 break;
                             case 'range':
+                                d.searchOp = 'range';
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<input name="' + d.field + '" value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '<input name="' + d.field + '"  data-search-op="' + d.searchOp + '"  value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
                                     '</div>\n' +
                                     '</div>';
                                 break;
                             case 'time':
+                                d.searchOp = '=';
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<input name="' + d.field + '" value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '<input name="' + d.field + '"  data-search-op="' + d.searchOp + '"  value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
                                     '</div>\n' +
                                     '</div>';
                                 break;
