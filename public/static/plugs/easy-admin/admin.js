@@ -128,6 +128,7 @@ define(["jquery"], function ($) {
         table: {
             render: function (options) {
                 options.elem = options.elem || '#' + init.table_elem;
+                options.init = options.init || init;
                 options.id = options.id || init.table_render_id;
                 options.url = options.url || window.location.href;
                 options.toolbar = options.toolbar || '#toolbar';
@@ -140,11 +141,42 @@ define(["jquery"], function ($) {
                     layEvent: 'TABLE_SEARCH',
                     icon: 'layui-icon-search'
                 }];
+                options.toolbar = options.toolbar || ['refresh', 'add', 'delete'];
                 if (options.search == true) {
                     admin.table.renderSearch(options.cols, options.elem, options.id);
                 }
+                options.toolbar = admin.table.renderToolbar(options.toolbar, options.elem, options.id, options.init);
                 var newTable = table.render(options);
                 return newTable;
+            },
+            renderToolbar: function (data, elem, tableId, init) {
+                data = data || [];
+                var toolbarHtml = '';
+                $.each(data, function (i, v) {
+                    if (v == 'refresh') {
+                        toolbarHtml += ' <button class="layui-btn layui-btn-sm layuimini-btn-primary" data-table-refresh="' + tableId + '"><i class="fa fa-refresh"></i> </button>\n';
+                    } else if (v == 'add') {
+                        toolbarHtml += '<button class="layui-btn layui-btn-sm" data-open="' + init.add_url + '" data-title="添加"><i class="layui-icon layui-icon-add-circle-fine"></i>添加</button>\n';
+                    } else if (v == 'delete') {
+                        toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-danger" data-url="' + init.del_url + '" data-table-delete="' + tableId + '"><i class="layui-icon layui-icon-delete"></i>删除</button>\n';
+                    } else if (typeof v == "object") {
+                        $.each(v, function (ii, vv) {
+                            vv.class = vv.class || '';
+                            vv.text = vv.text || '';
+                            vv.icon = vv.icon || '';
+                            vv.open = vv.open || '';
+                            vv.title = vv.title || vv.text || '';
+                            vv.extend = vv.extend || '';
+                            // 组合数据
+                            vv.icon = vv.icon != '' ? '<i class="' + vv.icon + '"></i>' : '';
+                            vv.class = vv.class != '' ? 'class="' + vv.class + '" ' : '';
+                            vv.open = vv.open != '' ? 'data-open="' + vv.open + '" data-title="' + vv.title + '" ' : '';
+                            toolbarHtml += '<button ' + vv.class + vv.open + vv.request + vv.event + vv.extend + '>' + vv.icon + vv.text + '</button>\n';
+                        });
+                    }
+                });
+                console.log(toolbarHtml);
+                return '<div>' + toolbarHtml + '</div>';
             },
             renderSearch: function (cols, elem, tableId) {
                 // TODO 只初始化第一个table搜索字段，如果存在多个(绝少数需求)，得自己去扩展
@@ -408,14 +440,17 @@ define(["jquery"], function ($) {
             $('body').on('click', '[data-request]', function () {
                 var title = $(this).attr('data-title'),
                     url = admin.url($(this).attr('data-request'));
-                admin.request.get({
-                    url: url,
-                }, function (res) {
-                    admin.msg.success(res.msg, function () {
-                        table.reload(option.tableName);
-                    });
-                })
-
+                title = title || '确定进行该操作？';
+                admin.msg.confirm(title, function () {
+                    admin.request.get({
+                        url: url,
+                    }, function (res) {
+                        admin.msg.success(res.msg, function () {
+                            table.reload(option.tableName);
+                        });
+                    })
+                });
+                return false;
             });
 
             // 监听表单提交事件
@@ -490,14 +525,16 @@ define(["jquery"], function ($) {
                 $.each(data, function (i, v) {
                     ids.push(v.id);
                 });
-                admin.request.post({
-                    url: url,
-                    data: {
-                        id: ids
-                    },
-                }, function (res) {
-                    admin.msg.success(res.msg, function () {
-                        table.reload(tableId);
+                admin.msg.confirm('确定删除？', function () {
+                    admin.request.post({
+                        url: url,
+                        data: {
+                            id: ids
+                        },
+                    }, function (res) {
+                        admin.msg.success(res.msg, function () {
+                            table.reload(tableId);
+                        });
                     });
                 });
                 return false;

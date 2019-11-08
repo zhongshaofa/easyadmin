@@ -19,7 +19,8 @@ define(["jquery", "admin",], function ($, admin) {
                 elem: '#' + init.table_elem,
                 id: init.table_render_id,
                 url: admin.url(init.index_url),
-                toolbar: '#toolbar',
+                init: init,
+                toolbar: ['refresh', 'add', 'delete'],
                 cols: [[
                     {type: "checkbox"},
                     {field: 'id', width: 80, title: 'ID', sort: true, align: "center"},
@@ -53,6 +54,7 @@ define(["jquery", "admin",], function ($, admin) {
                             {
                                 class: 'layui-btn layui-btn-danger layui-btn-xs',
                                 text: '删除',
+                                title: '确定删除？',
                                 request: init.del_url,
                                 extend: ""
                             }
