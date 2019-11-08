@@ -123,6 +123,110 @@ define(["jquery"], function ($) {
             }
         },
         table: {
+            render: function (options) {
+                options.elem = options.elem || '#' + init.table_elem;
+                options.id = options.id || init.table_render_id;
+                options.url = options.url || window.location.href;
+                options.toolbar = options.toolbar || '#toolbar';
+                options.page = options.page | true;
+                options.limit = options.limit | 15;
+                options.limits = options.limits | [10, 15, 20, 25, 50, 100];
+                options.defaultToolbar = options.defaultToolbar || ['filter', {
+                    title: '查询',
+                    layEvent: 'TABLE_SEARCH',
+                    icon: 'layui-icon-search'
+                }];
+                options.search = options.search || true;
+                if (options.search == true) {
+                    admin.table.renderSearch(options.cols);
+                }
+                return table.render(options);
+            },
+            renderSearch: function (cols) {
+                // TODO 只初始化第一个table搜索字段，如果存在多个(绝少数需求)，得自己去扩展
+                cols = cols[0] != undefined ? cols[0] : {};
+                var newCols = [];
+                var formHtml = '';
+                $.each(cols, function (i, d) {
+                    d.field = d.field || false;
+                    d.title = d.title || d.field || '';
+                    d.search = d.search || true;
+                    d.selectList = d.selectList || {};
+                    d.searchTip = d.searchTip || '请输入' + d.title || '';
+                    d.searchValue = d.searchValue || '';
+                    d.timeType = d.timeType || 'date';
+                    if (d.field != false && d.search != false) {
+                        switch (d.search) {
+                            case true:
+                                formHtml += '\t<div class="layui-form-item layui-inline">\n' +
+                                    '<label class="layui-form-label">' + d.title + '</label>\n' +
+                                    '<div class="layui-input-inline">\n' +
+                                    '<input name="' + d.field + '" value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '</div>\n' +
+                                    '</div>';
+                                break;
+                            case  'select':
+                                var selectHtml = '';
+                                $.each(d.selectList, function (sI, sV) {
+                                    var selected = '';
+                                    if (sI == d.searchValue) {
+                                        selected = 'selected=""';
+                                    }
+                                    selectHtml += '<option value="' + sI + '" ' + selected + '>' + sV + '</option>/n';
+                                });
+                                formHtml += '\t<div class="layui-form-item layui-inline">\n' +
+                                    '<label class="layui-form-label">' + d.title + '</label>\n' +
+                                    '<div class="layui-input-inline">\n' +
+                                    '<select class="layui-select" name="' + d.field + '">\n' +
+                                    '<option value="">- 全部 -</option> \n' +
+                                    selectHtml +
+                                    '</select>\n' +
+                                    '</div>\n' +
+                                    '</div>';
+                                break;
+                            case 'range':
+                                formHtml += '\t<div class="layui-form-item layui-inline">\n' +
+                                    '<label class="layui-form-label">' + d.title + '</label>\n' +
+                                    '<div class="layui-input-inline">\n' +
+                                    '<input name="' + d.field + '" value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '</div>\n' +
+                                    '</div>';
+                                break;
+                            case 'time':
+                                formHtml += '\t<div class="layui-form-item layui-inline">\n' +
+                                    '<label class="layui-form-label">' + d.title + '</label>\n' +
+                                    '<div class="layui-input-inline">\n' +
+                                    '<input name="' + d.field + '" value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '</div>\n' +
+                                    '</div>';
+                                break;
+                        }
+                        newCols.push(d);
+                    }
+                });
+                if (formHtml != '') {
+                    $('#currentTable').before('<fieldset class="table-search-fieldset">\n' +
+                        '<legend>条件搜索</legend>\n' +
+                        '<form class="layui-form layui-form-pane">\n' +
+                        formHtml +
+                        '<div class="layui-form-item layui-inline">\n' +
+                        '<button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>\n' +
+                        ' </div>' +
+                        '</form>' +
+                        '</fieldset>');
+
+                    // 初始化form表单
+                    form.render();
+                    $.each(newCols, function (ncI, ncV) {
+                        if (ncV.search == 'range') {
+                            laydate.render({range: true, type: ncV.timeType, elem: '[name="' + ncV.field + '"]'});
+                        }
+                        if (ncV.search == 'time') {
+                            laydate.render({type: ncV.timeType, elem: '[name="' + ncV.field + '"]'});
+                        }
+                    });
+                }
+            },
             tool: function (data, option) {
                 option.operat = option.operat || [];
                 var html = '';
@@ -247,28 +351,28 @@ define(["jquery"], function ($) {
         listen: function (formCallback, ok, no, ex) {
 
             //监听工具条
-            table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
                 var data = obj.data; //获得当前行数据
                 var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
                 var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
-                if(layEvent === 'detail'){ //查看
+                if (layEvent === 'detail') { //查看
                     //do somehing
-                } else if(layEvent === 'del'){ //删除
-                    layer.confirm('真的删除行么', function(index){
+                } else if (layEvent === 'del') { //删除
+                    layer.confirm('真的删除行么', function (index) {
                         obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                         layer.close(index);
                         //向服务端发送删除指令
                     });
-                } else if(layEvent === 'edit'){ //编辑
+                } else if (layEvent === 'edit') { //编辑
                     //do something
 
                     //同步更新缓存对应的值
                     obj.update({
                         username: '123'
-                        ,title: 'xxx'
+                        , title: 'xxx'
                     });
-                } else if(layEvent === 'LAYTABLE_TIPS'){
+                } else if (layEvent === 'LAYTABLE_TIPS') {
                     layer.alert('Hi，头部工具栏扩展的右侧图标。');
                 }
             });

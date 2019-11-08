@@ -5,6 +5,13 @@ body {margin:15px 15px 15px 15px;background:#f2f2f2;}
 /**重写layui表格自适应*/
 .layuimini-container .layui-table-cell {height: 100%;max-width: 100%;}
 
+/**数据表格-搜索表单样式*/
+.layuimini-container .table-search-fieldset {margin: 0;border: 1px solid #e6e6e6;padding: 10px 20px 5px 20px;color: #6b6b6b;}
+.layuimini-container .table-search-fieldset input::-webkit-input-placeholder {color: #a9a9a9;}
+.layuimini-container .table-search-fieldset input:-ms-input-placeholder {color: #a9a9a9;}
+.layuimini-container .table-search-fieldset input::-ms-input-placeholder {color: #a9a9a9;}
+
+
 /**必填红点 */
 .layuimini-form>.layui-form-item>.required:after {content:'*';color:red;position:absolute;margin-left:4px;font-weight:bold;line-height:1.8em;top:6px;right:5px;}
 /*.layuimini-form>.layui-form-item>.layui-form-label {width:120px !important;}*/

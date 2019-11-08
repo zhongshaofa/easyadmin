@@ -15,19 +15,11 @@ define(["jquery", "admin",], function ($, admin) {
     var Controller = {
 
         index: function () {
-            table.render({
+            admin.table.render({
                 elem: '#' + init.table_elem,
                 id: init.table_render_id,
                 url: admin.url(init.index_url),
                 toolbar: '#toolbar',
-                page: true,
-                limit: 15,
-                limits: [10, 15, 20, 25, 50, 100],
-                defaultToolbar: ['filter', {
-                    title: '查询'
-                    ,layEvent: 'TABLE_SEARCH'
-                    ,icon: 'layui-icon-search'
-                }],
                 cols: [[
                     {type: "checkbox"},
                     {field: 'id', width: 80, title: 'ID', sort: true, align: "center"},
@@ -36,8 +28,8 @@ define(["jquery", "admin",], function ($, admin) {
                     {field: 'phone', minWidth: 80, title: '手机', align: "center"},
                     {field: 'login_num', minWidth: 80, title: '登录次数', align: "center"},
                     {field: 'remark', minWidth: 80, title: '备注信息', align: "center"},
-                    {field: 'status', title: '状态', width: 85, align: "center", filter: 'status', templet: admin.table.switch},
-                    {field: 'create_time', minWidth: 80, title: '创建时间', align: "center"},
+                    {field: 'status', title: '状态', width: 85, align: "center", search: 'select', selectList: {0: '禁用', 1: '启用'}, filter: 'status', templet: admin.table.switch},
+                    {field: 'create_time', minWidth: 80, title: '创建时间', align: "center",search: 'range'},
                     {
                         width: 250, align: 'center', title: '操作', templet: admin.table.tool, operat: [
                             {
