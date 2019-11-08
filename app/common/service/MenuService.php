@@ -36,28 +36,6 @@ class MenuService
     }
 
     /**
-     * 获取后台菜单树信息
-     * @return mixed
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
-     */
-    public function getMenuTree()
-    {
-        list($menuTreeList, $data) = [[], $this->getMenuData()];
-        foreach ($data as $vo) {
-            if ($vo['pid'] == 0) {
-                $child = $this->buildMenuChild($vo['id'], $data);
-                if (!empty($child)) {
-                    $vo['child']                                         = $child;
-                    $menuTreeList[MenuParams::MODULE_PREFIX . $vo['id']] = $vo;
-                }
-            }
-        }
-        return $menuTreeList;
-    }
-
-    /**
      * 获取首页信息
      * @return array|\think\Model|null
      * @throws \think\db\exception\DataNotFoundException
@@ -76,6 +54,28 @@ class MenuService
     }
 
     /**
+     * 获取后台菜单树信息
+     * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function getMenuTree()
+    {
+        list($menuTreeList, $data) = [[], $this->getMenuData()];
+        foreach ($data as $vo) {
+            if ($vo['pid'] == 0) {
+                $child = $this->buildMenuChild($vo['id'], $data);
+                if (!empty($child)) {
+                    $vo['child'] = $child;
+                    $menuTreeList[MenuParams::MODULE_PREFIX . $vo['id']] = $vo;
+                }
+            }
+        }
+        return $menuTreeList;
+    }
+
+    /**
      * 构建子菜单信息
      * @param $pid
      * @param $data
@@ -91,9 +91,7 @@ class MenuService
             !empty($vo['href']) && $vo['href'] = __url($vo['href']);
             if ($vo['pid'] == $pid && $check) {
                 $child = $this->buildMenuChild($vo['id'], $data);
-                if (!empty($child)) {
-                    $vo['child'] = $child;
-                }
+                !empty($child) && $vo['child'] = $child;
                 $menuList[] = $vo;
             }
         }

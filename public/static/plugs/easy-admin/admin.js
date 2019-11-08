@@ -215,7 +215,6 @@ define(["jquery"], function ($) {
                 });
                 if (formHtml != '') {
 
-
                     $(elem).before('<fieldset class="table-search-fieldset">\n' +
                         '<legend>条件搜索</legend>\n' +
                         '<form class="layui-form layui-form-pane">\n' +
@@ -473,6 +472,35 @@ define(["jquery"], function ($) {
                         return false;
                     });
                 }
+            });
+
+            // 数据表格多删除
+            $('body').on('click', '[data-table-delete]', function () {
+                var tableId = $(this).attr('data-table-delete'),
+                    url = $(this).attr('data-url');
+                tableId = tableId || init.table_render_id;
+                url = url != undefined ? admin.url(url) : window.location.href;
+                var checkStatus = table.checkStatus(tableId),
+                    data = checkStatus.data;
+                if (data.length <= 0) {
+                    admin.msg.error('请勾选需要删除的数据');
+                    return false;
+                }
+                var ids = [];
+                $.each(data, function (i, v) {
+                    ids.push(v.id);
+                });
+                admin.request.post({
+                    url: url,
+                    data: {
+                        id: ids
+                    },
+                }, function (res) {
+                    admin.msg.success(res.msg, function () {
+                        table.reload(tableId);
+                    });
+                });
+                return false;
             });
 
         },
