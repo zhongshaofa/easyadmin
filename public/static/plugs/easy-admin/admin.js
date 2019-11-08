@@ -175,7 +175,6 @@ define(["jquery"], function ($) {
                         });
                     }
                 });
-                console.log(toolbarHtml);
                 return '<div>' + toolbarHtml + '</div>';
             },
             renderSearch: function (cols, elem, tableId) {
@@ -270,31 +269,75 @@ define(["jquery"], function ($) {
                 }
             },
             tool: function (data, option) {
-                option.operat = option.operat || [];
+                option.operat = option.operat || ['edit', 'delete'];
                 var html = '';
                 $.each(option.operat, function (i, v) {
-                    // 初始化数据
-                    v.class = v.class || '';
-                    v.text = v.text || '';
-                    v.event = v.event || '';
-                    v.icon = v.icon || '';
-                    v.open = v.open || '';
-                    v.request = v.request || '';
-                    v.title = v.title || v.text || '';
-                    v.extend = v.extend || '';
-                    if (v.open != '') {
-                        v.open = v.open.indexOf("?") != -1 ? v.open + '&id=' + data.id : v.open + '?id=' + data.id;
+                    if (v == 'edit' || v == 'delete') {
+                        var vv = {};
+                        if (v == 'edit') {
+                            vv = {
+                                class: 'layui-btn layui-btn-xs',
+                                text: '编辑',
+                                open: init.add_url,
+                                extend: ""
+                            };
+                        } else {
+                            vv = {
+                                class: 'layui-btn layui-btn-danger layui-btn-xs',
+                                text: '删除',
+                                title: '确定删除？',
+                                request: init.del_url,
+                                extend: ""
+                            };
+                        }
+                        // 初始化数据
+                        vv.class = vv.class || '';
+                        vv.text = vv.text || '';
+                        vv.event = vv.event || '';
+                        vv.icon = vv.icon || '';
+                        vv.open = vv.open || '';
+                        vv.request = vv.request || '';
+                        vv.title = vv.title || vv.text || '';
+                        vv.extend = vv.extend || '';
+                        if (vv.open != '') {
+                            vv.open = vv.open.indexOf("?") != -1 ? vv.open + '&id=' + data.id : vv.open + '?id=' + data.id;
+                        }
+                        if (vv.request != '') {
+                            vv.request = vv.request.indexOf("?") != -1 ? vv.request + '&id=' + data.id : vv.request + '?id=' + data.id;
+                        }
+                        // 组合数据
+                        vv.icon = vv.icon != '' ? '<i class="' + vv.icon + '"></i>' : '';
+                        vv.class = vv.class != '' ? 'class="' + vv.class + '" ' : '';
+                        vv.open = vv.open != '' ? 'data-open="' + vv.open + '" data-title="' + vv.title + '" ' : '';
+                        vv.request = vv.request != '' ? 'data-request="' + vv.request + '" data-title="' + vv.title + '" ' : '';
+                        vv.event = vv.event != '' ? 'lay-event="' + vv.event + '" ' : '';
+                        html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.extend + '>' + vv.icon + vv.text + '</a>';
+                    } else if (typeof v == "object") {
+                        $.each(v, function (ii, vv) {
+                            // 初始化数据
+                            vv.class = vv.class || '';
+                            vv.text = vv.text || '';
+                            vv.event = vv.event || '';
+                            vv.icon = vv.icon || '';
+                            vv.open = vv.open || '';
+                            vv.request = vv.request || '';
+                            vv.title = vv.title || vv.text || '';
+                            vv.extend = vv.extend || '';
+                            if (vv.open != '') {
+                                vv.open = vv.open.indexOf("?") != -1 ? vv.open + '&id=' + data.id : vv.open + '?id=' + data.id;
+                            }
+                            if (vv.request != '') {
+                                vv.request = vv.request.indexOf("?") != -1 ? vv.request + '&id=' + data.id : vv.request + '?id=' + data.id;
+                            }
+                            // 组合数据
+                            vv.icon = vv.icon != '' ? '<i class="' + vv.icon + '"></i>' : '';
+                            vv.class = vv.class != '' ? 'class="' + vv.class + '" ' : '';
+                            vv.open = vv.open != '' ? 'data-open="' + vv.open + '" data-title="' + vv.title + '" ' : '';
+                            vv.request = vv.request != '' ? 'data-request="' + vv.request + '" data-title="' + vv.title + '" ' : '';
+                            vv.event = vv.event != '' ? 'lay-event="' + vv.event + '" ' : '';
+                            html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.extend + '>' + vv.icon + vv.text + '</a>';
+                        });
                     }
-                    if (v.request != '') {
-                        v.request = v.request.indexOf("?") != -1 ? v.request + '&id=' + data.id : v.request + '?id=' + data.id;
-                    }
-                    // 组合数据
-                    v.icon = v.icon != '' ? '<i class="' + v.icon + '"></i>' : '';
-                    v.class = v.class != '' ? 'class="' + v.class + '" ' : '';
-                    v.open = v.open != '' ? 'data-open="' + v.open + '" data-title="' + v.title + '" ' : '';
-                    v.request = v.request != '' ? 'data-request="' + v.request + '" data-title="' + v.title + '" ' : '';
-                    v.event = v.event != '' ? 'lay-event="' + v.event + '" ' : '';
-                    html += '<a ' + v.class + v.open + v.request + v.event + v.extend + '>' + v.icon + v.text + '</a>';
                 });
                 return html;
             },

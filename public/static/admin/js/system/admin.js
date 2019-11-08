@@ -32,32 +32,21 @@ define(["jquery", "admin",], function ($, admin) {
                     {field: 'status', title: '状态', width: 85, align: "center", search: 'select', selectList: {0: '禁用', 1: '启用'}, filter: 'status', templet: admin.table.switch},
                     {field: 'create_time', minWidth: 80, title: '创建时间', align: "center", search: 'range'},
                     {
-                        width: 250, align: 'center', title: '操作', templet: admin.table.tool, operat: [
-                            {
-                                class: 'layui-btn layui-btn-xs',
-                                text: '编辑',
-                                open: init.add_url,
-                                extend: ""
-                            },
-                            {
-                                class: 'layui-btn layui-btn-normal layui-btn-xs',
-                                text: '授权',
-                                open: init.edit_url,
-                                extend: ""
-                            },
-                            {
-                                class: 'layui-btn layui-btn-xs',
-                                text: '设置密码',
-                                open: 'system.admin/setPassword',
-                                extend: ""
-                            },
-                            {
-                                class: 'layui-btn layui-btn-danger layui-btn-xs',
-                                text: '删除',
-                                title: '确定删除？',
-                                request: init.del_url,
-                                extend: ""
-                            }
+                        width: 250, align: 'center', title: '操作', init: init, templet: admin.table.tool, operat: ['edit',
+                            [
+                                {
+                                    class: 'layui-btn layui-btn-normal layui-btn-xs',
+                                    text: '授权',
+                                    open: init.edit_url,
+                                    extend: ""
+                                },
+                                {
+                                    class: 'layui-btn layui-btn-xs',
+                                    text: '设置密码',
+                                    open: 'system.admin/setPassword',
+                                    extend: ""
+                                }
+                            ],'delete'
                         ]
                     }
                 ]],
