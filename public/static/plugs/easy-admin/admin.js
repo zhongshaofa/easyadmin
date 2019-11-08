@@ -18,6 +18,9 @@ define(["jquery"], function ($) {
         url: function (url) {
             return '/' + ADMIN + '/' + url;
         },
+        parame: function (param, defaultParam) {
+            return param != undefined ? param : defaultParam;
+        },
         request: {
             post: function (option, ok, no, ex) {
                 return admin.request.ajax('post', option, ok, no, ex);
@@ -128,15 +131,15 @@ define(["jquery"], function ($) {
                 options.id = options.id || init.table_render_id;
                 options.url = options.url || window.location.href;
                 options.toolbar = options.toolbar || '#toolbar';
-                options.page = options.page | true;
-                options.limit = options.limit | 15;
-                options.limits = options.limits | [10, 15, 20, 25, 50, 100];
+                options.page = admin.parame(options.page, true);
+                options.search = admin.parame(options.search, true);
+                options.limit = options.limit || 15;
+                options.limits = options.limits || [10, 15, 20, 25, 50, 100];
                 options.defaultToolbar = options.defaultToolbar || ['filter', {
                     title: '查询',
                     layEvent: 'TABLE_SEARCH',
                     icon: 'layui-icon-search'
                 }];
-                options.search = options.search || true;
                 if (options.search == true) {
                     admin.table.renderSearch(options.cols);
                 }
@@ -144,25 +147,26 @@ define(["jquery"], function ($) {
             },
             renderSearch: function (cols) {
                 // TODO 只初始化第一个table搜索字段，如果存在多个(绝少数需求)，得自己去扩展
-                cols = cols[0] != undefined ? cols[0] : {};
+                cols = cols[0] || {};
                 var newCols = [];
                 var formHtml = '';
                 $.each(cols, function (i, d) {
                     d.field = d.field || false;
+                    d.fieldAlias = admin.parame(d.fieldAlias, d.field);
                     d.title = d.title || d.field || '';
-                    d.search = d.search || true;
                     d.selectList = d.selectList || {};
+                    d.search = admin.parame(d.search, true);
                     d.searchTip = d.searchTip || '请输入' + d.title || '';
                     d.searchValue = d.searchValue || '';
-                    d.timeType = d.timeType || 'date';
                     d.searchOp = d.searchOp || '%*%';
+                    d.timeType = d.timeType || 'date';
                     if (d.field != false && d.search != false) {
                         switch (d.search) {
                             case true:
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<input name="' + d.field + '" data-search-op="' + d.searchOp + '" value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '<input name="' + d.fieldAlias + '" data-search-op="' + d.searchOp + '" value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
                                     '</div>\n' +
                                     '</div>';
                                 break;
@@ -179,7 +183,7 @@ define(["jquery"], function ($) {
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<select class="layui-select" name="' + d.field + '"  data-search-op="' + d.searchOp + '" >\n' +
+                                    '<select class="layui-select" name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '" >\n' +
                                     '<option value="">- 全部 -</option> \n' +
                                     selectHtml +
                                     '</select>\n' +
@@ -191,7 +195,7 @@ define(["jquery"], function ($) {
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<input name="' + d.field + '"  data-search-op="' + d.searchOp + '"  value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '<input name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '"  value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
                                     '</div>\n' +
                                     '</div>';
                                 break;
@@ -200,7 +204,7 @@ define(["jquery"], function ($) {
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<input name="' + d.field + '"  data-search-op="' + d.searchOp + '"  value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '<input name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '"  value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
                                     '</div>\n' +
                                     '</div>';
                                 break;
