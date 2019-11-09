@@ -1,4 +1,4 @@
-<?php /*a:2:{s:60:"/var/www/html/EasyAdmin/app/admin/view/system/admin/add.html";i:1573332983;s:57:"/var/www/html/EasyAdmin/app/admin/view/Public/iframe.html";i:1573324386;}*/ ?>
+<?php /*a:2:{s:61:"/var/www/html/EasyAdmin/app/admin/view/system/admin/edit.html";i:1573333105;s:57:"/var/www/html/EasyAdmin/app/admin/view/Public/iframe.html";i:1573324386;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +26,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label required">用户头像</label>
                 <div class="layui-input-block layuimini-upload">
-                    <input name="head_img" class="layui-input layui-col-xs6" lay-reqtext="请上传用户头像" placeholder="请上传用户头像" value="">
+                    <input name="head_img" class="layui-input layui-col-xs6" lay-reqtext="请上传用户头像" placeholder="请上传用户头像" value="<?php echo htmlentities((isset($row['head_img']) && ($row['head_img'] !== '')?$row['head_img']:'')); ?>">
                     <div class="layuimini-upload-btn">
                         <span><a class="layui-btn" data-upload="head_img" data-upload-number="one" data-upload-exts="png|jpg|ico|jpeg"><i class="fa fa-upload"></i> 上传文件</a></span>
                         <span><a class="layui-btn layui-btn-normal"><i class="fa fa-list"></i> 选择文件</a></span>
@@ -37,7 +37,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label required">登录账户</label>
                 <div class="layui-input-block">
-                    <input type="text" name="username" class="layui-input" lay-verify="required" lay-reqtext="请输入登录账户" placeholder="请输入登录账户" value="">
+                    <input type="text" name="username" class="layui-input" lay-verify="required" lay-reqtext="请输入登录账户" placeholder="请输入登录账户" value="<?php echo htmlentities((isset($row['username']) && ($row['username'] !== '')?$row['username']:'')); ?>">
                     <tip>填写登录账户。</tip>
                 </div>
             </div>
@@ -45,7 +45,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">用户手机</label>
                 <div class="layui-input-block">
-                    <input type="text" name="phone" class="layui-input" lay-reqtext="请输入用户手机" placeholder="请输入用户手机" value="">
+                    <input type="text" name="phone" class="layui-input" lay-reqtext="请输入用户手机" placeholder="请输入用户手机" value="<?php echo htmlentities((isset($row['username']) && ($row['username'] !== '')?$row['username']:'')); ?>">
                     <tip>填写用户手机。</tip>
                 </div>
             </div>
@@ -53,7 +53,7 @@
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">备注信息</label>
                 <div class="layui-input-block">
-                    <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+                    <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"><?php echo htmlentities((isset($row['username']) && ($row['username'] !== '')?$row['username']:'')); ?></textarea>
                 </div>
             </div>
             <div class="layui-form-item">

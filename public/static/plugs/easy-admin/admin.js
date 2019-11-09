@@ -293,7 +293,7 @@ define(["jquery"], function ($) {
                             vv = {
                                 class: 'layui-btn layui-btn-xs',
                                 text: '编辑',
-                                open: init.add_url,
+                                open: option.init.edit_url,
                                 extend: ""
                             };
                         } else {
@@ -301,7 +301,7 @@ define(["jquery"], function ($) {
                                 class: 'layui-btn layui-btn-danger layui-btn-xs',
                                 text: '删除',
                                 title: '确定删除？',
-                                request: init.del_url,
+                                request: option.init.del_url,
                                 extend: ""
                             };
                         }
@@ -468,7 +468,7 @@ define(["jquery"], function ($) {
         listen: function (formCallback, ok, no, ex) {
 
             // 初始化图片显示以及监听上传事件
-            admin.api.upload(document.querySelectorAll("a[data-upload]"));
+            admin.api.upload();
 
             // 监听弹出层的打开
             $('body').on('click', '[data-open]', function () {
@@ -660,7 +660,8 @@ define(["jquery"], function ($) {
                 tableName = tableName | 'currentTable';
                 table.reload(tableName);
             },
-            upload: function (uploadList) {
+            upload: function () {
+                var uploadList = document.querySelectorAll("a[data-upload]")
                 if (uploadList.length > 0) {
                     $.each(uploadList, function (i, v) {
                         var exts = $(this).attr('data-upload-exts'),
@@ -713,6 +714,10 @@ define(["jquery"], function ($) {
                             }
                         });
 
+                        // 非空初始化图片显示
+                        if ($(elem).val() != '') {
+                            $(elem).trigger("input");
+                        }
                     });
 
                     // 监听上传文件的删除事件
@@ -720,7 +725,7 @@ define(["jquery"], function ($) {
                         var uploadName = $(this).attr('data-upload-delete'),
                             deleteUrl = $(this).attr('data-upload-url'),
                             sign = $(this).attr('data-upload-sign');
-                       var confirm = admin.msg.confirm('确定删除？', function () {
+                        var confirm = admin.msg.confirm('确定删除？', function () {
                             var elem = "input[name='" + uploadName + "']";
                             var currentUrl = $(elem).val();
                             var url = '';
