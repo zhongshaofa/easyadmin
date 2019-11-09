@@ -410,9 +410,9 @@ define(["jquery"], function ($) {
                             var searchFieldsetId = 'searchFieldset_' + tableId;
                             var _that = $("#" + searchFieldsetId);
                             if (_that.hasClass("layui-hide")) {
-                                _that.removeClass('layui-hide').animate({'opacity':'0.3%'},800);
+                                _that.removeClass('layui-hide').animate({'opacity': '0.3%'}, 800);
                             } else {
-                                _that.addClass('layui-hide').animate({'opacity':'0.3%'},800);
+                                _that.addClass('layui-hide').animate({'opacity': '0.3%'}, 800);
                             }
                             break;
                     }
