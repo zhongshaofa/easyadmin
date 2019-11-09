@@ -14,6 +14,7 @@ namespace app\admin\controller;
 
 use app\common\controller\AdminController;
 use app\common\service\MenuService;
+use EasyAdmin\upload\Uploadfile;
 use think\facade\Cache;
 
 class Ajax extends AdminController
@@ -33,7 +34,7 @@ class Ajax extends AdminController
             return json($cacheData);
         }
         $menuService = new MenuService();
-        $data        = [
+        $data = [
             'clearInfo' => [
                 'clearUrl' => __url('ajax/clearCache'),
             ],
@@ -56,6 +57,37 @@ class Ajax extends AdminController
     {
         Cache::clear();
         $this->success('清理缓存成功');
+    }
+
+    /**
+     * 上传文件
+     */
+    public function upload()
+    {
+        $data = [
+            'upload_type' => $this->request->post('upload_type', 'local'),
+            'file'        => $this->request->file('file'),
+        ];
+        $uploadConfig = sysconfig('upload');
+        $rule = [
+            'upload_type|指定上传类型有误' => "in:{$uploadConfig['upload_allow_type']}",
+            'file|文件'              => "require|file|fileExt:{$uploadConfig['upload_allow_ext']}|fileSize:{$uploadConfig['upload_allow_size']}",
+        ];
+        $this->validate($data, $rule);
+        try {
+            $upload = Uploadfile::instance()
+                ->setUploadType($data['upload_type'])
+                ->setUploadConfig($uploadConfig)
+                ->setFile($data['file'])
+                ->save();
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
+        }
+        if ($upload['save'] == true) {
+            $this->success($upload['msg'], ['url' => $upload['url'],]);
+        } else {
+            $this->error($upload['msg']);
+        }
     }
 
 }

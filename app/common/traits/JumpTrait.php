@@ -75,7 +75,6 @@ trait JumpTrait
             'url'  => $url,
             'wait' => $wait,
         ];
-
         if ($type == 'html') {
             $response = view(app('config')->get('app.dispatch_error_tmpl'), $result);
         } elseif ($type == 'json') {
@@ -137,6 +136,6 @@ trait JumpTrait
      */
     protected function getResponseType()
     {
-        return (request()->isJson() || request()->isAjax()) ? 'json' : 'html';
+        return (request()->isJson() || request()->isAjax() || request()->isPost()) ? 'json' : 'html';
     }
 }

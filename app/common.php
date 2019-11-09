@@ -54,3 +54,23 @@ if (!function_exists('xdebug')) {
         $force ? file_put_contents($file, $str) : file_put_contents($file, $str, FILE_APPEND);
     }
 }
+
+if (!function_exists('sysconfig')) {
+
+    /**
+     * 获取系统配置信息
+     * @param $group
+     * @param null $name
+     * @return array|mixed
+     */
+    function sysconfig($group, $name = null)
+    {
+        $where = ['group' => $group,];
+        if (!empty($name)) {
+            $where['name'] = $name;
+            return \app\admin\model\SystemConfig::where($where)->value('value');
+        } else {
+            return \app\admin\model\SystemConfig::where($where)->column('value','name');
+        }
+    }
+}

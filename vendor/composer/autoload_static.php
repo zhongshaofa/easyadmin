@@ -45,6 +45,7 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'O' => 
         array (
             'Opis\\Closure\\' => 13,
+            'OSS\\' => 4,
         ),
         'L' => 
         array (
@@ -126,6 +127,10 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'Opis\\Closure\\' => 
         array (
             0 => __DIR__ . '/..' . '/opis/closure/src',
+        ),
+        'OSS\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/aliyuncs/oss-sdk-php/src/OSS',
         ),
         'League\\Flysystem\\Cached\\' => 
         array (
