@@ -5,16 +5,17 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "path"], function ($, ad
     var treetable = layui.treetable;
     var iconPickerFa = layui.iconPickerFa;
 
+    var init = {
+        index_url: 'system.menu/index',
+        add_url: 'system.menu/add',
+        del_url: 'system.menu/del',
+        edit_url: 'system.menu/edit',
+        modify_url: 'system.menu/modify',
+        table: 'currentTable',
+    };
+
     var Controller = {
         index: function () {
-
-            var init = {
-                index_url: 'system.menu/index',
-                add_url: 'system.menu/add',
-                del_url: 'system.menu/del',
-                modify_url: 'system.menu/modify',
-                table: 'currentTable',
-            };
 
             treetable.render({
                 treeColIndex: 1,
@@ -50,25 +51,13 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "path"], function ($, ad
                     {field: 'status', title: '状态', width: 85, align: "center", filter: 'status', templet: admin.table.switch},
                     {field: 'status', width: 80, align: 'center', title: '排序'},
                     {
-                        width: 200, align: 'center', title: '操作', templet: admin.table.tool, operat: [
+                        width: 200, align: 'center', title: '操作', init: init, templet: admin.table.tool, operat: [[
                             {
                                 class: 'layui-btn layui-btn-xs',
                                 text: '添加下级',
                                 open: 'system.menu/add',
                                 extend: ""
-                            },
-                            {
-                                class: 'layui-btn layui-btn-normal layui-btn-xs',
-                                text: '编辑',
-                                open: 'system.menu/edit',
-                                extend: ""
-                            },
-                            {
-                                class: 'layui-btn layui-btn-danger layui-btn-xs',
-                                text: '删除',
-                                request: 'system.menu/del',
-                                extend: ""
-                            }
+                            }], 'edit', 'delete'
                         ]
                     }
                 ]],
