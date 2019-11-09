@@ -4,11 +4,14 @@ define(["jquery"], function ($) {
         layer = layui.layer,
         laytpl = layui.laytpl,
         table = layui.table,
-        laydate = layui.laydate;
+        laydate = layui.laydate,
+        upload = layui.upload;
 
     var init = {
         table_elem: 'currentTable',
         table_render_id: 'currentTableRenderId',
+        upload_url: 'ajax/upload',
+        upload_exts: 'doc|gif|ico|icon|jpg|mp3|mp4|p12|pem|png|rar',
     };
 
     var admin = {
@@ -463,6 +466,46 @@ define(["jquery"], function ($) {
             }
         },
         listen: function (formCallback, ok, no, ex) {
+
+            // 初始化图片上传以及监听
+            var uploadList = document.querySelectorAll("a[data-upload]");
+            $.each(uploadList, function (i, v) {
+                var exts = $(this).attr('data-upload-exts'),
+                    uploadName = $(this).attr('data-upload'),
+                    uploadNumber = $(this).attr('data-upload-number'),
+                    uploadSign = $(this).attr('data-upload-sign');
+                exts = exts || init.upload_exts;
+                uploadNumber = uploadNumber || 'one';
+                uploadSign = uploadSign || '|';
+                upload.render({
+                    elem: this,
+                    url: admin.url(init.upload_url),
+                    accept: 'file',
+                    exts: exts,
+                    done: function (res) {
+                        if (res.code == 1) {
+                            var url = res.data.url,
+                                elem = "input[name='" + uploadName + "']";
+                            console.log(uploadName);
+                            console.log(uploadNumber);
+                            console.log(uploadSign);
+                            if (uploadNumber != 'one') {
+                                var oldUrl = $(elem).val();
+                                console.log(oldUrl);
+                                if (oldUrl != '') {
+                                    url = oldUrl + uploadSign + url;
+                                }
+                            }
+                            admin.msg.success(res.msg, function () {
+                                $(elem).val(url);
+                            });
+                        } else {
+                            admin.msg.error(res.msg);
+                        }
+                        return false;
+                    }
+                });
+            });
 
             // 监听弹出层的打开
             $('body').on('click', '[data-open]', function () {

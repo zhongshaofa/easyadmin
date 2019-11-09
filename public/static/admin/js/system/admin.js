@@ -1,6 +1,7 @@
 define(["jquery", "admin",], function ($, admin) {
     var table = layui.table;
     var form = layui.form;
+    var upload = layui.upload;
 
     var init = {
         table_elem: 'currentTable',
@@ -46,7 +47,7 @@ define(["jquery", "admin",], function ($, admin) {
                                     open: 'system.admin/setPassword',
                                     extend: ""
                                 }
-                            ],'delete'
+                            ], 'delete'
                         ]
                     }
                 ]],
