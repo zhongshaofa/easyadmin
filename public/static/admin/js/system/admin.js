@@ -52,34 +52,6 @@ define(["jquery", "admin",], function ($, admin) {
                 ]],
             });
 
-            table.on('toolbar(currentTable)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-                var data = obj.data; //获得当前行数据
-                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-                var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
-
-                if(layEvent === 'LAY-table-1'){ //查看
-                    console.log('搜索');
-                    alert('搜索');
-                    //do somehing
-                } else if(layEvent === 'del'){ //删除
-                    layer.confirm('真的删除行么', function(index){
-                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
-                        layer.close(index);
-                        //向服务端发送删除指令
-                    });
-                } else if(layEvent === 'edit'){ //编辑
-                    //do something
-
-                    //同步更新缓存对应的值
-                    obj.update({
-                        username: '123'
-                        ,title: 'xxx'
-                    });
-                } else if(layEvent === 'LAYTABLE_TIPS'){
-                    layer.alert('Hi，头部工具栏扩展的右侧图标。');
-                }
-            });
-
             admin.table.listenSwitch({filter: 'status', url: init.modify_url});
 
             admin.listen();

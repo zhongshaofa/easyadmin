@@ -130,6 +130,7 @@ define(["jquery"], function ($) {
                 options.elem = options.elem || '#' + init.table_elem;
                 options.init = options.init || init;
                 options.id = options.id || init.table_render_id;
+                options.layFilter = options.id + '_LayFilter';
                 options.url = options.url || window.location.href;
                 options.toolbar = options.toolbar || '#toolbar';
                 options.page = admin.parame(options.page, true);
@@ -140,8 +141,11 @@ define(["jquery"], function ($) {
                     title: '搜索表格',
                     layEvent: 'TABLE_SEARCH',
                     icon: 'layui-icon-search',
-                    extend: 'data-seacher="asds"'
+                    extend: 'data-table-id="' + options.id + '"'
                 }];
+
+                // 初始化表格lay-filter
+                $(options.elem).attr('lay-filter', options.layFilter);
 
                 // 初始化表格搜索
                 options.toolbar = options.toolbar || ['refresh', 'add', 'delete'];
@@ -152,7 +156,8 @@ define(["jquery"], function ($) {
                 options.toolbar = admin.table.renderToolbar(options.toolbar, options.elem, options.id, options.init);
                 var newTable = table.render(options);
 
-                // 监听表格右上方工具栏事件
+                // 监听表格搜索开关显示
+                admin.table.listenToolbar(options.layFilter, options.id);
 
                 return newTable;
             },
@@ -253,7 +258,7 @@ define(["jquery"], function ($) {
                 });
                 if (formHtml != '') {
 
-                    $(elem).before('<fieldset class="table-search-fieldset">\n' +
+                    $(elem).before('<fieldset id="searchFieldset_' + tableId + '" class="table-search-fieldset layui-hide">\n' +
                         '<legend>条件搜索</legend>\n' +
                         '<form class="layui-form layui-form-pane">\n' +
                         formHtml +
@@ -395,6 +400,23 @@ define(["jquery"], function ($) {
                         });
                     }
                 });
+            },
+            listenToolbar: function (layFilter, tableId) {
+                table.on('toolbar(' + layFilter + ')', function (obj) {
+
+                    // 搜索表单的显示
+                    switch (obj.event) {
+                        case 'TABLE_SEARCH':
+                            var searchFieldsetId = 'searchFieldset_' + tableId;
+                            var _that = $("#" + searchFieldsetId);
+                            if (_that.hasClass("layui-hide")) {
+                                _that.removeClass('layui-hide').animate({'opacity':'0.3%'},800);
+                            } else {
+                                _that.addClass('layui-hide').animate({'opacity':'0.3%'},800);
+                            }
+                            break;
+                    }
+                });
             }
         },
         checkMobile: function () {
@@ -533,7 +555,6 @@ define(["jquery"], function ($) {
                                 op: JSON.stringify(formatOp)
                             }
                         }, 'data');
-                        admin.msg.success('表格搜索重载');
                         return false;
                     });
                 } else {
@@ -589,6 +610,14 @@ define(["jquery"], function ($) {
                 });
                 return false;
             });
+
+            // // 监听表格搜索开关显示
+            // $('body').on('click', '[data-search-fieldset]', function () {
+            //     console.log('打开');
+            //     var tableId = $(this).attr('data-search-fieldset');
+            //     tableId =  tableId || init.table_render_id;
+            //     alert(tableId);
+            // });
 
         },
         api: {
