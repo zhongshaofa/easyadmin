@@ -22,7 +22,7 @@ class Local extends Base
         parent::save();
         return [
             'save' => true,
-            'msg'  => '保存成功',
+            'msg'  => '上传成功',
             'url'  => $this->completeFileUrl,
         ];
     }

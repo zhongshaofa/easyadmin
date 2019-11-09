@@ -51,7 +51,7 @@ class Admin extends AdminController
             ];
             return json($data);
         }
-        return $this->fetch('354353');
+        return $this->fetch();
     }
 
 

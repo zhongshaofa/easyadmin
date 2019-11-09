@@ -1,4 +1,4 @@
-<?php /*a:2:{s:60:"/var/www/html/EasyAdmin/app/admin/view/system/admin/add.html";i:1573327995;s:57:"/var/www/html/EasyAdmin/app/admin/view/Public/iframe.html";i:1573324386;}*/ ?>
+<?php /*a:2:{s:60:"/var/www/html/EasyAdmin/app/admin/view/system/admin/add.html";i:1573329879;s:57:"/var/www/html/EasyAdmin/app/admin/view/Public/iframe.html";i:1573324386;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,45 +24,14 @@
         <form id="app-form" class="layui-form layuimini-form">
 
             <div class="layui-form-item">
-                <label class="layui-form-label">用户头像</label>
+                <label class="layui-form-label required">用户头像</label>
                 <div class="layui-input-block layuimini-upload">
                     <input name="head_img" class="layui-input layui-col-xs6" lay-reqtext="请上传用户头像" placeholder="请上传用户头像">
                     <div class="layuimini-upload-btn">
-                        <span><a class="layui-btn" data-upload="head_img" data-upload-number="more" data-upload-exts="png"><i class="fa fa-upload"></i> 上传文件</a></span>
+                        <span><a class="layui-btn" data-upload="head_img" data-upload-number="more" data-upload-exts="png|jpg|ico|jpeg"><i class="fa fa-upload"></i> 上传文件</a></span>
                         <span><a class="layui-btn layui-btn-normal"><i class="fa fa-list"></i> 选择文件</a></span>
                     </div>
                 </div>
-                <ul class="layui-input-block layuimini-upload-show">
-                    <li>
-                        <a><img src="/static/uploads/test.jpeg" ></a>
-                        <small class="uploads-delete-tip bg-red badge">×</small>
-                    </li>
-                    <li>
-                        <a><img src="/static/uploads/test.jpeg" ></a>
-                        <small class="uploads-delete-tip bg-red badge">×</small>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="layui-form-item">
-                <label class="layui-form-label">背景图片</label>
-                <div class="layui-input-block layuimini-upload">
-                    <input type="text" name="bg_img" class="layui-input layui-col-xs6" lay-reqtext="请上传背景图片" placeholder="请上传背景图片" value="">
-                    <div class="layuimini-upload-btn">
-                        <span><a class="layui-btn" data-upload="bg_img" data-upload-type="one" data-upload-ext="png"><i class="fa fa-upload"></i> 上传文件</a></span>
-                        <span><a class="layui-btn layui-btn-normal"><i class="fa fa-list"></i> 选择文件</a></span>
-                    </div>
-                </div>
-                <ul class="layui-input-block layuimini-upload-show">
-                    <li>
-                        <a><img src="/static/uploads/test.jpeg" ></a>
-                        <small class="uploads-delete-tip bg-red badge">×</small>
-                    </li>
-                    <li>
-                        <a><img src="/static/uploads/test.jpeg" ></a>
-                        <small class="uploads-delete-tip bg-red badge">×</small>
-                    </li>
-                </ul>
             </div>
 
             <div class="layui-form-item">

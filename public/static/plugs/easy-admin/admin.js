@@ -467,45 +467,8 @@ define(["jquery"], function ($) {
         },
         listen: function (formCallback, ok, no, ex) {
 
-            // 初始化图片上传以及监听
-            var uploadList = document.querySelectorAll("a[data-upload]");
-            $.each(uploadList, function (i, v) {
-                var exts = $(this).attr('data-upload-exts'),
-                    uploadName = $(this).attr('data-upload'),
-                    uploadNumber = $(this).attr('data-upload-number'),
-                    uploadSign = $(this).attr('data-upload-sign');
-                exts = exts || init.upload_exts;
-                uploadNumber = uploadNumber || 'one';
-                uploadSign = uploadSign || '|';
-                upload.render({
-                    elem: this,
-                    url: admin.url(init.upload_url),
-                    accept: 'file',
-                    exts: exts,
-                    done: function (res) {
-                        if (res.code == 1) {
-                            var url = res.data.url,
-                                elem = "input[name='" + uploadName + "']";
-                            console.log(uploadName);
-                            console.log(uploadNumber);
-                            console.log(uploadSign);
-                            if (uploadNumber != 'one') {
-                                var oldUrl = $(elem).val();
-                                console.log(oldUrl);
-                                if (oldUrl != '') {
-                                    url = oldUrl + uploadSign + url;
-                                }
-                            }
-                            admin.msg.success(res.msg, function () {
-                                $(elem).val(url);
-                            });
-                        } else {
-                            admin.msg.error(res.msg);
-                        }
-                        return false;
-                    }
-                });
-            });
+            // 初始化图片显示以及监听上传事件
+            admin.api.upload(document.querySelectorAll("a[data-upload]"));
 
             // 监听弹出层的打开
             $('body').on('click', '[data-open]', function () {
@@ -682,8 +645,6 @@ define(["jquery"], function ($) {
                 var index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);
                 if (option.refreshTable != false) {
-                    console.log('刷新重载');
-                    console.log(option.refreshTable);
                     parent.layui.table.reload(option.refreshTable);
                 }
                 if (option.refreshFrame) {
@@ -698,6 +659,84 @@ define(["jquery"], function ($) {
             refreshTable: function (tableName) {
                 tableName = tableName | 'currentTable';
                 table.reload(tableName);
+            },
+            upload: function (uploadList) {
+                if (uploadList.length > 0) {
+                    $.each(uploadList, function (i, v) {
+                        var exts = $(this).attr('data-upload-exts'),
+                            uploadName = $(this).attr('data-upload'),
+                            uploadNumber = $(this).attr('data-upload-number'),
+                            uploadSign = $(this).attr('data-upload-sign');
+                        exts = exts || init.upload_exts;
+                        uploadNumber = uploadNumber || 'one';
+                        uploadSign = uploadSign || '|';
+                        var elem = "input[name='" + uploadName + "']";
+
+                        // 监听上传事件
+                        upload.render({
+                            elem: this,
+                            url: admin.url(init.upload_url),
+                            accept: 'file',
+                            exts: exts,
+                            done: function (res) {
+                                if (res.code == 1) {
+                                    var url = res.data.url;
+                                    if (uploadNumber != 'one') {
+                                        var oldUrl = $(elem).val();
+                                        if (oldUrl != '') {
+                                            url = oldUrl + uploadSign + url;
+                                        }
+                                    }
+                                    admin.msg.success(res.msg, function () {
+                                        $(elem).val(url);
+                                        $(elem).trigger("input");
+                                    });
+                                } else {
+                                    admin.msg.error(res.msg);
+                                }
+                                return false;
+                            }
+                        });
+
+                        // 监听上传input值变化
+                        $(elem).bind("input propertychange", function (event) {
+                            var urlString = $(this).val();
+                            var urlArray = urlString.split(uploadSign);
+                            $('#bing-' + uploadName).remove();
+                            if (urlArray.length > 0) {
+                                var parant = $(this).parent('div');
+                                var liHtml = '';
+                                $.each(urlArray, function (i, v) {
+                                    liHtml += '<li><a><img src="' + v + '" data-image ></a><small class="uploads-delete-tip bg-red badge" data-upload-delete="' + uploadName + '" data-upload-url="' + v + '" data-upload-sign="' + uploadSign + '">×</small></li>\n';
+                                });
+                                parant.after('<ul id="bing-' + uploadName + '" class="layui-input-block layuimini-upload-show">\n' + liHtml + '</ul>');
+                            }
+                        });
+
+                    });
+
+                    // 监听上传文件的删除事件
+                    $('body').on('click', '[data-upload-delete]', function () {
+                        var uploadName = $(this).attr('data-upload-delete'),
+                            deleteUrl = $(this).attr('data-upload-url'),
+                            sign = $(this).attr('data-upload-sign');
+                       var confirm = admin.msg.confirm('确定删除？', function () {
+                            var elem = "input[name='" + uploadName + "']";
+                            var currentUrl = $(elem).val();
+                            var url = '';
+                            if (currentUrl != deleteUrl) {
+                                url = currentUrl.replace(sign + deleteUrl, '');
+                                $(elem).val(url);
+                                $(elem).trigger("input");
+                            } else {
+                                $(elem).val(url);
+                                $('#bing-' + uploadName).remove();
+                            }
+                            admin.msg.close(confirm);
+                        });
+                        return false;
+                    });
+                }
             }
         },
     };

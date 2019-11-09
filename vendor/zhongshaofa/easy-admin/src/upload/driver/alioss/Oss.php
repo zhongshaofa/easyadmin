@@ -68,7 +68,7 @@ class Oss implements OssDriver
         }
         return [
             'save' => true,
-            'msg'  => '保存成功',
+            'msg'  => '上传成功',
             'url'  => $upload['info']['url'],
         ];
     }
