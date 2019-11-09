@@ -13,9 +13,8 @@
 namespace EasyAdmin\upload\driver;
 
 use EasyAdmin\upload\Base;
-use EasyAdmin\upload\interfaces\Upload;
 
-class Local extends Base implements Upload
+class Local extends Base
 {
 
     public function save()

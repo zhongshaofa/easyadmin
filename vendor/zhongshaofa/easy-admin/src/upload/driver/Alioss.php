@@ -14,9 +14,8 @@ namespace EasyAdmin\upload\driver;
 
 use EasyAdmin\upload\Base;
 use EasyAdmin\upload\driver\alioss\Oss;
-use EasyAdmin\upload\interfaces\Upload;
 
-class Alioss extends Base implements Upload
+class Alioss extends Base
 {
 
     public function save()

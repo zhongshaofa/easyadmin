@@ -13,9 +13,8 @@
 namespace EasyAdmin\upload\driver;
 
 use EasyAdmin\upload\Base;
-use EasyAdmin\upload\interfaces\Upload;
 
-class Qnoss extends Base implements Upload
+class Qnoss extends Base
 {
 
     public function save()

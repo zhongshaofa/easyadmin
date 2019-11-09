@@ -13,9 +13,8 @@
 namespace EasyAdmin\upload\driver;
 
 use EasyAdmin\upload\Base;
-use EasyAdmin\upload\interfaces\Upload;
 
-class Txoss extends Base implements Upload
+class Txoss extends Base
 {
 
     public function save()

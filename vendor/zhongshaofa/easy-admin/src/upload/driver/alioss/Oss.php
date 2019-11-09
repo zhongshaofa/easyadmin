@@ -12,10 +12,11 @@
 
 namespace EasyAdmin\upload\driver\alioss;
 
+use EasyAdmin\upload\interfaces\OssDriver;
 use OSS\Core\OssException;
 use OSS\OssClient;
 
-class Oss
+class Oss implements OssDriver
 {
 
     protected static $instance;
