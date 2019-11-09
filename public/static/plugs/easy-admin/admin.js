@@ -611,14 +611,6 @@ define(["jquery"], function ($) {
                 return false;
             });
 
-            // // 监听表格搜索开关显示
-            // $('body').on('click', '[data-search-fieldset]', function () {
-            //     console.log('打开');
-            //     var tableId = $(this).attr('data-search-fieldset');
-            //     tableId =  tableId || init.table_render_id;
-            //     alert(tableId);
-            // });
-
         },
         api: {
             form: function (url, data, ok, no, ex) {

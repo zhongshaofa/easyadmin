@@ -1,0 +1,110 @@
+{extend name="Public:iframe" /}
+
+{block name="cotent"}
+<style>
+    .layuimini-upload{
+        position:relative;
+    }
+    .layuimini-upload .layuimini-upload-btn{
+        display: inline-block;
+        position: absolute;
+        right: 0px;
+    }
+    .layuimini-upload-show {
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+    .layuimini-upload-show  li {
+        position:relative;
+        display: inline-block;
+        padding: 5px 0 5px 0;
+        padding-left: 10px;
+        padding-right: 10px;
+        border:1px solid #e2e2e2;
+    }
+    .layuimini-upload-show a img {
+        height: 80px;
+        object-fit: cover;
+    }
+    .layuimini-upload-show .uploads-delete-tip {
+        position: absolute;
+        right: 10px;
+        font-size: 12px;
+    }
+    .bg-red{
+        background-color: #e74c3c !important;
+    }
+    .badge {
+        display: inline-block;
+        min-width: 10px;
+        padding: 3px 7px;
+        font-size: 11px;
+        font-weight: bold;
+        color: #fff;
+        line-height: 1;
+        vertical-align: middle;
+        white-space: nowrap;
+        text-align: center;
+        background-color: #777777;
+        border-radius: 10px;
+    }
+</style>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <form id="app-form" class="layui-form layuimini-form">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户头像</label>
+                <div class="layui-input-block layuimini-upload">
+                    <input type="text" name="head_img" class="layui-input layui-col-xs6" lay-reqtext="请上传用户头像" placeholder="请上传用户头像" value="">
+                    <div class="layuimini-upload-btn">
+                        <span><button type="button" class="layui-btn"><i class="fa fa-upload"></i> 上传文件</button></span>
+                        <span><button type="button" class="layui-btn layui-btn-normal"><i class="fa fa-list"></i> 选择文件</button></span>
+                    </div>
+                </div>
+                <ul class="layui-input-block layuimini-upload-show">
+                    <li>
+                        <a><img src="__STATIC__/uploads/test.jpeg" ></a>
+                        <small class="uploads-delete-tip bg-red badge">×</small>
+                    </li>
+                    <li>
+                        <a><img src="__STATIC__/uploads/test.jpeg" ></a>
+                        <small class="uploads-delete-tip bg-red badge">×</small>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label required">登录账户</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" class="layui-input" lay-verify="required" lay-reqtext="请输入登录账户" placeholder="请输入登录账户" value="">
+                    <tip>填写登录账户。</tip>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户手机</label>
+                <div class="layui-input-block">
+                    <input type="text" name="phone" class="layui-input" lay-reqtext="请输入用户手机" placeholder="请输入用户手机" value="">
+                    <tip>填写用户手机。</tip>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">备注信息</label>
+                <div class="layui-input-block">
+                    <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn layui-btn-sm" lay-submit lay-filter="saveForm">确认</button>
+                    <button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">重置</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+{/block}
