@@ -137,16 +137,23 @@ define(["jquery"], function ($) {
                 options.limit = options.limit || 15;
                 options.limits = options.limits || [10, 15, 20, 25, 50, 100];
                 options.defaultToolbar = options.defaultToolbar || ['filter', {
-                    title: '查询',
+                    title: '搜索表格',
                     layEvent: 'TABLE_SEARCH',
-                    icon: 'layui-icon-search'
+                    icon: 'layui-icon-search',
+                    extend: 'data-seacher="asds"'
                 }];
+
+                // 初始化表格搜索
                 options.toolbar = options.toolbar || ['refresh', 'add', 'delete'];
                 if (options.search == true) {
                     admin.table.renderSearch(options.cols, options.elem, options.id);
                 }
+                // 初始化表格左上方工具栏
                 options.toolbar = admin.table.renderToolbar(options.toolbar, options.elem, options.id, options.init);
                 var newTable = table.render(options);
+
+                // 监听表格右上方工具栏事件
+
                 return newTable;
             },
             renderToolbar: function (data, elem, tableId, init) {
