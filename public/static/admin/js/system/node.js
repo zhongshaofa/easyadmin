@@ -33,7 +33,7 @@ define(["jquery", "admin",], function ($, admin) {
                         text: ' 强制更新节点',
                         class: 'layui-btn layui-btn-sm layui-btn-danger',
                         icon: 'fa fa-hourglass ',
-                        title: '确定强制更新节点？',
+                        title: '该操作会全部原来的节点，重新再生成一遍。<br>确定强制更新节点？',
                         extend: ' data-request="system.node/refreshNode" data-table="' + init.table_render_id + '"',
                     },
                 ]],
