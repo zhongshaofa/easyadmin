@@ -1,4 +1,4 @@
-<?php /*a:2:{s:60:"/var/www/html/EasyAdmin/app/admin/view/system/admin/add.html";i:1573369449;s:57:"/var/www/html/EasyAdmin/app/admin/view/Public/iframe.html";i:1573372826;}*/ ?>
+<?php /*a:2:{s:60:"/var/www/html/EasyAdmin/app/admin/view/system/admin/add.html";i:1573413586;s:57:"/var/www/html/EasyAdmin/app/admin/view/Public/iframe.html";i:1573372826;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +35,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label required">用户头像</label>
                 <div class="layui-input-block layuimini-upload">
-                    <input name="head_img" class="layui-input layui-col-xs6" lay-reqtext="请上传用户头像" placeholder="请上传用户头像" value="">
+                    <input name="head_img" class="layui-input layui-col-xs6" lay-verify="required" lay-reqtext="请上传用户头像" placeholder="请上传用户头像" value="">
                     <div class="layuimini-upload-btn">
                         <span><a class="layui-btn" data-upload="head_img" data-upload-number="one" data-upload-exts="png|jpg|ico|jpeg"><i class="fa fa-upload"></i> 上传文件</a></span>
                         <span><a class="layui-btn layui-btn-normal"><i class="fa fa-list"></i> 选择文件</a></span>
@@ -56,6 +56,15 @@
                 <div class="layui-input-block">
                     <input type="text" name="phone" class="layui-input" lay-reqtext="请输入用户手机" placeholder="请输入用户手机" value="">
                     <tip>填写用户手机。</tip>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">角色权限</label>
+                <div class="layui-input-block">
+                    <?php foreach($auth_list as $key=>$val): ?>
+                    <input type="checkbox" name="auth_ids[<?php echo htmlentities($key); ?>]" lay-skin="primary" title="<?php echo htmlentities($val); ?>">
+                    <?php endforeach; ?>
                 </div>
             </div>
 

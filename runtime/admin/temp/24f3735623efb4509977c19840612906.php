@@ -1,4 +1,4 @@
-<?php /*a:2:{s:61:"/var/www/html/EasyAdmin/app/admin/view/system/admin/edit.html";i:1573369449;s:57:"/var/www/html/EasyAdmin/app/admin/view/Public/iframe.html";i:1573324386;}*/ ?>
+<?php /*a:2:{s:61:"/var/www/html/EasyAdmin/app/admin/view/system/admin/edit.html";i:1573414218;s:57:"/var/www/html/EasyAdmin/app/admin/view/Public/iframe.html";i:1573372826;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +15,15 @@
     <![endif]-->
     <link rel="stylesheet" href="/static/plugs/lay-module/layuimini/layuimini-public.css?v=<?php echo time(); ?>" media="all">
     
+    <script>
+        window.ADMIN = "<?php echo htmlentities((isset($admin_module_name) && ($admin_module_name !== '')?$admin_module_name:'admin')); ?>";
+        window.CONTROLLER_JS_PATH = "<?php echo htmlentities((isset($thisControllerJsPath) && ($thisControllerJsPath !== '')?$thisControllerJsPath:'')); ?>";
+        window.ACTION = "<?php echo htmlentities((isset($thisAction) && ($thisAction !== '')?$thisAction:'')); ?>";
+        window.AUTOLOAD_JS = "<?php echo htmlentities((isset($autoloadJs) && ($autoloadJs !== '')?$autoloadJs:'false')); ?>";
+    </script>
+    <script src="/static/plugs/layui-v2.5.5/layui.all.js?v=<?php echo time(); ?>" charset="utf-8"></script>
+    <script src="/static/plugs/require-2.3.6/require.js?v=<?php echo time(); ?>" charset="utf-8"></script>
+    <script src="/static/config-admin.js?v=<?php echo time(); ?>" charset="utf-8"></script>
 </head>
 <body>
 
@@ -26,7 +35,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label required">用户头像</label>
                 <div class="layui-input-block layuimini-upload">
-                    <input name="head_img" class="layui-input layui-col-xs6" lay-reqtext="请上传用户头像" placeholder="请上传用户头像" value="<?php echo htmlentities((isset($row['head_img']) && ($row['head_img'] !== '')?$row['head_img']:'')); ?>">
+                    <input name="head_img" class="layui-input layui-col-xs6" lay-verify="required" lay-reqtext="请上传用户头像" placeholder="请上传用户头像" value="<?php echo htmlentities((isset($row['head_img']) && ($row['head_img'] !== '')?$row['head_img']:'')); ?>">
                     <div class="layuimini-upload-btn">
                         <span><a class="layui-btn" data-upload="head_img" data-upload-number="one" data-upload-exts="png|jpg|ico|jpeg"><i class="fa fa-upload"></i> 上传文件</a></span>
                         <span><a class="layui-btn layui-btn-normal"><i class="fa fa-list"></i> 选择文件</a></span>
@@ -50,6 +59,15 @@
                 </div>
             </div>
 
+            <div class="layui-form-item">
+                <label class="layui-form-label">角色权限</label>
+                <div class="layui-input-block">
+                    <?php foreach($auth_list as $key=>$val): ?>
+                    <input type="checkbox" name="auth_ids[<?php echo htmlentities($key); ?>]" lay-skin="primary" title="<?php echo htmlentities($val); ?>" <?php if(in_array($key,$row['auth_ids'])): ?>checked="" <?php endif; ?>>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">备注信息</label>
                 <div class="layui-input-block">
@@ -67,15 +85,6 @@
     </div>
 </div>
 
-<script>
-    window.ADMIN = "<?php echo htmlentities((isset($admin_module_name) && ($admin_module_name !== '')?$admin_module_name:'admin')); ?>";
-    window.CONTROLLER_JS_PATH = "<?php echo htmlentities((isset($thisControllerJsPath) && ($thisControllerJsPath !== '')?$thisControllerJsPath:'')); ?>";
-    window.ACTION = "<?php echo htmlentities((isset($thisAction) && ($thisAction !== '')?$thisAction:'')); ?>";
-    window.AUTOLOAD_JS = "<?php echo htmlentities((isset($autoloadJs) && ($autoloadJs !== '')?$autoloadJs:'false')); ?>";
-</script>
-<script src="/static/plugs/layui-v2.5.5/layui.all.js?v=<?php echo time(); ?>" charset="utf-8"></script>
-<script src="/static/plugs/require-2.3.6/require.js?v=<?php echo time(); ?>" charset="utf-8"></script>
-<script src="/static/config-admin.js?v=<?php echo time(); ?>" charset="utf-8"></script>
 
 </body>
 </html>

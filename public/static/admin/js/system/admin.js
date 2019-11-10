@@ -37,12 +37,6 @@ define(["jquery", "admin",], function ($, admin) {
                             [
                                 {
                                     class: 'layui-btn layui-btn-normal layui-btn-xs',
-                                    text: '授权',
-                                    open: init.edit_url,
-                                    extend: ""
-                                },
-                                {
-                                    class: 'layui-btn layui-btn-xs',
                                     text: '设置密码',
                                     open: 'system.admin/setPassword',
                                     extend: ""
