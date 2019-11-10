@@ -37,10 +37,13 @@ class Admin extends AdminController
     public function index()
     {
         if ($this->request->isAjax()) {
-            list($page, $limit, $where) = $this->buildRequest();
-            $count = $this->model->count();
+            list($page, $limit, $where) = $this->buildTableParames();
+            $count = $this->model
+                ->where($where)
+                ->count();
             $list = $this->model
                 ->withoutField('password')
+                ->where($where)
                 ->page($page, $limit)
                 ->select();
             $data = [

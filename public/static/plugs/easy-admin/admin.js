@@ -209,7 +209,7 @@ define(["jquery"], function ($) {
                     d.searchTip = d.searchTip || '请输入' + d.title || '';
                     d.searchValue = d.searchValue || '';
                     d.searchOp = d.searchOp || '%*%';
-                    d.timeType = d.timeType || 'date';
+                    d.timeType = d.timeType || 'datetime';
                     if (d.field != false && d.search != false) {
                         switch (d.search) {
                             case true:
