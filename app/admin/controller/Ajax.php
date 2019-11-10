@@ -66,10 +66,11 @@ class Ajax extends AdminController
     public function upload()
     {
         $data = [
-            'upload_type' => $this->request->post('upload_type', 'local'),
+            'upload_type' => $this->request->post('upload_type'),
             'file'        => $this->request->file('file'),
         ];
         $uploadConfig = sysconfig('upload');
+        empty($data['upload_type']) && $data['upload_type'] = $uploadConfig['upload_type'];
         $rule = [
             'upload_type|指定上传类型有误' => "in:{$uploadConfig['upload_allow_type']}",
             'file|文件'              => "require|file|fileExt:{$uploadConfig['upload_allow_ext']}|fileSize:{$uploadConfig['upload_allow_size']}",
