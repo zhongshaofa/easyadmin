@@ -1,4 +1,4 @@
-<?php /*a:2:{s:62:"/var/www/html/EasyAdmin/app/admin/view/system/admin/index.html";i:1573369449;s:57:"/var/www/html/EasyAdmin/app/admin/view/Public/iframe.html";i:1573372826;}*/ ?>
+<?php /*a:2:{s:61:"/var/www/html/EasyAdmin/app/admin/view/system/node/index.html";i:1573377728;s:57:"/var/www/html/EasyAdmin/app/admin/view/Public/iframe.html";i:1573372826;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>

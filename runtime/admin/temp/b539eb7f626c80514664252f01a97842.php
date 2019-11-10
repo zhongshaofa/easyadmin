@@ -1,4 +1,4 @@
-<?php /*a:2:{s:55:"/var/www/html/EasyAdmin/app/admin/view/index/index.html";i:1573371846;s:56:"/var/www/html/EasyAdmin/app/admin/view/Public/basic.html";i:1573324382;}*/ ?>
+<?php /*a:2:{s:55:"/var/www/html/EasyAdmin/app/admin/view/index/index.html";i:1573372194;s:56:"/var/www/html/EasyAdmin/app/admin/view/Public/basic.html";i:1573372820;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +18,15 @@
 <style id="layuimini-bg-color">
 </style>
 
+    <script>
+        window.ADMIN = "<?php echo htmlentities((isset($admin_module_name) && ($admin_module_name !== '')?$admin_module_name:'admin')); ?>";
+        window.CONTROLLER_JS_PATH = "<?php echo htmlentities((isset($thisControllerJsPath) && ($thisControllerJsPath !== '')?$thisControllerJsPath:'')); ?>";
+        window.ACTION = "<?php echo htmlentities((isset($thisAction) && ($thisAction !== '')?$thisAction:'')); ?>";
+        window.AUTOLOAD_JS = "<?php echo htmlentities((isset($autoloadJs) && ($autoloadJs !== '')?$autoloadJs:'false')); ?>";
+    </script>
+    <script src="/static/plugs/layui-v2.5.5/layui.all.js?v=<?php echo time(); ?>" charset="utf-8"></script>
+    <script src="/static/plugs/require-2.3.6/require.js?v=<?php echo time(); ?>" charset="utf-8"></script>
+    <script src="/static/config-admin.js?v=<?php echo time(); ?>" charset="utf-8"></script>
 </head>
 <body>
 
@@ -94,15 +103,6 @@
 </div>
 </body>
 
-<script>
-    window.ADMIN = "<?php echo htmlentities((isset($admin_module_name) && ($admin_module_name !== '')?$admin_module_name:'admin')); ?>";
-    window.CONTROLLER_JS_PATH = "<?php echo htmlentities((isset($thisControllerJsPath) && ($thisControllerJsPath !== '')?$thisControllerJsPath:'')); ?>";
-    window.ACTION = "<?php echo htmlentities((isset($thisAction) && ($thisAction !== '')?$thisAction:'')); ?>";
-    window.AUTOLOAD_JS = "<?php echo htmlentities((isset($autoloadJs) && ($autoloadJs !== '')?$autoloadJs:'false')); ?>";
-</script>
-<script src="/static/plugs/layui-v2.5.5/layui.all.js?v=<?php echo time(); ?>" charset="utf-8"></script>
-<script src="/static/plugs/require-2.3.6/require.js?v=<?php echo time(); ?>" charset="utf-8"></script>
-<script src="/static/config-admin.js?v=<?php echo time(); ?>" charset="utf-8"></script>
 
 </body>
 </html>

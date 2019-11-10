@@ -24,6 +24,8 @@ class SystemConstant
         'sort',
         'remark',
         'is_delete',
+        'is_auth',
+        'title',
     ];
 
 }

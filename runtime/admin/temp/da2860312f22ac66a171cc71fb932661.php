@@ -1,4 +1,4 @@
-<?php /*a:2:{s:61:"/var/www/html/EasyAdmin/app/admin/view/system/menu/index.html";i:1573145829;s:57:"/var/www/html/EasyAdmin/app/admin/view/Public/iframe.html";i:1573324386;}*/ ?>
+<?php /*a:2:{s:61:"/var/www/html/EasyAdmin/app/admin/view/system/menu/index.html";i:1573145829;s:57:"/var/www/html/EasyAdmin/app/admin/view/Public/iframe.html";i:1573372826;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +24,15 @@
     }
 </style>
 
+    <script>
+        window.ADMIN = "<?php echo htmlentities((isset($admin_module_name) && ($admin_module_name !== '')?$admin_module_name:'admin')); ?>";
+        window.CONTROLLER_JS_PATH = "<?php echo htmlentities((isset($thisControllerJsPath) && ($thisControllerJsPath !== '')?$thisControllerJsPath:'')); ?>";
+        window.ACTION = "<?php echo htmlentities((isset($thisAction) && ($thisAction !== '')?$thisAction:'')); ?>";
+        window.AUTOLOAD_JS = "<?php echo htmlentities((isset($autoloadJs) && ($autoloadJs !== '')?$autoloadJs:'false')); ?>";
+    </script>
+    <script src="/static/plugs/layui-v2.5.5/layui.all.js?v=<?php echo time(); ?>" charset="utf-8"></script>
+    <script src="/static/plugs/require-2.3.6/require.js?v=<?php echo time(); ?>" charset="utf-8"></script>
+    <script src="/static/config-admin.js?v=<?php echo time(); ?>" charset="utf-8"></script>
 </head>
 <body>
 
@@ -38,15 +47,6 @@
     <button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="deleteAll"><i class="layui-icon layui-icon-delete"></i>删除</button>
 </script>
 
-<script>
-    window.ADMIN = "<?php echo htmlentities((isset($admin_module_name) && ($admin_module_name !== '')?$admin_module_name:'admin')); ?>";
-    window.CONTROLLER_JS_PATH = "<?php echo htmlentities((isset($thisControllerJsPath) && ($thisControllerJsPath !== '')?$thisControllerJsPath:'')); ?>";
-    window.ACTION = "<?php echo htmlentities((isset($thisAction) && ($thisAction !== '')?$thisAction:'')); ?>";
-    window.AUTOLOAD_JS = "<?php echo htmlentities((isset($autoloadJs) && ($autoloadJs !== '')?$autoloadJs:'false')); ?>";
-</script>
-<script src="/static/plugs/layui-v2.5.5/layui.all.js?v=<?php echo time(); ?>" charset="utf-8"></script>
-<script src="/static/plugs/require-2.3.6/require.js?v=<?php echo time(); ?>" charset="utf-8"></script>
-<script src="/static/config-admin.js?v=<?php echo time(); ?>" charset="utf-8"></script>
 
 </body>
 </html>

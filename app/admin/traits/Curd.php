@@ -25,8 +25,7 @@ trait Curd
 
 
     /**
-     * @NodeAnotation(title="列表信息")
-     * @return \think\response\Json
+     * @NodeAnotation(title="列表")
      */
     public function index()
     {
@@ -52,7 +51,6 @@ trait Curd
 
     /**
      * @NodeAnotation(title="添加")
-     * @return mixed
      */
     public function add()
     {
@@ -72,7 +70,6 @@ trait Curd
 
     /**
      * @NodeAnotation(title="编辑")
-     * @return mixed
      */
     public function edit($id)
     {
@@ -97,7 +94,6 @@ trait Curd
 
     /**
      * @NodeAnotation(title="删除")
-     * @return mixed
      */
     public function del($id)
     {
@@ -112,9 +108,7 @@ trait Curd
     }
 
     /**
-     * 修改字段属性值
      * @NodeAnotation(title="属性修改")
-     * @return mixed
      */
     public function modify()
     {

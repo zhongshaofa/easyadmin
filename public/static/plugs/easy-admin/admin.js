@@ -165,6 +165,9 @@ define(["jquery"], function ($) {
                 // 监听表格开关切换
                 admin.table.renderSwitch(options.cols, options.init);
 
+                // 监听表格开关切换
+                admin.table.listenEdit(options.init, options.layFilter, options.id);
+
                 return newTable;
             },
             renderToolbar: function (data, elem, tableId, init) {
@@ -384,7 +387,7 @@ define(["jquery"], function ($) {
                 option.filter = option.filter || option.field || null;
                 option.checked = option.checked || 1;
                 option.tips = option.tips || '开|关';
-                var checked = data.status == option.checked ? 'checked' : '';
+                var checked = data[option.field] == option.checked ? 'checked' : '';
                 return '<input type="checkbox" name="' + option.field + '" value="' + data.id + '" lay-skin="switch" lay-text="' + option.tips + '" lay-filter="' + option.filter + '" ' + checked + ' >';
             },
             listenSwitch: function (option, ok) {
@@ -436,7 +439,36 @@ define(["jquery"], function ($) {
                             break;
                     }
                 });
-            }
+            },
+            listenEdit: function (tableInit, layFilter, tableId) {
+                tableInit.modify_url = tableInit.modify_url || false;
+                tableId = tableId || init.table_render_id;
+                if (tableInit.modify_url != false) {
+                    table.on('edit(' + layFilter + ')', function (obj) {
+                        var value = obj.value,
+                            data = obj.data,
+                            id = data.id,
+                            field = obj.field;
+                        var _data = {
+                            id: id,
+                            field: field,
+                            value: value,
+                        };
+                        admin.request.post({
+                            url: tableInit.modify_url,
+                            prefix: true,
+                            data: _data,
+                        }, function (res) {
+                        }, function (res) {
+                            admin.msg.error(res.msg, function () {
+                                table.reload(tableId);
+                            });
+                        }, function () {
+                            table.reload(tableId);
+                        });
+                    });
+                }
+            },
         },
         checkMobile: function () {
             var userAgentInfo = navigator.userAgent;
@@ -483,8 +515,16 @@ define(["jquery"], function ($) {
         },
         listen: function (formCallback, ok, no, ex) {
 
+            // 初始化layui表单
+            form.render();
+
             // 初始化图片显示以及监听上传事件
             admin.api.upload();
+
+            // 表格修改
+            $("body").on("mouseenter", ".table-edit-tips", function () {
+                var openTips = layer.tips('点击行内容可以进行修改', $(this), { tips: [2, '#e74c3c'], time: 4000});
+            });
 
             // 监听弹出层的打开
             $('body').on('click', '[data-open]', function () {

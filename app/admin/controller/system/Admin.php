@@ -38,7 +38,7 @@ class Admin extends AdminController
     }
 
     /**
-     * @NodeAnotation(title="列表信息")
+     * @NodeAnotation(title="列表")
      * @return string|\think\response\Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException

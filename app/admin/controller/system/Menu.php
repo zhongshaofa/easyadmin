@@ -37,7 +37,7 @@ class Menu extends AdminController
     }
 
     /**
-     * @NodeAnotation(title="菜单列表",auth=true)
+     * @NodeAnotation(title="列表")
      * @return string|\think\response\Json
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
@@ -60,7 +60,7 @@ class Menu extends AdminController
     }
 
     /**
-     * @NodeAnotation(title="添加菜单",auth=true)
+     * @NodeAnotation(title="添加")
      * @param null $id
      * @return string
      * @throws \Exception
@@ -93,7 +93,7 @@ class Menu extends AdminController
     }
 
     /**
-     * @NodeAnotation(title="编辑菜单",auth=true)
+     * @NodeAnotation(title="编辑")
      * @param $id
      * @return string
      * @throws \think\db\exception\DataNotFoundException
@@ -129,7 +129,7 @@ class Menu extends AdminController
     }
 
     /**
-     * @NodeAnotation(title="删除菜单",auth=true)
+     * @NodeAnotation(title="删除")
      * @param $id
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
