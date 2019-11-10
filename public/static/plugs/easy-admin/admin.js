@@ -162,6 +162,9 @@ define(["jquery"], function ($) {
                 // 监听表格搜索开关显示
                 admin.table.listenToolbar(options.layFilter, options.id);
 
+                // 监听表格开关切换
+                admin.table.renderSwitch(options.cols, options.init);
+
                 return newTable;
             },
             renderToolbar: function (data, elem, tableId, init) {
@@ -283,6 +286,19 @@ define(["jquery"], function ($) {
                     });
                 }
             },
+            renderSwitch: function (cols, tableInit, tableId) {
+                tableInit.modify_url = tableInit.modify_url || false;
+                cols = cols[0] || {};
+                tableId = tableId || init.table_render_id;
+                if (cols.length > 0) {
+                    $.each(cols, function (i, v) {
+                        v.filter = v.filter || false;
+                        if (v.filter != false && tableInit.modify_url != false) {
+                            admin.table.listenSwitch({filter: v.filter, url: tableInit.modify_url, tableId: tableId});
+                        }
+                    });
+                }
+            },
             tool: function (data, option) {
                 option.operat = option.operat || ['edit', 'delete'];
                 var html = '';
@@ -375,7 +391,7 @@ define(["jquery"], function ($) {
                 option.filter = option.filter || '';
                 option.url = option.url || '';
                 option.field = option.field || option.filter || '';
-                option.tableName = option.tableName || 'currentTable';
+                option.tableId = option.tableId || init.table_render_id;
                 form.on('switch(' + option.filter + ')', function (obj) {
                     var checked = obj.elem.checked ? 1 : 0;
                     if (typeof ok === 'function') {
@@ -396,10 +412,10 @@ define(["jquery"], function ($) {
                         }, function (res) {
                         }, function (res) {
                             admin.msg.error(res.msg, function () {
-                                table.reload(option.tableName);
+                                table.reload(option.tableId);
                             });
                         }, function () {
-                            table.reload(option.tableName);
+                            table.reload(option.tableId);
                         });
                     }
                 });

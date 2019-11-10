@@ -53,8 +53,6 @@ define(["jquery", "admin",], function ($, admin) {
                 ]],
             });
 
-            admin.table.listenSwitch({filter: 'status', url: init.modify_url});
-
             admin.listen();
         },
         add: function () {
