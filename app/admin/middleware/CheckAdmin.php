@@ -48,6 +48,7 @@ class CheckAdmin
     protected $noAuthController = [
         'ajax',
         'login',
+        'index',
     ];
 
     /**

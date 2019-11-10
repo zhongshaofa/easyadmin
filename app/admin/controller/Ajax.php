@@ -12,6 +12,7 @@
 
 namespace app\admin\controller;
 
+use app\admin\model\SystemAdmin;
 use app\common\controller\AdminController;
 use app\common\service\MenuService;
 use EasyAdmin\upload\Uploadfile;

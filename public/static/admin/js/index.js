@@ -115,6 +115,9 @@ define(["jquery", "admin", "echarts", "layuimini", "echarts-theme"], function ($
             };
             echartsRecords.setOption(optionRecords);
         },
+        edit_admin: function () {
+            admin.listen();
+        }
     };
     return Controller;
 });

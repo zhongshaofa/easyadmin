@@ -1,4 +1,4 @@
-<?php /*a:2:{s:55:"/var/www/html/EasyAdmin/app/admin/view/index/index.html";i:1573064167;s:56:"/var/www/html/EasyAdmin/app/admin/view/Public/basic.html";i:1573324382;}*/ ?>
+<?php /*a:2:{s:55:"/var/www/html/EasyAdmin/app/admin/view/index/index.html";i:1573371846;s:56:"/var/www/html/EasyAdmin/app/admin/view/Public/basic.html";i:1573324382;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,7 +50,7 @@
                 <a href="javascript:;">admin</a>
                 <dl class="layui-nav-child">
                     <dd>
-                        <a href="javascript:;" data-iframe-tab="page/user-setting.html" data-title="基本资料" data-icon="fa fa-gears">基本资料</a>
+                        <a href="javascript:;" data-iframe-tab="<?php echo __url('index/editAdmin'); ?>" data-title="基本资料" data-icon="fa fa-gears">基本资料</a>
                     </dd>
                     <dd>
                         <a href="javascript:;" data-iframe-tab="page/user-password.html" data-title="修改密码" data-icon="fa fa-gears">修改密码</a>
