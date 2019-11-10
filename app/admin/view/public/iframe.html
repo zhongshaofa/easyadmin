@@ -14,18 +14,18 @@
     <![endif]-->
     <link rel="stylesheet" href="__STATIC__/plugs/lay-module/layuimini/layuimini-public.css?v={:time()}" media="all">
     {block name="style"}{/block}
+    <script>
+        window.ADMIN = "{$admin_module_name|default='admin'}";
+        window.CONTROLLER_JS_PATH = "{$thisControllerJsPath|default=''}";
+        window.ACTION = "{$thisAction|default=''}";
+        window.AUTOLOAD_JS = "{$autoloadJs|default='false'}";
+    </script>
+    <script src="__STATIC__/plugs/layui-v2.5.5/layui.all.js?v={:time()}" charset="utf-8"></script>
+    <script src="__STATIC__/plugs/require-2.3.6/require.js?v={:time()}" charset="utf-8"></script>
+    <script src="__STATIC__/config-admin.js?v={:time()}" charset="utf-8"></script>
 </head>
 <body>
 {block name="cotent"}{/block}
-<script>
-    window.ADMIN = "{$admin_module_name|default='admin'}";
-    window.CONTROLLER_JS_PATH = "{$thisControllerJsPath|default=''}";
-    window.ACTION = "{$thisAction|default=''}";
-    window.AUTOLOAD_JS = "{$autoloadJs|default='false'}";
-</script>
-<script src="__STATIC__/plugs/layui-v2.5.5/layui.all.js?v={:time()}" charset="utf-8"></script>
-<script src="__STATIC__/plugs/require-2.3.6/require.js?v={:time()}" charset="utf-8"></script>
-<script src="__STATIC__/config-admin.js?v={:time()}" charset="utf-8"></script>
 {block name="script"}{/block}
 </body>
 </html>
