@@ -492,23 +492,20 @@ define(["jquery"], function ($) {
         },
         open: function (title, url, width, height, isResize) {
             if (isResize == undefined) isResize = true;
-            var index = layui.layer.open({
+            isResize = isResize == undefined ? true : isResize;
+            var index = layer.open({
                 title: title,
                 type: 2,
                 area: [width, height],
                 content: url,
                 success: function (layero, index) {
-                    var body = layui.layer.getChildFrame('body', index);
+                    var body = layer.getChildFrame('body', index);
                 }
             });
             if (admin.checkMobile() || width == undefined || height == undefined) {
                 layer.full(index);
-            } else {
-                if (width.replace("px", "") > window.innerWidth || height.replace("px", "") > window.innerHeight) {
-                    layer.full(index);
-                }
             }
-            if (isResize == true) {
+            if (isResize) {
                 $(window).on("resize", function () {
                     layer.full(index);
                 })
