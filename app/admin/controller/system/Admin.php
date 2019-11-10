@@ -14,8 +14,11 @@ namespace app\admin\controller\system;
 
 
 use app\admin\model\SystemAdmin;
+use app\common\constants\AdminConstant;
+use app\common\constants\SystemConstant;
 use app\common\controller\AdminController;
 use EasyAdmin\annotation\ControllerAnnotation;
+use EasyAdmin\annotation\NodeAnotation;
 use think\App;
 
 /**
@@ -34,6 +37,13 @@ class Admin extends AdminController
         $this->model = new SystemAdmin();
     }
 
+    /**
+     * @NodeAnotation(title="列表信息")
+     * @return string|\think\response\Json
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
     public function index()
     {
         if ($this->request->isAjax()) {
@@ -55,6 +65,40 @@ class Admin extends AdminController
             return json($data);
         }
         return $this->fetch();
+    }
+
+    /**
+     * 修改字段属性值
+     * @NodeAnotation(title="属性修改")
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function modify()
+    {
+        $post = $this->request->post();
+        $rule = [
+            'id|ID'    => 'require',
+            'field|字段' => 'require',
+            'value|值'  => 'require',
+        ];
+        $this->validate($post, $rule);
+        if (!in_array($post['field'], SystemConstant::ALLOW_MODIFY_FIELD)) {
+            $this->error('该字段不允许修改：' . $post['field']);
+        }
+        if ($post['id'] == AdminConstant::SUPER_ADMIN_ID && $post['field'] == 'status') {
+            $this->error('超级管理员状态不允许修改');
+        }
+        $row = $this->model->find($post['id']);
+        empty($row) && $this->error('数据不存在');
+        try {
+            $row->save([
+                $post['field'] => $post['value'],
+            ]);
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
+        }
+        $this->success('保存成功');
     }
 
 
