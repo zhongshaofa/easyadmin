@@ -127,9 +127,8 @@ class AuthService
                 'status' => 1,
             ])->find();
         if (!empty($adminInfo)) {
-            $authIdArr        = explode(',', $adminInfo['auth_ids']);
             $buildAuthSql     = Db::name($this->config['system_auth'])
-                ->where("id IN {$authIdArr}")
+                ->where("id IN {$adminInfo['auth_ids']}")
                 ->distinct(true)
                 ->field('id')
                 ->buildSql(true);
@@ -138,8 +137,9 @@ class AuthService
                 ->distinct(true)
                 ->field('node_id')
                 ->buildSql(true);
-            $nodeList         = Db::name($this->config['system_auth_node'])
-                ->where("id IN {$buildAuthNodeSql}")
+            $nodeList         = Db::name($this->config['system_node'])
+                ->whereIn('id',$buildAuthNodeSql)
+                ->fetchSql()
                 ->column('node');
         }
         return $nodeList;
