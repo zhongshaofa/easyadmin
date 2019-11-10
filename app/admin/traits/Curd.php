@@ -86,9 +86,7 @@ trait Curd
             }
             $save ? $this->success('保存成功') : $this->error('保存失败');
         }
-        $this->assign([
-            'row' => $row,
-        ]);
+        $this->assign('row', $row);
         return $this->fetch();
     }
 
