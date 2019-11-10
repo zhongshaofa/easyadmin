@@ -269,7 +269,7 @@ define(["jquery"], function ($) {
                         '<form class="layui-form layui-form-pane">\n' +
                         formHtml +
                         '<div class="layui-form-item layui-inline">\n' +
-                        '<button type="submit" class="layui-btn layui-btn-primary" data-type="tableSearch" data-table-search="' + tableId + '" lay-submit lay-filter="' + tableId + '_filter"><i class="layui-icon">&#xe615;</i> 搜 索</button>\n' +
+                        '<button type="submit" class="layui-btn layui-btn-primary" data-type="tableSearch" data-table="' + tableId + '" lay-submit lay-filter="' + tableId + '_filter"><i class="layui-icon">&#xe615;</i> 搜 索</button>\n' +
                         ' </div>' +
                         '</form>' +
                         '</fieldset>');
@@ -551,11 +551,12 @@ define(["jquery"], function ($) {
             $('body').on('click', '[lay-submit]', function () {
                 var filter = $(this).attr('lay-filter'),
                     url = $(this).attr('lay-submit'),
-                    type = $(this).attr('data-type');
+                    type = $(this).attr('data-type'),
+                    tableId = $(this).attr('data-table');
                 type = type || 'commonSubmit';
                 if (type == 'tableSearch') {
+                    tableId = tableId || init.table_render_id;
                     // 表格搜索重载
-                    var tableId = $(this).attr('data-table-search');
                     form.on('submit(' + filter + ')', function (data) {
                         var dataField = data.field;
                         var formatFilter = {},
@@ -580,6 +581,7 @@ define(["jquery"], function ($) {
                         return false;
                     });
                 } else {
+                    tableId = tableId || false;
                     // 普通数据提交
                     if (url == undefined || url == '' || url == null) {
                         url = window.location.href;
@@ -595,7 +597,17 @@ define(["jquery"], function ($) {
                         if (typeof formCallback === 'function') {
                             formCallback(url, dataField);
                         } else {
-                            admin.api.form(url, dataField, ok, no, ex);
+                            if (tableId != false && typeof ok != "function") {
+                                admin.api.form(url, dataField, function (res) {
+                                    admin.msg.success(res.msg, function () {
+                                        admin.api.closeCurrentOpen({
+                                            refreshTable: tableId
+                                        });
+                                    });
+                                }, no, ex);
+                            } else {
+                                admin.api.form(url, dataField, ok, no, ex);
+                            }
                         }
                         return false;
                     });
@@ -656,7 +668,7 @@ define(["jquery"], function ($) {
                 option.refreshTable = option.refreshTable || false;
                 option.refreshFrame = option.refreshFrame || false;
                 if (option.refreshTable == true) {
-                    option.refreshTable = 'currentTable';
+                    option.refreshTable = init.table_render_id;
                 }
                 var index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);

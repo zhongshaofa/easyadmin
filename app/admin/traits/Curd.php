@@ -23,16 +23,36 @@ use EasyAdmin\annotation\NodeAnotation;
 trait Curd
 {
 
+
     /**
-     * @NodeAnotation(title="系统配置列表")
+     * @NodeAnotation(title="列表信息")
+     * @return \think\response\Json
      */
     public function index()
     {
-
+        if ($this->request->isAjax()) {
+            list($page, $limit, $where) = $this->buildTableParames();
+            $count = $this->model
+                ->where($where)
+                ->count();
+            $list = $this->model
+                ->where($where)
+                ->page($page, $limit)
+                ->select();
+            $data = [
+                'code'  => 0,
+                'msg'   => '',
+                'count' => $count,
+                'data'  => $list,
+            ];
+            return json($data);
+        }
+        return $this->fetch();
     }
 
     /**
      * @NodeAnotation(title="添加")
+     * @return mixed
      */
     public function add()
     {
@@ -52,6 +72,7 @@ trait Curd
 
     /**
      * @NodeAnotation(title="编辑")
+     * @return mixed
      */
     public function edit($id)
     {
@@ -76,6 +97,7 @@ trait Curd
 
     /**
      * @NodeAnotation(title="删除")
+     * @return mixed
      */
     public function del($id)
     {
@@ -92,6 +114,7 @@ trait Curd
     /**
      * 修改字段属性值
      * @NodeAnotation(title="属性修改")
+     * @return mixed
      */
     public function modify()
     {
