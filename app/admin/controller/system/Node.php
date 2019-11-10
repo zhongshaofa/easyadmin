@@ -17,7 +17,9 @@ use app\admin\model\SystemNode;
 use app\common\controller\AdminController;
 use EasyAdmin\annotation\ControllerAnnotation;
 use EasyAdmin\annotation\NodeAnotation;
+use EasyAdmin\auth\Node as NodeService;
 use think\App;
+use think\facade\Db;
 
 /**
  * @ControllerAnnotation(title="系统节点管理")
@@ -55,5 +57,36 @@ class Node extends AdminController
             return json($data);
         }
         return $this->fetch();
+    }
+
+    /**
+     * @NodeAnotation(title="系统节点更新")
+     * @param int $force
+     * @throws \Doctrine\Common\Annotations\AnnotationException
+     * @throws \ReflectionException
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function refreshNode($force = 0)
+    {
+        $nodeList = (new NodeService())->getNodelist();
+        empty($nodeList) && $this->error('暂无需要更新的系统节点');
+        $model = new SystemNode();
+        if ($force == 1) {
+            $model->whereIn('node', array_column($nodeList, 'node'))->delete();
+        } else {
+            $existNodeList = $model->field('node,title,type,is_auth')->select();
+            foreach ($nodeList as $key => $vo) {
+                foreach ($existNodeList as $v) {
+                    if ($vo['node'] == $v->node) {
+                        unset($nodeList[$key]);
+                        break;
+                    }
+                }
+            }
+        }
+        $model->insertAll($nodeList);
+        $this->success('系统节点更新成功');
     }
 }

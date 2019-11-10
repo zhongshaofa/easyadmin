@@ -21,7 +21,22 @@ define(["jquery", "admin",], function ($, admin) {
                 id: init.table_render_id,
                 url: admin.url(init.index_url),
                 init: init,
-                toolbar: ['refresh'],
+                toolbar: ['refresh', [
+                    {
+                        text: ' 更新节点',
+                        class: 'layui-btn layui-btn-sm',
+                        icon: 'fa fa-hourglass ',
+                        title: '确定更新新节点？',
+                        extend: ' data-request="system.node/refreshNode" data-table="' + init.table_render_id + '"',
+                    },
+                    {
+                        text: ' 强制更新节点',
+                        class: 'layui-btn layui-btn-sm layui-btn-danger',
+                        icon: 'fa fa-hourglass ',
+                        title: '确定强制更新节点？',
+                        extend: ' data-request="system.node/refreshNode" data-table="' + init.table_render_id + '"',
+                    },
+                ]],
                 search: false,
                 defaultToolbar: ['filter'],
                 page: false,

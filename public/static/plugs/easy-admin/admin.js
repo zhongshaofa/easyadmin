@@ -191,8 +191,9 @@ define(["jquery"], function ($) {
                             // 组合数据
                             vv.icon = vv.icon != '' ? '<i class="' + vv.icon + '"></i>' : '';
                             vv.class = vv.class != '' ? 'class="' + vv.class + '" ' : '';
-                            vv.open = vv.open != '' ? 'data-open="' + vv.open + '" data-title="' + vv.title + '" ' : '';
-                            toolbarHtml += '<button ' + vv.class + vv.open + vv.request + vv.event + vv.extend + '>' + vv.icon + vv.text + '</button>\n';
+                            vv.open = vv.open != '' ? 'data-open="' + vv.open + '" ' : '';
+                            vv.title = vv.title != '' ? 'data-title="' + vv.title + '" ' : '';
+                            toolbarHtml += '<button ' + vv.class + vv.open + vv.title + vv.extend + '>' + vv.icon + vv.text + '</button>\n';
                         });
                     }
                 });
@@ -523,7 +524,7 @@ define(["jquery"], function ($) {
 
             // 表格修改
             $("body").on("mouseenter", ".table-edit-tips", function () {
-                var openTips = layer.tips('点击行内容可以进行修改', $(this), { tips: [2, '#e74c3c'], time: 4000});
+                var openTips = layer.tips('点击行内容可以进行修改', $(this), {tips: [2, '#e74c3c'], time: 4000});
             });
 
             // 监听弹出层的打开
@@ -573,14 +574,16 @@ define(["jquery"], function ($) {
             // 监听请求
             $('body').on('click', '[data-request]', function () {
                 var title = $(this).attr('data-title'),
-                    url = admin.url($(this).attr('data-request'));
+                    url = admin.url($(this).attr('data-request')),
+                    tableId = $(this).attr('data-table');
                 title = title || '确定进行该操作？';
+                tableId = tableId || init.table_render_id;
                 admin.msg.confirm(title, function () {
                     admin.request.get({
                         url: url,
                     }, function (res) {
                         admin.msg.success(res.msg, function () {
-                            table.reload(option.tableName);
+                            table.reload(tableId);
                         });
                     })
                 });
