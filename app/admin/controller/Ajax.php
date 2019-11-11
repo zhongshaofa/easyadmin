@@ -41,8 +41,8 @@ class Ajax extends AdminController
             ],
             'logoInfo'  => [
                 'title' => 'EasyAdmin',
-                'image' => null,
-                'href'  => null,
+                'image' => '/favicon.ico',
+                'href'  => __url('index/index'),
             ],
             'homeInfo'  => $menuService->getHomeInfo(),
             'menuInfo'  => $menuService->getMenuTree(),
