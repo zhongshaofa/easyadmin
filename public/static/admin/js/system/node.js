@@ -31,11 +31,17 @@ define(["jquery", "admin",], function ($, admin) {
                     },
                     {
                         text: ' 强制更新节点',
-                        class: 'layui-btn layui-btn-sm layui-btn-danger',
+                        class: 'layui-btn layui-btn-sm layui-btn-normal',
                         icon: 'fa fa-hourglass ',
                         title: '该操作会覆盖已存在的节点信息。<br>确定强制更新节点？',
                         extend: ' data-request="system.node/refreshNode?force=1" data-table="' + init.table_render_id + '"',
-                    },
+                    },{
+                        text: ' 清除失效节点',
+                        class: 'layui-btn layui-btn-sm layui-btn-danger',
+                        icon: 'fa fa-trash-o ',
+                        title: '确定清除失效节点？',
+                        extend: ' data-request="system.node/clearNode" data-table="' + init.table_render_id + '"',
+                    }
                 ]],
                 search: false,
                 defaultToolbar: ['filter'],

@@ -34,7 +34,7 @@ class Ajax extends AdminController
         if (!empty($cacheData)) {
             return json($cacheData);
         }
-        $menuService = new MenuService();
+        $menuService = new MenuService(session('admin.id'));
         $data = [
             'clearInfo' => [
                 'clearUrl' => __url('ajax/clearCache'),

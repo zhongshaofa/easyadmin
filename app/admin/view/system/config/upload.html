@@ -29,7 +29,7 @@
         <label class="layui-form-label required">公钥信息</label>
         <div class="layui-input-block">
             <input type="text" name="alioss_access_key_id" class="layui-input" lay-verify="required" lay-reqtext="请输入公钥信息" placeholder="请输入公钥信息" value="{:sysconfig('upload','alioss_access_key_id')}">
-            <tip>设置公钥信息。</tip>
+            <tip>例子：FSGGshu64642THSk</tip>
         </div>
     </div>
 
@@ -37,7 +37,7 @@
         <label class="layui-form-label required">私钥信息</label>
         <div class="layui-input-block">
             <input type="text" name="alioss_access_key_secret" class="layui-input" lay-verify="required" lay-reqtext="请输入私钥信息" placeholder="请输入私钥信息" value="{:sysconfig('upload','alioss_access_key_secret')}">
-            <tip>设置私钥信息。</tip>
+            <tip>例子：5fsfPReYKkFSGGshu64642THSkmTInaIm</tip>
         </div>
     </div>
 
@@ -45,7 +45,7 @@
         <label class="layui-form-label required">数据中心</label>
         <div class="layui-input-block">
             <input type="text" name="alioss_endpoint" class="layui-input" lay-verify="required" lay-reqtext="请输入数据中心" placeholder="请输入数据中心" value="{:sysconfig('upload','alioss_endpoint')}">
-            <tip>设置数据中心。</tip>
+            <tip>例子：https://oss-cn-shenzhen.aliyuncs.com</tip>
         </div>
     </div>
 
@@ -53,15 +53,15 @@
         <label class="layui-form-label required">空间名称</label>
         <div class="layui-input-block">
             <input type="text" name="alioss_bucket" class="layui-input" lay-verify="required" lay-reqtext="请输入空间名称" placeholder="请输入空间名称" value="{:sysconfig('upload','alioss_bucket')}">
-            <tip>设置空间名称。</tip>
+            <tip>例子：easy-admin</tip>
         </div>
     </div>
 
-    <div class="layui-form-item">
+    <div class="layui-form-item" v-if="upload_type == 'alioss'" v-cloak>
         <label class="layui-form-label required">访问域名</label>
         <div class="layui-input-block">
             <input type="text" name="alioss_domain" class="layui-input" lay-verify="required" lay-reqtext="请输入访问域名" placeholder="请输入访问域名" value="{:sysconfig('upload','alioss_domain')}">
-            <tip>设置访问域名。</tip>
+            <tip>例子：easy-admin.oss-cn-shenzhen.aliyuncs.com</tip>
         </div>
     </div>
 

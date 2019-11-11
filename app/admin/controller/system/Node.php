@@ -93,4 +93,23 @@ class Node extends AdminController
         }
         $this->success('节点更新成功');
     }
+
+    /**
+     * @NodeAnotation(title="清除失效节点")
+     */
+    public function clearNode()
+    {
+        $nodeList = (new NodeService())->getNodelist();
+        $model = new SystemNode();
+        try {
+            $existNodeList = $model->field('id,node,title,type,is_auth')->select()->toArray();
+            $formatNodeList = array_format_key($nodeList, 'node');
+            foreach ($existNodeList as $vo) {
+                !isset($formatNodeList[$vo['node']]) && $model->where('id', $vo['id'])->delete();
+            }
+        } catch (\Exception $e) {
+            $this->error('节点更新失败');
+        }
+        $this->success('节点更新成功');
+    }
 }

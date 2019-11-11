@@ -24,12 +24,7 @@ class MenuService
      */
     protected $adminId;
 
-    /**
-     * 设置管理员ID
-     * @param $adminId
-     * @return $this
-     */
-    public function setAdminId($adminId)
+    public function __construct($adminId)
     {
         $this->adminId = $adminId;
         return $this;
@@ -84,10 +79,10 @@ class MenuService
     protected function buildMenuChild($pid, $data)
     {
         $menuList = [];
+        $authServer = (new AuthService($this->adminId));
         foreach ($data as &$vo) {
             // TODO 后续这里做权限判断
-//            $check = (new AuthService($this->adminId))->checkNode($vo['href']);
-            $check = true;
+            $check = $authServer->checkNode($vo['href']);
             !empty($vo['href']) && $vo['href'] = __url($vo['href']);
             if ($vo['pid'] == $pid && $check) {
                 $child = $this->buildMenuChild($vo['id'], $data);
