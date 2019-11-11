@@ -34,3 +34,6 @@ body {margin:15px 15px 15px 15px;background:#f2f2f2;}
 .bg-red {background-color:#e74c3c !important;}
 .color-red {color:#e74c3c !important;}
 .badge {display:inline-block;min-width:10px;padding:3px 7px;font-size:11px;font-weight:bold;color:#fff;line-height:1;vertical-align:middle;white-space:nowrap;text-align:center;background-color:#777777;border-radius:10px;}
+
+/**vue隐藏样式*/
+[v-cloak] { display: none; }

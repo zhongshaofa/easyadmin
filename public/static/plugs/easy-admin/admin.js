@@ -2,10 +2,10 @@ define(["jquery"], function ($) {
 
     var form = layui.form,
         layer = layui.layer,
-        laytpl = layui.laytpl,
         table = layui.table,
         laydate = layui.laydate,
-        upload = layui.upload;
+        upload = layui.upload,
+        element = layui.element;
 
     var init = {
         table_elem: 'currentTable',
@@ -737,7 +737,8 @@ define(["jquery"], function ($) {
                 table.reload(tableName);
             },
             upload: function () {
-                var uploadList = document.querySelectorAll("a[data-upload]")
+                var uploadList = document.querySelectorAll("a[data-upload]");
+
                 if (uploadList.length > 0) {
                     $.each(uploadList, function (i, v) {
                         var exts = $(this).attr('data-upload-exts'),

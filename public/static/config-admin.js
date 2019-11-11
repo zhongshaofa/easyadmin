@@ -16,7 +16,7 @@ require.config({
         "tableSelect": ["plugs/lay-module/tableSelect/tableSelect"],
         "iconPickerFa": ["plugs/lay-module/iconPicker/iconPickerFa"],
         "wangEditor": ["plugs/lay-module/wangEditor/wangEditor"],
-        "path": ["config-path"],
+        "vue": ["plugs/vue-2.6.10/vue.min"],
     }
 });
 

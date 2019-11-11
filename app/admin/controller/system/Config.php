@@ -27,12 +27,32 @@ use think\App;
 class Config extends AdminController
 {
 
-    use \app\admin\traits\Curd;
-
     public function __construct(App $app)
     {
         parent::__construct($app);
         $this->model = new SystemConfig();
+    }
+
+    /**
+     * @NodeAnotation(title="系统配置")
+     */
+    public function index()
+    {
+        if ($this->request->isAjax()) {
+            $post = $this->request->post();
+            try {
+                foreach ($post as $key => $val) {
+                    $this->model->where('name', $key)
+                        ->update([
+                            'value' => $val,
+                        ]);
+                }
+            } catch (\Exception $e) {
+                $this->error('保存失败');
+            }
+            $this->success('保存成功');
+        }
+        return $this->fetch();
     }
 
 }
