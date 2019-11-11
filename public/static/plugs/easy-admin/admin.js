@@ -384,6 +384,10 @@ define(["jquery"], function ($) {
                     title = data[option.title];
                 return '<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + src + '" data-image="' + title + '"  src="' + title + '">';
             },
+            url: function (data, option) {
+                var src = data[option.field];
+                return '<a class="layuimini-table-url" href="' + src + '" target="_blank" class="label bg-green">' + src + '</a>';
+            },
             switch: function (data, option) {
                 option.filter = option.filter || option.field || null;
                 option.checked = option.checked || 1;

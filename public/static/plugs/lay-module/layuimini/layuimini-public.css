@@ -37,3 +37,6 @@ body {margin:15px 15px 15px 15px;background:#f2f2f2;}
 
 /**vue隐藏样式*/
 [v-cloak] { display: none; }
+
+/**表格url样式*/
+.layuimini-table-url{background-color: #1497f3;color: #ffffff; border-radius: 3px;size: 8px!important;padding: 2px}

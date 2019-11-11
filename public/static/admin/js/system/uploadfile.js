@@ -27,7 +27,7 @@ define(["jquery", "admin",], function ($, admin) {
                     {field: 'id', width: 80, title: 'ID', sort: true, align: "center"},
                     {field: 'upload_type', minWidth: 80, title: '存储位置', align: "center"},
                     {field: 'url', minWidth: 80, search: false, title: '图片信息', search: false, imageHeight: 40, align: "center", templet: admin.table.image},
-                    {field: 'url', minWidth: 80, title: '保存地址', align: "center"},
+                    {field: 'url', minWidth: 120, title: '保存地址', align: "center",templet:admin.table.url},
                     {field: 'original_name', minWidth: 80, title: '文件原名', align: "center"},
                     {field: 'mime_type', minWidth: 80, title: 'mime类型', align: "center"},
                     {field: 'file_ext', minWidth: 80, title: '文件后缀', align: "center"},
