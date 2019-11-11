@@ -13,6 +13,7 @@
 namespace EasyAdmin\upload\driver;
 
 use EasyAdmin\upload\Base;
+use EasyAdmin\upload\trigger\SaveDb;
 
 class Qnoss extends Base
 {
@@ -20,6 +21,15 @@ class Qnoss extends Base
     public function save()
     {
         parent::save();
+
+        SaveDb::trigger($this->tableName, [
+            'upload_type'   => $this->uploadType,
+            'original_name' => $this->file->getOriginalMime(),
+            'mime_type'     => $this->file->getOriginalMime(),
+            'file_ext'      => strtolower($this->file->getOriginalExtension()),
+            'url'           => $this->completeFileUrl,
+        ]);
+
         return $this->completeFileUrl;
     }
 

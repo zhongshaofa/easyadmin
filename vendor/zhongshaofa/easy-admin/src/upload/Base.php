@@ -27,6 +27,16 @@ class Base
 
     protected $completeFileUrl;
 
+    protected $tableName;
+
+    protected $uploadType = 'local';
+
+    public function setUploadType($value)
+    {
+        $this->uploadType = $value;
+        return $this;
+    }
+
     public function setUploadConfig($value)
     {
         $this->uploadConfig = $value;
@@ -36,6 +46,12 @@ class Base
     public function setFile($value)
     {
         $this->file = $value;
+        return $this;
+    }
+
+    public function setTableName($value)
+    {
+        $this->tableName = $value;
         return $this;
     }
 

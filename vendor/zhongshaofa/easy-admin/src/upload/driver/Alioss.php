@@ -14,6 +14,7 @@ namespace EasyAdmin\upload\driver;
 
 use EasyAdmin\upload\Base;
 use EasyAdmin\upload\driver\alioss\Oss;
+use EasyAdmin\upload\trigger\SaveDb;
 
 class Alioss extends Base
 {
@@ -24,7 +25,19 @@ class Alioss extends Base
         $upload = Oss::instance()
             ->setConfig($this->uploadConfig)
             ->save($this->completeFilePath);
+
+        if ($upload['save'] == true) {
+            SaveDb::trigger($this->tableName, [
+                'upload_type'   => $this->uploadType,
+                'original_name' => $this->file->getOriginalMime(),
+                'mime_type'     => $this->file->getOriginalMime(),
+                'file_ext'      => strtolower($this->file->getOriginalExtension()),
+                'url'           => $upload['url'],
+            ]);
+        }
+
         $this->rmLocalSave();
+
         return $upload;
     }
 

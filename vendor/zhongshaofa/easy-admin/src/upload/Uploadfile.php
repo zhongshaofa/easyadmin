@@ -28,6 +28,8 @@ class Uploadfile
 
     protected $file;
 
+    protected $tableName = 'system_uploadfile';
+
     public static function instance()
     {
         if (is_null(self::$instance)) {
@@ -55,6 +57,12 @@ class Uploadfile
         return $this;
     }
 
+    public function setTableName($value)
+    {
+        $this->tableName = $value;
+        return $this;
+    }
+
     public function save()
     {
         $obj = null;
@@ -67,9 +75,11 @@ class Uploadfile
         } elseif ($this->uploadType == 'txoss') {
             $obj = new Txoss();
         }
-        $url = $obj->setUploadConfig($this->uploadConfig)
+        $save = $obj->setUploadConfig($this->uploadConfig)
+            ->setUploadType($this->uploadType)
+            ->setTableName($this->tableName)
             ->setFile($this->file)
             ->save();
-        return $url;
+        return $save;
     }
 }
