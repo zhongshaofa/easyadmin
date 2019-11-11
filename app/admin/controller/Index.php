@@ -51,4 +51,33 @@ class Index extends AdminController
         return $this->fetch();
     }
 
+    public function editPassword(){
+        $id = session('admin.id');
+        $row = (new SystemAdmin())
+            ->withoutField('password')
+            ->find($id);
+        empty($row) && $this->error('用户信息不存在');
+        if ($this->request->isAjax()) {
+            $post = $this->request->post();
+            $rule = [
+                'password|登录密码'       => 'require',
+                'password_again|确认密码' => 'require',
+            ];
+            $this->validate($post, $rule);
+            if ($post['password'] != $post['password_again']) {
+                $this->error('两次密码输入不一致');
+            }
+            try {
+                $save = $row->save([
+                    'password' => password($post['password']),
+                ]);
+            } catch (\Exception $e) {
+                $this->error('保存失败');
+            }
+            $save ? $this->success('保存成功') : $this->error('保存失败');
+        }
+        $this->assign('row', $row);
+        return $this->fetch();
+    }
+
 }
