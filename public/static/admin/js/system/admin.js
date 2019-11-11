@@ -38,7 +38,7 @@ define(["jquery", "admin",], function ($, admin) {
                                 {
                                     class: 'layui-btn layui-btn-normal layui-btn-xs',
                                     text: '设置密码',
-                                    open: 'system.admin/setPassword',
+                                    open: 'system.admin/password',
                                     extend: ""
                                 }
                             ], 'delete'
@@ -53,6 +53,9 @@ define(["jquery", "admin",], function ($, admin) {
             admin.listen();
         },
         edit: function () {
+            admin.listen();
+        },
+        password: function () {
             admin.listen();
         }
     };

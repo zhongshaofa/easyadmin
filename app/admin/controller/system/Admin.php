@@ -75,8 +75,8 @@ class Admin extends AdminController
     {
         if ($this->request->isAjax()) {
             $post = $this->request->post();
-            $authIds = $this->request->post('auth_ids',[]);
-            $post['auth_ids'] = implode(',',array_keys($authIds));
+            $authIds = $this->request->post('auth_ids', []);
+            $post['auth_ids'] = implode(',', array_keys($authIds));
             $rule = [];
             $this->validate($post, $rule);
             try {
@@ -98,8 +98,8 @@ class Admin extends AdminController
         empty($row) && $this->error('数据不存在');
         if ($this->request->isAjax()) {
             $post = $this->request->post();
-            $authIds = $this->request->post('auth_ids',[]);
-            $post['auth_ids'] = implode(',',array_keys($authIds));
+            $authIds = $this->request->post('auth_ids', []);
+            $post['auth_ids'] = implode(',', array_keys($authIds));
             $rule = [];
             $this->validate($post, $rule);
             try {
@@ -109,7 +109,38 @@ class Admin extends AdminController
             }
             $save ? $this->success('保存成功') : $this->error('保存失败');
         }
-        $row->auth_ids = explode(',',$row->auth_ids);
+        $row->auth_ids = explode(',', $row->auth_ids);
+        $this->assign('row', $row);
+        return $this->fetch();
+    }
+
+    /**
+     * @NodeAnotation(title="编辑")
+     */
+    public function password($id)
+    {
+        $row = $this->model->find($id);
+        empty($row) && $this->error('数据不存在');
+        if ($this->request->isAjax()) {
+            $post = $this->request->post();
+            $rule = [
+                'password|登录密码'       => 'require',
+                'password_again|确认密码' => 'require',
+            ];
+            $this->validate($post, $rule);
+            if ($post['password'] != $post['password_again']) {
+                $this->error('两次密码输入不一致');
+            }
+            try {
+                $save = $row->save([
+                    'password' => password($post['password']),
+                ]);
+            } catch (\Exception $e) {
+                $this->error('保存失败');
+            }
+            $save ? $this->success('保存成功') : $this->error('保存失败');
+        }
+        $row->auth_ids = explode(',', $row->auth_ids);
         $this->assign('row', $row);
         return $this->fetch();
     }
