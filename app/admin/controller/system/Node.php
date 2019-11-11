@@ -61,21 +61,23 @@ class Node extends AdminController
 
     /**
      * @NodeAnotation(title="系统节点更新")
-     * @param int $force
-     * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \ReflectionException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
      */
     public function refreshNode($force = 0)
     {
         $nodeList = (new NodeService())->getNodelist();
         empty($nodeList) && $this->error('暂无需要更新的系统节点');
         $model = new SystemNode();
-        if ($force == 1) {
-            $model->whereIn('node', array_column($nodeList, 'node'))->delete();
-        } else {
+        try {
+            if ($force == 1) {
+                $updateNodeList = $model->whereIn('node', array_column($nodeList, 'node'))->select();
+                $formatNodeList = array_format_key($nodeList, 'node');
+                foreach ($updateNodeList as $vo) {
+                    isset($formatNodeList[$vo['node']]) && $model->where('id', $vo['id'])->update([
+                        'title'   => $formatNodeList[$vo['node']]['title'],
+                        'is_auth' => $formatNodeList[$vo['node']]['is_auth'],
+                    ]);
+                }
+            }
             $existNodeList = $model->field('node,title,type,is_auth')->select();
             foreach ($nodeList as $key => $vo) {
                 foreach ($existNodeList as $v) {
@@ -85,8 +87,10 @@ class Node extends AdminController
                     }
                 }
             }
+            $model->insertAll($nodeList);
+        } catch (\Exception $e) {
+            $this->error('节点更新失败');
         }
-        $model->insertAll($nodeList);
-        $this->success('系统节点更新成功');
+        $this->success('节点更新成功');
     }
 }

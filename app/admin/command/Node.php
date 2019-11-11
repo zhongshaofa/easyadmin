@@ -32,9 +32,10 @@ class Node extends Command
     protected function execute(Input $input, Output $output)
     {
         $force = $input->getOption('force');
-        $output->writeln("========正在刷新节点服务：=====".date('Y-m-d H:i:s'));
-        $this->refresh($force);
-        $output->writeln("刷新完成：".date('Y-m-d H:i:s'));
+        $output->writeln("========正在刷新节点服务：=====" . date('Y-m-d H:i:s'));
+        $check = $this->refresh($force);
+        $check !== true && $output->writeln("节点刷新失败：" . $check);
+        $output->writeln("刷新完成：" . date('Y-m-d H:i:s'));
     }
 
     protected function refresh($force)
@@ -44,9 +45,17 @@ class Node extends Command
             return true;
         }
         $model = new SystemNode();
-        if ($force == 1) {
-            $model->whereIn('node', array_column($nodeList, 'node'))->delete();
-        } else {
+        try {
+            if ($force == 1) {
+                $updateNodeList = $model->whereIn('node', array_column($nodeList, 'node'))->select();
+                $formatNodeList = array_format_key($nodeList, 'node');
+                foreach ($updateNodeList as $vo) {
+                    isset($formatNodeList[$vo['node']]) && $model->where('id', $vo['id'])->update([
+                        'title'   => $formatNodeList[$vo['node']]['title'],
+                        'is_auth' => $formatNodeList[$vo['node']]['is_auth'],
+                    ]);
+                }
+            }
             $existNodeList = $model->field('node,title,type,is_auth')->select();
             foreach ($nodeList as $key => $vo) {
                 foreach ($existNodeList as $v) {
@@ -56,8 +65,10 @@ class Node extends Command
                     }
                 }
             }
+            $model->insertAll($nodeList);
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
-        $model->insertAll($nodeList);
         return true;
     }
 

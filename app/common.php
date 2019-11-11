@@ -70,7 +70,26 @@ if (!function_exists('sysconfig')) {
             $where['name'] = $name;
             return \app\admin\model\SystemConfig::where($where)->value('value');
         } else {
-            return \app\admin\model\SystemConfig::where($where)->column('value','name');
+            return \app\admin\model\SystemConfig::where($where)->column('value', 'name');
         }
     }
+}
+
+if (!function_exists('array_format_key')) {
+
+    /**
+     * 二位数组重新组合数据
+     * @param $array
+     * @param $key
+     * @return array
+     */
+    function array_format_key($array, $key)
+    {
+        $newArray = [];
+        foreach ($array as $vo) {
+            $newArray[$vo[$key]] = $vo;
+        }
+        return $newArray;
+    }
+
 }
