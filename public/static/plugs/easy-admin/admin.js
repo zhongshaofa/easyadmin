@@ -562,6 +562,7 @@ define(["jquery"], function ($) {
             // 监听动态表格刷新
             $('body').on('click', '[data-table-refresh]', function () {
                 var tableId = $(this).attr('data-table-refresh');
+                console.log('刷新');
                 if (tableId == undefined || tableId == '' || tableId == null) {
                     tableId = init.table_render_id;
                 }

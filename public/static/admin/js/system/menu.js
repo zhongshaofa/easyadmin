@@ -6,96 +6,111 @@ define(["jquery", "admin", "treetable", "iconPickerFa"], function ($, admin) {
     var iconPickerFa = layui.iconPickerFa;
 
     var init = {
+        table_elem: 'currentTable',
+        table_render_id: 'currentTableRenderId',
         index_url: 'system.menu/index',
         add_url: 'system.menu/add',
         del_url: 'system.menu/del',
         edit_url: 'system.menu/edit',
         modify_url: 'system.menu/modify',
-        table: 'currentTable',
     };
 
     var Controller = {
         index: function () {
 
-            treetable.render({
-                treeColIndex: 1,
-                treeSpid: 0,
-                homdPid: 99999999,
-                treeIdName: 'id',
-                treePidName: 'pid',
-                elem: '#currentTable',
-                url: admin.url(init.index_url),
-                toolbar: '#toolbar',
-                page: false,
-                cols: [[
-                    {type: 'checkbox'},
-                    {field: 'title', width: 250, title: '菜单名称'},
-                    {
-                        field: 'icon', width: 80, align: 'center', title: '图标', templet: function (d) {
-                            return '<i class="' + d.icon + '"></i>';
-                        }
-                    },
-                    {field: 'href', minWidth: 120, title: '菜单链接'},
-                    {
-                        field: 'is_home', width: 80, align: 'center', title: '类型', templet: function (d) {
-                            if (d.pid == 99999999) {
-                                return '<span class="layui-badge layui-bg-blue">首页</span>';
+            var renderTable = function () {
+                layer.load(2);
+                treetable.render({
+                    treeColIndex: 1,
+                    treeSpid: 0,
+                    homdPid: 99999999,
+                    treeIdName: 'id',
+                    treePidName: 'pid',
+                    url: admin.url(init.index_url),
+                    elem: '#' + init.table_elem,
+                    id: init.table_render_id,
+                    toolbar: '#toolbar',
+                    page: false,
+                    cols: [[
+                        {type: 'checkbox'},
+                        {field: 'title', width: 250, title: '菜单名称'},
+                        {
+                            field: 'icon', width: 80, align: 'center', title: '图标', templet: function (d) {
+                                return '<i class="' + d.icon + '"></i>';
                             }
-                            if (d.pid == 0) {
-                                return '<span class="layui-badge layui-bg-gray">模块</span>';
-                            } else {
-                                return '<span class="layui-badge-rim">菜单</span>';
+                        },
+                        {field: 'href', minWidth: 120, title: '菜单链接'},
+                        {
+                            field: 'is_home', width: 80, align: 'center', title: '类型', templet: function (d) {
+                                if (d.pid == 99999999) {
+                                    return '<span class="layui-badge layui-bg-blue">首页</span>';
+                                }
+                                if (d.pid == 0) {
+                                    return '<span class="layui-badge layui-bg-gray">模块</span>';
+                                } else {
+                                    return '<span class="layui-badge-rim">菜单</span>';
+                                }
                             }
+                        },
+                        {field: 'status', title: '状态', width: 85, align: "center", filter: 'status', templet: admin.table.switch},
+                        {field: 'status', width: 80, align: 'center', title: '排序'},
+                        {
+                            width: 200, align: 'center', title: '操作', init: init, templet: admin.table.tool, operat: [[
+                                {
+                                    class: 'layui-btn layui-btn-xs',
+                                    text: '添加下级',
+                                    open: 'system.menu/add',
+                                    extend: ""
+                                }], 'edit', 'delete'
+                            ]
                         }
-                    },
-                    {field: 'status', title: '状态', width: 85, align: "center", filter: 'status', templet: admin.table.switch},
-                    {field: 'status', width: 80, align: 'center', title: '排序'},
-                    {
-                        width: 200, align: 'center', title: '操作', init: init, templet: admin.table.tool, operat: [[
-                            {
-                                class: 'layui-btn layui-btn-xs',
-                                text: '添加下级',
-                                open: 'system.menu/add',
-                                extend: ""
-                            }], 'edit', 'delete'
-                        ]
+                    ]],
+                    done: function () {
+                        layer.closeAll('loading');
                     }
-                ]],
+                });
+            };
+
+            renderTable();
+
+            $('body').on('click', '[data-treetable-refresh]', function () {
+                console.log('监听');
+                renderTable();
             });
 
-            $('#btn-expand').click(function () {
-                treetable.expandAll('#currentTable');
-            });
-
-            $('#btn-fold').click(function () {
-                treetable.foldAll('#currentTable');
-            });
-
-            //头工具栏事件
-            table.on('toolbar(currentTable)', function (obj) {
-                var checkStatus = table.checkStatus(obj.config.id);
-                switch (obj.event) {
-                    case 'deleteAll':
-                        var data = checkStatus.data;
-                        layer.alert(JSON.stringify(data));
-                        break;
+            $('body').on('click', '[data-treetable-delete]', function () {
+                var tableId = $(this).attr('data-treetable-delete'),
+                    url = $(this).attr('data-url');
+                tableId = tableId || init.table_render_id;
+                url = url != undefined ? admin.url(url) : window.location.href;
+                var checkStatus = table.checkStatus(tableId),
+                    data = checkStatus.data;
+                if (data.length <= 0) {
+                    admin.msg.error('请勾选需要删除的数据');
+                    return false;
                 }
+                var ids = [];
+                $.each(data, function (i, v) {
+                    ids.push(v.id);
+                });
+                admin.msg.confirm('确定删除？', function () {
+                    admin.request.post({
+                        url: url,
+                        data: {
+                            id: ids
+                        },
+                    }, function (res) {
+                        admin.msg.success(res.msg, function () {
+                            renderTable();
+                        });
+                    });
+                });
+                return false;
             });
 
             // 监听开关切换
             admin.table.listenSwitch({filter: 'status', url: init.modify_url});
 
-            //监听工具条
-            table.on('tool(currentTable)', function (obj) {
-                var data = obj.data;
-                var layEvent = obj.event;
-
-                if (layEvent === 'del') {
-                    layer.msg('删除' + data.id);
-                } else if (layEvent === 'edit') {
-                    layer.msg('修改' + data.id);
-                }
-            });
             admin.listen();
         },
         add: function () {
