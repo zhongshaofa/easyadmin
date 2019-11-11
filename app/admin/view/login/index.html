@@ -24,7 +24,7 @@
                 {if $captcha == 1}
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-vercode"></label>
-                    <input type="text" name="captcha" lay-verify="required" placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha">
+                    <input type="text" name="captcha" lay-verify="required" lay-reqtext="请输入验证码" placeholder="请输入验证码" autocomplete="off" class="layui-input verification captcha">
                     <div class="captcha-img">
                         <img id="refreshCaptcha" src="{:url('login/captcha')}" alt="captcha" onclick="this.src='{:url(\'login/captcha\')}?seed='+Math.random()">
                     </div>

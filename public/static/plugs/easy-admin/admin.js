@@ -722,7 +722,7 @@ define(["jquery"], function ($) {
                 return false;
             },
             refreshFrame: function () {
-                location.reload();
+                parent.location.reload();
                 return false;
             },
             refreshTable: function (tableName) {

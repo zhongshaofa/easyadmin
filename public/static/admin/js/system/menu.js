@@ -57,7 +57,7 @@ define(["jquery", "admin", "treetable", "iconPickerFa"], function ($, admin) {
                         {
                             width: 200, align: 'center', title: '操作', init: init, templet: admin.table.tool, operat: [[
                                 {
-                                    class: 'layui-btn layui-btn-xs',
+                                    class: 'layui-btn layui-btn-xs layui-btn-normal',
                                     text: '添加下级',
                                     open: 'system.menu/add',
                                     extend: ""
@@ -74,7 +74,6 @@ define(["jquery", "admin", "treetable", "iconPickerFa"], function ($, admin) {
             renderTable();
 
             $('body').on('click', '[data-treetable-refresh]', function () {
-                console.log('监听');
                 renderTable();
             });
 
@@ -108,7 +107,6 @@ define(["jquery", "admin", "treetable", "iconPickerFa"], function ($, admin) {
                 return false;
             });
 
-            // 监听开关切换
             admin.table.listenSwitch({filter: 'status', url: init.modify_url});
 
             admin.listen();
