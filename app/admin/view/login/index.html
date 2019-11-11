@@ -31,14 +31,16 @@
                 </div>
                 {/if}
 
-                <div class="layui-form-item">
-                    <input type="checkbox" name="rememberMe" value="true" lay-skin="primary" title="记住密码">
-                </div>
-                <div class="layui-form-item">
+                <div class="layui-form-item" style="margin-top: 35px">
                     <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="login">登 入</button>
                 </div>
             </form>
+
         </div>
     </div>
+    <div class="footer notselect">
+        {:sysconfig('site','site_copyright')}<span class="padding-5">|</span><a target="_blank" href="http://www.miitbeian.gov.cn">{:sysconfig('site','site_beian')}</a>
+    </div>
 </div>
+<script src="__STATIC__/plugs/jquery-3.4.1/jquery-3.4.1.min.js?v={:time()}" charset="utf-8"></script>
 {/block}

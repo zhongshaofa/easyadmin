@@ -1,4 +1,4 @@
-define(["jquery", "jquery-particleground", "admin"], function ($, undefined, admin) {
+define(["jquery-particleground", "admin"], function (undefined, admin) {
     var form = layui.form,
         layer = layui.layer;
 
@@ -7,11 +7,9 @@ define(["jquery", "jquery-particleground", "admin"], function ($, undefined, adm
             if (top.location != self.location) {
                 top.location = self.location;
             }
-            $(function () {
-                $('.layui-container').particleground({
-                    dotColor: '#5cbdaa',
-                    lineColor: '#5cbdaa'
-                });
+            $('.layui-container').particleground({
+                dotColor: '#5cbdaa',
+                lineColor: '#5cbdaa'
             });
             admin.listen('', function (res) {
                 admin.msg.success(res.msg, function () {
