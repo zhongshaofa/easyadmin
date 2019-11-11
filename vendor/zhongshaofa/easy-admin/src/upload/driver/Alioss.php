@@ -29,10 +29,11 @@ class Alioss extends Base
         if ($upload['save'] == true) {
             SaveDb::trigger($this->tableName, [
                 'upload_type'   => $this->uploadType,
-                'original_name' => $this->file->getOriginalMime(),
+                'original_name' => $this->file->getOriginalName(),
                 'mime_type'     => $this->file->getOriginalMime(),
                 'file_ext'      => strtolower($this->file->getOriginalExtension()),
                 'url'           => $upload['url'],
+                'create_time'   => time(),
             ]);
         }
 
