@@ -38,10 +38,6 @@ class Menu extends AdminController
 
     /**
      * @NodeAnotation(title="列表")
-     * @return string|\think\response\Json
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
      */
     public function index()
     {
@@ -61,9 +57,6 @@ class Menu extends AdminController
 
     /**
      * @NodeAnotation(title="添加")
-     * @param null $id
-     * @return string
-     * @throws \Exception
      */
     public function add($id = null)
     {
@@ -94,11 +87,6 @@ class Menu extends AdminController
 
     /**
      * @NodeAnotation(title="编辑")
-     * @param $id
-     * @return string
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
      */
     public function edit($id)
     {
@@ -130,10 +118,6 @@ class Menu extends AdminController
 
     /**
      * @NodeAnotation(title="删除")
-     * @param $id
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
      */
     public function del($id)
     {
@@ -148,11 +132,7 @@ class Menu extends AdminController
     }
 
     /**
-     * 修改字段属性值
      * @NodeAnotation(title="属性修改")
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
      */
     public function modify()
     {

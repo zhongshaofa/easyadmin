@@ -40,10 +40,6 @@ class Admin extends AdminController
 
     /**
      * @NodeAnotation(title="列表")
-     * @return string|\think\response\Json
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
      */
     public function index()
     {
@@ -146,11 +142,23 @@ class Admin extends AdminController
     }
 
     /**
-     * 修改字段属性值
+     * @NodeAnotation(title="删除")
+     */
+    public function del($id)
+    {
+        $row = $this->model->whereIn('id', $id)->select();
+        empty($row) && $this->error('数据不存在');
+        $id == AdminConstant::SUPER_ADMIN_ID && $this->error('超级管理员不允许修改');
+        try {
+            $save = $row->delete();
+        } catch (\Exception $e) {
+            $this->error('删除失败');
+        }
+        $save ? $this->success('删除成功') : $this->error('删除失败');
+    }
+
+    /**
      * @NodeAnotation(title="属性修改")
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
      */
     public function modify()
     {

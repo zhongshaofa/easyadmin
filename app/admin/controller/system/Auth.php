@@ -38,11 +38,6 @@ class Auth extends AdminController
 
     /**
      * @NodeAnotation(title="授权")
-     * @param $id
-     * @return string|\think\response\Json
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
      */
     public function authorize($id)
     {
@@ -58,9 +53,6 @@ class Auth extends AdminController
 
     /**
      * @NodeAnotation(title="授权保存")
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
      */
     public function saveAuthorize()
     {
