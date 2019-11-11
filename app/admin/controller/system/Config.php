@@ -34,25 +34,30 @@ class Config extends AdminController
     }
 
     /**
-     * @NodeAnotation(title="系统配置")
+     * @NodeAnotation(title="列表")
      */
     public function index()
     {
-        if ($this->request->isAjax()) {
-            $post = $this->request->post();
-            try {
-                foreach ($post as $key => $val) {
-                    $this->model->where('name', $key)
-                        ->update([
-                            'value' => $val,
-                        ]);
-                }
-            } catch (\Exception $e) {
-                $this->error('保存失败');
-            }
-            $this->success('保存成功');
-        }
         return $this->fetch();
+    }
+
+    /**
+     * @NodeAnotation(title="保存")
+     */
+    public function save()
+    {
+        $post = $this->request->post();
+        try {
+            foreach ($post as $key => $val) {
+                $this->model->where('name', $key)
+                    ->update([
+                        'value' => $val,
+                    ]);
+            }
+        } catch (\Exception $e) {
+            $this->error('保存失败');
+        }
+        $this->success('保存成功');
     }
 
 }

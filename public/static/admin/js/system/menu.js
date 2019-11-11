@@ -1,4 +1,4 @@
-define(["jquery", "admin", "treetable", "iconPickerFa", "path"], function ($, admin, path) {
+define(["jquery", "admin", "treetable", "iconPickerFa"], function ($, admin) {
 
     var table = layui.table;
     var form = layui.form;

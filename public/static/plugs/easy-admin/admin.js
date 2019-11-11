@@ -637,19 +637,11 @@ define(["jquery"], function ($) {
                         if (typeof formCallback === 'function') {
                             formCallback(url, dataField);
                         } else {
-                            if (tableId != false && tableId != 'false' && typeof ok != "function") {
+                            if (tableId != false && typeof ok != "function") {
                                 admin.api.form(url, dataField, function (res) {
                                     admin.msg.success(res.msg, function () {
                                         admin.api.closeCurrentOpen({
                                             refreshTable: tableId
-                                        });
-                                    });
-                                }, no, ex);
-                            } else if (tableId == false || tableId == 'false') {
-                                admin.api.form(url, dataField, function (res) {
-                                    admin.msg.success(res.msg, function () {
-                                        admin.api.closeCurrentOpen({
-                                            refreshTable: false
                                         });
                                     });
                                 }, no, ex);
