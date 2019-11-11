@@ -95,7 +95,7 @@ class AuthService
         }
         // 判断该节点是否允许访问
         $allNode = $this->getAdminNode();
-        if (in_array($node, $allNode)) {
+        if (isset($allNode[$node]) && $allNode[$node] == $node) {
             return true;
         }
         return false;
@@ -128,18 +128,18 @@ class AuthService
             ])->find();
         if (!empty($adminInfo)) {
             $buildAuthSql     = Db::name($this->config['system_auth'])
-                ->where("id IN {$adminInfo['auth_ids']}")
                 ->distinct(true)
+                ->whereIn('id',$adminInfo['auth_ids'])
                 ->field('id')
                 ->buildSql(true);
             $buildAuthNodeSql = Db::name($this->config['system_auth_node'])
-                ->where("auth_id IN {$buildAuthSql}")
                 ->distinct(true)
+                ->where("auth_id IN {$buildAuthSql}")
                 ->field('node_id')
                 ->buildSql(true);
             $nodeList         = Db::name($this->config['system_node'])
-                ->whereIn('id',$buildAuthNodeSql)
-                ->fetchSql()
+                ->distinct(true)
+                ->where("id IN {$buildAuthNodeSql}")
                 ->column('node');
         }
         return $nodeList;
