@@ -52,12 +52,9 @@ class Login extends AdminController
                 'username|用户名' => 'require',
                 'password|密码'  => 'require',
             ];
-            $captcha == 1 && $rule[] = ['captcha|验证码' => 'require|captcha'];
+            $captcha == 1 && $rule['captcha|验证码'] = 'require|captcha';
             $this->validate($post, $rule);
-            $admin = SystemAdmin::where([
-                'username' => $post['username'],
-            ])
-                ->find();
+            $admin = SystemAdmin::where(['username' => $post['username']])->find();
             if (empty($admin)) {
                 $this->error('用户不存在');
             }
