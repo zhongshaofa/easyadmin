@@ -28,21 +28,21 @@ class CheckAdmin
 
     public function handle(Request $request, \Closure $next)
     {
-        $nodeConfig = config('node');
+        $adminConfig = config('admin');
         $adminId = session('admin.id');
         $authService = new AuthService($adminId);
         $currentNode = $authService->getCurrentNode();
         $currentController = parse_name($request->controller());
 
         // 验证登录
-        if (!in_array($currentController, $nodeConfig['no_login_controller']) &&
-            !in_array($currentNode, $nodeConfig['no_login_node'])) {
+        if (!in_array($currentController, $adminConfig['no_login_controller']) &&
+            !in_array($currentNode, $adminConfig['no_login_node'])) {
             empty($adminId) && $this->error('请先登录后台', [], __url('login/index'));
         }
 
         // 验证权限
-        if (!in_array($currentController, $nodeConfig['no_auth_controller']) &&
-            !in_array($currentNode, $nodeConfig['no_auth_node'])) {
+        if (!in_array($currentController, $adminConfig['no_auth_controller']) &&
+            !in_array($currentNode, $adminConfig['no_auth_node'])) {
             $check = $authService->checkNode($currentNode);
             !$check && $this->error('无权限访问');
         }
