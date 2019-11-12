@@ -14,13 +14,13 @@ Route::view('/', 'welcome', [
     'version' => time(),
     'data'    => [
         'description'        => '基于ThinkPHP6.0和Layui的快速开发的后台管理系统',
-        'system_description' => '基于ThinkPHP6.0和Layui的快速开发的后台管理系统',
+        'system_description' => '框架主要使用ThinkPHP6.0 + layui，拥有完善的权限的管理模块以及敏捷的开发方式，让你开发起来更加的舒服。项目以及文档还在持续完善，请保持关注。',
     ],
     'navbar'  => [
         [
             'name'   => '首页',
             'active' => true,
-            'href'   => '/',
+            'href'   => 'http://easyadmin.99php.cn',
             'target' => '_self',
         ],
         [
@@ -32,7 +32,13 @@ Route::view('/', 'welcome', [
         [
             'name'   => '演示',
             'active' => false,
-            'href'   => 'http://test-easyadmin.99php.cn/admindemo',
+            'href'   => 'http://easyadmin.99php.cn/admindemo',
+            'target' => '_blank',
+        ],
+        [
+            'name'   => 'QQ群',
+            'active' => false,
+            'href'   => 'https://jq.qq.com/?_wv=1027&k=5IHJawE',
             'target' => '_blank',
         ],
     ],

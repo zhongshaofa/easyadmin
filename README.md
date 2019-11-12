@@ -1,39 +1,31 @@
-# EasyAdmin
+EasyAdmin后台管理系统
+===============
+## 项目介绍
+基于ThinkPHP6.0和Layui的快速开发的后台管理系统。
 
-#### 介绍
-{**以下是码云平台说明，您可以替换此简介**
-码云是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用码云实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+由99Blog项目衍化而来，如需下载此版本请切换分支。
 
-#### 软件架构
-软件架构说明
+技术交流QQ群：[763822524](https://jq.qq.com/?_wv=1027&k=5IHJawE) `加群请备注来源：如gitee、github、官网等`。
 
+## 站点地址
+官方网站：[立即查看](http://easyadmin.99php.cn)
 
-#### 安装教程
+演示地址：[立即查看](http://easyadmin.99php.cn/admindemo)（账号：guest，密码：123456。备注：只有查看信息的权限）
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## 系统环境及安装
+ + git clone https://gitee.com/zhongshaofa/easyadmin，或者直接下载安装包
+ + PHP7.0版本以上 + Apache（Nginx也可以）
+ + 网站入口请部署至public文件夹下（即 easyadmin/public 目录下）
+ + 手动安装主目录下的easyadmin.sql的数据库文件
+ + 复制主目录下的.example.env文件为.env
+ + 修改.env的数据库配置信息以及后台入口`后台入口配置项为：EASYADMIN.ADMIN`
+ + 运行网站地址+后台入口
+ 
+ ## 备注说明
+项目以及文档还在持续完善，请保持关注。
+ 
+ ## 捐赠支持
+ 
+开源项目不易，若此项目能得到你的青睐，可以捐赠支持作者持续开发与维护，感谢所有支持开源的朋友。
 
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 码云特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+ ![Image text](https://chung-common.oss-cn-beijing.aliyuncs.com/donate_qrcode.png)
