@@ -19,7 +19,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label required">登录账户</label>
                 <div class="layui-input-block">
-                    <input type="text" name="username" class="layui-input" lay-verify="required" lay-reqtext="请输入登录账户" placeholder="请输入登录账户" value="{$row.username|default=''}">
+                    <input type="text" name="username" class="layui-input" readonly value="{$row.username|default=''}">
                     <tip>填写登录账户。</tip>
                 </div>
             </div>

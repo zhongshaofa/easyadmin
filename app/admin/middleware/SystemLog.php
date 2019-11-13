@@ -31,7 +31,7 @@ class SystemLog
             $params = $request->param();
             $ip = CommonTool::getRealIp();
             $data = [
-                'admin_id'    => session('admin_id'),
+                'admin_id'    => session('admin.id'),
                 'url'         => $url,
                 'method'      => strtolower($method),
                 'ip'          => $ip,
