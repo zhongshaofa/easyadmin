@@ -12,7 +12,6 @@
 
 namespace app\admin\controller;
 
-use app\admin\model\SystemAdmin;
 use app\common\controller\AdminController;
 use app\common\service\MenuService;
 use EasyAdmin\upload\Uploadfile;
@@ -30,7 +29,7 @@ class Ajax extends AdminController
      */
     public function initAdmin()
     {
-        $cacheData = cache('initAdmin_' . session('admin.id'));
+        $cacheData = Cache::get('initAdmin_' . session('admin.id'));
         if (!empty($cacheData)) {
             return json($cacheData);
         }
@@ -47,7 +46,7 @@ class Ajax extends AdminController
             'homeInfo'  => $menuService->getHomeInfo(),
             'menuInfo'  => $menuService->getMenuTree(),
         ];
-        cache('initAdmin_' . session('admin.id'), $data);
+        Cache::tag('initAdmin')->set('initAdmin_' . session('admin.id'), $data);
         return json($data);
     }
 

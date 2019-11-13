@@ -77,7 +77,12 @@ class Menu extends AdminController
             } catch (\Exception $e) {
                 $this->error('保存失败');
             }
-            $save ? $this->success('保存成功') : $this->error('保存失败');
+            if($save){
+                event('MenuUpdate');
+                $this->success('保存成功');
+            }else{
+                $this->error('保存失败');
+            }
         }
         $pidMenuList = $this->model->getPidMenuList();
         $this->assign('id', $id);
@@ -105,7 +110,12 @@ class Menu extends AdminController
             } catch (\Exception $e) {
                 $this->error('保存失败');
             }
-            $save ? $this->success('保存成功') : $this->error('保存失败');
+            if($save){
+                event('MenuUpdate');
+                $this->success('保存成功');
+            }else{
+                $this->error('保存失败');
+            }
         }
         $pidMenuList = $this->model->getPidMenuList();
         $this->assign('id', $id);
@@ -128,7 +138,12 @@ class Menu extends AdminController
         } catch (\Exception $e) {
             $this->error('删除失败');
         }
-        $save ? $this->success('删除成功') : $this->error('删除失败');
+        if($save){
+            event('MenuUpdate');
+            $this->success('删除成功');
+        }else{
+            $this->error('删除失败');
+        }
     }
 
     /**
@@ -157,6 +172,7 @@ class Menu extends AdminController
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }
+        event('MenuUpdate');
         $this->success('保存成功');
     }
 
