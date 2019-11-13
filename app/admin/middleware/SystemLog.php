@@ -25,11 +25,14 @@ class SystemLog
 
     public function handle($request, \Closure $next)
     {
-        if($request->isAjax()){
+        if ($request->isAjax()) {
             $url = $request->url();
             $method = $request->method();
-            $params = $request->param();
             $ip = CommonTool::getRealIp();
+            $params = $request->param();
+            if (isset($params['s'])) {
+                unset($params['s']);
+            }
             $data = [
                 'admin_id'    => session('admin.id'),
                 'url'         => $url,
