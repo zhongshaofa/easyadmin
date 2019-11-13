@@ -31,29 +31,31 @@ class Oss implements OssDriver
 
     protected $domain;
 
-    public static function instance()
-    {
-        if (is_null(self::$instance)) {
-            self::$instance = new static();
-        }
-        return self::$instance;
-    }
+    protected $ossClient;
 
-    public function setConfig($config)
+    protected function __construct($config)
     {
         $this->accessKeyId = $config['alioss_access_key_id'];
         $this->accessKeySecret = $config['alioss_access_key_secret'];
         $this->endpoint = $config['alioss_endpoint'];
         $this->bucket = $config['alioss_bucket'];
         $this->domain = $config['alioss_domain'];
+        $this->ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
         return $this;
+    }
+
+    public static function instance($config)
+    {
+        if (is_null(self::$instance)) {
+            self::$instance = new static($config);
+        }
+        return self::$instance;
     }
 
     public function save($objectName,$filePath)
     {
         try {
-            $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
-            $upload = $ossClient->uploadFile($this->bucket, $objectName, $filePath);
+            $upload = $this->ossClient->uploadFile($this->bucket, $objectName, $filePath);
         } catch (OssException $e) {
             return [
                 'save' => false,
@@ -62,7 +64,7 @@ class Oss implements OssDriver
         }
         if (!isset($upload['info']['url'])) {
             return [
-                'save' => true,
+                'save' => false,
                 'msg'  => '保存失败',
             ];
         }

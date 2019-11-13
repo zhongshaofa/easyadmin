@@ -15,7 +15,7 @@ namespace EasyAdmin\upload;
 use EasyAdmin\upload\driver\Alioss;
 use EasyAdmin\upload\driver\Local;
 use EasyAdmin\upload\driver\Qnoss;
-use EasyAdmin\upload\driver\Txoss;
+use EasyAdmin\upload\driver\Txcos;
 
 class Uploadfile
 {
@@ -72,8 +72,8 @@ class Uploadfile
             $obj = new Alioss();
         } elseif ($this->uploadType == 'qnoss') {
             $obj = new Qnoss();
-        } elseif ($this->uploadType == 'txoss') {
-            $obj = new Txoss();
+        } elseif ($this->uploadType == 'txcos') {
+            $obj = new Txcos();
         }
         $save = $obj->setUploadConfig($this->uploadConfig)
             ->setUploadType($this->uploadType)

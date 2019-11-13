@@ -40,8 +40,7 @@ class OssStatic extends Command
         foreach ($list as $key => $val) {
             list($objectName, $filePath) = [$uploadPrefix . DIRECTORY_SEPARATOR . $key, $val];
             try {
-                $upload = Oss::instance()
-                    ->setConfig($uploadConfig)
+                $upload = Oss::instance($uploadConfig)
                     ->save($objectName, $filePath);
             } catch (\Exception $e) {
                 CliEcho::error('文件上传失败：' . $filePath . '。错误信息：' . $e->getMessage());

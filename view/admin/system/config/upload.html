@@ -3,7 +3,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">存储方式</label>
         <div class="layui-input-block">
-            {foreach ['local'=>'本地存储','alioss'=>'阿里云oss','qnoss'=>'七牛云oss','txoss'=>'腾讯云oss'] as $key=>$val}
+            {foreach ['local'=>'本地存储','alioss'=>'阿里云oss','qnoss'=>'七牛云oss','txcos'=>'腾讯云cos'] as $key=>$val}
             <input type="radio" v-model="upload_type" name="upload_type" lay-filter="upload_type" value="{$key}" title="{$val}" {if $key==sysconfig('upload','upload_type')}checked=""{/if}>
             {/foreach}
         </div>
@@ -64,6 +64,44 @@
             <tip>例子：easy-admin.oss-cn-shenzhen.aliyuncs.com</tip>
         </div>
     </div>
+
+
+
+
+
+
+    <div class="layui-form-item" v-if="upload_type == 'txcos'" v-cloak>
+        <label class="layui-form-label required">公钥信息</label>
+        <div class="layui-input-block">
+            <input type="text" name="txcos_secret_id" class="layui-input" lay-verify="required" lay-reqtext="请输入公钥信息" placeholder="请输入公钥信息" value="{:sysconfig('upload','txcos_secret_id')}">
+            <tip>例子：AKIDta6OQCbALQGrCI6ngKwQffR3dfsfrwrfs</tip>
+        </div>
+    </div>
+
+    <div class="layui-form-item" v-if="upload_type == 'txcos'" v-cloak>
+        <label class="layui-form-label required">私钥信息</label>
+        <div class="layui-input-block">
+            <input type="text" name="txcos_secret_key" class="layui-input" lay-verify="required" lay-reqtext="请输入私钥信息" placeholder="请输入私钥信息" value="{:sysconfig('upload','txcos_secret_key')}">
+            <tip>例子：VllEWYKtClAbpqfFdTqysXxGQM6dsfs</tip>
+        </div>
+    </div>
+
+    <div class="layui-form-item" v-if="upload_type == 'txcos'" v-cloak>
+        <label class="layui-form-label required">存储桶地域</label>
+        <div class="layui-input-block">
+            <input type="text" name="txcos_region" class="layui-input" lay-verify="required" lay-reqtext="请输入存储桶地域" placeholder="请输入存储桶地域" value="{:sysconfig('upload','txcos_region')}">
+            <tip>例子：ap-guangzhou</tip>
+        </div>
+    </div>
+
+    <div class="layui-form-item" v-if="upload_type == 'txcos'" v-cloak>
+        <label class="layui-form-label required">存储桶名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="tecos_bucket" class="layui-input" lay-verify="required" lay-reqtext="请输入存储桶名称" placeholder="请输入存储桶名称" value="{:sysconfig('upload','tecos_bucket')}">
+            <tip>例子：easyadmin-1251997243</tip>
+        </div>
+    </div>
+
 
     <div class="layui-form-item">
         <div class="layui-input-block">

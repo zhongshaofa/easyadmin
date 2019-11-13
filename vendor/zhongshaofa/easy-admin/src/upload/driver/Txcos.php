@@ -13,16 +13,16 @@
 namespace EasyAdmin\upload\driver;
 
 use EasyAdmin\upload\Base;
-use EasyAdmin\upload\driver\alioss\Oss;
+use EasyAdmin\upload\driver\txcos\Cos;
 use EasyAdmin\upload\trigger\SaveDb;
 
-class Alioss extends Base
+class Txcos extends Base
 {
 
     public function save()
     {
         parent::save();
-        $upload = Oss::instance($this->uploadConfig)
+        $upload = Cos::instance($this->uploadConfig)
             ->save($this->completeFilePath, $this->completeFilePath);
 
         if ($upload['save'] == true) {

@@ -15,8 +15,6 @@ namespace EasyAdmin\upload\interfaces;
 interface OssDriver
 {
 
-    public function setConfig($config);
-
     public function save($objectName,$filePath);
 
 }
