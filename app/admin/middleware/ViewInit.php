@@ -29,15 +29,15 @@ class ViewInit
         foreach ($thisControllerArr as $vo) {
             empty($jsPath) ? $jsPath = parse_name($vo) : $jsPath .= '/' . parse_name($vo);
         }
-        $thisControllerJsPath = "static/{$thisModule}/js/{$jsPath}.js";
-        $autoloadJs           = file_exists($thisControllerJsPath) ? true : false;
+        $autoloadJs           = file_exists("static/{$thisModule}/js/{$jsPath}.js") ? true : false;
+        $thisControllerJsPath = "{$thisModule}/js/{$jsPath}.js";
         $adminModuleName      = Env::get('easyadmin.admin', 'admin');
         $data                 = [
             'admin_module_name'    => $adminModuleName,
             'thisController'       => parse_name($thisController),
             'thisAction'           => parse_name($thisAction),
             'thisRequest'          => parse_name("{$thisModule}/{$thisController}/{$thisAction}"),
-            'thisControllerJsPath' => "/{$thisControllerJsPath}",
+            'thisControllerJsPath' => "{$thisControllerJsPath}",
             'autoloadJs'           => $autoloadJs,
         ];
         View::assign($data);

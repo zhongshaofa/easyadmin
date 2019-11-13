@@ -49,11 +49,11 @@ class Oss implements OssDriver
         return $this;
     }
 
-    public function save($filePath)
+    public function save($objectName,$filePath)
     {
         try {
             $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
-            $upload = $ossClient->uploadFile($this->bucket, $filePath, $filePath);
+            $upload = $ossClient->uploadFile($this->bucket, $objectName, $filePath);
         } catch (OssException $e) {
             return [
                 'save' => false,

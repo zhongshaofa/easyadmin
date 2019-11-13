@@ -17,6 +17,6 @@ interface OssDriver
 
     public function setConfig($config);
 
-    public function save($filePath);
+    public function save($objectName,$filePath);
 
 }

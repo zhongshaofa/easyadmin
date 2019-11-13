@@ -5,6 +5,7 @@
 return [
     // 指令定义
     'commands' => [
-        'node'=>'app\admin\command\Node'
+        'node'      => 'app\admin\command\Node',
+        'OssStatic' => 'app\admin\command\OssStatic',
     ],
 ];

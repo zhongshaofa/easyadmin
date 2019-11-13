@@ -66,4 +66,29 @@ class CommonTool
         return $ip;
     }
 
+    /**
+     * 读取文件夹下的所有文件
+     * @param $path
+     * @param $basePath
+     * @return array|mixed
+     */
+    public static function readDirAllFiles($path, $basePath = '')
+    {
+        list($list, $temp_list) = [[], scandir($path)];
+        empty($basePath) && $basePath = $path;
+        foreach ($temp_list as $file) {
+            if ($file != ".." && $file != ".") {
+                if (is_dir($path . DIRECTORY_SEPARATOR . $file)) {
+                    $childFiles = self::readDirAllFiles($path . DIRECTORY_SEPARATOR . $file, $basePath);
+                    $list = array_merge($childFiles, $list);
+                } else {
+                    $filePath = $path . DIRECTORY_SEPARATOR . $file;
+                    $fileName = str_replace($basePath . DIRECTORY_SEPARATOR, '', $filePath);
+                    $list[$fileName] = $filePath;
+                }
+            }
+        }
+        return $list;
+    }
+
 }

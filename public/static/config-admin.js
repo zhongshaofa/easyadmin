@@ -29,7 +29,7 @@ window.PATH_CONFIG = PATH_CONFIG;
 
 // 初始化控制器对应的JS自动加载
 if (AUTOLOAD_JS) {
-    require([CONTROLLER_JS_PATH], function (Controller) {
+    require([BASE_URL + CONTROLLER_JS_PATH], function (Controller) {
         if (eval('Controller.' + ACTION)) {
             eval('Controller.' + ACTION + '()');
         }

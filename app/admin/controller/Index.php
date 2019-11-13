@@ -6,6 +6,7 @@ namespace app\admin\controller;
 use app\admin\model\SystemAdmin;
 use app\common\controller\AdminController;
 use think\App;
+use think\facade\Env;
 
 class Index extends AdminController
 {
@@ -67,6 +68,11 @@ class Index extends AdminController
             if ($post['password'] != $post['password_again']) {
                 $this->error('两次密码输入不一致');
             }
+
+            // 判断是否为演示站点
+            $example = Env::get('easyadmin.example', 0);
+            $example == 1 && $this->error('演示站点不允许修改密码');
+
             try {
                 $save = $row->save([
                     'password' => password($post['password']),
