@@ -121,6 +121,14 @@
         </div>
     </div>
 
+    <div class="layui-form-item" v-if="upload_type == 'qnoss'" v-cloak>
+        <label class="layui-form-label required">访问域名</label>
+        <div class="layui-input-block">
+            <input type="text" name="qnoss_domain" class="layui-input" lay-verify="required" lay-reqtext="请输入访问域名" placeholder="请输入访问域名" value="{:sysconfig('upload','qnoss_domain')}">
+            <tip>例子：http://q0xqzappp.bkt.clouddn.com</tip>
+        </div>
+    </div>
+
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button type="submit" class="layui-btn layui-btn-sm" lay-submit="system.config/save" lay-filter="saveForm">确认</button>
