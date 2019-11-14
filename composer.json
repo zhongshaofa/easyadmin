@@ -24,7 +24,8 @@
         "doctrine/annotations": "^1.8",
         "topthink/think-captcha": "^3.0",
         "aliyuncs/oss-sdk-php": "^2.3",
-        "qcloud/cos-sdk-v5": "^2.0"
+        "qcloud/cos-sdk-v5": "^2.0",
+        "qiniu/php-sdk": "^7.2"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
