@@ -21,7 +21,6 @@ class Local extends Base
     public function save()
     {
         parent::save();
-
         SaveDb::trigger($this->tableName, [
             'upload_type'   => $this->uploadType,
             'original_name' => $this->file->getOriginalName(),
@@ -30,7 +29,6 @@ class Local extends Base
             'url'           => $this->completeFileUrl,
             'create_time'   => time(),
         ]);
-
         return [
             'save' => true,
             'msg'  => '上传成功',

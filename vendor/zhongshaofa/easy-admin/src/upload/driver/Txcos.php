@@ -24,7 +24,6 @@ class Txcos extends Base
         parent::save();
         $upload = Cos::instance($this->uploadConfig)
             ->save($this->completeFilePath, $this->completeFilePath);
-
         if ($upload['save'] == true) {
             SaveDb::trigger($this->tableName, [
                 'upload_type'   => $this->uploadType,
@@ -35,9 +34,7 @@ class Txcos extends Base
                 'create_time'   => time(),
             ]);
         }
-
         $this->rmLocalSave();
-
         return $upload;
     }
 

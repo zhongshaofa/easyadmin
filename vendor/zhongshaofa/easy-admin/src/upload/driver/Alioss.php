@@ -24,7 +24,6 @@ class Alioss extends Base
         parent::save();
         $upload = Oss::instance($this->uploadConfig)
             ->save($this->completeFilePath, $this->completeFilePath);
-
         if ($upload['save'] == true) {
             SaveDb::trigger($this->tableName, [
                 'upload_type'   => $this->uploadType,
@@ -35,9 +34,7 @@ class Alioss extends Base
                 'create_time'   => time(),
             ]);
         }
-
         $this->rmLocalSave();
-
         return $upload;
     }
 

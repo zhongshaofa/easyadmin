@@ -65,11 +65,6 @@
         </div>
     </div>
 
-
-
-
-
-
     <div class="layui-form-item" v-if="upload_type == 'txcos'" v-cloak>
         <label class="layui-form-label required">公钥信息</label>
         <div class="layui-input-block">
@@ -102,6 +97,29 @@
         </div>
     </div>
 
+    <div class="layui-form-item" v-if="upload_type == 'qnoss'" v-cloak>
+        <label class="layui-form-label required">公钥信息</label>
+        <div class="layui-input-block">
+            <input type="text" name="qnoss_access_key" class="layui-input" lay-verify="required" lay-reqtext="请输入公钥信息" placeholder="请输入公钥信息" value="{:sysconfig('upload','qnoss_access_key')}">
+            <tip>例子：v-lV3tXev7yyfsfa1jRc6_8rFOhFYGQvvjsAQxdrB</tip>
+        </div>
+    </div>
+
+    <div class="layui-form-item" v-if="upload_type == 'qnoss'" v-cloak>
+        <label class="layui-form-label required">私钥信息</label>
+        <div class="layui-input-block">
+            <input type="text" name="qnoss_secret_key" class="layui-input" lay-verify="required" lay-reqtext="请输入私钥信息" placeholder="请输入私钥信息" value="{:sysconfig('upload','qnoss_secret_key')}">
+            <tip>例子：XOhYRR9JNqxsWVEO-mHWB4193vfsfsQADuORaXzr</tip>
+        </div>
+    </div>
+
+    <div class="layui-form-item" v-if="upload_type == 'qnoss'" v-cloak>
+        <label class="layui-form-label required">存储空间</label>
+        <div class="layui-input-block">
+            <input type="text" name="qnoss_bucket" class="layui-input" lay-verify="required" lay-reqtext="请输入存储桶地域" placeholder="请输入存储桶地域" value="{:sysconfig('upload','qnoss_bucket')}">
+            <tip>例子：easyadmin</tip>
+        </div>
+    </div>
 
     <div class="layui-form-item">
         <div class="layui-input-block">
