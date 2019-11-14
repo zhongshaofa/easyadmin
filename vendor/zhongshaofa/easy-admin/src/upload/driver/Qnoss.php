@@ -12,13 +12,22 @@
 
 namespace EasyAdmin\upload\driver;
 
-use EasyAdmin\upload\Base;
+use EasyAdmin\upload\FileBase;
 use EasyAdmin\upload\driver\qnoss\Oss;
 use EasyAdmin\upload\trigger\SaveDb;
 
-class Qnoss extends Base
+/**
+ * 七牛云上传
+ * Class Qnoss
+ * @package EasyAdmin\upload\driver
+ */
+class Qnoss extends FileBase
 {
 
+    /**
+     * 重写上传方法
+     * @return array|void
+     */
     public function save()
     {
         parent::save();

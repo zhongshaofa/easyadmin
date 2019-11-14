@@ -12,13 +12,22 @@
 
 namespace EasyAdmin\upload\driver;
 
-use EasyAdmin\upload\Base;
+use EasyAdmin\upload\FileBase;
 use EasyAdmin\upload\driver\txcos\Cos;
 use EasyAdmin\upload\trigger\SaveDb;
 
-class Txcos extends Base
+/**
+ * 腾讯云上传
+ * Class Txcos
+ * @package EasyAdmin\upload\driver
+ */
+class Txcos extends FileBase
 {
 
+    /**
+     * 重写上传方法
+     * @return array|void
+     */
     public function save()
     {
         parent::save();

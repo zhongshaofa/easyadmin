@@ -12,12 +12,21 @@
 
 namespace EasyAdmin\upload\driver;
 
-use EasyAdmin\upload\Base;
+use EasyAdmin\upload\FileBase;
 use EasyAdmin\upload\trigger\SaveDb;
 
-class Local extends Base
+/**
+ * 本地上传
+ * Class Local
+ * @package EasyAdmin\upload\driver
+ */
+class Local extends FileBase
 {
 
+    /**
+     * 重写上传方法
+     * @return array|void
+     */
     public function save()
     {
         parent::save();

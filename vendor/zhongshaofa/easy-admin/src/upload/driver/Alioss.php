@@ -12,13 +12,22 @@
 
 namespace EasyAdmin\upload\driver;
 
-use EasyAdmin\upload\Base;
+use EasyAdmin\upload\FileBase;
 use EasyAdmin\upload\driver\alioss\Oss;
 use EasyAdmin\upload\trigger\SaveDb;
 
-class Alioss extends Base
+/**
+ * 阿里云上传
+ * Class Alioss
+ * @package EasyAdmin\upload\driver
+ */
+class Alioss extends FileBase
 {
 
+    /**
+     * 重写上传方法
+     * @return array|void
+     */
     public function save()
     {
         parent::save();
