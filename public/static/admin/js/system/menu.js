@@ -1,9 +1,10 @@
-define(["jquery", "admin", "treetable", "iconPickerFa"], function ($, admin) {
+define(["jquery", "admin", "treetable", "iconPickerFa", "autocomplete"], function ($, admin) {
 
     var table = layui.table;
     var form = layui.form;
     var treetable = layui.treetable;
     var iconPickerFa = layui.iconPickerFa;
+    var autocomplete = layui.autocomplete;
 
     var init = {
         table_elem: 'currentTable',
@@ -123,6 +124,14 @@ define(["jquery", "admin", "treetable", "iconPickerFa"], function ($, admin) {
                     console.log(d);
                 }
             });
+            autocomplete.render({
+                elem: $('#href')[0],
+                url: admin.url('system.menu/getMenuTips'),
+                template_val: '{{d.node}}',
+                template_txt: '{{d.node}} <span class=\'layui-badge layui-bg-gray\'>{{d.title}}</span>',
+                onselect: function (resp) {
+                }
+            });
             admin.listen(function (url, data) {
                 admin.api.form(url, data, function (res) {
                     admin.msg.success(res.msg, function () {
@@ -145,6 +154,14 @@ define(["jquery", "admin", "treetable", "iconPickerFa"], function ($, admin) {
                 },
                 success: function (d) {
                     console.log(d);
+                }
+            });
+            autocomplete.render({
+                elem: $('#href')[0],
+                url: admin.url('system.menu/getMenuTips'),
+                template_val: '{{d.node}}',
+                template_txt: '{{d.node}} <span class=\'layui-badge layui-bg-gray\'>{{d.title}}</span>',
+                onselect: function (resp) {
                 }
             });
             admin.listen(function (url, data) {

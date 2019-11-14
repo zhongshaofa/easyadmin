@@ -13,6 +13,7 @@
 namespace app\admin\controller\system;
 
 use app\admin\model\SystemMenu;
+use app\admin\model\SystemNode;
 use app\common\constants\MenuParams;
 use app\common\constants\SystemConstant;
 use EasyAdmin\annotation\ControllerAnnotation;
@@ -77,10 +78,10 @@ class Menu extends AdminController
             } catch (\Exception $e) {
                 $this->error('保存失败');
             }
-            if($save){
+            if ($save) {
                 event('MenuUpdate');
                 $this->success('保存成功');
-            }else{
+            } else {
                 $this->error('保存失败');
             }
         }
@@ -110,10 +111,10 @@ class Menu extends AdminController
             } catch (\Exception $e) {
                 $this->error('保存失败');
             }
-            if($save){
+            if ($save) {
                 event('MenuUpdate');
                 $this->success('保存成功');
-            }else{
+            } else {
                 $this->error('保存失败');
             }
         }
@@ -138,10 +139,10 @@ class Menu extends AdminController
         } catch (\Exception $e) {
             $this->error('删除失败');
         }
-        if($save){
+        if ($save) {
             event('MenuUpdate');
             $this->success('删除成功');
-        }else{
+        } else {
             $this->error('删除失败');
         }
     }
@@ -174,6 +175,23 @@ class Menu extends AdminController
         }
         event('MenuUpdate');
         $this->success('保存成功');
+    }
+
+    /**
+     * @NodeAnotation(title="添加菜单提示")
+     */
+    public function getMenuTips()
+    {
+        $node = input('get.keywords');
+        $list = SystemNode::whereLike('node', "%{$node}%")
+            ->field('node,title')
+            ->limit(10)
+            ->select();
+        return json([
+            'code'    => 0,
+            'content' => $list,
+            'type'    => 'success',
+        ]);
     }
 
 }
