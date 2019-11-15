@@ -21,6 +21,10 @@ define(["jquery"], function ($) {
         url: function (url) {
             return '/' + ADMIN + '/' + url;
         },
+        checkAuth: function (node) {
+            var check = ALL_AUTH_NODE[node] == undefined ? false : true;
+            return check;
+        },
         parame: function (param, defaultParam) {
             return param != undefined ? param : defaultParam;
         },
@@ -177,9 +181,9 @@ define(["jquery"], function ($) {
                     if (v == 'refresh') {
                         toolbarHtml += ' <button class="layui-btn layui-btn-sm layuimini-btn-primary" data-table-refresh="' + tableId + '"><i class="fa fa-refresh"></i> </button>\n';
                     } else if (v == 'add') {
-                        toolbarHtml += '<button class="layui-btn layui-btn-sm" data-open="' + init.add_url + '" data-title="添加"><i class="layui-icon layui-icon-add-circle-fine"></i>添加</button>\n';
+                        toolbarHtml += '<button class="layui-btn layui-btn-sm" data-open="' + init.add_url + '" data-title="添加" auth="' + init.add_url + '"><i class="layui-icon layui-icon-add-circle-fine"></i>添加</button>\n';
                     } else if (v == 'delete') {
-                        toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-danger" data-url="' + init.del_url + '" data-table-delete="' + tableId + '"><i class="layui-icon layui-icon-delete"></i>删除</button>\n';
+                        toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-danger" data-url="' + init.del_url + '" data-table-delete="' + tableId + '" auth="' + init.del_url + '"><i class="layui-icon layui-icon-delete"></i>删除</button>\n';
                     } else if (typeof v == "object") {
                         $.each(v, function (ii, vv) {
                             vv.class = vv.class || '';
@@ -188,12 +192,14 @@ define(["jquery"], function ($) {
                             vv.open = vv.open || '';
                             vv.title = vv.title || vv.text || '';
                             vv.extend = vv.extend || '';
+                            vv.auth = vv.auth || '';
                             // 组合数据
                             vv.icon = vv.icon != '' ? '<i class="' + vv.icon + '"></i>' : '';
                             vv.class = vv.class != '' ? 'class="' + vv.class + '" ' : '';
                             vv.open = vv.open != '' ? 'data-open="' + vv.open + '" ' : '';
                             vv.title = vv.title != '' ? 'data-title="' + vv.title + '" ' : '';
-                            toolbarHtml += '<button ' + vv.class + vv.open + vv.title + vv.extend + '>' + vv.icon + vv.text + '</button>\n';
+                            vv.auth = vv.auth != '' ? 'auth="' + vv.auth + '" ' : '';
+                            toolbarHtml += '<button ' + vv.class + vv.open + vv.title + vv.auth + vv.extend + '>' + vv.icon + vv.text + '</button>\n';
                         });
                     }
                 });
@@ -314,6 +320,7 @@ define(["jquery"], function ($) {
                                 class: 'layui-btn layui-btn-xs',
                                 text: '编辑',
                                 open: option.init.edit_url,
+                                auth: option.init.edit_url,
                                 extend: ""
                             };
                         } else {
@@ -322,6 +329,7 @@ define(["jquery"], function ($) {
                                 text: '删除',
                                 title: '确定删除？',
                                 request: option.init.del_url,
+                                auth: option.init.del_url,
                                 extend: ""
                             };
                         }
@@ -334,6 +342,7 @@ define(["jquery"], function ($) {
                         vv.request = vv.request || '';
                         vv.title = vv.title || vv.text || '';
                         vv.extend = vv.extend || '';
+                        vv.auth = vv.auth || '';
                         if (vv.open != '') {
                             vv.open = vv.open.indexOf("?") != -1 ? vv.open + '&id=' + data.id : vv.open + '?id=' + data.id;
                         }
@@ -346,7 +355,10 @@ define(["jquery"], function ($) {
                         vv.open = vv.open != '' ? 'data-open="' + vv.open + '" data-title="' + vv.title + '" ' : '';
                         vv.request = vv.request != '' ? 'data-request="' + vv.request + '" data-title="' + vv.title + '" ' : '';
                         vv.event = vv.event != '' ? 'lay-event="' + vv.event + '" ' : '';
-                        html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.extend + '>' + vv.icon + vv.text + '</a>';
+
+
+                        vv.auth = vv.auth != '' ? 'auth="' + vv.auth + '" ' : '';
+                        html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.auth + vv.extend + '>' + vv.icon + vv.text + '</a>';
                     } else if (typeof v == "object") {
                         $.each(v, function (ii, vv) {
                             // 初始化数据
@@ -358,6 +370,7 @@ define(["jquery"], function ($) {
                             vv.request = vv.request || '';
                             vv.title = vv.title || vv.text || '';
                             vv.extend = vv.extend || '';
+                            vv.auth = vv.auth || '';
                             if (vv.open != '') {
                                 vv.open = vv.open.indexOf("?") != -1 ? vv.open + '&id=' + data.id : vv.open + '?id=' + data.id;
                             }
@@ -370,7 +383,8 @@ define(["jquery"], function ($) {
                             vv.open = vv.open != '' ? 'data-open="' + vv.open + '" data-title="' + vv.title + '" ' : '';
                             vv.request = vv.request != '' ? 'data-request="' + vv.request + '" data-title="' + vv.title + '" ' : '';
                             vv.event = vv.event != '' ? 'lay-event="' + vv.event + '" ' : '';
-                            html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.extend + '>' + vv.icon + vv.text + '</a>';
+                            vv.auth = vv.auth != '' ? 'auth="' + vv.auth + '" ' : '';
+                            html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.auth + vv.extend + '>' + vv.icon + vv.text + '</a>';
                         });
                     }
                 });
@@ -525,6 +539,9 @@ define(["jquery"], function ($) {
             }
         },
         listen: function (formCallback, ok, no, ex) {
+
+            // 节点权限监听
+            admin.api.auth();
 
             // 初始化layui表单
             form.render();
@@ -825,6 +842,15 @@ define(["jquery"], function ($) {
                         return false;
                     });
                 }
+            },
+            auth: function () {
+                var nodeList = document.querySelectorAll("[auth]");
+                $.each(nodeList, function (i, v) {
+                    var node = $(this).attr('auth');
+                    var check = admin.checkAuth(node);
+                    check && $(this).css('display', 'inline-block');
+                });
+                return false;
             }
         },
     };

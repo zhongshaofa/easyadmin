@@ -38,6 +38,7 @@ define(["jquery", "admin",], function ($, admin) {
                                     class: 'layui-btn layui-btn-normal layui-btn-xs',
                                     text: '授权',
                                     open: init.authorize_url,
+                                    auth: init.authorize_url,
                                     extend: ""
                                 },
                             ], 'delete'

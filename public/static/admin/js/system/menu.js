@@ -61,6 +61,7 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "autocomplete"], functio
                                     class: 'layui-btn layui-btn-xs layui-btn-normal',
                                     text: '添加下级',
                                     open: 'system.menu/add',
+                                    auth: 'system.menu/add',
                                     extend: ""
                                 }], 'edit', 'delete'
                             ]

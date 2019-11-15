@@ -27,6 +27,7 @@ define(["jquery", "admin",], function ($, admin) {
                         class: 'layui-btn layui-btn-sm',
                         icon: 'fa fa-hourglass ',
                         title: '确定更新新节点？',
+                        auth:'system.node/refreshNode',
                         extend: ' data-request="system.node/refreshNode?force=0" data-table="' + init.table_render_id + '"',
                     },
                     {
@@ -34,12 +35,14 @@ define(["jquery", "admin",], function ($, admin) {
                         class: 'layui-btn layui-btn-sm layui-btn-normal',
                         icon: 'fa fa-hourglass ',
                         title: '该操作会覆盖已存在的节点信息。<br>确定强制更新节点？',
+                        auth:'system.node/refreshNode',
                         extend: ' data-request="system.node/refreshNode?force=1" data-table="' + init.table_render_id + '"',
                     },{
                         text: ' 清除失效节点',
                         class: 'layui-btn layui-btn-sm layui-btn-danger',
                         icon: 'fa fa-trash-o ',
                         title: '确定清除失效节点？',
+                        auth:'system.node/refreshNode',
                         extend: ' data-request="system.node/clearNode" data-table="' + init.table_render_id + '"',
                     }
                 ]],
