@@ -1,6 +1,8 @@
 <?php
 // 应用公共文件
 
+use app\common\service\AuthService;
+
 if (!function_exists('__url')) {
 
     /**
@@ -90,6 +92,25 @@ if (!function_exists('array_format_key')) {
             $newArray[$vo[$key]] = $vo;
         }
         return $newArray;
+    }
+
+}
+
+if (!function_exists('auth')) {
+
+    /**
+     * auth权限验证
+     * @param $node
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    function auth($node = null)
+    {
+        $authService = new AuthService(session('admin.id'));
+        $check = $authService->checkNode($node);
+        return $check;
     }
 
 }
