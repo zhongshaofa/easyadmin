@@ -3,4 +3,5 @@
 *.log
 .env
 /public/upload
+/public/docs
 /runtime
