@@ -38,7 +38,7 @@ class ViewInit
         $allAuthNode = Cache::get('allAuthNode_' . session('admin.id'));
         if (empty($allAuthNode)) {
             $allAuthNode = (new AuthService(session('admin.id')))->getAdminNode();
-            Cache::tag('initAdmin')->set('allAuthNode_' . session('admin.id'), $allAuthNode);
+            Cache::tag('authNode')->set('allAuthNode_' . session('admin.id'), $allAuthNode);
         }
         $isSuperAdmin = session('admin.id') == AdminConstant::SUPER_ADMIN_ID ? true : false;
         $data = [

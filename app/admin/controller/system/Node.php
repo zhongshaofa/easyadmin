@@ -14,6 +14,7 @@ namespace app\admin\controller\system;
 
 
 use app\admin\model\SystemNode;
+use app\admin\service\TriggerService;
 use app\common\controller\AdminController;
 use EasyAdmin\annotation\ControllerAnnotation;
 use EasyAdmin\annotation\NodeAnotation;
@@ -88,6 +89,7 @@ class Node extends AdminController
                 }
             }
             $model->insertAll($nodeList);
+            TriggerService::updateNode();
         } catch (\Exception $e) {
             $this->error('节点更新失败');
         }
@@ -107,6 +109,7 @@ class Node extends AdminController
             foreach ($existNodeList as $vo) {
                 !isset($formatNodeList[$vo['node']]) && $model->where('id', $vo['id'])->delete();
             }
+            TriggerService::updateNode();
         } catch (\Exception $e) {
             $this->error('节点更新失败');
         }
