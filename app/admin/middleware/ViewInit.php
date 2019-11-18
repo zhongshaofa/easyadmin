@@ -13,13 +13,13 @@
 namespace app\admin\middleware;
 
 
+use app\common\constants\AdminConstant;
 use app\common\service\AuthService;
 use think\App;
 use think\facade\Cache;
 use think\facade\Env;
 use think\facade\Request;
 use think\facade\View;
-use think\route\dispatch\Controller;
 
 class ViewInit
 {
@@ -31,16 +31,17 @@ class ViewInit
         foreach ($thisControllerArr as $vo) {
             empty($jsPath) ? $jsPath = parse_name($vo) : $jsPath .= '/' . parse_name($vo);
         }
-        $autoloadJs           = file_exists("static/{$thisModule}/js/{$jsPath}.js") ? true : false;
+        $autoloadJs = file_exists("static/{$thisModule}/js/{$jsPath}.js") ? true : false;
         $thisControllerJsPath = "{$thisModule}/js/{$jsPath}.js";
-        $adminModuleName      = Env::get('easyadmin.admin', 'admin');
+        $adminModuleName = Env::get('easyadmin.admin', 'admin');
         // 获取所有授权的节点
         $allAuthNode = Cache::get('allAuthNode_' . session('admin.id'));
         if (empty($allAuthNode)) {
             $allAuthNode = (new AuthService(session('admin.id')))->getAdminNode();
             Cache::tag('initAdmin')->set('allAuthNode_' . session('admin.id'), $allAuthNode);
         }
-        $data                 = [
+        $isSuperAdmin = session('admin.id') == AdminConstant::SUPER_ADMIN_ID ? true : false;
+        $data = [
             'admin_module_name'    => $adminModuleName,
             'thisController'       => parse_name($thisController),
             'thisAction'           => parse_name($thisAction),
@@ -48,6 +49,7 @@ class ViewInit
             'thisControllerJsPath' => "{$thisControllerJsPath}",
             'autoloadJs'           => $autoloadJs,
             'allAuthNode'          => $allAuthNode,
+            'isSuperAdmin'         => $isSuperAdmin,
         ];
         View::assign($data);
         $request->adminModuleName = $adminModuleName;

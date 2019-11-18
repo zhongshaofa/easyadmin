@@ -13,6 +13,7 @@
 namespace app\common\service;
 
 use app\common\constants\AdminConstant;
+use EasyAdmin\tool\CommonTool;
 use think\facade\Db;
 
 /**
@@ -107,8 +108,8 @@ class AuthService
      */
     public function getCurrentNode()
     {
-        $node = request()->controller() . '/' . request()->action();
-        return $this->parseNodeStr($node);
+        $node = $this->parseNodeStr(request()->controller() . '/' . request()->action());
+        return $node;
     }
 
     /**
@@ -120,16 +121,16 @@ class AuthService
      */
     public function getAdminNode()
     {
-        $nodeList  = [];
+        $nodeList = [];
         $adminInfo = Db::name($this->config['system_admin'])
             ->where([
                 'id'     => $this->adminId,
                 'status' => 1,
             ])->find();
         if (!empty($adminInfo)) {
-            $buildAuthSql     = Db::name($this->config['system_auth'])
+            $buildAuthSql = Db::name($this->config['system_auth'])
                 ->distinct(true)
-                ->whereIn('id',$adminInfo['auth_ids'])
+                ->whereIn('id', $adminInfo['auth_ids'])
                 ->field('id')
                 ->buildSql(true);
             $buildAuthNodeSql = Db::name($this->config['system_auth_node'])
@@ -137,7 +138,7 @@ class AuthService
                 ->where("auth_id IN {$buildAuthSql}")
                 ->field('node_id')
                 ->buildSql(true);
-            $nodeList         = Db::name($this->config['system_node'])
+            $nodeList = Db::name($this->config['system_node'])
                 ->distinct(true)
                 ->where("id IN {$buildAuthNodeSql}")
                 ->column('node');
@@ -152,11 +153,19 @@ class AuthService
      */
     public function parseNodeStr($node)
     {
-        $tmp = [];
-        foreach (explode('/', $node) as $name) {
-            $tmp[] = strtolower(trim(preg_replace("/[A-Z]/", "_\\0", $name), "_"));
+        $array = explode('/', $node);
+        foreach ($array as $key => $val) {
+            if ($key == 0) {
+                $val = explode('.', $val);
+                foreach ($val as &$vo) {
+                    $vo = CommonTool::humpToLine(lcfirst($vo));
+                }
+                $val = implode('.', $val);
+                $array[$key] = $val;
+            }
         }
-        return str_replace('._', '.', trim(join('/', $tmp), '/'));
+        $node = implode('/', $array);
+        return $node;
     }
 
 }

@@ -22,6 +22,10 @@ define(["jquery"], function ($) {
             return '/' + ADMIN + '/' + url;
         },
         checkAuth: function (node) {
+            if (IS_SUPER_ADMIN == true) {
+                return true;
+            }
+            node = admin.common.parseNodeStr(node);
             var check = ALL_AUTH_NODE[node] == undefined ? false : true;
             return check;
         },
@@ -82,6 +86,31 @@ define(["jquery"], function ($) {
                     }
                 });
             }
+        },
+        common:{
+            parseNodeStr:function(node){
+                var array = node.split('/');
+                $.each(array, function (key, val) {
+                    if(key == 0){
+                        val = val.split('.');
+                        $.each(val,function (i,v) {
+                            val[i] = admin.common.humpToLine(v.replace(v[0],v[0].toLowerCase()));
+                        });
+                        val = val.join(".");
+                        array[key] =val;
+                    }
+                });
+                node = array.join("/");
+                return node;
+            },
+            lineToHump:function(name){
+                return name.replace(/\_(\w)/g, function(all, letter){
+                    return letter.toUpperCase();
+                });
+            },
+            humpToLine:function(name){
+                return name.replace(/([A-Z])/g,"_$1").toLowerCase();
+            },
         },
         msg: {
             // 成功消息
