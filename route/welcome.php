@@ -26,7 +26,7 @@ Route::view('/', 'welcome', [
         [
             'name'   => '文档',
             'active' => false,
-            'href'   => 'http://doc.99php.cn',
+            'href'   => 'http://easyadmin.99php.cn/docs',
             'target' => '_blank',
         ],
         [
