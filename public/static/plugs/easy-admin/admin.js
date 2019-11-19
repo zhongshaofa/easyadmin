@@ -87,29 +87,29 @@ define(["jquery"], function ($) {
                 });
             }
         },
-        common:{
-            parseNodeStr:function(node){
+        common: {
+            parseNodeStr: function (node) {
                 var array = node.split('/');
                 $.each(array, function (key, val) {
-                    if(key == 0){
+                    if (key == 0) {
                         val = val.split('.');
-                        $.each(val,function (i,v) {
-                            val[i] = admin.common.humpToLine(v.replace(v[0],v[0].toLowerCase()));
+                        $.each(val, function (i, v) {
+                            val[i] = admin.common.humpToLine(v.replace(v[0], v[0].toLowerCase()));
                         });
                         val = val.join(".");
-                        array[key] =val;
+                        array[key] = val;
                     }
                 });
                 node = array.join("/");
                 return node;
             },
-            lineToHump:function(name){
-                return name.replace(/\_(\w)/g, function(all, letter){
+            lineToHump: function (name) {
+                return name.replace(/\_(\w)/g, function (all, letter) {
                     return letter.toUpperCase();
                 });
             },
-            humpToLine:function(name){
-                return name.replace(/([A-Z])/g,"_$1").toLowerCase();
+            humpToLine: function (name) {
+                return name.replace(/([A-Z])/g, "_$1").toLowerCase();
             },
         },
         msg: {
@@ -384,10 +384,12 @@ define(["jquery"], function ($) {
                         vv.open = vv.open != '' ? 'data-open="' + vv.open + '" data-title="' + vv.title + '" ' : '';
                         vv.request = vv.request != '' ? 'data-request="' + vv.request + '" data-title="' + vv.title + '" ' : '';
                         vv.event = vv.event != '' ? 'lay-event="' + vv.event + '" ' : '';
-
-
-                        vv.auth = vv.auth != '' ? 'auth="' + vv.auth + '" ' : '';
-                        html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.auth + vv.extend + '>' + vv.icon + vv.text + '</a>';
+                        // vv.auth = vv.auth != '' ? 'auth="' + vv.auth + '" ' : '';
+                        var check = (vv.auth == '' || vv.auth == undefined) ? true : admin.checkAuth(vv.auth);
+                        if (check == true) {
+                            // html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.auth + vv.extend + '>' + vv.icon + vv.text + '</a>';
+                            html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.extend + '>' + vv.icon + vv.text + '</a>';
+                        }
                     } else if (typeof v == "object") {
                         $.each(v, function (ii, vv) {
                             // 初始化数据
@@ -412,8 +414,12 @@ define(["jquery"], function ($) {
                             vv.open = vv.open != '' ? 'data-open="' + vv.open + '" data-title="' + vv.title + '" ' : '';
                             vv.request = vv.request != '' ? 'data-request="' + vv.request + '" data-title="' + vv.title + '" ' : '';
                             vv.event = vv.event != '' ? 'lay-event="' + vv.event + '" ' : '';
-                            vv.auth = vv.auth != '' ? 'auth="' + vv.auth + '" ' : '';
-                            html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.auth + vv.extend + '>' + vv.icon + vv.text + '</a>';
+                            // vv.auth = vv.auth != '' ? 'auth="' + vv.auth + '" ' : '';
+                            var check = (vv.auth == '' || vv.auth == undefined) ? true : admin.checkAuth(vv.auth);
+                            if (check == true) {
+                                // html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.auth + vv.extend + '>' + vv.icon + vv.text + '</a>';
+                                html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.extend + '>' + vv.icon + vv.text + '</a>';
+                            }
                         });
                     }
                 });
@@ -873,7 +879,7 @@ define(["jquery"], function ($) {
                 }
             },
             auth: function () {
-                var nodeList = document.querySelectorAll("[auth]");
+                var nodeList = $("[auth]");
                 $.each(nodeList, function (i, v) {
                     var node = $(this).attr('auth');
                     var check = admin.checkAuth(node);
