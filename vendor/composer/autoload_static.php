@@ -39,6 +39,7 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
             'Symfony\\Polyfill\\Php72\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\VarDumper\\' => 28,
+            'ServiceSwoole\\' => 14,
         ),
         'Q' => 
         array (
@@ -125,6 +126,10 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'Symfony\\Component\\VarDumper\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
+        ),
+        'ServiceSwoole\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zhongshaofa/service-swoole/src',
         ),
         'Qiniu\\' => 
         array (

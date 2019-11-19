@@ -36,7 +36,8 @@
             "app\\": "app",
             "addons\\": "addons",
             "EasyAdmin\\":"vendor/zhongshaofa/easy-admin/src",
-            "EasyAddons\\":"vendor/zhongshaofa/easy-addons/src"
+            "EasyAddons\\":"vendor/zhongshaofa/easy-addons/src",
+            "ServiceSwoole\\":"vendor/zhongshaofa/service-swoole/src"
         },
         "psr-0": {
             "": "extend/"
