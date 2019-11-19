@@ -5,3 +5,5 @@
 /public/upload
 /public/docs
 /runtime
+/docker/log
+/docker/mysql

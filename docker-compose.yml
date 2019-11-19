@@ -1,0 +1,79 @@
+version: "3"
+services:
+  nginx:
+    image: nginx:1.15.7-alpine
+    ports:
+      - "1888:80"
+    volumes:
+      - ./:/var/www/html/:rw
+      - ./docker/conf/conf.d:/etc/nginx/conf.d/:rw
+      - ./docker/conf/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/log/nginx:/var/log/nginx/:rw
+    restart: always
+    depends_on:
+      - php72
+    networks:
+      - default
+
+  php72:
+    build:
+      context: .
+      args:
+        PHP_VERSION: 7.2.19
+        ALPINE_REPOSITORIES: mirrors.aliyun.com
+        PHP_EXTENSIONS: pdo_mysql,opcache,redis,amqp,pcntl,gd,soap,zip,sockets,bcmath,swoole
+        MORE_EXTENSION_INSTALLER: php72.sh
+    volumes:
+      - ./:/var/www/html/:rw
+      - ./docker/conf/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./docker/conf/php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf:rw
+      - ./docker/log/php:/var/log/php
+    restart: always
+    cap_add:
+      - SYS_PTRACE
+    depends_on:
+      - redis
+      - rabbitmq
+    ports:
+      - "8288:8282"
+    networks:
+      - default
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3309:3306"
+    volumes:
+      - ./docker/conf/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
+      - ./docker/mysql:/var/lib/mysql/:rw
+    restart: always
+    networks:
+      - default
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+  redis:
+    image: redis:5.0.3-alpine
+    ports:
+      - "6399:6379"
+    volumes:
+      - ./docker/conf/redis.conf:/etc/redis.conf:ro
+    restart: always
+    entrypoint: ["redis-server", "/etc/redis.conf"]
+    networks:
+      - default
+
+  rabbitmq:
+    image: rabbitmq:management
+    restart: always
+    networks:
+      - default
+    ports:
+      - "5677:5672"
+      - "15677:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root
+
+networks:
+  default:
