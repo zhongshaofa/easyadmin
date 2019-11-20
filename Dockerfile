@@ -14,9 +14,7 @@ ENV EXTENSIONS=",${PHP_EXTENSIONS}," \
 
 RUN export MC="-j$(nproc)" \
     && chmod +x install.sh \
-    && chmod +x "${MORE_EXTENSION_INSTALLER}" \
     && sh install.sh \
-    && sh "${MORE_EXTENSION_INSTALLER}" \
     && rm -rf /tmp/extensions
 
 RUN apk update \

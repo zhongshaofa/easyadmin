@@ -36,7 +36,6 @@ services:
       - rabbitmq
     ports:
       - ${PHP_PORT}:8282
-      - ${PHP_SWOOLE_PORT}:18888
     networks:
       - default
 

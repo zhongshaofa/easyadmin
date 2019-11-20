@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+use ServiceSwoole\socket\SocketService;
+
+require __DIR__ . '/vendor/autoload.php';
+
+
+(new SocketService())->run();

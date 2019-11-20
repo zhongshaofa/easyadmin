@@ -10,13 +10,15 @@
 // | github开源项目：https://github.com/zhongshaofa/EasyAdmin
 // +----------------------------------------------------------------------
 
-namespace ServiceSwoole\socket;
+namespace app\websocket;
 
-class Socket
+
+class EchoModule
 {
 
-    public static function index()
+    public function index()
     {
-        return __METHOD__;
+
     }
+
 }
