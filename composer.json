@@ -29,7 +29,8 @@
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
-        "topthink/think-trace":"^1.0"
+        "topthink/think-trace":"^1.0",
+        "eaglewu/swoole-ide-helper": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -44,12 +45,19 @@
         }
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "secure-http": false
     },
     "scripts": {
         "post-autoload-dump": [
             "@php think service:discover",
             "@php think vendor:publish"
         ]
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "http://packagist.phpcomposer.com"
+        }
     }
 }

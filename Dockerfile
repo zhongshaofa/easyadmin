@@ -15,6 +15,8 @@ ENV EXTENSIONS=",${PHP_EXTENSIONS}," \
 RUN export MC="-j$(nproc)" \
     && chmod +x install.sh \
     && sh install.sh \
+    && mv composer.phar /usr/local/bin/composer \
+    && chmod a+x /usr/local/bin/composer \
     && rm -rf /tmp/extensions
 
 RUN apk update \
