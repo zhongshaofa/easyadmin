@@ -13,35 +13,53 @@
 namespace ServiceSwoole\socket;
 
 use EasyAdmin\console\CliEcho;
+use ServiceSwoole\socket\driver\Request;
 
 class SocketService
 {
 
+    protected $server;
+
     protected $port = 18888;
 
-    public function __construct($port = 18888)
+    protected $controllerDir;
+
+    protected $namespaceBase;
+
+    protected $loadTree = [];
+
+    public function __construct($port, $namespaceBase, $controllerDir)
     {
         $this->port = $port;
+        $this->namespaceBase = $namespaceBase;
+        $this->controllerDir = $controllerDir;
+        $this->server = new \Swoole\WebSocket\Server("0.0.0.0", $this->port);
         return $this;
     }
 
     public function run()
     {
         CliEcho::success("执行socket");
-        $server = new \Swoole\WebSocket\Server("0.0.0.0", $this->port);
-        $server->on('open', function (\Swoole\WebSocket\Server $server, $request) {
-            dump($server);
+        $this->server->on('open', function (\Swoole\WebSocket\Server $server, $request) {
+            $request = new Request($request);
+            $class = $request->getController($this->namespaceBase);
+            Route::onOpen($class, $request, $request->fd());
+        });
+        $this->server->on('message', function (\Swoole\WebSocket\Server $server, $frame) {
+//            dump($server);
+//            dump($frame);
+            $request = new \Swoole\Http\Request();
             dump($request);
+            $data = $frame->data;
+            $server->push($frame->fd, "发送的消息为1：" . $frame->data);
         });
-        $server->on('message', function (\Swoole\WebSocket\Server $server, $frame) {
+        $this->server->on('close', function (\Swoole\WebSocket\Server $server, $fd) {
             dump($server);
-            dump($frame);
-            $server->push($frame->fd, "this is server");
-        });
-        $server->on('close', function ($ser, $fd) {
             echo "client {$fd} closed\n";
-            CliEcho::success("结束socket");
         });
-        $server->start();
+        $this->server->start();
     }
+
+
+
 }

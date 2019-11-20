@@ -5,5 +5,8 @@ use ServiceSwoole\socket\SocketService;
 
 require __DIR__ . '/vendor/autoload.php';
 
+define('DS', DIRECTORY_SEPARATOR);
+$namespaceBase = 'app\websocket\controller';
+$controllerDir = __DIR__ . DS . 'app' . DS . 'websocket' . DS . 'controller';
 
-(new SocketService())->run();
+(new SocketService(18888, $namespaceBase, $controllerDir))->run();
