@@ -9,23 +9,95 @@ use think\facade\Db;
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../vendor/topthink/framework/src/helper.php';
 
-$config = [
-    'type'     => 'mysql',
-    'hostname' => 'host.docker.internal',
-    'database' => 'easyadmin',
-    'username' => 'root',
-    'password' => 'root',
-    'hostport' => '3309',
-    'charset'  => 'utf8',
-    'prefix'   => 'ea_',
-    'debug'    => true,
-];
-Db::setConfig([
-    'default'     => 'mysql',
-    'connections' => ['mysql' => $config],
-]);
+define('DS', DIRECTORY_SEPARATOR);
+define('ROOT_PATH', __DIR__ . DS . '..' . DS);
+define('INSTALL_PATH', ROOT_PATH . 'install' . DS);
 
-function checkConnect($config)
+// 检测系统环境
+
+// POST请求
+if (isAjax()) {
+    $post = $_POST;
+    $adminUrl = $post['admin_url'];
+    $cover = $post['cover'] == 1 ? true : false;
+    $database = $post['database'];
+    $hostname = $post['hostname'];
+    $hostport = $post['hostport'];
+    $dbUsername = $post['db_username'];
+    $dbPassword = $post['db_password'];
+    $prefix = $post['prefix'];
+    $username = $post['username'];
+    $password = $post['password'];
+
+    // DB类初始化
+    $config = [
+        'type'     => 'mysql',
+        'hostname' => $hostname,
+        'database' => $database,
+        'username' => $dbUsername,
+        'password' => $dbPassword,
+        'hostport' => $hostport,
+        'charset'  => 'utf8',
+        'prefix'   => $prefix,
+        'debug'    => true,
+    ];
+    Db::setConfig([
+        'default'     => 'mysql',
+        'connections' => ['mysql' => $config],
+    ]);
+
+    // 检测数据库连接
+    if (!checkConnect()) {
+        $data = [
+            'code' => 0,
+            'msg'  => '数据库连接失败',
+        ];
+        die(json_encode($data));
+    }
+    // 检测数据库是否存在
+    if (!$cover && checkDatabase($database)) {
+        $data = [
+            'code' => 0,
+            'msg'  => '数据库已存在，请选择覆盖安装或者修改数据库名',
+        ];
+        die(json_encode($data));
+    }
+    // 创建数据库
+    createDatabase($database);
+    // 导入sql语句
+    $install = importSql();
+    if ($install !== true) {
+        $data = [
+            'code' => 0,
+            'msg'  => '系统安装失败：' . $install,
+        ];
+        die(json_encode($data));
+    }
+    $data = [
+        'code' => 1,
+        'msg'  => '系统安装成功，正在跳转登录页面',
+        'url'  => 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/'.$adminUrl,
+    ];
+    die(json_encode($data));
+}
+
+
+function isAjax()
+{
+    if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isPost()
+{
+    return ($_SERVER['REQUEST_METHOD'] == 'POST' && checkurlHash($GLOBALS['verify'])
+        && (empty($_SERVER['HTTP_REFERER']) || preg_replace("~https?:\/\/([^\:\/]+).*~i", "\\1", $_SERVER['HTTP_REFERER']) == preg_replace("~([^\:]+).*~", "\\1", $_SERVER['HTTP_HOST']))) ? 1 : 0;
+}
+
+function checkConnect()
 {
     try {
         Db::query("select version()");
@@ -51,6 +123,61 @@ function createDatabase($database)
         Db::execute("CREATE DATABASE IF NOT EXISTS `{$database}` DEFAULT CHARACTER SET utf8");
     } catch (\Exception $e) {
         return false;
+    }
+    return true;
+}
+
+function getSqlArray()
+{
+    $sql = file_get_contents(INSTALL_PATH . 'sql' . DS . 'install.sql');
+    $sqlArray = parseSql($sql);
+    return $sqlArray;
+}
+
+function parseSql($sql = '')
+{
+    list($pure_sql, $comment) = [[], false];
+    $sql = explode("\n", trim(str_replace(["\r\n", "\r"], "\n", $sql)));
+    foreach ($sql as $key => $line) {
+        if ($line == '') {
+            continue;
+        }
+        if (preg_match("/^(#|--)/", $line)) {
+            continue;
+        }
+        if (preg_match("/^\/\*(.*?)\*\//", $line)) {
+            continue;
+        }
+        if (substr($line, 0, 2) == '/*') {
+            $comment = true;
+            continue;
+        }
+        if (substr($line, -2) == '*/') {
+            $comment = false;
+            continue;
+        }
+        if ($comment) {
+            continue;
+        }
+        array_push($pure_sql, $line);
+    }
+    $pure_sql = implode($pure_sql, "\n");
+    $pure_sql = explode(";\n", $pure_sql);
+    return $pure_sql;
+}
+
+function importSql()
+{
+    $sqlArray = getSqlArray();
+    Db::startTrans();
+    try {
+        foreach ($sqlArray as $vo) {
+            Db::execute($vo);
+        }
+        Db::commit();
+    } catch (\Exception $e) {
+        Db::rollback();
+        return $e->getMessage();
     }
     return true;
 }
@@ -109,14 +236,22 @@ function createDatabase($database)
             <div class="layui-form-item">
                 <label class="layui-form-label">数据库账号</label>
                 <div class="layui-input-block">
-                    <input class="layui-input" name="username" autocomplete="off" lay-verify="required" lay-reqtext="请输入数据库账号" placeholder="请输入数据库账号" value="root">
+                    <input class="layui-input" name="db_username" autocomplete="off" lay-verify="required" lay-reqtext="请输入数据库账号" placeholder="请输入数据库账号" value="root">
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">数据库密码</label>
                 <div class="layui-input-block">
-                    <input type="password" class="layui-input" name="password" autocomplete="off" lay-verify="required" lay-reqtext="请输入数据库密码" placeholder="请输入数据库密码">
+                    <input type="password" class="layui-input" name="db_password" autocomplete="off" lay-verify="required" lay-reqtext="请输入数据库密码" placeholder="请输入数据库密码">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">覆盖数据库</label>
+                <div class="layui-input-block" style="text-align: left">
+                    <input type="radio" name="cover" value="1" title="覆盖">
+                    <input type="radio" name="cover" value="0" title="不覆盖" checked>
                 </div>
             </div>
         </div>
@@ -152,12 +287,33 @@ function createDatabase($database)
 <script src="static/plugs/layui-v2.5.5/layui.js?v={:time()}" charset="utf-8"></script>
 <script>
     layui.use(['form', 'layedit', 'laydate'], function () {
-        var form = layui.form,
+        var $ = layui.jquery,
+            form = layui.form,
             layer = layui.layer;
 
         form.on('submit(install)', function (data) {
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
+            var _data = data.field;
+            console.log(data.field);
+            $.ajax({
+                url: window.location.href,
+                type: 'post',
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                dataType: "json",
+                data: _data,
+                timeout: 60000,
+                success: function (data) {
+                    if (data.code == 1) {
+                        layer.msg(data.msg, {icon: 1}, function () {
+                            window.location.href = data.url;
+                        });
+                    } else {
+                        layer.msg(data.msg, {icon: 2});
+                    }
+                },
+                error: function (xhr, textstatus, thrown) {
+                    layer.msg('Status:' + xhr.status + '，' + xhr.statusText + '，请稍后再试！', {icon: 2});
+                    return false;
+                }
             });
             return false;
         });
