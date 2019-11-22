@@ -1,5 +1,60 @@
 <?php
 
+ini_set('display_errors', 'On');
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+use think\facade\Db;
+
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/topthink/framework/src/helper.php';
+
+$config = [
+    'type'     => 'mysql',
+    'hostname' => 'host.docker.internal',
+    'database' => 'easyadmin',
+    'username' => 'root',
+    'password' => 'root',
+    'hostport' => '3309',
+    'charset'  => 'utf8',
+    'prefix'   => 'ea_',
+    'debug'    => true,
+];
+Db::setConfig([
+    'default'     => 'mysql',
+    'connections' => ['mysql' => $config],
+]);
+
+function checkConnect($config)
+{
+    try {
+        Db::query("select version()");
+    } catch (\Exception $e) {
+        return false;
+    }
+    return true;
+}
+
+function checkDatabase($database)
+{
+    $check = Db::query("SELECT * FROM information_schema.schemata WHERE schema_name='{$database}'");
+    if (empty($check)) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function createDatabase($database)
+{
+    try {
+        Db::execute("CREATE DATABASE IF NOT EXISTS `{$database}` DEFAULT CHARACTER SET utf8");
+    } catch (\Exception $e) {
+        return false;
+    }
+    return true;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,9 +78,6 @@
     </p>
     <form class="layui-form layui-form-pane" action="">
         <div class="bg">
-            <!--        <fieldset class="layui-elem-field layui-field-title">-->
-            <!--            <legend>数据库配置</legend>-->
-            <!--        </fieldset>-->
             <div class="layui-form-item">
                 <label class="layui-form-label">数据库地址</label>
                 <div class="layui-input-block">
@@ -69,11 +121,6 @@
             </div>
         </div>
         <div class="bg">
-
-            <!--        <fieldset class="layui-elem-field layui-field-title">-->
-            <!--            <legend>后台路径设置</legend>-->
-            <!--        </fieldset>-->
-
             <div class="layui-form-item">
                 <label class="layui-form-label">后台的地址</label>
                 <div class="layui-input-block">
@@ -81,10 +128,6 @@
                     <span class="tips">为了后台安全，不建议将后台路径设置为admin</span>
                 </div>
             </div>
-
-            <!--        <fieldset class="layui-elem-field layui-field-title">-->
-            <!--            <legend>管理账号设置</legend>-->
-            <!--        </fieldset>-->
 
             <div class="layui-form-item">
                 <label class="layui-form-label">管理员账号</label>
@@ -118,9 +161,7 @@
             });
             return false;
         });
-
     });
 </script>
-
 </body>
 </html>
