@@ -76,7 +76,7 @@ if (isAjax()) {
     $data = [
         'code' => 1,
         'msg'  => '系统安装成功，正在跳转登录页面',
-        'url'  => 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].'/'.$adminUrl,
+        'url'  => $adminUrl,
     ];
     die(json_encode($data));
 }
@@ -304,7 +304,7 @@ function importSql()
                 success: function (data) {
                     if (data.code == 1) {
                         layer.msg(data.msg, {icon: 1}, function () {
-                            window.location.href = data.url;
+                            window.location.href = location.protocol + '//' + location.host + '/' + data.url;
                         });
                     } else {
                         layer.msg(data.msg, {icon: 2});
