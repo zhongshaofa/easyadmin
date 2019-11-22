@@ -28,7 +28,7 @@ class Test
     public function onOpen(Request $request, $fd)
     {
         dump('---------连接成功1-----------');
-        dump($request);
+//        dump($request);
     }
 
     public function onMessage(Server $server, Frame $frame, $message)

@@ -45,11 +45,13 @@ class SocketService
             $class = $request->getController($this->namespaceBase);
             Route::onOpen($class, $request, $request->fd());
         });
+        $server =  $this->server;
         $this->server->on('message', function (\Swoole\WebSocket\Server $server, $frame) {
 //            dump($server);
 //            dump($frame);
-            $request = new \Swoole\Http\Request();
-            dump($request);
+            dump($frame);
+//            $request = new \Swoole\Http\Request();
+//            dump($request);
             $data = $frame->data;
             $server->push($frame->fd, "发送的消息为1：" . $frame->data);
         });

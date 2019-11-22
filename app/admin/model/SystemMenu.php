@@ -14,7 +14,7 @@ namespace app\admin\model;
 
 
 
-use app\common\constants\MenuParams;
+use app\common\constants\MenuConstant;
 use app\common\model\TimeModel;
 
 class SystemMenu extends TimeModel
@@ -26,7 +26,7 @@ class SystemMenu extends TimeModel
     {
         $list        = $this->field('id,pid,title')
             ->where([
-                ['pid', '<>', MenuParams::HOME_PID],
+                ['pid', '<>', MenuConstant::HOME_PID],
                 ['status', '=', 1],
             ])
             ->select()
