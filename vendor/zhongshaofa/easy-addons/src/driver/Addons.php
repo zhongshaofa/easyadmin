@@ -13,7 +13,7 @@
 namespace EasyAddons\driver;
 
 
-class Controller
+class Addons
 {
 
 }

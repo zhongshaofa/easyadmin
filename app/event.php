@@ -6,9 +6,7 @@ return [
 
     'listen'    => [
         'AppInit'  => [],
-        'HttpRun'  => [
-            'app\common\listener\Addons'
-        ],
+        'HttpRun'  => [],
         'HttpEnd'  => [],
         'LogLevel' => [],
         'LogWrite' => [],

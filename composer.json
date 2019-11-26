@@ -25,7 +25,8 @@
         "topthink/think-captcha": "^3.0",
         "aliyuncs/oss-sdk-php": "^2.3",
         "qcloud/cos-sdk-v5": "^2.0",
-        "qiniu/php-sdk": "^7.2"
+        "qiniu/php-sdk": "^7.2",
+        "zhongshaofa/easy-addons": "dev-master"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
@@ -35,9 +36,7 @@
     "autoload": {
         "psr-4": {
             "app\\": "app",
-            "addons\\": "addons",
             "EasyAdmin\\":"vendor/zhongshaofa/easy-admin/src",
-            "EasyAddons\\":"vendor/zhongshaofa/easy-addons/src",
             "ServiceSwoole\\":"vendor/zhongshaofa/service-swoole/src"
         },
         "psr-0": {
@@ -53,11 +52,5 @@
             "@php think service:discover",
             "@php think vendor:publish"
         ]
-    },
-    "repositories": {
-        "packagist": {
-            "type": "composer",
-            "url": "http://packagist.phpcomposer.com"
-        }
     }
 }

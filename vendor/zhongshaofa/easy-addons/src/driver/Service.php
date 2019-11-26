@@ -12,8 +12,19 @@
 
 namespace EasyAddons\driver;
 
+use think\Route;
+use think\Service as BaseService;
 
-class Controller
+class Service extends BaseService
 {
+
+    public function register()
+    {
+        
+    }
+
+    public function boot(Route $route)
+    {
+    }
 
 }
