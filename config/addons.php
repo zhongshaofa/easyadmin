@@ -1,6 +1,5 @@
 <?php
 
 return [
-    'autoload' => true,
-    ''
+    'path'     => 'addons',
 ];

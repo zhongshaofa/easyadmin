@@ -15,4 +15,9 @@ namespace addons\alioss\service;
 class AliossService
 {
 
+    public static function test()
+    {
+        return '测试插件服务类';
+    }
+
 }

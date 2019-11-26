@@ -10,7 +10,7 @@
 // | github开源项目：https://github.com/zhongshaofa/EasyAdmin
 // +----------------------------------------------------------------------
 
-namespace EasyAddons\driver;
+namespace EasyAddons;
 
 
 class Controller

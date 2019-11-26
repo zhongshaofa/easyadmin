@@ -1,5 +1,7 @@
 <?php
 
+namespace addons\alioss\model;
+
 // +----------------------------------------------------------------------
 // | EasyAdmin
 // +----------------------------------------------------------------------
@@ -10,10 +12,7 @@
 // | github开源项目：https://github.com/zhongshaofa/EasyAdmin
 // +----------------------------------------------------------------------
 
-namespace EasyAddons\driver;
-
-
-class Route
+class Config
 {
 
 }
