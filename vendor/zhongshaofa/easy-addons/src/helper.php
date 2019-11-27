@@ -10,7 +10,7 @@ if (!function_exists('addons_path')) {
      */
     function addons_path()
     {
-        return root_path( Config::get('addons.path','addons'));
+        return root_path(Config::get('addons.path', 'addons'));
     }
 }
 
@@ -41,5 +41,29 @@ if (!function_exists('humpToLine')) {
             return '_' . strtolower($matches[0]);
         }, $str);
         return $str;
+    }
+}
+
+if (!function_exists('copy_dir')) {
+
+    /**
+     * 复制文件夹
+     * @param $src
+     * @param $dst
+     */
+    function copy_dir($src, $dst)
+    {
+        $dir = opendir($src);
+        @mkdir($dst);
+        while (false !== ($file = readdir($dir))) {
+            if (($file != '.') && ($file != '..')) {
+                if (is_dir($src . DIRECTORY_SEPARATOR . $file)) {
+                    copy_dir($src . DIRECTORY_SEPARATOR . $file, $dst . DIRECTORY_SEPARATOR . $file);
+                } else {
+                    copy($src . DIRECTORY_SEPARATOR . $file, $dst . DIRECTORY_SEPARATOR . $file);
+                }
+            }
+        }
+        closedir($dir);
     }
 }

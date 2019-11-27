@@ -60,7 +60,7 @@ class Request extends BaseRequest
         $urlArray = explode('/', $url);
         $this->module = isset($urlArray[1]) ? $urlArray[1] : null;
         if (count($urlArray) == 3) {
-            $this->controller = humpToLine(lcfirst(end($uriArray)));
+            $this->controller = humpToLine(lcfirst(end($urlArray)));
             $this->action = Config::get('addons.default_action');
         } elseif (count($urlArray) > 3) {
             $controllerArray = array_slice($urlArray, 2, -1);

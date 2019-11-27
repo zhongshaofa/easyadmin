@@ -15,6 +15,7 @@ namespace EasyAddons\driver;
 use think\App;
 use think\exception\HttpException;
 use think\facade\Config;
+use think\facade\Env;
 use think\Route;
 use think\Service as BaseService;
 use ReflectionClass;
@@ -129,9 +130,6 @@ class Service extends BaseService
         // 自动加载插件
         $this->autoload();
 
-        // 自动加载中间件
-        $this->loadMiddleware();
-
         // 绑定插件容器
         $this->app->bind('addons', Service::class);
     }
@@ -150,6 +148,7 @@ class Service extends BaseService
         list($uri, $controller, $action) = $format;
         $route->rule('/' . $uri, "{$controller}@{$action}");
         $this->loadView();
+        $this->loadApp();
     }
 
     /**
@@ -159,14 +158,50 @@ class Service extends BaseService
     {
         $this->autoloadFiles = $this->readDirAllFiles($this->addonsPath);
         foreach ($this->autoloadFiles as $key => $autoloadFile) {
-            is_file($autoloadFile) && include $autoloadFile;
+            is_file($autoloadFile) && include_once $autoloadFile;
             strpos($key, '/controller/') !== false && $this->autoloadConteollers[] = $this->config['path'] . '\\' . str_replace('/', '\\', str_replace('.php', '', $key));
         }
     }
 
-    protected function loadMiddleware()
+    /**
+     * 加载应用文件
+     * @return void
+     */
+    protected function loadApp()
     {
+        $basePath = $this->addonsPath .DIRECTORY_SEPARATOR. $this->module . DIRECTORY_SEPARATOR;
+        if (is_file($basePath . 'common.php')) {
+            include_once $basePath . 'common.php';
+        }
 
+        $configPath = $this->app->getConfigPath();
+
+        $files = [];
+
+        if (is_dir($basePath . 'config')) {
+            $files = array_merge($files, glob($basePath . 'config' . DIRECTORY_SEPARATOR . '*' . $this->app->getConfigExt()));
+        } elseif (is_dir($configPath . $this->module)) {
+            $files = array_merge($files, glob($configPath . $this->module . DIRECTORY_SEPARATOR . '*' . $this->app->getConfigExt()));
+        }
+
+        foreach ($files as $file) {
+            $this->app->config->load($file, pathinfo($file, PATHINFO_FILENAME));
+        }
+
+        if (is_file($basePath . 'event.php')) {
+            $this->app->loadEvent(include $basePath . 'event.php');
+        }
+
+        if (is_file($basePath . 'middleware.php')) {
+            $this->app->middleware->import(include $basePath . 'middleware.php', 'app');
+        }
+
+        if (is_file($basePath . 'provider.php')) {
+            $this->app->bind(include $basePath . 'provider.php');
+        }
+
+        // 加载应用默认语言包
+        $this->app->loadLangPack($this->app->lang->defaultLangSet());
     }
 
     /**
