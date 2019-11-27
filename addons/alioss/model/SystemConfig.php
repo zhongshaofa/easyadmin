@@ -1,6 +1,6 @@
 <?php
 
-namespace addons\alioss\controller;
+namespace addons\alioss\model;
 
 // +----------------------------------------------------------------------
 // | EasyAdmin
@@ -12,21 +12,9 @@ namespace addons\alioss\controller;
 // | github开源项目：https://github.com/zhongshaofa/EasyAdmin
 // +----------------------------------------------------------------------
 
-use addons\alioss\model\SystemConfig;
-use app\common\controller\AdminController;
-use EasyAddons\Controller;
+use think\Model;
 
-class Test extends Controller
+class SystemConfig extends Model
 {
-
-    public function index()
-    {
-        return $this->fetch();
-    }
-
-    public function ceshi()
-    {
-        echo __METHOD__;
-    }
 
 }

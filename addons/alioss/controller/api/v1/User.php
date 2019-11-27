@@ -1,6 +1,6 @@
 <?php
 
-namespace addons\alioss\model;
+namespace addons\alioss\controller\api\v1;
 
 // +----------------------------------------------------------------------
 // | EasyAdmin
@@ -12,7 +12,11 @@ namespace addons\alioss\model;
 // | github开源项目：https://github.com/zhongshaofa/EasyAdmin
 // +----------------------------------------------------------------------
 
-class Config
+class User
 {
 
+    public function index()
+    {
+        echo __METHOD__;
+    }
 }
