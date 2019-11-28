@@ -5,45 +5,45 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 use think\facade\Db;
-use think\App;
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../vendor/topthink/framework/src/helper.php';
 
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_PATH', __DIR__ . DS . '..' . DS);
-define('INSTALL_PATH', ROOT_PATH . 'install' . DS);
+define('INSTALL_PATH', ROOT_PATH . 'config' . DS . 'install' . DS);
+define('CONFIG_PATH', ROOT_PATH . 'config' . DS);
 
-// 检测系统环境
+function isReadWrite($file)
+{
+    if (DIRECTORY_SEPARATOR == '/' && @ ini_get("safe_mode") === false) {
+        return is_writable($file);
+    }
+    if (!is_file($file) || ($fp = @fopen($file, "r+")) === false) {
+        return false;
+    }
+    fclose($fp);
+    return true;
+}
 
+$errorInfo = null;
+if (is_file(INSTALL_PATH . 'lock' . DS . 'install.lock')) {
+    $errorInfo = '已安装系统，如需重新安装请删除文件：/install/lock/install.lock';
+} elseif (!isReadWrite(ROOT_PATH . 'config' . DS)) {
+    $errorInfo = ROOT_PATH . 'config' . DS . '：读写权限不足';
+} elseif (!isReadWrite(ROOT_PATH . 'runtime' . DS)) {
+    $errorInfo = ROOT_PATH . 'runtime' . DS . '：读写权限不足';
+} elseif (!isReadWrite(ROOT_PATH . 'public' . DS)) {
+    $errorInfo = ROOT_PATH . 'public' . DS . '：读写权限不足';
+} elseif (PHP_VERSION < 7.1) {
+    $errorInfo = 'PHP版本不能小于7.1';
+} elseif (!extension_loaded("PDO")) {
+    $errorInfo = '当前未开启PDO，无法进行安装';
+}
 
 // POST请求
 if (isAjax()) {
     $post = $_POST;
-
-    // 参数验证
-    $app = new App();
-    $app->validate->setLang($app->lang);
-    $app->lang->load(root_path() . 'vendor' . DS . 'topthink' . DS . 'framework' . DS . 'src' . DS . 'lang' . DS . 'zh-cn.php');
-    $validate = $app->validate->rule([
-        'hostname|数据库地址'    => 'require|activeUrl',
-        'hostport|数据库端口'    => 'require|number',
-        'database|数据库名称'    => 'require',
-        'prefix|数据表前缀'      => 'require',
-        'db_username|数据库账号' => 'require',
-        'db_password|数据库密码' => 'require',
-        'cover|覆盖数据库'       => 'require|number|in:0,1',
-        'admin_url|后台的地址'   => 'require|length:5,20',
-        'username|管理员账号'    => 'require|length:4,25',
-        'password|管理员密码'    => 'require|length:6,30',
-    ]);
-    if (!$validate->check($post)) {
-        $data = [
-            'code' => 0,
-            'msg'  => $validate->getError(),
-        ];
-        die(json_encode($data));
-    }
 
     $cover = $post['cover'] == 1 ? true : false;
     $database = $post['database'];
@@ -56,6 +56,23 @@ if (isAjax()) {
     $username = $post['username'];
     $password = $post['password'];
 
+    // 参数验证
+    $validateError = null;
+    if (strlen($username) < 5) {
+        $validateError = '后台的地址不能小于5位数';
+    } elseif (strlen($password) < 6) {
+        $validateError = '管理员密码不能小于6位数';
+    } elseif (strlen($username) < 4) {
+        $validateError = '管理员账号不能小于4位数';
+    }
+    if (!empty($validateError)) {
+        $data = [
+            'code' => 0,
+            'msg'  => $validateError,
+        ];
+        die(json_encode($data));
+    }
+
     // DB类初始化
     $config = [
         'type'     => 'mysql',
@@ -67,7 +84,7 @@ if (isAjax()) {
         'prefix'   => $prefix,
         'debug'    => true,
     ];
-    $app->db->setConfig([
+    Db::setConfig([
         'default'     => 'mysql',
         'connections' => [
             'mysql'   => $config,
@@ -93,8 +110,8 @@ if (isAjax()) {
     }
     // 创建数据库
     createDatabase($database);
-    // 导入sql语句
-    $install = importSql();
+    // 导入sql语句等等
+    $install = install($username, $password, array_merge($config, ['database' => $database]), $adminUrl);
     if ($install !== true) {
         $data = [
             'code' => 0,
@@ -156,14 +173,7 @@ function createDatabase($database)
     return true;
 }
 
-function getSqlArray()
-{
-    $sql = file_get_contents(INSTALL_PATH . 'sql' . DS . 'install.sql');
-    $sqlArray = parseSql($sql);
-    return $sqlArray;
-}
-
-function parseSql($sql = '')
+function parseSql($sql = '', $to, $from)
 {
     list($pure_sql, $comment) = [[], false];
     $sql = explode("\n", trim(str_replace(["\r\n", "\r"], "\n", $sql)));
@@ -188,6 +198,12 @@ function parseSql($sql = '')
         if ($comment) {
             continue;
         }
+        if ($from != '') {
+            $line = str_replace('`' . $from, '`' . $to, $line);
+        }
+        if ($line == 'BEGIN;' || $line == 'COMMIT;') {
+            continue;
+        }
         array_push($pure_sql, $line);
     }
     $pure_sql = implode($pure_sql, "\n");
@@ -195,21 +211,164 @@ function parseSql($sql = '')
     return $pure_sql;
 }
 
-function importSql()
+function install($username, $password, $config, $adminUrl)
 {
-    $sqlArray = getSqlArray();
+    $sqlPath = file_get_contents(INSTALL_PATH . 'sql' . DS . 'install.sql');
+    $sqlArray = parseSql($sqlPath, $config['prefix'], 'ea_');
     Db::startTrans();
     try {
         foreach ($sqlArray as $vo) {
             Db::connect('install')->execute($vo);
         }
+        Db::connect('install')
+            ->name('system_admin')
+            ->where('id', 1)
+            ->delete();
+        Db::connect('install')
+            ->name('system_admin')
+            ->insert([
+                'id'          => 1,
+                'username'    => $username,
+                'password'    => password($password),
+                'create_time' => time(),
+            ]);
+
         // 处理安装文件
+        !is_dir(INSTALL_PATH) && @mkdir(INSTALL_PATH);
+        !is_dir(INSTALL_PATH . 'lock' . DS) && @mkdir(INSTALL_PATH . 'lock' . DS);
+        @file_put_contents(INSTALL_PATH . 'lock' . DS . 'install.lock', date('Y-m-d H:i:s'));
+        @file_put_contents(CONFIG_PATH . 'app.php', getAppConfig($adminUrl));
+        @file_put_contents(CONFIG_PATH . 'database.php', getDatabaseConfig($config));
         Db::commit();
     } catch (\Exception $e) {
         Db::rollback();
         return $e->getMessage();
     }
     return true;
+}
+
+function password($value)
+{
+    $value = sha1('blog_') . md5($value) . md5('_encrypt') . sha1($value);
+    return sha1($value);
+}
+
+function getAppConfig($admin)
+{
+    $config = <<<EOT
+<?php
+// +----------------------------------------------------------------------
+// | 应用设置
+// +----------------------------------------------------------------------
+
+use think\\facade\Env;
+
+return [
+    // 应用地址
+    'app_host'         => Env::get('app.host', ''),
+    // 应用的命名空间
+    'app_namespace'    => '',
+    // 是否启用路由
+    'with_route'       => true,
+    // 是否启用事件
+    'with_event'       => true,
+    // 开启应用快速访问
+    'app_express'      => true,
+    // 默认应用
+    'default_app'      => 'index',
+    // 默认时区
+    'default_timezone' => 'Asia/Shanghai',
+    // 应用映射（自动多应用模式有效）
+    'app_map'          => [
+        Env::get('easyadmin.admin', '{$admin}') => 'admin',
+    ],
+    // 域名绑定（自动多应用模式有效）
+    'domain_bind'      => [],
+    // 禁止URL访问的应用列表（自动多应用模式有效）
+    'deny_app_list'    => ['common'],
+    // 异常页面的模板文件
+    'exception_tmpl'   => Env::get('app_debug') == 1 ? app()->getThinkPath() . 'tpl/think_exception.tpl' : app()->getBasePath() . 'common' . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR . 'think_exception.tpl',
+    // 错误显示信息,非调试模式有效
+    'error_message'    => '页面错误！请稍后再试～',
+    // 显示错误信息
+    'show_error_msg'   => false,
+    // 静态资源上传到OSS前缀
+    'oss_static_prefix'   => Env::get('easyadmin.oss_static_prefix', 'static_easyadmin'),
+];
+
+EOT;
+    return $config;
+}
+
+function getDatabaseConfig($data)
+{
+    $config = <<<EOT
+<?php
+use think\\facade\Env;
+
+return [
+    // 默认使用的数据库连接配置
+    'default'         => Env::get('database.driver', 'mysql'),
+
+    // 自定义时间查询规则
+    'time_query_rule' => [],
+
+    // 自动写入时间戳字段
+    // true为自动识别类型 false关闭
+    // 字符串则明确指定时间字段类型 支持 int timestamp datetime date
+    'auto_timestamp'  => true,
+
+    // 时间字段取出后的默认时间格式
+    'datetime_format' => 'Y-m-d H:i:s',
+
+    // 数据库连接配置信息
+    'connections'     => [
+        'mysql' => [
+            // 数据库类型
+            'type'              => Env::get('database.type', 'mysql'),
+            // 服务器地址
+            'hostname'          => Env::get('database.hostname', '{$data['hostname']}'),
+            // 数据库名
+            'database'          => Env::get('database.database', '{$data['database']}'),
+            // 用户名
+            'username'          => Env::get('database.username', '{$data['username']}'),
+            // 密码
+            'password'          => Env::get('database.password', '{$data['password']}'),
+            // 端口
+            'hostport'          => Env::get('database.hostport', '{$data['hostport']}'),
+            // 数据库连接参数
+            'params'            => [],
+            // 数据库编码默认采用utf8
+            'charset'           => Env::get('database.charset', 'utf8'),
+            // 数据库表前缀
+            'prefix'            => Env::get('database.prefix', '{$data['prefix']}'),
+
+            // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
+            'deploy'            => 0,
+            // 数据库读写是否分离 主从式有效
+            'rw_separate'       => false,
+            // 读写分离后 主服务器数量
+            'master_num'        => 1,
+            // 指定从服务器序号
+            'slave_no'          => '',
+            // 是否严格检查字段是否存在
+            'fields_strict'     => true,
+            // 是否需要断线重连
+            'break_reconnect'   => false,
+            // 监听SQL
+            'trigger_sql'       => true,
+            // 开启字段缓存
+            'fields_cache'      => false,
+            // 字段缓存路径
+            'schema_cache_path' => app()->getRuntimePath() . 'schema' . DIRECTORY_SEPARATOR,
+        ],
+
+        // 更多的数据库配置信息
+    ],
+];
+
+EOT;
+    return $config;
 }
 
 ?>
@@ -221,8 +380,8 @@ function importSql()
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="static/plugs/layui-v2.5.5/css/layui.css?v={:time()}" media="all">
-    <link rel="stylesheet" href="static/common/css/insatll.css?v={:time()}" media="all">
+    <link rel="stylesheet" href="static/plugs/layui-v2.5.5/css/layui.css?v=<?php echo time() ?>" media="all">
+    <link rel="stylesheet" href="static/common/css/insatll.css?v=<?php echo time() ?>" media="all">
 </head>
 <body>
 <h1><img src="static/common/images/logo-1.png"></h1>
@@ -234,6 +393,11 @@ function importSql()
         <a href="https://jq.qq.com/?_wv=1027&k=5IHJawE">QQ交流群</a>
     </p>
     <form class="layui-form layui-form-pane" action="">
+        <?php if ($errorInfo): ?>
+            <div class="error">
+                <?php echo $errorInfo; ?>
+            </div>
+        <?php endif; ?>
         <div class="bg">
             <div class="layui-form-item">
                 <label class="layui-form-label">数据库地址</label>
@@ -273,7 +437,7 @@ function importSql()
             <div class="layui-form-item">
                 <label class="layui-form-label">数据库密码</label>
                 <div class="layui-input-block">
-                    <input type="password" class="layui-input" name="db_password" autocomplete="off" lay-verify="required" lay-reqtext="请输入数据库密码" placeholder="请输入数据库密码" value="root">
+                    <input type="password" class="layui-input" name="db_password" autocomplete="off" lay-verify="required" lay-reqtext="请输入数据库密码" placeholder="请输入数据库密码">
                 </div>
             </div>
 
@@ -289,7 +453,7 @@ function importSql()
             <div class="layui-form-item">
                 <label class="layui-form-label">后台的地址</label>
                 <div class="layui-input-block">
-                    <input class="layui-input" name="admin_url" autocomplete="off" lay-verify="required" lay-reqtext="请输入后台的地址" placeholder="请输入后台的地址" value="admintest">
+                    <input class="layui-input" name="admin_url" autocomplete="off" lay-verify="required" lay-reqtext="请输入后台的地址" placeholder="请输入后台的地址" value="admin">
                     <span class="tips">为了后台安全，不建议将后台路径设置为admin</span>
                 </div>
             </div>
@@ -304,23 +468,26 @@ function importSql()
             <div class="layui-form-item">
                 <label class="layui-form-label">管理员密码</label>
                 <div class="layui-input-block">
-                    <input type="password" class="layui-input" name="password" autocomplete="off" lay-verify="required" lay-reqtext="请输入管理员密码" placeholder="请输入管理员密码" value="123456">
+                    <input type="password" class="layui-input" name="password" autocomplete="off" lay-verify="required" lay-reqtext="请输入管理员密码" placeholder="请输入管理员密码">
                 </div>
             </div>
         </div>
 
         <div class="layui-form-item">
-            <button class="layui-btn" lay-submit="" lay-filter="install">确定安装</button>
+            <button class="layui-btn <?php echo $errorInfo ? 'layui-btn-disabled' : '' ?>" lay-submit="" lay-filter="install">确定安装</button>
         </div>
     </form>
 </div>
-<script src="static/plugs/layui-v2.5.5/layui.js?v={:time()}" charset="utf-8"></script>
+<script src="static/plugs/layui-v2.5.5/layui.js?v=<?php echo time() ?>" charset="utf-8"></script>
 <script>
     layui.use(['form', 'layer'], function () {
         var $ = layui.jquery,
             form = layui.form,
             layer = layui.layer;
         form.on('submit(install)', function (data) {
+            if ($(this).hasClass('layui-btn-disabled')) {
+                return false;
+            }
             var _data = data.field;
             var loading = layer.msg('正在安装...', {
                 icon: 16,

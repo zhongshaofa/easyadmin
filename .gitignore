@@ -7,3 +7,4 @@
 /runtime
 /docker/log
 /docker/mysql
+/config/install/lock/install.lock

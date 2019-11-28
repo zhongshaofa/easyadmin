@@ -23,6 +23,7 @@ h2 {
 .content form{
     margin:0 auto;
     width: 500px;
+    margin-bottom: 20px;
 }
 .content form .bg{
     margin-top: 20px;
@@ -60,6 +61,13 @@ h2 {
 }
 .content .desc a:first-child{
     margin-left: 10px;
+}
+.error{
+    background: #D83E3E;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }
 @media screen and (max-width:768px) {
     .content form{
