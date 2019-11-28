@@ -5,6 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 use think\facade\Db;
+use think\App;
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../vendor/topthink/framework/src/helper.php';
@@ -15,10 +16,35 @@ define('INSTALL_PATH', ROOT_PATH . 'install' . DS);
 
 // 检测系统环境
 
+
 // POST请求
 if (isAjax()) {
     $post = $_POST;
-    $adminUrl = $post['admin_url'];
+
+    // 参数验证
+    $app = new App();
+    $app->validate->setLang($app->lang);
+    $app->lang->load(root_path() . 'vendor' . DS . 'topthink' . DS . 'framework' . DS . 'src' . DS . 'lang' . DS . 'zh-cn.php');
+    $validate = $app->validate->rule([
+        'hostname|数据库地址'    => 'require|activeUrl',
+        'hostport|数据库端口'    => 'require|number',
+        'database|数据库名称'    => 'require',
+        'prefix|数据表前缀'      => 'require',
+        'db_username|数据库账号' => 'require',
+        'db_password|数据库密码' => 'require',
+        'cover|覆盖数据库'       => 'require|number|in:0,1',
+        'admin_url|后台的地址'   => 'require|length:5,20',
+        'username|管理员账号'    => 'require|length:4,25',
+        'password|管理员密码'    => 'require|length:6,30',
+    ]);
+    if (!$validate->check($post)) {
+        $data = [
+            'code' => 0,
+            'msg'  => $validate->getError(),
+        ];
+        die(json_encode($data));
+    }
+
     $cover = $post['cover'] == 1 ? true : false;
     $database = $post['database'];
     $hostname = $post['hostname'];
@@ -26,6 +52,7 @@ if (isAjax()) {
     $dbUsername = $post['db_username'];
     $dbPassword = $post['db_password'];
     $prefix = $post['prefix'];
+    $adminUrl = $post['admin_url'];
     $username = $post['username'];
     $password = $post['password'];
 
@@ -33,7 +60,6 @@ if (isAjax()) {
     $config = [
         'type'     => 'mysql',
         'hostname' => $hostname,
-        'database' => $database,
         'username' => $dbUsername,
         'password' => $dbPassword,
         'hostport' => $hostport,
@@ -41,9 +67,12 @@ if (isAjax()) {
         'prefix'   => $prefix,
         'debug'    => true,
     ];
-    Db::setConfig([
+    $app->db->setConfig([
         'default'     => 'mysql',
-        'connections' => ['mysql' => $config],
+        'connections' => [
+            'mysql'   => $config,
+            'install' => array_merge($config, ['database' => $database]),
+        ],
     ]);
 
     // 检测数据库连接
@@ -172,8 +201,9 @@ function importSql()
     Db::startTrans();
     try {
         foreach ($sqlArray as $vo) {
-            Db::execute($vo);
+            Db::connect('install')->execute($vo);
         }
+        // 处理安装文件
         Db::commit();
     } catch (\Exception $e) {
         Db::rollback();
@@ -208,7 +238,7 @@ function importSql()
             <div class="layui-form-item">
                 <label class="layui-form-label">数据库地址</label>
                 <div class="layui-input-block">
-                    <input class="layui-input" name="hostname" autocomplete="off" lay-verify="required" lay-reqtext="请输入数据库地址" placeholder="请输入数据库地址" value="127.0.0.1">
+                    <input class="layui-input" name="hostname" autocomplete="off" lay-verify="required" lay-reqtext="请输入数据库地址" placeholder="请输入数据库地址" value="host.docker.internal">
                 </div>
             </div>
 
@@ -243,7 +273,7 @@ function importSql()
             <div class="layui-form-item">
                 <label class="layui-form-label">数据库密码</label>
                 <div class="layui-input-block">
-                    <input type="password" class="layui-input" name="db_password" autocomplete="off" lay-verify="required" lay-reqtext="请输入数据库密码" placeholder="请输入数据库密码">
+                    <input type="password" class="layui-input" name="db_password" autocomplete="off" lay-verify="required" lay-reqtext="请输入数据库密码" placeholder="请输入数据库密码" value="root">
                 </div>
             </div>
 
@@ -274,7 +304,7 @@ function importSql()
             <div class="layui-form-item">
                 <label class="layui-form-label">管理员密码</label>
                 <div class="layui-input-block">
-                    <input type="password" class="layui-input" name="password" autocomplete="off" lay-verify="required" lay-reqtext="请输入管理员密码" placeholder="请输入管理员密码">
+                    <input type="password" class="layui-input" name="password" autocomplete="off" lay-verify="required" lay-reqtext="请输入管理员密码" placeholder="请输入管理员密码" value="123456">
                 </div>
             </div>
         </div>
@@ -286,14 +316,17 @@ function importSql()
 </div>
 <script src="static/plugs/layui-v2.5.5/layui.js?v={:time()}" charset="utf-8"></script>
 <script>
-    layui.use(['form', 'layedit', 'laydate'], function () {
+    layui.use(['form', 'layer'], function () {
         var $ = layui.jquery,
             form = layui.form,
             layer = layui.layer;
-
         form.on('submit(install)', function (data) {
             var _data = data.field;
-            console.log(data.field);
+            var loading = layer.msg('正在安装...', {
+                icon: 16,
+                shade: 0.2,
+                time: false
+            });
             $.ajax({
                 url: window.location.href,
                 type: 'post',
@@ -302,6 +335,7 @@ function importSql()
                 data: _data,
                 timeout: 60000,
                 success: function (data) {
+                    layer.close(loading);
                     if (data.code == 1) {
                         layer.msg(data.msg, {icon: 1}, function () {
                             window.location.href = location.protocol + '//' + location.host + '/' + data.url;
@@ -311,6 +345,7 @@ function importSql()
                     }
                 },
                 error: function (xhr, textstatus, thrown) {
+                    layer.close(loading);
                     layer.msg('Status:' + xhr.status + '，' + xhr.statusText + '，请稍后再试！', {icon: 2});
                     return false;
                 }
