@@ -13,6 +13,7 @@
 namespace EasyAddons\driver;
 
 use think\App;
+use think\Console;
 use think\exception\HttpException;
 use think\facade\Config;
 use think\facade\Env;
@@ -56,12 +57,6 @@ class Service extends BaseService
      * @var array
      */
     protected $autoloadFiles = [];
-
-    /**
-     * 加载的插件控制器
-     * @var array
-     */
-    protected $autoloadConteollers = [];
 
     /**
      * 当前安装的模块名
@@ -127,6 +122,9 @@ class Service extends BaseService
      */
     public function register()
     {
+        // 注册命令集
+        $this->registerCommands();
+
         // 自动加载插件
         $this->autoload();
 
@@ -152,14 +150,29 @@ class Service extends BaseService
     }
 
     /**
+     * 注册插件指令集
+     */
+    public function registerCommands()
+    {
+        $commands = [];
+        foreach ($this->install as $key => $val) {
+            $file = $this->addonsPath . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'console.php';
+            if (is_file($file)) {
+                $config = require $file;
+                isset($config['commands']) && $commands = array_merge($commands, $config['commands']);
+            }
+        }
+        !empty($commands) && $this->commands($commands);
+    }
+
+    /**
      * 自动加载已安装插件
      */
     protected function autoload()
     {
-        $this->autoloadFiles = $this->readDirAllFiles($this->addonsPath);
-        foreach ($this->autoloadFiles as $key => $autoloadFile) {
-            is_file($autoloadFile) && include_once $autoloadFile;
-            strpos($key, '/controller/') !== false && $this->autoloadConteollers[] = $this->config['path'] . '\\' . str_replace('/', '\\', str_replace('.php', '', $key));
+        if (!$this->config['autoload']) {
+            $this->autoloadFiles = $this->readDirAllFiles($this->addonsPath);
+            foreach ($this->autoloadFiles as $key => $autoloadFile) is_file($autoloadFile) && include_once $autoloadFile;
         }
     }
 
@@ -169,7 +182,7 @@ class Service extends BaseService
      */
     protected function loadApp()
     {
-        $basePath = $this->addonsPath .DIRECTORY_SEPARATOR. $this->module . DIRECTORY_SEPARATOR;
+        $basePath = $this->addonsPath . DIRECTORY_SEPARATOR . $this->module . DIRECTORY_SEPARATOR;
         if (is_file($basePath . 'common.php')) {
             include_once $basePath . 'common.php';
         }
@@ -299,7 +312,7 @@ class Service extends BaseService
             $controllerName,
         ]);
         $controller = implode('\\', $uriArray);
-        if (!in_array($controller, $this->autoloadConteollers)) {
+        if (!class_exists($controller)) {
             throw new HttpException(404, 'controller not exists:' . $controller);
         }
         $check = $this->checkActionByController($controller, $action);

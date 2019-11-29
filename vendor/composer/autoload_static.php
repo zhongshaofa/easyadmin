@@ -33,6 +33,7 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'a' => 
         array (
             'app\\' => 4,
+            'addons\\' => 7,
         ),
         'S' => 
         array (
@@ -110,6 +111,10 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'app\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
+        ),
+        'addons\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/addons',
         ),
         'Symfony\\Polyfill\\Php72\\' => 
         array (

@@ -36,6 +36,7 @@
     "autoload": {
         "psr-4": {
             "app\\": "app",
+            "addons\\": "addons",
             "EasyAdmin\\":"vendor/zhongshaofa/easy-admin/src",
             "ServiceSwoole\\":"vendor/zhongshaofa/service-swoole/src"
         },
