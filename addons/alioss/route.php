@@ -2,4 +2,4 @@
 
 use think\facade\Route;
 
-Route::rule('/', "ceshi");
+Route::rule('/alioss/testdemo', "\addons\alioss\controller\Demo@index");

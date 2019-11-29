@@ -125,6 +125,9 @@ class Service extends BaseService
         // 注册命令集
         $this->registerCommands();
 
+        // 注册路由集合
+        $this->registerAddonsRoutes();
+
         // 自动加载插件
         $this->autoload();
 
@@ -147,6 +150,17 @@ class Service extends BaseService
         $route->rule('/' . $uri, "{$controller}@{$action}");
         $this->loadView();
         $this->loadApp();
+    }
+
+    /**
+     * 注册插件路由
+     */
+    public function registerAddonsRoutes()
+    {
+        foreach ($this->install as $key => $val) {
+            $file = $this->addonsPath . DIRECTORY_SEPARATOR . $key . DIRECTORY_SEPARATOR . 'route.php';
+            is_file($file) && $this->loadRoutesFrom($file);
+        }
     }
 
     /**
