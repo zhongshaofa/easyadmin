@@ -15,15 +15,13 @@ namespace addons\alioss\controller;
 
 use app\BaseController;
 use EasyAddons\Controller;
-use EasyAddons\facade\Route;
 
 class Demo extends BaseController
 {
 
     public function index()
     {
-        $test = build_route('test');
-        dump($test);
+        echo __METHOD__;
     }
 
 }
