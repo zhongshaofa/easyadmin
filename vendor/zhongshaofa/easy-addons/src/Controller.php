@@ -16,7 +16,6 @@ use think\App;
 use think\exception\ValidateException;
 use think\Validate;
 use think\facade\View;
-use EasyAddons\driver\Request;
 
 
 /**
@@ -77,15 +76,27 @@ abstract class Controller
      * 构造方法
      * Controller constructor.
      * @param App $app
-     * @param Request $request
      */
-    public function __construct(App $app, Request $request)
+    public function __construct(App $app)
     {
         $this->app = $app;
-        $this->request = $request;
-
+        $this->request = $this->app->request;
+        $this->addonsPath = addons_path();
+        $this->initRoute();
         // 控制器初始化
         $this->initialize();
+    }
+
+
+    protected function initRoute()
+    {
+        $dispatch = $this->app->route->check()->getDispatch();
+        $routeArray = array_filter(explode('\\', $dispatch[0]));
+        $this->module = $routeArray[2];
+        $controllerArray = array_slice($routeArray, 3);
+        $controllerArray[count($controllerArray) - 1] = lcfirst($controllerArray[count($controllerArray) - 1]);
+        $this->controller = implode(DIRECTORY_SEPARATOR, $controllerArray);
+        $this->action = $dispatch[1];
     }
 
     /**
@@ -93,10 +104,6 @@ abstract class Controller
      */
     protected function initialize()
     {
-        $this->addonsPath = addons_path();
-        $this->module = $this->request->module();
-        $this->controller = $this->request->controller();
-        $this->action = $this->request->action();
     }
 
     /**

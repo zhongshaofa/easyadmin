@@ -16,12 +16,12 @@ namespace addons\alioss\controller;
 use app\BaseController;
 use EasyAddons\Controller;
 
-class Demo extends BaseController
+class Demo extends Controller
 {
 
     public function index()
     {
-        echo __METHOD__;
+        return $this->fetch();
     }
 
 }

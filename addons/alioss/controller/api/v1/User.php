@@ -12,11 +12,13 @@ namespace addons\alioss\controller\api\v1;
 // | github开源项目：https://github.com/zhongshaofa/EasyAdmin
 // +----------------------------------------------------------------------
 
-class User
+use EasyAddons\Controller;
+
+class User extends Controller
 {
 
     public function index()
     {
-        echo __METHOD__;
+        return $this->fetch();
     }
 }
