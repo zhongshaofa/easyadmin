@@ -37,7 +37,7 @@ class CheckAdmin
         // 验证登录
         if (!in_array($currentController, $adminConfig['no_login_controller']) &&
             !in_array($currentNode, $adminConfig['no_login_node'])) {
-            empty($adminId) && $this->error('请先登录后台', [], __url('login/index'));
+            empty($adminId) && $this->error('请先登录后台', [], __url('admin/login/index'));
         }
 
         // 验证权限

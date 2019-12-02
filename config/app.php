@@ -36,4 +36,7 @@ return [
     'show_error_msg'   => false,
     // 静态资源上传到OSS前缀
     'oss_static_prefix'   => Env::get('easyadmin.oss_static_prefix', 'static_easyadmin'),
+    // 默认跳转页面对应的模板文件
+    'dispatch_success_tmpl' => app()->getBasePath() . 'common' . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR . 'dispatch_jump.tpl',
+    'dispatch_error_tmpl'   => app()->getBasePath() . 'common' . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR . 'dispatch_jump.tpl',
 ];

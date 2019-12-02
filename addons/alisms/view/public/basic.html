@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{$title|default='EasyAdmin后台管理'}</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="__STATIC__/plugs/layui-v2.5.5/css/layui.css?v={:time()}" media="all">
+    <link rel="stylesheet" href="__STATIC__/plugs/font-awesome-4.7.0/css/font-awesome.min.css?v={:time()}" media="all">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js?v={:time()}"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js?v={:time()}"></script>
+    <![endif]-->
+    {block name="style"}{/block}
+    <script>
+        window.ADMIN = "{$admin_module_name|default='admin'}";
+        window.CONTROLLER_JS_PATH = "{$thisControllerJsPath|default=''}";
+        window.ACTION = "{$thisAction|default=''}";
+        window.AUTOLOAD_JS = "{$autoloadJs|default='false'}";
+        window.ALL_AUTH_NODE = JSON.parse('{$allAuthNode|json_encode|raw}');
+        window.IS_SUPER_ADMIN = "{$isSuperAdmin|default='false'}";
+    </script>
+    <script src="__STATIC__/plugs/layui-v2.5.5/layui.all.js?v={:time()}" charset="utf-8"></script>
+    <script src="__STATIC__/plugs/require-2.3.6/require.js?v={:time()}" charset="utf-8"></script>
+    <script src="__STATIC__/config-admin.js?v={:time()}" charset="utf-8"></script>
+</head>
+<body>
+{block name="cotent"}{/block}
+{block name="script"}{/block}
+</body>
+</html>

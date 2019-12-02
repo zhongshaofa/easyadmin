@@ -10,15 +10,16 @@
 // | github开源项目：https://github.com/zhongshaofa/EasyAdmin
 // +----------------------------------------------------------------------
 
-namespace addons\alisms\middleware;
+namespace addons\alisms\controller;
 
 
-class DemoMiddlewale
+use EasyAddons\Controller;
+
+class Config extends Controller
 {
 
-    public function handle($request, \Closure $next)
+    public function index()
     {
-        return $next($request);
+        return $this->fetch();
     }
-
 }

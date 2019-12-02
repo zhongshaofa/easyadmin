@@ -24,6 +24,8 @@ use think\facade\View;
 abstract class Controller
 {
 
+    use \app\common\traits\JumpTrait;
+
     /**
      * Request实例
      * @var \think\Request
