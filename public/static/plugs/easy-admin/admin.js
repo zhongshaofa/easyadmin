@@ -658,7 +658,8 @@ define(["jquery"], function ($) {
                 var filter = $(this).attr('lay-filter'),
                     url = $(this).attr('lay-submit'),
                     type = $(this).attr('data-type'),
-                    tableId = $(this).attr('data-table');
+                    tableId = $(this).attr('data-table'),
+                    addons = $(this).attr('data-addons');
                 type = type || 'commonSubmit';
                 if (type == 'tableSearch') {
                     tableId = tableId || init.table_render_id;
@@ -692,7 +693,9 @@ define(["jquery"], function ($) {
                     if (url == undefined || url == '' || url == null) {
                         url = window.location.href;
                     } else {
-                        url = admin.url(url);
+                        if (addons != true && addons != 'true') {
+                            url = admin.url(url);
+                        }
                     }
                     if (filter == undefined || filter == '' || filter == null) {
                         admin.msg.error('请设置lay-filter提交事件');

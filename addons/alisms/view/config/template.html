@@ -1,0 +1,34 @@
+<form id="app-form" class="layui-form layuimini-form">
+
+    <div class="layui-form">
+        <button type="button" class="layui-btn layui-btn-normal add-template">添加模板</button>
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>模版名称</th>
+                <th>模版CODE</th>
+                <th>备注信息</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody class="template-list">
+            {foreach $template_list as $key=>$vo}
+            <tr data-key="{$key}">
+                <td><input type="text" name="name[{$key}]" lay-verify="required" autocomplete="off" class="layui-input" value="{$vo.name}"></td>
+                <td><input type="text" name="value[{$key}]" lay-verify="required" autocomplete="off" class="layui-input" value="{$vo.value}"></td>
+                <td><input type="text" name="remark[{$key}]" lay-verify="required" autocomplete="off" class="layui-input" value="{$vo.remark}"></td>
+                <td><span class="layui-btn layui-btn-danger layui-btn-sm" delete-template="">删除</span></td>
+            </tr>
+            {/foreach}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="layui-form-item" style="margin-top: 20px">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" data-addons="true" lay-submit="/addons/alisms/config/saveTemplate" lay-filter="saveForm">确认</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+</form>

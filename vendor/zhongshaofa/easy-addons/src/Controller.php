@@ -39,6 +39,12 @@ abstract class Controller
     protected $app;
 
     /**
+     * 当前模型
+     * @var object
+     */
+    protected $model;
+
+    /**
      * 是否批量验证
      * @var bool
      */

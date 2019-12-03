@@ -1,0 +1,19 @@
+<form id="app-form" class="layui-form layuimini-form">
+
+    {foreach $sms_config as $vo}
+    <div class="layui-form-item">
+        <label class="layui-form-label required">{$vo.remark}</label>
+        <div class="layui-input-block">
+            <input type="text" name="{$vo.name}" class="layui-input" lay-verify="required" lay-reqtext="请输入{$vo.remark}" placeholder="请输入{$vo.remark}" value="{$vo.value}">
+            <tip>填写短信AccessKey。</tip>
+        </div>
+    </div>
+    {/foreach}
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" data-addons="true" lay-submit="/addons/alisms/config/saveSms" lay-filter="saveForm">确认</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
