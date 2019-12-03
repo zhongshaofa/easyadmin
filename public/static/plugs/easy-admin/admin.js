@@ -627,7 +627,6 @@ define(["jquery"], function ($) {
             // 监听动态表格刷新
             $('body').on('click', '[data-table-refresh]', function () {
                 var tableId = $(this).attr('data-table-refresh');
-                console.log('刷新');
                 if (tableId == undefined || tableId == '' || tableId == null) {
                     tableId = init.table_render_id;
                 }
@@ -637,8 +636,12 @@ define(["jquery"], function ($) {
             // 监听请求
             $('body').on('click', '[data-request]', function () {
                 var title = $(this).attr('data-title'),
-                    url = admin.url($(this).attr('data-request')),
-                    tableId = $(this).attr('data-table');
+                    url = $(this).attr('data-request'),
+                    tableId = $(this).attr('data-table'),
+                    addons = $(this).attr('data-addons');
+                if (addons != true && addons != 'true') {
+                    url = admin.url(url);
+                }
                 title = title || '确定进行该操作？';
                 tableId = tableId || init.table_render_id;
                 admin.msg.confirm(title, function () {
