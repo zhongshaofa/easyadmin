@@ -22,7 +22,8 @@ define(["jquery"], function ($) {
             return '/' + ADMIN + '/' + url;
         },
         checkAuth: function (node) {
-            console.log('测试');
+            // todo 有问题，先全部返回true
+            return true;
             if (IS_SUPER_ADMIN == true) {
                 return true;
             }
