@@ -17,6 +17,8 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  * Casts SPL related classes to array representation.
  *
  * @author Nicolas Grekas <p@tchwork.com>
+ *
+ * @final since Symfony 4.4
  */
 class SplCaster
 {
@@ -201,7 +203,7 @@ class SplCaster
         return $a;
     }
 
-    private static function castSplArray($c, array $a, Stub $stub, $isNested)
+    private static function castSplArray($c, array $a, Stub $stub, bool $isNested): array
     {
         $prefix = Caster::PREFIX_VIRTUAL;
         $class = $stub->class;

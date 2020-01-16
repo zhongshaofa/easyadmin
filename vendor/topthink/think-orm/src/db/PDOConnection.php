@@ -99,6 +99,12 @@ abstract class PDOConnection extends Connection implements ConnectionInterface
     protected $transTimes = 0;
 
     /**
+     * 重连次数
+     * @var int
+     */
+    protected $reConnectTimes = 0;
+
+    /**
      * 查询结果类型
      * @var int
      */
@@ -329,7 +335,7 @@ abstract class PDOConnection extends Connection implements ConnectionInterface
             return [];
         }
 
-        list($tableName) = explode(' ', $tableName);
+        [$tableName] = explode(' ', $tableName);
 
         if (!strpos($tableName, '.')) {
             $schema = $this->getConfig('database') . '.' . $tableName;
@@ -703,9 +709,12 @@ abstract class PDOConnection extends Connection implements ConnectionInterface
                 $this->trigger('', $master);
             }
 
+            $this->reConnectTimes = 0;
+
             return $this->PDOStatement;
         } catch (\Throwable | \Exception $e) {
-            if ($this->isBreak($e)) {
+            if ($this->reConnectTimes < 4 && $this->isBreak($e)) {
+                ++$this->reConnectTimes;
                 return $this->close()->getPDOStatement($sql, $bind, $master, $procedure);
             }
 
@@ -897,7 +906,8 @@ abstract class PDOConnection extends Connection implements ConnectionInterface
             return 0;
         }
 
-        $query->parseOptions();
+        $options = $query->parseOptions();
+        $replace = !empty($options['replace']);
 
         if (0 === $limit && count($dataSet) >= 5000) {
             $limit = 1000;
@@ -912,7 +922,7 @@ abstract class PDOConnection extends Connection implements ConnectionInterface
                 $count = 0;
 
                 foreach ($array as $item) {
-                    $sql = $this->builder->insertAll($query, $item);
+                    $sql = $this->builder->insertAll($query, $item, $replace);
                     $count += $this->execute($query, $sql, $query->getBind());
                 }
 
@@ -926,7 +936,7 @@ abstract class PDOConnection extends Connection implements ConnectionInterface
             return $count;
         }
 
-        $sql = $this->builder->insertAll($query, $dataSet);
+        $sql = $this->builder->insertAll($query, $dataSet, $replace);
 
         return $this->execute($query, $sql, $query->getBind());
     }
@@ -1070,7 +1080,7 @@ abstract class PDOConnection extends Connection implements ConnectionInterface
     public function aggregate(BaseQuery $query, string $aggregate, $field, bool $force = false)
     {
         if (is_string($field) && 0 === stripos($field, 'DISTINCT ')) {
-            list($distinct, $field) = explode(' ', $field);
+            [$distinct, $field] = explode(' ', $field);
         }
 
         $field = $aggregate . '(' . (!empty($distinct) ? 'DISTINCT ' : '') . $this->builder->parseKey($query, $field, true) . ') AS think_' . strtolower($aggregate);
@@ -1109,10 +1119,10 @@ abstract class PDOConnection extends Connection implements ConnectionInterface
         if (!empty($options['cache'])) {
             // 判断查询缓存
             $cacheItem = $this->parseCache($query, $options['cache']);
-            $key       = $cacheItem->getKey();
+            $name      = $cacheItem->getKey();
 
-            if ($this->cache->has($key)) {
-                return $this->cache->get($key);
+            if ($this->cache->has($name)) {
+                return $this->cache->get($name);
             }
         }
 
@@ -1135,17 +1145,18 @@ abstract class PDOConnection extends Connection implements ConnectionInterface
         } elseif (('*' == $column || strpos($column, ',')) && $key) {
             $result = array_column($resultSet, null, $key);
         } else {
-            $fields = array_keys($resultSet[0]);
-            $key    = $key ?: array_shift($fields);
+            if (empty($key)) {
+                $key = null;
+            }
 
             if (strpos($column, ',')) {
                 $column = null;
             } elseif (strpos($column, '.')) {
-                list($alias, $column) = explode('.', $column);
+                [$alias, $column] = explode('.', $column);
             }
 
-            if (strpos($key, '.')) {
-                list($alias, $key) = explode('.', $key);
+            if (is_string($key) && strpos($key, '.')) {
+                [$alias, $key] = explode('.', $key);
             }
 
             $result = array_column($resultSet, $column, $key);
@@ -1348,9 +1359,11 @@ abstract class PDOConnection extends Connection implements ConnectionInterface
                     $this->parseSavepoint('trans' . $this->transTimes)
                 );
             }
+            $this->reConnectTimes = 0;
         } catch (\Exception $e) {
-            if ($this->isBreak($e)) {
+            if ($this->reConnectTimes < 4 && $this->isBreak($e)) {
                 --$this->transTimes;
+                ++$this->reConnectTimes;
                 $this->close()->startTrans();
             }
             throw $e;

@@ -103,7 +103,7 @@ class Service extends BaseService
         }
 
         // 判断文件夹是否存在
-        $this->addonsPath = root_path() . $this->config['path'];
+        $this->addonsPath = root_path('addons');
         if (!is_dir($this->addonsPath)) {
             mkdir($this->addonsPath);
         }
@@ -128,7 +128,7 @@ class Service extends BaseService
         // 注册路由集合
         $this->registerAddonsRoutes();
 
-        // 自动加载插件
+        // TODO 自动加载插件,多文件下不知道会不会影响性能，后期观察进行修改
         $this->autoload();
 
         // 绑定插件容器
@@ -142,6 +142,7 @@ class Service extends BaseService
      */
     public function boot(Route $route)
     {
+        $disPatch = $route->getName();
         $format = $this->formatRoute();
         if ($format === false) {
             return;

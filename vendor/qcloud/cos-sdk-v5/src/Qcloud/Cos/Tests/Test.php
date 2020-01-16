@@ -1006,13 +1006,44 @@ class COSTest extends \PHPUnit_Framework_TestCase
      */
     public function testPutObjectMeta() {
         try {
+            $key = '你好.txt';
+            $meta = array(
+                'test' => str_repeat('a', 1 * 1024),
+                'test-meta' => 'qwe-23ds-ad-xcz.asd.*qweqw'
+            );
             $this->cosClient->putObject(array(
                 'Bucket' => $this->bucket,
                 'Key' => '你好.txt',
                 'Body' => '1234124',
-                'Metadata' => array(
-                     'lew' => str_repeat('a', 1 * 1024),
-            )));
+                'Metadata' => $meta
+                     
+            ));
+            $rt = $this->cosClient->headObject(['Bucket'=>$this->bucket, 'Key'=>$key]);
+            $this->assertEquals($rt['Metadata'], $meta);
+        } catch (ServiceResponseException $e) {
+            print $e;
+            $this->assertFalse(TRUE);
+        }
+    }
+
+    /*
+     * upload large object，请求头部携带自定义头部x-cos-meta-
+     * 200
+     */
+    public function testUploadLargeObjectMeta() {
+        try {
+            $key = '你好.txt';
+            $meta = array(
+                'test' => str_repeat('a', 1 * 1024),
+                'test-meta' => 'qwe-23ds-ad-xcz.asd.*qweqw'
+            );
+            $body = $this->generateRandomString(2*1024*1024+1023);
+            $this->cosClient->upload($bucket=$this->bucket,
+                                     $key=$key,
+                                     $body=$body,
+                                     $options=['PartSize'=>1024 * 1024 + 1, 'Metadata'=>$meta]);
+            $rt = $this->cosClient->headObject(['Bucket'=>$this->bucket, 'Key'=>$key]);
+            $this->assertEquals($rt['Metadata'], $meta);
         } catch (ServiceResponseException $e) {
             print $e;
             $this->assertFalse(TRUE);

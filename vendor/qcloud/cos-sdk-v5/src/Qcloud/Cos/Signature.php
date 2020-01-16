@@ -21,7 +21,7 @@ class Signature {
     public function createAuthorization(RequestInterface $request, $expires = "+30 minutes") {
         $signTime = (string)(time() - 60) . ';' . (string)(strtotime($expires));
         $httpString = strtolower($request->getMethod()) . "\n" . urldecode($request->getUri()->getPath()) .
-            "\n\nhost=" . $request->getUri()->getHost() . "\n";
+            "\n\nhost=" . $request->getHeader("Host")[0]. "\n";
         $sha1edHttpString = sha1($httpString);
         $stringToSign = "sha1\n$signTime\n$sha1edHttpString\n";
         $signKey = hash_hmac('sha1', $signTime, $this->secretKey);
