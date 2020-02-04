@@ -16,6 +16,9 @@ define('CONFIG_PATH', ROOT_PATH . 'config' . DS);
 
 function isReadWrite($file)
 {
+    if (DIRECTORY_SEPARATOR == '\\') {
+        return true;
+    }
     if (DIRECTORY_SEPARATOR == '/' && @ ini_get("safe_mode") === false) {
         return is_writable($file);
     }
