@@ -41,8 +41,11 @@
                     <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
                 <li class="layui-nav-item layuimini-setting">
-                    <img src="{:session('admin.head_img')}" class="layui-nav-img" width="50" height="50">
-                    <cite class="adminName">{:session('admin.username')}</cite>
+                    <a href="javascript:;">
+                        <img src="{:session('admin.head_img')}" class="layui-nav-img" width="50" height="50">
+                        <cite class="adminName">{:session('admin.username')}</cite>
+                        <span class="layui-nav-more"></span>
+                    </a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a href="javascript:;" layuimini-content-href="{:__url('index/editAdmin')}" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>
