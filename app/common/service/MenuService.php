@@ -57,40 +57,27 @@ class MenuService
      */
     public function getMenuTree()
     {
-        list($menuTreeList, $data) = [[], $this->getMenuData()];
-        foreach ($data as $vo) {
-            if ($vo['pid'] == 0) {
-                $child = $this->buildMenuChild($vo['id'], $data);
-                if (!empty($child)) {
-                    $vo['child'] = $child;
-                    $menuTreeList[MenuConstant::MODULE_PREFIX . $vo['id']] = $vo;
-                }
-            }
-        }
+        $menuTreeList = $this->buildMenuChild(0, $this->getMenuData());
         return $menuTreeList;
     }
 
-    /**
-     * 构建子菜单信息
-     * @param $pid
-     * @param $data
-     * @return array
-     */
-    protected function buildMenuChild($pid, $data)
+    private function buildMenuChild($pid, $menuList)
     {
-        $menuList = [];
+        $treeList = [];
         $authServer = (new AuthService($this->adminId));
-        foreach ($data as &$vo) {
-            // TODO 后续这里做权限判断
-            $check = $authServer->checkNode($vo['href']);
-            !empty($vo['href']) && $vo['href'] = __url($vo['href']);
-            if ($vo['pid'] == $pid && $check) {
-                $child = $this->buildMenuChild($vo['id'], $data);
-                !empty($child) && $vo['child'] = $child;
-                $menuList[] = $vo;
+        foreach ($menuList as &$v) {
+            $check = $authServer->checkNode($v['href']);
+            !empty($v['href']) && $v['href'] = __url($v['href']);
+            if ($pid == $v['pid'] && $check) {
+                $node = $v;
+                $child = $this->buildMenuChild($v['id'], $menuList);
+                if (!empty($child)) {
+                    $node['child'] = $child;
+                }
+                $treeList[] = $node;
             }
         }
-        return $menuList;
+        return $treeList;
     }
 
     /**

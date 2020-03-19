@@ -35,9 +35,6 @@ class Ajax extends AdminController
         }
         $menuService = new MenuService(session('admin.id'));
         $data = [
-            'clearInfo' => [
-                'clearUrl' => __url('ajax/clearCache'),
-            ],
             'logoInfo'  => [
                 'title' => 'EasyAdmin',
                 'image' => '/static/common/images/logo-1.png',
