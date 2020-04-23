@@ -14,6 +14,8 @@ define('ROOT_PATH', __DIR__ . DS . '..' . DS);
 define('INSTALL_PATH', ROOT_PATH . 'config' . DS . 'install' . DS);
 define('CONFIG_PATH', ROOT_PATH . 'config' . DS);
 
+$currentHost = ($_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'].'/';
+
 function isReadWrite($file)
 {
     if (DIRECTORY_SEPARATOR == '\\') {
@@ -285,12 +287,16 @@ return [
     'app_map'          => [
         Env::get('easyadmin.admin', '{$admin}') => 'admin',
     ],
+    // 后台别名
+    'admin_alias_name' => Env::get('easyadmin.admin', '{$admin}'),
     // 域名绑定（自动多应用模式有效）
     'domain_bind'      => [],
     // 禁止URL访问的应用列表（自动多应用模式有效）
     'deny_app_list'    => ['common'],
     // 异常页面的模板文件
     'exception_tmpl'   => Env::get('app_debug') == 1 ? app()->getThinkPath() . 'tpl/think_exception.tpl' : app()->getBasePath() . 'common' . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR . 'think_exception.tpl',
+    // 跳转页面的模板文件
+    'dispatch_error_tmpl'   => app()->getBasePath() . 'common' . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR . 'dispatch_jump.tpl',
     // 错误显示信息,非调试模式有效
     'error_message'    => '页面错误！请稍后再试～',
     // 显示错误信息
@@ -456,8 +462,8 @@ EOT;
             <div class="layui-form-item">
                 <label class="layui-form-label">后台的地址</label>
                 <div class="layui-input-block">
-                    <input class="layui-input" name="admin_url" autocomplete="off" lay-verify="required" lay-reqtext="请输入后台的地址" placeholder="请输入后台的地址" value="admin">
-                    <span class="tips">为了后台安全，不建议将后台路径设置为admin</span>
+                    <input class="layui-input" id="admin_url" name="admin_url" autocomplete="off" lay-verify="required" lay-reqtext="请输入后台的地址" placeholder="为了后台安全，不建议将后台路径设置为admin" value="admin">
+                    <span class="tips">后台登录地址： <?php echo $currentHost; ?><span id="admin_name">admin</span></span>
                 </div>
             </div>
 
@@ -477,7 +483,7 @@ EOT;
         </div>
 
         <div class="layui-form-item">
-            <button class="layui-btn <?php echo $errorInfo ? 'layui-btn-disabled' : '' ?>" lay-submit="" lay-filter="install">确定安装</button>
+            <button class="layui-btn layui-btn-normal <?php echo $errorInfo ? 'layui-btn-disabled' : '' ?>" lay-submit="" lay-filter="install">确定安装</button>
         </div>
     </form>
 </div>
@@ -487,6 +493,12 @@ EOT;
         var $ = layui.jquery,
             form = layui.form,
             layer = layui.layer;
+
+        $("#admin_url").bind("input propertychange", function() {
+            var val = $(this).val();
+            $("#admin_name").text(val);
+        });
+
         form.on('submit(install)', function (data) {
             if ($(this).hasClass('layui-btn-disabled')) {
                 return false;

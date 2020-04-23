@@ -62,7 +62,7 @@
     left: 295px !important;
 }
 
-.layui-nav.layui-layout-left.layuimini-header-menu.mobile.layui-hide-xs {
+.layui-nav.layui-layout-left.layuimini-header-menu.layuimini-pc-show {
     font-weight: bold;
     transition: all .2s;
 }
@@ -367,23 +367,23 @@
 
 
 /**左侧菜单栏 (正常) */
-.layuimini-all .layui-nav-itemed .layui-nav-child a, .layuimini-all .layuimini-menu-left .layui-nav .layui-nav-child a {
+.layui-layout-body .layui-nav-itemed .layui-nav-child a, .layui-layout-body .layuimini-menu-left .layui-nav .layui-nav-child a {
     padding-left: 35px;
 }
 
-.layuimini-all .layuimini-menu-left .layui-nav .layui-nav-child .layui-nav-child a {
+.layui-layout-body .layuimini-menu-left .layui-nav .layui-nav-child .layui-nav-child a {
     padding-left: 45px;
 }
 
-.layuimini-all .layuimini-menu-left .layui-nav .layui-nav-child .layui-nav-child .layui-nav-child a {
+.layui-layout-body .layuimini-menu-left .layui-nav .layui-nav-child .layui-nav-child .layui-nav-child a {
     padding-left: 55px;
 }
 
-.layuimini-all .layuimini-menu-left .layui-nav .layui-nav-child .layui-nav-child .layui-nav-child .layui-nav-child a {
+.layui-layout-body .layuimini-menu-left .layui-nav .layui-nav-child .layui-nav-child .layui-nav-child .layui-nav-child a {
     padding-left: 65px;
 }
 
-.layuimini-all .layuimini-menu-left .layui-nav .layui-nav-itemed > .layui-nav-child {
+.layui-layout-body .layuimini-menu-left .layui-nav .layui-nav-itemed > .layui-nav-child {
     padding: 5px 0;
 }
 
@@ -538,7 +538,7 @@
     margin: -75px 0 0 -75px;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: #5fb878;
+    border-top-color: #1E9FFF;
     animation: spin 2s linear infinite;
 }
 
@@ -551,7 +551,7 @@
     bottom: 5px;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: #5fb878;
+    border-top-color: #1E9FFF;
     animation: spin 3s linear infinite;
 }
 
@@ -564,7 +564,7 @@
     bottom: 15px;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: #5fb878;
+    border-top-color: #1E9FFF;
     animation: spin 1.5s linear infinite;
 }
 
@@ -656,11 +656,91 @@
 }
 
 /**
+菜单缩放
+ */
+.popup-tips .layui-layer-TipsG{
+    display: none;
+}
+.popup-tips.layui-layer-tips .layui-layer-content{
+    padding: 0;
+}
+.popup-tips .layui-nav-tree{
+    width: 150px;
+    border-radius: 10px;
+}
+
+/**左侧菜单字体间距*/
+.layuimini-menu-left .layui-nav-item a span {
+    letter-spacing: 1px;
+}
+
+/**头部菜单字体间距*/
+.layui-layout-admin .layui-header .layuimini-header-menu.layuimini-pc-show,.layui-layout-admin .layui-header .layuimini-header-menu.layuimini-mobile-show {
+    letter-spacing: 1px;
+}
+
+
+/**左侧菜单更多下拉样式*/
+.layuimini-menu-left .layui-nav-more,.layuimini-menu-left-zoom .layui-nav-more {
+    font-family: layui-icon !important;
+    font-size: 12px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+    width: auto;
+    height: auto;
+    line-height: normal;
+    border: none;
+    display: inline-block;
+    margin-top: -6px !important;
+}
+
+.layuimini-menu-left .layui-nav-child .layui-nav-more {
+    margin-top: -6px !important;
+}
+
+.layuimini-menu-left .layui-nav .layui-nav-mored,.layuimini-menu-left .layui-nav-itemed>a .layui-nav-more{
+    margin-top: -9px!important;
+}
+
+.layuimini-menu-left-zoom.layui-nav .layui-nav-mored,.layuimini-menu-left-zoom.layui-nav-itemed>a .layui-nav-more{
+    margin-top: -9px!important;
+}
+
+.layuimini-menu-left .layui-nav-more:before,.layuimini-menu-left-zoom .layui-nav-more:before {
+    content: "\e61a";
+}
+.layuimini-menu-left .layui-nav-itemed > a > .layui-nav-more,.layuimini-menu-left-zoom .layui-nav-itemed > a > .layui-nav-more {
+    transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    width: 12px;
+    text-align: center;
+    border-style:none;
+}
+
+.layuimini-menu-left .layui-nav-itemed > a > .layui-nav-more:before,.layuimini-menu-left-zoom .layui-nav-itemed > a > .layui-nav-more:before {
+    content: '\e61a';
+    background-color: transparent;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/**修复左侧菜单字体不对齐的问题*/
+.layuimini-menu-left .layui-nav-item a .fa,.layuimini-menu-left .layui-nav-item a .layui-icon{
+    width: 20px;
+}
+
+
+/**
  PC版样式
  */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1025px) {
     /**头部样式（缩放） */
-    .layuimini-mini .layui-layout-left.layuimini-header-menu.layui-hide-xs {
+    .layuimini-mini .layui-layout-left.layuimini-header-menu.layuimini-pc-show {
         left: 155px !important;
     }
 
@@ -706,12 +786,29 @@
         left: 95px !important;
     }
 
+    .layuimini-pc-show{
+        display: block;
+    }
+    .layuimini-mobile-show{
+        display: none;
+    }
+
+    /**菜单缩放*/
+    .layuimini-mini .layuimini-menu-left .layui-nav-more,.layuimini-mini .layuimini-menu-left .layui-nav-child{
+        display: none;!important;
+    }
 }
 
 /**
  手机自适应样式
 */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
+    .layuimini-pc-show{
+        display: none;
+    }
+    .layuimini-mobile-show{
+        display: block;
+    }
     .layuimini-header-content {
         left: 0;
     }
@@ -720,21 +817,12 @@
         border-top: 1px solid #e2e2e2;
     }
 
-
-    .layuimini-multi-module.layuimini-mini .layuimini-header-content .layui-layout-right {
-        display: none
-    }
-
     .layuimini-all .layui-layout-left.layuimini-header-menu {
         left: 15px !important
     }
 
     .layuimini-mini .layui-layout-left.layuimini-header-menu {
         left: 205px !important
-    }
-
-    .layui-layout-admin .layui-nav.layui-layout-right {
-        margin-right: 15px !important;
     }
 
     .layui-layout-admin .layui-nav.layui-layout-right > li:not(.layuimini-setting) {
@@ -763,7 +851,7 @@
     }
 
     .layuimini-mini .layui-layout-admin .layui-body {
-        left: 0;
+        left: 0!important;
         transition: left .2s;
         top: 0;
         z-index: 998;
@@ -812,5 +900,12 @@
     .layuimini-site-mobile {
         cursor: pointer;
     }
+}
 
+@media screen and (max-width: 550px){
+
+    /**头部右侧数据*/
+    .layuimini-multi-module.layuimini-mini .layuimini-header-content .layui-layout-right {
+        display: none;
+    }
 }

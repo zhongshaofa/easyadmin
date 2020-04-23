@@ -2,7 +2,13 @@
 {block name="cotent"}
 <div class="layuimini-container">
     <div class="layuimini-main">
-        <table id="currentTable" class="layui-table" lay-filter="currentTable"></table>
+        <table id="currentTable" class="layui-table"
+               data-auth-add="{:auth('system.auth/add')}"
+               data-auth-edit="{:auth('system.auth/edit')}"
+               data-auth-delete="{:auth('system.auth/del')}"
+               data-auth-authorize="{:auth('system.auth/authorize')}"
+               lay-filter="currentTable">
+        </table>
     </div>
 </div>
 {/block}

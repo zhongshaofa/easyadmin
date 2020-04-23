@@ -17,7 +17,7 @@ define(["jquery"], function ($) {
             options.specific = options.specific || false;
             options.domains = options.domains || [];
             var domain = window.location.hostname;
-            if (options.specific === false || (options.specific === true && options.domains.indexOf(domain) >= 0)) {
+            if (options.specific === false || (options.specific === true && options.domains.indexOf(domain) >=0)) {
                 miniTongji.listen();
             }
         },

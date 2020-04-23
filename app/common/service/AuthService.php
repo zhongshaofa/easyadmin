@@ -96,7 +96,7 @@ class AuthService
         }
         // 判断该节点是否允许访问
         $allNode = $this->getAdminNode();
-        if (isset($allNode[$node]) && $allNode[$node] == $node) {
+        if (in_array($node, $allNode)) {
             return true;
         }
         return false;

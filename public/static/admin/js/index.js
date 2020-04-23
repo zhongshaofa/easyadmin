@@ -1,12 +1,12 @@
-define(["jquery", "admin", "echarts", "echarts-theme", "miniAdmin"], function ($, admin, echarts, undefined,miniAdmin) {
+define(["jquery", "admin", "echarts", "echarts-theme", "miniAdmin"], function ($, admin, echarts, undefined, miniAdmin) {
 
     var Controller = {
         index: function () {
             var options = {
                 iniUrl: admin.url('ajax/initAdmin'),    // 初始化接口
                 clearUrl: admin.url("ajax/clearCache"), // 缓存清理接口
-                urlHashLocation: false,      // 是否打开hash定位
-                bgColorDefault: 4,          // 主题默认配置
+                urlHashLocation: true,      // 是否打开hash定位
+                bgColorDefault: false,      // 主题默认配置
                 multiModule: true,          // 是否开启多模块
                 menuChildOpen: false,       // 是否默认展开菜单
                 loadingTime: 0,             // 初始化加载时间

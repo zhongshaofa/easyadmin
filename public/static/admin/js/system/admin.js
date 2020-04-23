@@ -36,7 +36,7 @@ define(["jquery", "admin",], function ($, admin) {
                                     class: 'layui-btn layui-btn-normal layui-btn-xs',
                                     text: '设置密码',
                                     open: 'system.admin/password',
-                                    auth: 'system.admin/password',
+                                    auth: 'password',
                                     extend: ""
                                 }
                             ], 'delete'

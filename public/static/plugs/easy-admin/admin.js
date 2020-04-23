@@ -21,15 +21,15 @@ define(["jquery"], function ($) {
         url: function (url) {
             return '/' + ADMIN + '/' + url;
         },
-        checkAuth: function (node) {
-            // todo 有问题，先全部返回true
-            return true;
-            if (IS_SUPER_ADMIN == true) {
+        checkAuth: function (node, elem) {
+            if (IS_SUPER_ADMIN) {
                 return true;
             }
-            node = admin.common.parseNodeStr(node);
-            var check = ALL_AUTH_NODE[node] == undefined ? false : true;
-            return check;
+            if ($(elem).attr('data-auth-' + node) === '1') {
+                return true;
+            } else {
+                return false;
+            }
         },
         parame: function (param, defaultParam) {
             return param != undefined ? param : defaultParam;
@@ -187,11 +187,16 @@ define(["jquery"], function ($) {
 
                 // 初始化表格搜索
                 options.toolbar = options.toolbar || ['refresh', 'add', 'delete'];
-                if (options.search == true) {
+                if (options.search === true) {
                     admin.table.renderSearch(options.cols, options.elem, options.id);
                 }
+
                 // 初始化表格左上方工具栏
                 options.toolbar = admin.table.renderToolbar(options.toolbar, options.elem, options.id, options.init);
+
+                // 判断是否有操作列表权限
+                options.cols = admin.table.renderOperat(options.cols, options.elem);
+
                 var newTable = table.render(options);
 
                 // 监听表格搜索开关显示
@@ -209,13 +214,17 @@ define(["jquery"], function ($) {
                 data = data || [];
                 var toolbarHtml = '';
                 $.each(data, function (i, v) {
-                    if (v == 'refresh') {
+                    if (v === 'refresh') {
                         toolbarHtml += ' <button class="layui-btn layui-btn-sm layuimini-btn-primary" data-table-refresh="' + tableId + '"><i class="fa fa-refresh"></i> </button>\n';
-                    } else if (v == 'add') {
-                        toolbarHtml += '<button class="layui-btn layui-btn-sm" data-open="' + init.add_url + '" data-title="添加" auth="' + init.add_url + '"><i class="layui-icon layui-icon-add-circle-fine"></i>添加</button>\n';
-                    } else if (v == 'delete') {
-                        toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-danger" data-url="' + init.del_url + '" data-table-delete="' + tableId + '" auth="' + init.del_url + '"><i class="layui-icon layui-icon-delete"></i>删除</button>\n';
-                    } else if (typeof v == "object") {
+                    } else if (v === 'add') {
+                        if (admin.checkAuth('add', elem)) {
+                            toolbarHtml += '<button class="layui-btn layui-btn-sm" data-open="' + init.add_url + '" data-title="添加" auth="' + init.add_url + '"><i class="layui-icon layui-icon-add-circle-fine"></i>添加</button>\n';
+                        }
+                    } else if (v === 'delete') {
+                        if (admin.checkAuth('delete', elem)) {
+                            toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-danger" data-url="' + init.del_url + '" data-table-delete="' + tableId + '" auth="' + init.del_url + '"><i class="layui-icon layui-icon-delete"></i>删除</button>\n';
+                        }
+                    } else if (typeof v === "object") {
                         $.each(v, function (ii, vv) {
                             vv.class = vv.class || '';
                             vv.text = vv.text || '';
@@ -225,12 +234,14 @@ define(["jquery"], function ($) {
                             vv.extend = vv.extend || '';
                             vv.auth = vv.auth || '';
                             // 组合数据
-                            vv.icon = vv.icon != '' ? '<i class="' + vv.icon + '"></i>' : '';
-                            vv.class = vv.class != '' ? 'class="' + vv.class + '" ' : '';
-                            vv.open = vv.open != '' ? 'data-open="' + vv.open + '" ' : '';
-                            vv.title = vv.title != '' ? 'data-title="' + vv.title + '" ' : '';
-                            vv.auth = vv.auth != '' ? 'auth="' + vv.auth + '" ' : '';
-                            toolbarHtml += '<button ' + vv.class + vv.open + vv.title + vv.auth + vv.extend + '>' + vv.icon + vv.text + '</button>\n';
+                            vv.icon = vv.icon !== '' ? '<i class="' + vv.icon + '"></i>' : '';
+                            vv.class = vv.class !== '' ? 'class="' + vv.class + '" ' : '';
+                            vv.open = vv.open !== '' ? 'data-open="' + vv.open + '" ' : '';
+                            vv.title = vv.title !== '' ? 'data-title="' + vv.title + '" ' : '';
+
+                            if (admin.checkAuth(vv.auth, elem)) {
+                                toolbarHtml += '<button ' + vv.class + vv.open + vv.title + vv.extend + '>' + vv.icon + vv.text + '</button>\n';
+                            }
                         });
                     }
                 });
@@ -340,18 +351,49 @@ define(["jquery"], function ($) {
                     });
                 }
             },
+            renderOperat(data, elem) {
+                for (dk in data){
+                    var col = data[dk];
+                    var operat = col[col.length - 1].operat;
+                    var check = false;
+                    if (operat !== undefined) {
+                        for (key in operat) {
+                            var item = operat[key];
+                            if (typeof item === 'string') {
+                                if (admin.checkAuth(item, elem)) {
+                                    check = true;
+                                    break;
+                                }
+                            } else {
+                                for (k in item) {
+                                    var v = item[k];
+                                    if (v.auth !== undefined && admin.checkAuth(v.auth, elem)) {
+                                        check = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!check) {
+                        data[dk].pop()
+                    }
+                }
+                return data;
+            },
             tool: function (data, option) {
                 option.operat = option.operat || ['edit', 'delete'];
+                var elem = '#' + option.init.table_elem || '#' + init.table_elem;
                 var html = '';
                 $.each(option.operat, function (i, v) {
-                    if (v == 'edit' || v == 'delete') {
+                    if (v === 'edit' || v === 'delete') {
                         var vv = {};
                         if (v == 'edit') {
                             vv = {
                                 class: 'layui-btn layui-btn-xs',
                                 text: '编辑',
                                 open: option.init.edit_url,
-                                auth: option.init.edit_url,
+                                auth: 'edit',
                                 extend: ""
                             };
                         } else {
@@ -360,7 +402,7 @@ define(["jquery"], function ($) {
                                 text: '删除',
                                 title: '确定删除？',
                                 request: option.init.del_url,
-                                auth: option.init.del_url,
+                                auth: 'delete',
                                 extend: ""
                             };
                         }
@@ -386,10 +428,8 @@ define(["jquery"], function ($) {
                         vv.open = vv.open != '' ? 'data-open="' + vv.open + '" data-title="' + vv.title + '" ' : '';
                         vv.request = vv.request != '' ? 'data-request="' + vv.request + '" data-title="' + vv.title + '" ' : '';
                         vv.event = vv.event != '' ? 'lay-event="' + vv.event + '" ' : '';
-                        // vv.auth = vv.auth != '' ? 'auth="' + vv.auth + '" ' : '';
-                        var check = (vv.auth == '' || vv.auth == undefined) ? true : admin.checkAuth(vv.auth);
-                        if (check == true) {
-                            // html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.auth + vv.extend + '>' + vv.icon + vv.text + '</a>';
+
+                        if (admin.checkAuth(vv.auth, elem)) {
                             html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.extend + '>' + vv.icon + vv.text + '</a>';
                         }
                     } else if (typeof v == "object") {
@@ -416,10 +456,8 @@ define(["jquery"], function ($) {
                             vv.open = vv.open != '' ? 'data-open="' + vv.open + '" data-title="' + vv.title + '" ' : '';
                             vv.request = vv.request != '' ? 'data-request="' + vv.request + '" data-title="' + vv.title + '" ' : '';
                             vv.event = vv.event != '' ? 'lay-event="' + vv.event + '" ' : '';
-                            // vv.auth = vv.auth != '' ? 'auth="' + vv.auth + '" ' : '';
-                            var check = (vv.auth == '' || vv.auth == undefined) ? true : admin.checkAuth(vv.auth);
-                            if (check == true) {
-                                // html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.auth + vv.extend + '>' + vv.icon + vv.text + '</a>';
+
+                            if (admin.checkAuth(vv.auth, elem)) {
                                 html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.extend + '>' + vv.icon + vv.text + '</a>';
                             }
                         });
@@ -577,9 +615,6 @@ define(["jquery"], function ($) {
         },
         listen: function (formCallback, ok, no, ex) {
 
-            // 节点权限监听
-            admin.api.auth();
-
             // 初始化layui表单
             form.render();
 
@@ -695,14 +730,14 @@ define(["jquery"], function ($) {
                 } else {
                     tableId = tableId || false;
                     // 普通数据提交
-                    if (url == undefined || url == '' || url == null) {
+                    if (url === undefined || url === '' || url === null) {
                         url = window.location.href;
                     } else {
-                        if (addons != true && addons != 'true') {
+                        if (addons !== true && addons !== 'true') {
                             url = admin.url(url);
                         }
                     }
-                    if (filter == undefined || filter == '' || filter == null) {
+                    if (filter === undefined || filter === '' || filter === null) {
                         admin.msg.error('请设置lay-filter提交事件');
                         return false;
                     }
@@ -733,7 +768,7 @@ define(["jquery"], function ($) {
                 var tableId = $(this).attr('data-table-delete'),
                     url = $(this).attr('data-url');
                 tableId = tableId || init.table_render_id;
-                url = url != undefined ? admin.url(url) : window.location.href;
+                url = url !== undefined ? admin.url(url) : window.location.href;
                 var checkStatus = table.checkStatus(tableId),
                     data = checkStatus.data;
                 if (data.length <= 0) {
@@ -781,12 +816,12 @@ define(["jquery"], function ($) {
                 option = option || {};
                 option.refreshTable = option.refreshTable || false;
                 option.refreshFrame = option.refreshFrame || false;
-                if (option.refreshTable == true) {
+                if (option.refreshTable === true) {
                     option.refreshTable = init.table_render_id;
                 }
                 var index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);
-                if (option.refreshTable != false) {
+                if (option.refreshTable !== false) {
                     parent.layui.table.reload(option.refreshTable);
                 }
                 if (option.refreshFrame) {
@@ -823,11 +858,11 @@ define(["jquery"], function ($) {
                             accept: 'file',
                             exts: exts,
                             done: function (res) {
-                                if (res.code == 1) {
+                                if (res.code === 1) {
                                     var url = res.data.url;
-                                    if (uploadNumber != 'one') {
+                                    if (uploadNumber !== 'one') {
                                         var oldUrl = $(elem).val();
-                                        if (oldUrl != '') {
+                                        if (oldUrl !== '') {
                                             url = oldUrl + uploadSign + url;
                                         }
                                     }
@@ -886,15 +921,6 @@ define(["jquery"], function ($) {
                     });
                 }
             },
-            auth: function () {
-                var nodeList = $("[auth]");
-                $.each(nodeList, function (i, v) {
-                    var node = $(this).attr('auth');
-                    var check = admin.checkAuth(node);
-                    check && $(this).css('display', 'inline-block');
-                });
-                return false;
-            }
         },
     };
     return admin;

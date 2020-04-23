@@ -49,7 +49,7 @@ class SystemAuth extends TimeModel
                 foreach ($nodelList as $v) {
                     if ($v['type'] == 2 && strpos($v['node'], $vo['node'] . '/') !== false) {
                         $v = array_merge($v, ['field' => 'node', 'spread' => true]);
-                        $v['checked'] = isset($checkNodeList[$v['id']]) ? true : false;
+                        $v['checked'] = in_array($v['id'], $checkNodeList) ? true : false;
                         $v['title'] = "{$v['title']}【{$v['node']}】";
                         $children[] = $v;
                     }

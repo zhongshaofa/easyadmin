@@ -33,13 +33,7 @@ class ViewInit
         }
         $autoloadJs = file_exists("static/{$thisModule}/js/{$jsPath}.js") ? true : false;
         $thisControllerJsPath = "{$thisModule}/js/{$jsPath}.js";
-        $adminModuleName = Env::get('easyadmin.admin', 'admin');
-        // 获取所有授权的节点
-        $allAuthNode = Cache::get('allAuthNode_' . session('admin.id'));
-        if (empty($allAuthNode)) {
-            $allAuthNode = (new AuthService(session('admin.id')))->getAdminNode();
-            Cache::tag('authNode')->set('allAuthNode_' . session('admin.id'), $allAuthNode);
-        }
+        $adminModuleName = config('app.admin_alias_name');
         $isSuperAdmin = session('admin.id') == AdminConstant::SUPER_ADMIN_ID ? true : false;
         $data = [
             'admin_module_name'    => $adminModuleName,
@@ -48,7 +42,6 @@ class ViewInit
             'thisRequest'          => parse_name("{$thisModule}/{$thisController}/{$thisAction}"),
             'thisControllerJsPath' => "{$thisControllerJsPath}",
             'autoloadJs'           => $autoloadJs,
-            'allAuthNode'          => $allAuthNode,
             'isSuperAdmin'         => $isSuperAdmin,
         ];
         View::assign($data);

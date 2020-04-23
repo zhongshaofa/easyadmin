@@ -2,9 +2,10 @@
 /.vscode
 *.log
 .env
+config/install/lock/install.lock
 /public/upload
 /public/docs
-/runtime
-/docker/log
-/docker/mysql
-/config/install/lock/install.lock
+runtime/admin
+runtime/log
+runtime/session
+runtime/temp

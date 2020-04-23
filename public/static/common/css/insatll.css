@@ -50,6 +50,13 @@ h2 {
     font-size: 12px;
     color: #eca6a6
 }
+.content .admin-tips{
+    float: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #eca6a6
+}
 .content .desc{
     font-size: 16px;
     color: #4E5465;

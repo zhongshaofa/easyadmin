@@ -1,6 +1,7 @@
 {extend name="public:basic" /}
 {block name="style"}
 <link rel="stylesheet" href="__STATIC__/plugs/lay-module/layuimini/layuimini.css?v={:time()}" media="all">
+<link rel="stylesheet" href="__STATIC__/plugs/lay-module/layuimini/themes/default.css?v={:time()}" media="all">
 <style id="layuimini-bg-color">
 </style>
 {/block}
@@ -17,11 +18,11 @@
             </a>
 
             <!--电脑端头部菜单-->
-            <ul class="layui-nav layui-layout-left layuimini-header-menu mobile layui-hide-xs layuimini-menu-header-pc">
+            <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-menu-header-pc layuimini-pc-show">
             </ul>
 
             <!--手机端头部菜单-->
-            <ul class="layui-nav layui-layout-left layuimini-header-menu mobile layui-hide-sm">
+            <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-mobile-show">
                 <li class="layui-nav-item">
                     <a href="javascript:;"><i class="fa fa-list-ul"></i> 选择模块</a>
                     <dl class="layui-nav-child layuimini-menu-header-mobile">
@@ -41,11 +42,7 @@
                     <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
                 <li class="layui-nav-item layuimini-setting">
-                    <a href="javascript:;">
-                        <img src="{:session('admin.head_img')}" class="layui-nav-img" width="50" height="50">
-                        <cite class="adminName">{:session('admin.username')}</cite>
-                        <span class="layui-nav-more"></span>
-                    </a>
+                    <a href="javascript:;">admin</a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a href="javascript:;" layuimini-content-href="{:__url('index/editAdmin')}" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>
@@ -61,7 +58,7 @@
                         </dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item layuimini-select-bgcolor mobile layui-hide-xs" lay-unselect>
+                <li class="layui-nav-item layuimini-select-bgcolor" lay-unselect>
                     <a href="javascript:;" data-bgcolor="配色方案"><i class="fa fa-ellipsis-v"></i></a>
                 </li>
             </ul>
@@ -84,7 +81,6 @@
     <div class="layuimini-site-mobile"><i class="layui-icon"></i></div>
 
     <div class="layui-body">
-
         <div class="layuimini-tab layui-tab-rollTool layui-tab" lay-filter="layuiminiTab" lay-allowclose="true">
             <ul class="layui-tab-title">
                 <li class="layui-this" id="layuiminiHomeTabId" lay-id=""></li>
@@ -109,9 +105,7 @@
                 <div id="layuiminiHomeTabIframe" class="layui-tab-item layui-show"></div>
             </div>
         </div>
-
     </div>
-
 </div>
 </body>
 {/block}

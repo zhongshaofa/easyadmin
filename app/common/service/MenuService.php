@@ -66,7 +66,7 @@ class MenuService
         $treeList = [];
         $authServer = (new AuthService($this->adminId));
         foreach ($menuList as &$v) {
-            $check = $authServer->checkNode($v['href']);
+            $check = empty($v['href']) ? true : $authServer->checkNode($v['href']);
             !empty($v['href']) && $v['href'] = __url($v['href']);
             if ($pid == $v['pid'] && $check) {
                 $node = $v;

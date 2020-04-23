@@ -30,7 +30,7 @@ class ViewInit
         list($thisModule, $thisController, $thisAction) = Tool::getRoutePositionByDispatch(app('route')->check()->getDispatch());
         $autoloadJs = file_exists("static/addons/{$thisModule}/js/{$thisController}.js") ? true : false;
         $thisControllerJsPath = "addons/{$thisModule}/js/{$thisController}.js";
-        $adminModuleName = Env::get('easyadmin.admin', 'admin');
+        $adminModuleName = config('app.admin_alias_name');
         // 获取所有授权的节点
         $allAuthNode = Cache::get('allAuthNode_' . session('admin.id'));
         if (empty($allAuthNode)) {
