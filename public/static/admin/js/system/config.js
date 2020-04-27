@@ -6,8 +6,6 @@ define(["jquery", "admin", "vue"], function ($, admin, Vue) {
     var Controller = {
         index: function () {
 
-            console.log($('.upload-type-click'));
-
             var app = new Vue({
                 el: '#app',
                 data: {

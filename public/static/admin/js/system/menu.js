@@ -7,7 +7,7 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "autocomplete"], functio
     var autocomplete = layui.autocomplete;
 
     var init = {
-        table_elem: 'currentTable',
+        table_elem: '#currentTable',
         table_render_id: 'currentTableRenderId',
         index_url: 'system.menu/index',
         add_url: 'system.menu/add',
@@ -28,7 +28,7 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "autocomplete"], functio
                     treeIdName: 'id',
                     treePidName: 'pid',
                     url: admin.url(init.index_url),
-                    elem: '#' + init.table_elem,
+                    elem: init.table_elem,
                     id: init.table_render_id,
                     toolbar: '#toolbar',
                     page: false,

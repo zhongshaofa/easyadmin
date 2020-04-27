@@ -165,11 +165,11 @@ define(["jquery"], function ($) {
         },
         table: {
             render: function (options) {
-                options.elem = options.elem || '#' + init.table_elem;
                 options.init = options.init || init;
-                options.id = options.id || init.table_render_id;
+                options.elem = options.elem || options.init.table_elem;
+                options.id = options.id || options.init.table_render_id;
                 options.layFilter = options.id + '_LayFilter';
-                options.url = options.url || window.location.href;
+                options.url = options.url || admin.url(options.init.index_url);
                 options.toolbar = options.toolbar || '#toolbar';
                 options.page = admin.parame(options.page, true);
                 options.search = admin.parame(options.search, true);

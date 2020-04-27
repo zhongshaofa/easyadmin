@@ -4,7 +4,7 @@ define(["jquery", "admin",], function ($, admin) {
     var upload = layui.upload;
 
     var init = {
-        table_elem: 'currentTable',
+        table_elem: '#currentTable',
         table_render_id: 'currentTableRenderId',
         index_url: 'system.node/index',
         add_url: 'system.node/add',
@@ -17,9 +17,6 @@ define(["jquery", "admin",], function ($, admin) {
 
         index: function () {
             admin.table.render({
-                elem: '#' + init.table_elem,
-                id: init.table_render_id,
-                url: admin.url(init.index_url),
                 init: init,
                 toolbar: ['refresh', [
                     {

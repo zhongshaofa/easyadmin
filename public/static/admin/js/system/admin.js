@@ -1,7 +1,7 @@
 define(["jquery", "admin",], function ($, admin) {
 
     var init = {
-        table_elem: 'currentTable',
+        table_elem: '#currentTable',
         table_render_id: 'currentTableRenderId',
         index_url: 'system.admin/index',
         add_url: 'system.admin/add',
@@ -13,10 +13,8 @@ define(["jquery", "admin",], function ($, admin) {
     var Controller = {
 
         index: function () {
+
             admin.table.render({
-                elem: '#' + init.table_elem,
-                id: init.table_render_id,
-                url: admin.url(init.index_url),
                 init: init,
                 toolbar: ['refresh', 'add', 'delete'],
                 cols: [[

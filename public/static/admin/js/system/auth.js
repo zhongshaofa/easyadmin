@@ -4,24 +4,21 @@ define(["jquery", "admin",], function ($, admin) {
     var upload = layui.upload;
 
     var init = {
-        table_elem: 'currentTable',
+        table_elem: '#currentTable',
         table_render_id: 'currentTableRenderId',
         index_url: 'system.auth/index',
         add_url: 'system.auth/add',
         edit_url: 'system.auth/edit',
         del_url: 'system.auth/del',
+        modify_url: 'system.auth/modify',
         authorize_url: 'system.auth/authorize',
         save_authorize: 'system.auth/saveAuthorize',
-        modify_url: 'system.auth/modify',
     };
 
     var Controller = {
 
         index: function () {
             admin.table.render({
-                elem: '#' + init.table_elem,
-                id: init.table_render_id,
-                url: admin.url(init.index_url),
                 init: init,
                 toolbar: ['refresh', 'add', 'delete'],
                 cols: [[
