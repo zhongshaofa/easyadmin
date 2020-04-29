@@ -326,6 +326,8 @@ define(["jquery"], function ($) {
                         '</form>' +
                         '</fieldset>');
 
+                    admin.table.listenTableSearch(tableId);
+
                     // 初始化form表单
                     form.render();
                     $.each(newCols, function (ncI, ncV) {
@@ -352,7 +354,7 @@ define(["jquery"], function ($) {
                 }
             },
             renderOperat(data, elem) {
-                for (dk in data){
+                for (dk in data) {
                     var col = data[dk];
                     var operat = col[col.length - 1].operat;
                     var check = false;
@@ -381,7 +383,7 @@ define(["jquery"], function ($) {
                 }
                 return data;
             },
-            buildOperatHtml:function(operat){
+            buildOperatHtml: function (operat) {
                 var html = '';
                 operat.class = operat.class || '';
                 operat.icon = operat.icon || '';
@@ -392,12 +394,12 @@ define(["jquery"], function ($) {
                 operat.title = operat.title || operat.text;
                 operat.text = operat.text || operat.title;
 
-               var  formatOperat = operat;
+                var formatOperat = operat;
                 formatOperat.icon = formatOperat.icon !== '' ? '<i class="' + formatOperat.icon + '"></i>' : '';
                 formatOperat.class = formatOperat.class !== '' ? 'class="' + formatOperat.class + '" ' : '';
-                if(operat.method === 'open'){
+                if (operat.method === 'open') {
                     formatOperat.method = formatOperat.method !== '' ? 'data-open="' + formatOperat.url + '" data-title="' + formatOperat.title + '" ' : '';
-                }else{
+                } else {
                     formatOperat.method = formatOperat.method !== '' ? 'data-request="' + formatOperat.url + '" data-title="' + formatOperat.title + '" ' : '';
                 }
                 html = '<a ' + formatOperat.class + formatOperat.method + formatOperat.extend + '>' + formatOperat.icon + formatOperat.text + '</a>';
@@ -422,7 +424,7 @@ define(["jquery"], function ($) {
                                     field: 'id',
                                     icon: '',
                                     text: '编辑',
-                                    title:'编辑信息',
+                                    title: '编辑信息',
                                     auth: 'edit',
                                     url: option.init.edit_url,
                                     extend: ""
@@ -451,7 +453,7 @@ define(["jquery"], function ($) {
                                 break;
                         }
 
-                    } else if(typeof item === 'object') {
+                    } else if (typeof item === 'object') {
                         $.each(item, function (i, operat) {
                             operat.class = operat.class || '';
                             operat.icon = operat.icon || '';
@@ -498,6 +500,31 @@ define(["jquery"], function ($) {
                 option.tips = option.tips || '开|关';
                 var checked = data[option.field] == option.checked ? 'checked' : '';
                 return '<input type="checkbox" name="' + option.field + '" value="' + data.id + '" lay-skin="switch" lay-text="' + option.tips + '" lay-filter="' + option.filter + '" ' + checked + ' >';
+            },
+            listenTableSearch: function (tableId) {
+                form.on('submit(' + tableId + '_filter)', function (data) {
+                    var dataField = data.field;
+                    var formatFilter = {},
+                        formatOp = {};
+                    $.each(dataField, function (key, val) {
+                        if (val != '') {
+                            formatFilter[key] = val;
+                            var op = $('#c-' + key).attr('data-search-op');
+                            op = op || '%*%';
+                            formatOp[key] = op;
+                        }
+                    });
+                    table.reload(tableId, {
+                        page: {
+                            curr: 1
+                        }
+                        , where: {
+                            filter: JSON.stringify(formatFilter),
+                            op: JSON.stringify(formatOp)
+                        }
+                    }, 'data');
+                    return false;
+                });
             },
             listenSwitch: function (option, ok) {
                 option.filter = option.filter || '';
@@ -621,6 +648,8 @@ define(["jquery"], function ($) {
         },
         listen: function (formCallback, ok, no, ex) {
 
+            admin.api.formRequired();
+
             // 初始化layui表单
             form.render();
 
@@ -699,75 +728,7 @@ define(["jquery"], function ($) {
                 return false;
             });
 
-            // 监听表单提交事件
-            $('body').on('click', '[lay-submit]', function () {
-                var filter = $(this).attr('lay-filter'),
-                    url = $(this).attr('lay-submit'),
-                    type = $(this).attr('data-type'),
-                    tableId = $(this).attr('data-table'),
-                    addons = $(this).attr('data-addons');
-                type = type || 'commonSubmit';
-                if (type == 'tableSearch') {
-                    tableId = tableId || init.table_render_id;
-                    // 表格搜索重载
-                    form.on('submit(' + filter + ')', function (data) {
-                        var dataField = data.field;
-                        var formatFilter = {},
-                            formatOp = {};
-                        $.each(dataField, function (key, val) {
-                            if (val != '') {
-                                formatFilter[key] = val;
-                                var op = $('#c-' + key).attr('data-search-op');
-                                op = op || '%*%';
-                                formatOp[key] = op;
-                            }
-                        });
-                        table.reload(tableId, {
-                            page: {
-                                curr: 1
-                            }
-                            , where: {
-                                filter: JSON.stringify(formatFilter),
-                                op: JSON.stringify(formatOp)
-                            }
-                        }, 'data');
-                        return false;
-                    });
-                } else {
-                    tableId = tableId || false;
-                    // 普通数据提交
-                    if (url === undefined || url === '' || url === null) {
-                        url = window.location.href;
-                    } else {
-                        if (addons !== true && addons !== 'true') {
-                            url = admin.url(url);
-                        }
-                    }
-                    if (filter === undefined || filter === '' || filter === null) {
-                        admin.msg.error('请设置lay-filter提交事件');
-                        return false;
-                    }
-                    form.on('submit(' + filter + ')', function (data) {
-                        var dataField = data.field;
-                        if (typeof formCallback === 'function') {
-                            formCallback(url, dataField);
-                        } else {
-                            if (tableId != false && typeof ok != "function") {
-                                admin.api.form(url, dataField, function (res) {
-                                    admin.msg.success(res.msg, function () {
-                                        admin.api.closeCurrentOpen({
-                                            refreshTable: tableId
-                                        });
-                                    });
-                                }, no, ex);
-                            } else {
-                                admin.api.form(url, dataField, ok, no, ex);
-                            }
-                        }
-                        return false;
-                    });
-                }
-            });
+            // todo 监听表单提交事件
 
             // 数据表格多删除
             $('body').on('click', '[data-table-delete]', function () {
@@ -842,6 +803,29 @@ define(["jquery"], function ($) {
             refreshTable: function (tableName) {
                 tableName = tableName | 'currentTable';
                 table.reload(tableName);
+            },
+            formRequired: function () {
+                var verifyList = document.querySelectorAll("[lay-verify]");
+                if (verifyList.length > 0) {
+                    $.each(verifyList, function (i, v) {
+                        var verify = $(this).attr('lay-verify');
+
+                        // todo 必填项处理
+                        if (verify === 'required') {
+                            var label = $(this).parent().prev();
+                            if(label.is('label') && !label.hasClass('required')){
+                                label.addClass('required');
+                            }
+                            if ($(this).attr('lay-reqtext') === undefined && $(this).attr('placeholder') !== undefined) {
+                                $(this).attr('lay-reqtext', $(this).attr('placeholder'));
+                            }
+                            if ($(this).attr('placeholder') === undefined && $(this).attr('lay-reqtext') !== undefined) {
+                                $(this).attr('placeholder', $(this).attr('lay-reqtext'));
+                            }
+                        }
+
+                    });
+                }
             },
             upload: function () {
                 var uploadList = document.querySelectorAll("a[data-upload]");
