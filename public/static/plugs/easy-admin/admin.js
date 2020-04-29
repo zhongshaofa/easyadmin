@@ -648,7 +648,11 @@ define(["jquery"], function ($) {
         },
         listen: function (formCallback, ok, no, ex) {
 
+            // 监听表单是否为必填项
             admin.api.formRequired();
+
+            // 监听表单提交事件
+            admin.api.formSubmit(formCallback, ok, no, ex);
 
             // 初始化layui表单
             form.render();
@@ -727,8 +731,6 @@ define(["jquery"], function ($) {
                 });
                 return false;
             });
-
-            // todo 监听表单提交事件
 
             // 数据表格多删除
             $('body').on('click', '[data-table-delete]', function () {
@@ -827,8 +829,43 @@ define(["jquery"], function ($) {
                     });
                 }
             },
+            formSubmit: function (formCallback, ok, no, ex) {
+                var formList = document.querySelectorAll("[lay-submit]");
+
+                // 表单提交自动处理
+                if (formList.length > 0) {
+                    $.each(formList, function (i, v) {
+                        var filter = $(this).attr('lay-filter'),
+                            type = $(this).attr('data-type'),
+                            url = $(this).attr('lay-submit');
+
+                        // 表格搜索不做自动提交
+                        if (type === 'tableSearch') {
+                            return false;
+                        }
+
+                        if (filter === undefined || filter === '') {
+                            filter = 'saveForm';
+                            $(this).attr('lay-filter', filter)
+                        }
+                        if (url === undefined || url === '' || url === null) {
+                            url = window.location.href;
+                        }
+                        form.on('submit(' + filter + ')', function (data) {
+                            var dataField = data.field;
+                            if (typeof formCallback === 'function') {
+                                formCallback(url, dataField);
+                            } else {
+                                admin.api.form(url, dataField, ok, no, ex);
+                            }
+                            return false;
+                        });
+                    });
+                }
+
+            },
             upload: function () {
-                var uploadList = document.querySelectorAll("a[data-upload]");
+                var uploadList = document.querySelectorAll("[data-upload]");
 
                 if (uploadList.length > 0) {
                     $.each(uploadList, function (i, v) {
