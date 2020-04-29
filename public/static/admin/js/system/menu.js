@@ -56,14 +56,15 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "autocomplete"], functio
                         {field: 'status', title: '状态', width: 85, align: "center", filter: 'status', templet: admin.table.switch},
                         {field: 'status', width: 80, align: 'center', title: '排序'},
                         {
-                            width: 200, align: 'center', title: '操作', init: init, templet: admin.table.tool, operat: [[
-                                {
+                            width: 200, align: 'center', title: '操作', init: init, templet: admin.table.tool, operat: [
+                                [{
                                     class: 'layui-btn layui-btn-xs layui-btn-normal',
+                                    method: 'open',
                                     text: '添加下级',
-                                    open: 'system.menu/add',
-                                    auth: 'system.menu/add',
-                                    extend: ""
-                                }], 'edit', 'delete'
+                                    auth: 'add',
+                                    url: init.add_url,
+                                }],
+                                'edit', 'delete'
                             ]
                         }
                     ]],

@@ -8,7 +8,7 @@ define(["jquery"], function ($) {
         element = layui.element;
 
     var init = {
-        table_elem: 'currentTable',
+        table_elem: '#currentTable',
         table_render_id: 'currentTableRenderId',
         upload_url: 'ajax/upload',
         upload_exts: 'doc|gif|ico|icon|jpg|mp3|mp4|p12|pem|png|rar',
@@ -381,84 +381,90 @@ define(["jquery"], function ($) {
                 }
                 return data;
             },
+            buildOperatHtml:function(operat){
+                var html = '';
+                operat.class = operat.class || '';
+                operat.icon = operat.icon || '';
+                operat.auth = operat.auth || '';
+                operat.url = operat.url || '';
+                operat.method = operat.method || 'open';
+                operat.field = operat.field || 'id';
+                operat.title = operat.title || operat.text;
+                operat.text = operat.text || operat.title;
+
+               var  formatOperat = operat;
+                formatOperat.icon = formatOperat.icon !== '' ? '<i class="' + formatOperat.icon + '"></i>' : '';
+                formatOperat.class = formatOperat.class !== '' ? 'class="' + formatOperat.class + '" ' : '';
+                if(operat.method === 'open'){
+                    formatOperat.method = formatOperat.method !== '' ? 'data-open="' + formatOperat.url + '" data-title="' + formatOperat.title + '" ' : '';
+                }else{
+                    formatOperat.method = formatOperat.method !== '' ? 'data-request="' + formatOperat.url + '" data-title="' + formatOperat.title + '" ' : '';
+                }
+                html = '<a ' + formatOperat.class + formatOperat.method + formatOperat.extend + '>' + formatOperat.icon + formatOperat.text + '</a>';
+
+                return html;
+            },
+            toolSpliceUrl(url, field, data) {
+                url = url.indexOf("?") !== -1 ? url + '&' + field + '=' + data[field] : url + '?' + field + '=' + data[field];
+                return url;
+            },
             tool: function (data, option) {
                 option.operat = option.operat || ['edit', 'delete'];
-                var elem = '#' + option.init.table_elem || '#' + init.table_elem;
+                var elem = option.init.table_elem || init.table_elem;
                 var html = '';
-                $.each(option.operat, function (i, v) {
-                    if (v === 'edit' || v === 'delete') {
-                        var vv = {};
-                        if (v == 'edit') {
-                            vv = {
-                                class: 'layui-btn layui-btn-xs',
-                                text: '编辑',
-                                open: option.init.edit_url,
-                                auth: 'edit',
-                                extend: ""
-                            };
-                        } else {
-                            vv = {
-                                class: 'layui-btn layui-btn-danger layui-btn-xs',
-                                text: '删除',
-                                title: '确定删除？',
-                                request: option.init.del_url,
-                                auth: 'delete',
-                                extend: ""
-                            };
+                $.each(option.operat, function (i, item) {
+                    if (typeof item === 'string') {
+                        switch (item) {
+                            case 'edit':
+                                var operat = {
+                                    class: 'layui-btn layui-btn-xs',
+                                    method: 'open',
+                                    field: 'id',
+                                    icon: '',
+                                    text: '编辑',
+                                    title:'编辑信息',
+                                    auth: 'edit',
+                                    url: option.init.edit_url,
+                                    extend: ""
+                                };
+                                operat.url = admin.table.toolSpliceUrl(operat.url, operat.field, data);
+                                if (admin.checkAuth(operat.auth, elem)) {
+                                    html += admin.table.buildOperatHtml(operat);
+                                }
+                                break;
+                            case 'delete':
+                                var operat = {
+                                    class: 'layui-btn layui-btn-danger layui-btn-xs',
+                                    method: 'get',
+                                    field: 'id',
+                                    icon: '',
+                                    text: '删除',
+                                    title: '确定删除？',
+                                    auth: 'delete',
+                                    url: option.init.edit_url,
+                                    extend: ""
+                                };
+                                operat.url = admin.table.toolSpliceUrl(operat.url, operat.field, data);
+                                if (admin.checkAuth(operat.auth, elem)) {
+                                    html += admin.table.buildOperatHtml(operat);
+                                }
+                                break;
                         }
-                        // 初始化数据
-                        vv.class = vv.class || '';
-                        vv.text = vv.text || '';
-                        vv.event = vv.event || '';
-                        vv.icon = vv.icon || '';
-                        vv.open = vv.open || '';
-                        vv.request = vv.request || '';
-                        vv.title = vv.title || vv.text || '';
-                        vv.extend = vv.extend || '';
-                        vv.auth = vv.auth || '';
-                        if (vv.open != '') {
-                            vv.open = vv.open.indexOf("?") != -1 ? vv.open + '&id=' + data.id : vv.open + '?id=' + data.id;
-                        }
-                        if (vv.request != '') {
-                            vv.request = vv.request.indexOf("?") != -1 ? vv.request + '&id=' + data.id : vv.request + '?id=' + data.id;
-                        }
-                        // 组合数据
-                        vv.icon = vv.icon != '' ? '<i class="' + vv.icon + '"></i>' : '';
-                        vv.class = vv.class != '' ? 'class="' + vv.class + '" ' : '';
-                        vv.open = vv.open != '' ? 'data-open="' + vv.open + '" data-title="' + vv.title + '" ' : '';
-                        vv.request = vv.request != '' ? 'data-request="' + vv.request + '" data-title="' + vv.title + '" ' : '';
-                        vv.event = vv.event != '' ? 'lay-event="' + vv.event + '" ' : '';
 
-                        if (admin.checkAuth(vv.auth, elem)) {
-                            html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.extend + '>' + vv.icon + vv.text + '</a>';
-                        }
-                    } else if (typeof v == "object") {
-                        $.each(v, function (ii, vv) {
-                            // 初始化数据
-                            vv.class = vv.class || '';
-                            vv.text = vv.text || '';
-                            vv.event = vv.event || '';
-                            vv.icon = vv.icon || '';
-                            vv.open = vv.open || '';
-                            vv.request = vv.request || '';
-                            vv.title = vv.title || vv.text || '';
-                            vv.extend = vv.extend || '';
-                            vv.auth = vv.auth || '';
-                            if (vv.open != '') {
-                                vv.open = vv.open.indexOf("?") != -1 ? vv.open + '&id=' + data.id : vv.open + '?id=' + data.id;
-                            }
-                            if (vv.request != '') {
-                                vv.request = vv.request.indexOf("?") != -1 ? vv.request + '&id=' + data.id : vv.request + '?id=' + data.id;
-                            }
-                            // 组合数据
-                            vv.icon = vv.icon != '' ? '<i class="' + vv.icon + '"></i>' : '';
-                            vv.class = vv.class != '' ? 'class="' + vv.class + '" ' : '';
-                            vv.open = vv.open != '' ? 'data-open="' + vv.open + '" data-title="' + vv.title + '" ' : '';
-                            vv.request = vv.request != '' ? 'data-request="' + vv.request + '" data-title="' + vv.title + '" ' : '';
-                            vv.event = vv.event != '' ? 'lay-event="' + vv.event + '" ' : '';
-
-                            if (admin.checkAuth(vv.auth, elem)) {
-                                html += '<a ' + vv.class + vv.open + vv.request + vv.event + vv.extend + '>' + vv.icon + vv.text + '</a>';
+                    } else if(typeof item === 'object') {
+                        $.each(item, function (i, operat) {
+                            operat.class = operat.class || '';
+                            operat.icon = operat.icon || '';
+                            operat.auth = operat.auth || '';
+                            operat.url = operat.url || '';
+                            operat.method = operat.method || 'open';
+                            operat.field = operat.field || 'id';
+                            operat.title = operat.title || operat.text;
+                            operat.text = operat.text || operat.title;
+                            operat.extend = operat.extend || '';
+                            operat.url = admin.table.toolSpliceUrl(operat.url, operat.field, data);
+                            if (admin.checkAuth(operat.auth, elem)) {
+                                html += admin.table.buildOperatHtml(operat);
                             }
                         });
                     }

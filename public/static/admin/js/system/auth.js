@@ -33,10 +33,10 @@ define(["jquery", "admin",], function ($, admin) {
                             [
                                 {
                                     class: 'layui-btn layui-btn-normal layui-btn-xs',
+                                    method: 'open',
                                     text: '授权',
-                                    open: init.authorize_url,
-                                    auth: init.authorize_url,
-                                    extend: ""
+                                    auth: 'authorize',
+                                    url: init.authorize_url,
                                 },
                             ], 'delete'
                         ]

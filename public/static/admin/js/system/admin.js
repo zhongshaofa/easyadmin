@@ -8,6 +8,7 @@ define(["jquery", "admin",], function ($, admin) {
         edit_url: 'system.admin/edit',
         del_url: 'system.admin/del',
         modify_url: 'system.admin/modify',
+        password_url: 'system.admin/password',
     };
 
     var Controller = {
@@ -32,10 +33,10 @@ define(["jquery", "admin",], function ($, admin) {
                             [
                                 {
                                     class: 'layui-btn layui-btn-normal layui-btn-xs',
+                                    method: 'open',
                                     text: '设置密码',
-                                    open: 'system.admin/password',
                                     auth: 'password',
-                                    extend: ""
+                                    url: init.password_url,
                                 }
                             ], 'delete'
                         ]
