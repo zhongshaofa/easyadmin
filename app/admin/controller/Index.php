@@ -13,7 +13,9 @@ class Index extends AdminController
 
     public function index()
     {
-        return $this->fetch();
+        return $this->fetch('', [
+            'admin' => session('admin'),
+        ]);
     }
 
     public function welcome()

@@ -41,7 +41,7 @@ CREATE TABLE `ea_system_admin` (
 -- ----------------------------
 -- Records of ea_system_admin
 -- ----------------------------
-INSERT INTO `ea_system_admin` VALUES ('1', '', 'http://admin.host/upload/20200423/5055a273cf8e3f393d699d622b74f247.jpg', 'admin', 'ed696eb5bba1f7460585cc6975e6cf9bf24903dd', 'admin', 'admin', '0', '0', '1', '1587613015', '1587614159', null);
+INSERT INTO `ea_system_admin` VALUES ('1', '', '/static/admin/images/head.jpg', 'admin', 'ed696eb5bba1f7460585cc6975e6cf9bf24903dd', 'admin', 'admin', '0', '0', '1', '1587613015', '1587614159', null);
 
 -- ----------------------------
 -- Table structure for ea_system_auth
