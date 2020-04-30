@@ -63,10 +63,22 @@ if (isAjax()) {
 
     // 参数验证
     $validateError = null;
-    if (strlen($username) < 5) {
+
+    // 判断是否有特殊字符
+    $check = preg_match('/[0-9a-zA-Z]+$/', $adminUrl, $matches);
+    if(!$check){
+        $validateError='后台地址不能含有特殊字符, 只能包含字母或数字。';
+        $data = [
+            'code' => 0,
+            'msg'  => $validateError,
+        ];
+        die(json_encode($data));
+    }
+
+    if (strlen($adminUrl) < 5) {
         $validateError = '后台的地址不能小于5位数';
-    } elseif (strlen($password) < 6) {
-        $validateError = '管理员密码不能小于6位数';
+    } elseif (strlen($password) < 5) {
+        $validateError = '管理员密码不能小于5位数';
     } elseif (strlen($username) < 4) {
         $validateError = '管理员账号不能小于4位数';
     }
