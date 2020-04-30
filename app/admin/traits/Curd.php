@@ -37,6 +37,7 @@ trait Curd
             $list = $this->model
                 ->where($where)
                 ->page($page, $limit)
+                ->order($this->sort)
                 ->select();
             $data = [
                 'code'  => 0,

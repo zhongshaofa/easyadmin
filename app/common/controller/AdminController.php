@@ -34,6 +34,14 @@ class AdminController extends BaseController
      */
     protected $model;
 
+    /**
+     * 字段排序
+     * @var array
+     */
+    protected $sort = [
+        'id' => 'desc',
+    ];
+
 
     /**
      * 初始化方法

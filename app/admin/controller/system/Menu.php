@@ -32,6 +32,11 @@ class Menu extends AdminController
 
     use \app\admin\traits\Curd;
 
+    protected $sort = [
+        'sort' => 'desc',
+        'id'   => 'asc',
+    ];
+
     public function __construct(App $app)
     {
         parent::__construct($app);
@@ -45,7 +50,7 @@ class Menu extends AdminController
     {
         if ($this->request->isAjax()) {
             $count = $this->model->count();
-            $list = $this->model->select();
+            $list = $this->model->order($this->sort)->select();
             $data = [
                 'code'  => 0,
                 'msg'   => '',

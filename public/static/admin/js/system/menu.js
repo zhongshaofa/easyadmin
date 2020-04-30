@@ -54,7 +54,7 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "autocomplete"], functio
                             }
                         },
                         {field: 'status', title: '状态', width: 85, align: "center", filter: 'status', templet: ea.table.switch},
-                        {field: 'status', width: 80, align: 'center', title: '排序'},
+                        {field: 'sort', width: 80, align: 'center', title: '排序',edit:'text'},
                         {
                             width: 200, align: 'center', title: '操作', init: init, templet: ea.table.tool, operat: [
                                 [{
@@ -111,6 +111,8 @@ define(["jquery", "admin", "treetable", "iconPickerFa", "autocomplete"], functio
             });
 
             ea.table.listenSwitch({filter: 'status', url: init.modify_url});
+
+            ea.table.listenEdit(init, 'currentTable', init.table_render_id, true);
 
             ea.listen();
         },

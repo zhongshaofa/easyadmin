@@ -17,10 +17,12 @@ define(["jquery", "admin",], function ($, ea) {
 
             ea.table.render({
                 init: init,
+                modifyReload: true,
                 toolbar: ['refresh', 'add', 'delete'],
                 cols: [[
                     {type: "checkbox"},
                     {field: 'id', width: 80, title: 'ID', sort: true, align: "center"},
+                    {field: 'sort', width: 80, title: '排序', edit: 'text', sort: true, align: "center"},
                     {field: 'username', minWidth: 80, title: '登录账户', align: "center"},
                     {field: 'head_img', minWidth: 80, title: '头像', search: false, imageHeight: 40, align: "center", templet: ea.table.image},
                     {field: 'phone', minWidth: 80, title: '手机', align: "center"},

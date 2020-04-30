@@ -13,7 +13,7 @@ define(["jquery", "admin", "echarts", "echarts-theme", "miniAdmin"], function ($
                 pageAnim: true,             // iframe窗口动画
                 maxTabNum: 20,              // 最大的tab打开数量
             };
-            miniea.render(options);
+            miniAdmin.render(options);
 
             $('.login-out').on("click", function () {
                 ea.request.get({

@@ -166,6 +166,7 @@ define(["jquery"], function ($) {
         table: {
             render: function (options) {
                 options.init = options.init || init;
+                options.modifyReload = options.modifyReload || false;
                 options.elem = options.elem || options.init.table_elem;
                 options.id = options.id || options.init.table_render_id;
                 options.layFilter = options.id + '_LayFilter';
@@ -203,10 +204,10 @@ define(["jquery"], function ($) {
                 admin.table.listenToolbar(options.layFilter, options.id);
 
                 // 监听表格开关切换
-                admin.table.renderSwitch(options.cols, options.init);
+                admin.table.renderSwitch(options.cols, options.init, options.id, options.modifyReload);
 
                 // 监听表格开关切换
-                admin.table.listenEdit(options.init, options.layFilter, options.id);
+                admin.table.listenEdit(options.init, options.layFilter, options.id, options.modifyReload);
 
                 return newTable;
             },
@@ -340,15 +341,15 @@ define(["jquery"], function ($) {
                     });
                 }
             },
-            renderSwitch: function (cols, tableInit, tableId) {
+            renderSwitch: function (cols, tableInit, tableId,modifyReload) {
                 tableInit.modify_url = tableInit.modify_url || false;
                 cols = cols[0] || {};
                 tableId = tableId || init.table_render_id;
                 if (cols.length > 0) {
                     $.each(cols, function (i, v) {
                         v.filter = v.filter || false;
-                        if (v.filter != false && tableInit.modify_url != false) {
-                            admin.table.listenSwitch({filter: v.filter, url: tableInit.modify_url, tableId: tableId});
+                        if (v.filter !== false && tableInit.modify_url !== false) {
+                            admin.table.listenSwitch({filter: v.filter, url: tableInit.modify_url, tableId: tableId, modifyReload: modifyReload});
                         }
                     });
                 }
@@ -498,7 +499,7 @@ define(["jquery"], function ($) {
                 option.filter = option.filter || option.field || null;
                 option.checked = option.checked || 1;
                 option.tips = option.tips || '开|关';
-                var checked = data[option.field] == option.checked ? 'checked' : '';
+                var checked = data[option.field] === option.checked ? 'checked' : '';
                 return '<input type="checkbox" name="' + option.field + '" value="' + data.id + '" lay-skin="switch" lay-text="' + option.tips + '" lay-filter="' + option.filter + '" ' + checked + ' >';
             },
             listenTableSearch: function (tableId) {
@@ -531,6 +532,7 @@ define(["jquery"], function ($) {
                 option.url = option.url || '';
                 option.field = option.field || option.filter || '';
                 option.tableId = option.tableId || init.table_render_id;
+                option.modifyReload = option.modifyReload || false;
                 form.on('switch(' + option.filter + ')', function (obj) {
                     var checked = obj.elem.checked ? 1 : 0;
                     if (typeof ok === 'function') {
@@ -549,6 +551,9 @@ define(["jquery"], function ($) {
                             prefix: true,
                             data: data,
                         }, function (res) {
+                            if (option.modifyReload) {
+                                table.reload(option.tableId);
+                            }
                         }, function (res) {
                             admin.msg.error(res.msg, function () {
                                 table.reload(option.tableId);
@@ -576,10 +581,10 @@ define(["jquery"], function ($) {
                     }
                 });
             },
-            listenEdit: function (tableInit, layFilter, tableId) {
+            listenEdit: function (tableInit, layFilter, tableId, modifyReload) {
                 tableInit.modify_url = tableInit.modify_url || false;
                 tableId = tableId || init.table_render_id;
-                if (tableInit.modify_url != false) {
+                if (tableInit.modify_url !== false) {
                     table.on('edit(' + layFilter + ')', function (obj) {
                         var value = obj.value,
                             data = obj.data,
@@ -595,6 +600,9 @@ define(["jquery"], function ($) {
                             prefix: true,
                             data: _data,
                         }, function (res) {
+                            if (modifyReload) {
+                                table.reload(tableId);
+                            }
                         }, function (res) {
                             admin.msg.error(res.msg, function () {
                                 table.reload(tableId);

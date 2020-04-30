@@ -30,6 +30,11 @@ class Auth extends AdminController
 
     use \app\admin\traits\Curd;
 
+    protected $sort = [
+        'sort' => 'desc',
+        'id'   => 'desc',
+    ];
+
     public function __construct(App $app)
     {
         parent::__construct($app);

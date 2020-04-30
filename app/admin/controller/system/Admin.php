@@ -31,6 +31,11 @@ class Admin extends AdminController
 
     use \app\admin\traits\Curd;
 
+    protected $sort = [
+        'sort' => 'desc',
+        'id'   => 'desc',
+    ];
+
     public function __construct(App $app)
     {
         parent::__construct($app);
@@ -52,6 +57,7 @@ class Admin extends AdminController
                 ->withoutField('password')
                 ->where($where)
                 ->page($page, $limit)
+                ->order($this->sort)
                 ->select();
             $data = [
                 'code'  => 0,
