@@ -63,8 +63,8 @@ CREATE TABLE `ea_system_auth` (
 -- ----------------------------
 -- Records of ea_system_auth
 -- ----------------------------
-INSERT INTO `ea_system_auth` VALUES ('1', '管理员', '5364', '1', '测试管理员', null, '1588227411', null);
-INSERT INTO `ea_system_auth` VALUES ('6', '游客权限', '68765', '1', '', null, '1588227513', null);
+INSERT INTO `ea_system_auth` VALUES ('1', '管理员', '1', '1', '测试管理员', null, '1588227411', null);
+INSERT INTO `ea_system_auth` VALUES ('6', '游客权限', '0', '1', '', null, '1588227513', null);
 
 -- ----------------------------
 -- Table structure for ea_system_auth_node
