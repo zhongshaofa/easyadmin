@@ -75,8 +75,8 @@ if (isAjax()) {
         die(json_encode($data));
     }
 
-    if (strlen($adminUrl) < 5) {
-        $validateError = '后台的地址不能小于5位数';
+    if (strlen($adminUrl) < 2) {
+        $validateError = '后台的地址不能小于2位数';
     } elseif (strlen($password) < 5) {
         $validateError = '管理员密码不能小于5位数';
     } elseif (strlen($username) < 4) {
@@ -246,6 +246,7 @@ function install($username, $password, $config, $adminUrl)
             ->insert([
                 'id'          => 1,
                 'username'    => $username,
+                'head_img'    => '/static/admin/images/head.jpg',
                 'password'    => password($password),
                 'create_time' => time(),
             ]);
