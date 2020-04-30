@@ -838,14 +838,13 @@ define(["jquery"], function ($) {
                         var filter = $(this).attr('lay-filter'),
                             type = $(this).attr('data-type'),
                             url = $(this).attr('lay-submit');
-
                         // 表格搜索不做自动提交
                         if (type === 'tableSearch') {
                             return false;
                         }
-
+                        // 自动添加layui事件过滤器
                         if (filter === undefined || filter === '') {
-                            filter = 'saveForm';
+                            filter = 'save_form_' + (i + 1);
                             $(this).attr('lay-filter', filter)
                         }
                         if (url === undefined || url === '' || url === null) {
