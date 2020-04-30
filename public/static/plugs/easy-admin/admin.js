@@ -773,12 +773,15 @@ define(["jquery"], function ($) {
 
         },
         api: {
-            form: function (url, data, ok, no, ex) {
+            form: function (url, data, ok, no, ex, refreshTable) {
+                if (refreshTable === undefined) {
+                    refreshTable = true;
+                }
                 ok = ok || function (res) {
                     res.msg = res.msg || '';
                     admin.msg.success(res.msg, function () {
                         admin.api.closeCurrentOpen({
-                            refreshTable: true
+                            refreshTable: refreshTable
                         });
                     });
                     return false;
@@ -845,10 +848,17 @@ define(["jquery"], function ($) {
                     $.each(formList, function (i, v) {
                         var filter = $(this).attr('lay-filter'),
                             type = $(this).attr('data-type'),
+                            refresh = $(this).attr('data-refresh'),
                             url = $(this).attr('lay-submit');
                         // 表格搜索不做自动提交
                         if (type === 'tableSearch') {
                             return false;
+                        }
+                        // 判断是否需要刷新表格
+                        if (refresh === 'false') {
+                            refresh = false;
+                        } else {
+                            refresh = true;
                         }
                         // 自动添加layui事件过滤器
                         if (filter === undefined || filter === '') {
@@ -857,13 +867,15 @@ define(["jquery"], function ($) {
                         }
                         if (url === undefined || url === '' || url === null) {
                             url = window.location.href;
+                        }else{
+                            url = admin.url(url);
                         }
                         form.on('submit(' + filter + ')', function (data) {
                             var dataField = data.field;
                             if (typeof formCallback === 'function') {
                                 formCallback(url, dataField);
                             } else {
-                                admin.api.form(url, dataField, ok, no, ex);
+                                admin.api.form(url, dataField, ok, no, ex, refresh);
                             }
                             return false;
                         });
