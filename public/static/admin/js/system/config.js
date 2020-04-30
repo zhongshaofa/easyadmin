@@ -1,4 +1,4 @@
-define(["jquery", "admin", "vue"], function ($, admin, Vue) {
+define(["jquery", "admin", "vue"], function ($, ea, Vue) {
 
     var form = layui.form,
         element = layui.element;
@@ -17,7 +17,7 @@ define(["jquery", "admin", "vue"], function ($, admin, Vue) {
                 app.upload_type = this.value;
             });
 
-            admin.listen();
+            ea.listen();
         }
     };
     return Controller;

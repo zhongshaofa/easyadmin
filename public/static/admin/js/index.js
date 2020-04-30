@@ -1,10 +1,10 @@
-define(["jquery", "admin", "echarts", "echarts-theme", "miniAdmin"], function ($, admin, echarts, undefined, miniAdmin) {
+define(["jquery", "admin", "echarts", "echarts-theme", "miniAdmin"], function ($, ea, echarts, undefined, miniAdmin) {
 
     var Controller = {
         index: function () {
             var options = {
-                iniUrl: admin.url('ajax/initAdmin'),    // 初始化接口
-                clearUrl: admin.url("ajax/clearCache"), // 缓存清理接口
+                iniUrl: ea.url('ajax/initAdmin'),    // 初始化接口
+                clearUrl: ea.url("ajax/clearCache"), // 缓存清理接口
                 urlHashLocation: true,      // 是否打开hash定位
                 bgColorDefault: false,      // 主题默认配置
                 multiModule: true,          // 是否开启多模块
@@ -13,15 +13,15 @@ define(["jquery", "admin", "echarts", "echarts-theme", "miniAdmin"], function ($
                 pageAnim: true,             // iframe窗口动画
                 maxTabNum: 20,              // 最大的tab打开数量
             };
-            miniAdmin.render(options);
+            miniea.render(options);
 
             $('.login-out').on("click", function () {
-                admin.request.get({
+                ea.request.get({
                     url: 'login/out',
                     prefix: true,
                 }, function (res) {
-                    admin.msg.success(res.msg, function () {
-                        window.location = admin.url('login/index');
+                    ea.msg.success(res.msg, function () {
+                        window.location = ea.url('login/index');
                     })
                 });
             });
@@ -128,10 +128,10 @@ define(["jquery", "admin", "echarts", "echarts-theme", "miniAdmin"], function ($
             ;
         },
         edit_admin: function () {
-            admin.listen();
+            ea.listen();
         },
         edit_password: function () {
-            admin.listen();
+            ea.listen();
         }
     };
     return Controller;

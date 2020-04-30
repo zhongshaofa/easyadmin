@@ -1,4 +1,4 @@
-define(["jquery", "admin",], function ($, admin) {
+define(["jquery", "admin",], function ($, ea) {
     var table = layui.table;
     var form = layui.form;
     var upload = layui.upload;
@@ -18,7 +18,7 @@ define(["jquery", "admin",], function ($, admin) {
     var Controller = {
 
         index: function () {
-            admin.table.render({
+            ea.table.render({
                 init: init,
                 toolbar: ['refresh', 'add', 'delete'],
                 cols: [[
@@ -26,10 +26,10 @@ define(["jquery", "admin",], function ($, admin) {
                     {field: 'id', width: 80, title: 'ID', sort: true, align: "center"},
                     {field: 'title', minWidth: 80, title: '权限名称', align: "center"},
                     {field: 'remark', minWidth: 80, title: '备注信息', align: "center"},
-                    {field: 'status', title: '状态', width: 85, align: "center", search: 'select', selectList: {0: '禁用', 1: '启用'}, filter: 'status', templet: admin.table.switch},
+                    {field: 'status', title: '状态', width: 85, align: "center", search: 'select', selectList: {0: '禁用', 1: '启用'}, filter: 'status', templet: ea.table.switch},
                     {field: 'create_time', minWidth: 80, title: '创建时间', align: "center", search: 'range'},
                     {
-                        width: 250, align: 'center', title: '操作', init: init, templet: admin.table.tool, operat: ['edit',
+                        width: 250, align: 'center', title: '操作', init: init, templet: ea.table.tool, operat: ['edit',
                             [
                                 {
                                     class: 'layui-btn layui-btn-normal layui-btn-xs',
@@ -44,18 +44,18 @@ define(["jquery", "admin",], function ($, admin) {
                 ]],
             });
 
-            admin.listen();
+            ea.listen();
         },
         add: function () {
-            admin.listen();
+            ea.listen();
         },
         edit: function () {
-            admin.listen();
+            ea.listen();
         },
         authorize: function () {
             var tree = layui.tree;
 
-            admin.request.post(
+            ea.request.post(
                 {
                     url: window.location.href,
                 }, function (res) {
@@ -69,7 +69,7 @@ define(["jquery", "admin",], function ($, admin) {
                 }
             );
 
-            admin.listen(function (url, data) {
+            ea.listen(function (url, data) {
                 var checkedData = tree.getChecked('nodeDataId');
                 var ids = [];
                 $.each(checkedData, function (i, v) {
@@ -81,10 +81,10 @@ define(["jquery", "admin",], function ($, admin) {
                     }
                 });
                 data.node = JSON.stringify(ids);
-                url = admin.url(init.save_authorize);
-                admin.api.form(url, data, function (res) {
-                    admin.msg.success(res.msg, function () {
-                        admin.api.closeCurrentOpen({refreshTable: init.table_render_id});
+                url = ea.url(init.save_authorize);
+                ea.api.form(url, data, function (res) {
+                    ea.msg.success(res.msg, function () {
+                        ea.api.closeCurrentOpen({refreshTable: init.table_render_id});
                     });
                 });
                 return false;

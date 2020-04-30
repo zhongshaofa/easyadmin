@@ -1,4 +1,4 @@
-define(["jquery", "admin",], function ($, admin) {
+define(["jquery", "admin",], function ($, ea) {
     var table = layui.table;
     var form = layui.form;
     var upload = layui.upload;
@@ -16,7 +16,7 @@ define(["jquery", "admin",], function ($, admin) {
     var Controller = {
 
         index: function () {
-            admin.table.render({
+            ea.table.render({
                 init: init,
                 toolbar: ['refresh', [
                     {
@@ -51,17 +51,17 @@ define(["jquery", "admin",], function ($, admin) {
                     {field: 'node', minWidth: 200, align: 'left', title: '系统节点'},
                     {field: 'title', minWidth: 80, title: '节点名称 <i class="table-edit-tips color-red">*</i>', edit: 'text', align: "center"},
                     {field: 'create_time', minWidth: 80, title: '创建时间', align: "center", search: 'range'},
-                    {field: 'is_auth', title: '节点控制', width: 85, align: "center", search: 'select', selectList: {0: '禁用', 1: '启用'}, filter: 'is_auth', templet: admin.table.switch},
+                    {field: 'is_auth', title: '节点控制', width: 85, align: "center", search: 'select', selectList: {0: '禁用', 1: '启用'}, filter: 'is_auth', templet: ea.table.switch},
                 ]],
             });
 
-            admin.listen();
+            ea.listen();
         },
         add: function () {
-            admin.listen();
+            ea.listen();
         },
         edit: function () {
-            admin.listen();
+            ea.listen();
         }
     };
     return Controller;
