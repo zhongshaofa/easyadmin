@@ -1,4 +1,4 @@
-define(["jquery-particleground", "admin"], function (undefined, ea) {
+define(["jquery-particleground", "easy-admin"], function (undefined, ea) {
     var form = layui.form,
         layer = layui.layer;
 

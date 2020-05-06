@@ -1,4 +1,4 @@
-define(["jquery", "admin", "echarts", "echarts-theme", "miniAdmin"], function ($, ea, echarts, undefined, miniAdmin) {
+define(["jquery", "easy-admin", "echarts", "echarts-theme", "miniAdmin"], function ($, ea, echarts, undefined, miniAdmin) {
 
     var Controller = {
         index: function () {

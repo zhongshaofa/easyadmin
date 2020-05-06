@@ -1,4 +1,4 @@
-define(["jquery", "admin", "vue"], function ($, ea, Vue) {
+define(["jquery", "easy-admin", "vue"], function ($, ea, Vue) {
 
     var form = layui.form,
         element = layui.element;

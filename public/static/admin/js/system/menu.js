@@ -1,4 +1,4 @@
-define(["jquery", "admin", "treetable", "iconPickerFa", "autocomplete"], function ($, ea) {
+define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], function ($, ea) {
 
     var table = layui.table;
     var form = layui.form;

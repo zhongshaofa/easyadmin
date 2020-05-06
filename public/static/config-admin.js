@@ -8,7 +8,7 @@ require.config({
         "jquery-particleground": ["plugs/jq-module/jquery.particleground.min"],
         "echarts": ["plugs/echarts/echarts.min"],
         "echarts-theme": ["plugs/echarts/echarts-theme"],
-        "admin": ["plugs/easy-admin/admin"],
+        "easy-admin": ["plugs/easy-admin/easy-admin"],
         "layuiall": ["plugs/layui-v2.5.5/layui.all"],
         "layui": ["plugs/layui-v2.5.5/layui"],
         "miniAdmin": ["plugs/lay-module/layuimini/miniAdmin"],
