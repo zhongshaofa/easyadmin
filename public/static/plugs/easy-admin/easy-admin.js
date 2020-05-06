@@ -926,16 +926,14 @@ define(["jquery"], function ($) {
 
                         // 监听上传input值变化
                         $(elem).bind("input propertychange", function (event) {
-                            console.log(elem);
-                            console.log(uploadElem);
-
                             var urlString = $(this).val(),
                                 urlArray = urlString.split(uploadSign),
                                 uploadIcon = $(uploadElem).attr('data-upload-icon');
                             uploadIcon = uploadIcon || "file";
 
                             $('#bing-' + uploadName).remove();
-                            if (urlArray.length > 0) {
+
+                            if (urlString.length > 0) {
                                 var parant = $(this).parent('div');
                                 var liHtml = '';
                                 $.each(urlArray, function (i, v) {
@@ -943,6 +941,7 @@ define(["jquery"], function ($) {
                                 });
                                 parant.after('<ul id="bing-' + uploadName + '" class="layui-input-block layuimini-upload-show">\n' + liHtml + '</ul>');
                             }
+
                         });
 
                         // 非空初始化图片显示
