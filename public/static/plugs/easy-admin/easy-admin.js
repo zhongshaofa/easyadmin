@@ -895,7 +895,8 @@ define(["jquery"], function ($) {
                         exts = exts || init.upload_exts;
                         uploadNumber = uploadNumber || 'one';
                         uploadSign = uploadSign || '|';
-                        var elem = "input[name='" + uploadName + "']";
+                        var elem = "input[name='" + uploadName + "']",
+                            uploadElem = this;
 
                         // 监听上传事件
                         upload.render({
@@ -925,14 +926,20 @@ define(["jquery"], function ($) {
 
                         // 监听上传input值变化
                         $(elem).bind("input propertychange", function (event) {
-                            var urlString = $(this).val();
-                            var urlArray = urlString.split(uploadSign);
+                            console.log(elem);
+                            console.log(uploadElem);
+
+                            var urlString = $(this).val(),
+                                urlArray = urlString.split(uploadSign),
+                                uploadIcon = $(uploadElem).attr('data-upload-icon');
+                            uploadIcon = uploadIcon || "file";
+
                             $('#bing-' + uploadName).remove();
                             if (urlArray.length > 0) {
                                 var parant = $(this).parent('div');
                                 var liHtml = '';
                                 $.each(urlArray, function (i, v) {
-                                    liHtml += '<li><a><img src="' + v + '" data-image ></a><small class="uploads-delete-tip bg-red badge" data-upload-delete="' + uploadName + '" data-upload-url="' + v + '" data-upload-sign="' + uploadSign + '">×</small></li>\n';
+                                    liHtml += '<li><a><img src="' + v + '" data-image  onerror="this.src=\'' + BASE_URL + 'admin/images/upload-icons/' + uploadIcon + '.png\';this.onerror=null"></a><small class="uploads-delete-tip bg-red badge" data-upload-delete="' + uploadName + '" data-upload-url="' + v + '" data-upload-sign="' + uploadSign + '">×</small></li>\n';
                                 });
                                 parant.after('<ul id="bing-' + uploadName + '" class="layui-input-block layuimini-upload-show">\n' + liHtml + '</ul>');
                             }
