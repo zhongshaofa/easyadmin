@@ -19,10 +19,10 @@ define(["jquery"], function ($) {
             shade: [0.02, '#000'],
         },
         url: function (url) {
-            return '/' + ADMIN + '/' + url;
+            return '/' + CONFIG.ADMIN + '/' + url;
         },
         checkAuth: function (node, elem) {
-            if (IS_SUPER_ADMIN) {
+            if (CONFIG.IS_SUPER_ADMIN) {
                 return true;
             }
             if ($(elem).attr('data-auth-' + node) === '1') {
@@ -32,7 +32,7 @@ define(["jquery"], function ($) {
             }
         },
         parame: function (param, defaultParam) {
-            return param != undefined ? param : defaultParam;
+            return param !== undefined ? param : defaultParam;
         },
         request: {
             post: function (option, ok, no, ex) {
@@ -93,7 +93,7 @@ define(["jquery"], function ($) {
             parseNodeStr: function (node) {
                 var array = node.split('/');
                 $.each(array, function (key, val) {
-                    if (key == 0) {
+                    if (key === 0) {
                         val = val.split('.');
                         $.each(val, function (i, v) {
                             val[i] = admin.common.humpToLine(v.replace(v[0], v[0].toLowerCase()));
@@ -634,8 +634,8 @@ define(["jquery"], function ($) {
             return mobile_flag;
         },
         open: function (title, url, width, height, isResize) {
-            if (isResize == undefined) isResize = true;
-            isResize = isResize == undefined ? true : isResize;
+            if (isResize === undefined) isResize = true;
+            isResize = isResize === undefined ? true : isResize;
             var index = layer.open({
                 title: title,
                 type: 2,
@@ -645,7 +645,7 @@ define(["jquery"], function ($) {
                     var body = layer.getChildFrame('body', index);
                 }
             });
-            if (admin.checkMobile() || width == undefined || height == undefined) {
+            if (admin.checkMobile() || width === undefined || height === undefined) {
                 layer.full(index);
             }
             if (isResize) {
@@ -711,7 +711,7 @@ define(["jquery"], function ($) {
             // 监听动态表格刷新
             $('body').on('click', '[data-table-refresh]', function () {
                 var tableId = $(this).attr('data-table-refresh');
-                if (tableId == undefined || tableId == '' || tableId == null) {
+                if (tableId === undefined || tableId === '' || tableId == null) {
                     tableId = init.table_render_id;
                 }
                 table.reload(tableId);
@@ -723,7 +723,7 @@ define(["jquery"], function ($) {
                     url = $(this).attr('data-request'),
                     tableId = $(this).attr('data-table'),
                     addons = $(this).attr('data-addons');
-                if (addons != true && addons != 'true') {
+                if (addons !== true && addons !== 'true') {
                     url = admin.url(url);
                 }
                 title = title || '确定进行该操作？';
@@ -939,7 +939,7 @@ define(["jquery"], function ($) {
                         });
 
                         // 非空初始化图片显示
-                        if ($(elem).val() != '') {
+                        if ($(elem).val() !== '') {
                             $(elem).trigger("input");
                         }
                     });
@@ -953,7 +953,7 @@ define(["jquery"], function ($) {
                             var elem = "input[name='" + uploadName + "']";
                             var currentUrl = $(elem).val();
                             var url = '';
-                            if (currentUrl != deleteUrl) {
+                            if (currentUrl !== deleteUrl) {
                                 url = currentUrl.replace(sign + deleteUrl, '');
                                 $(elem).val(url);
                                 $(elem).trigger("input");

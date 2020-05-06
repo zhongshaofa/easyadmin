@@ -14,11 +14,13 @@
     <![endif]-->
     {block name="style"}{/block}
     <script>
-        window.ADMIN = "{$admin_module_name|default='admin'}";
-        window.CONTROLLER_JS_PATH = "{$thisControllerJsPath|default=''}";
-        window.ACTION = "{$thisAction|default=''}";
-        window.AUTOLOAD_JS = "{$autoloadJs|default='false'}";
-        window.IS_SUPER_ADMIN = "{$isSuperAdmin|default='false'}";
+        window.CONFIG = {
+            ADMIN: "{$admin_module_name|default='admin'}",
+            CONTROLLER_JS_PATH: "{$thisControllerJsPath|default=''}",
+            ACTION: "{$thisAction|default=''}",
+            AUTOLOAD_JS: "{$autoloadJs|default='false'}",
+            IS_SUPER_ADMIN: "{$isSuperAdmin|default='false'}",
+        };
     </script>
     <script src="__STATIC__/plugs/layui-v2.5.5/layui.all.js?v={:time()}" charset="utf-8"></script>
     <script src="__STATIC__/plugs/require-2.3.6/require.js?v={:time()}" charset="utf-8"></script>
