@@ -932,7 +932,6 @@ define(["jquery"], function ($) {
                             uploadIcon = uploadIcon || "file";
 
                             $('#bing-' + uploadName).remove();
-
                             if (urlString.length > 0) {
                                 var parant = $(this).parent('div');
                                 var liHtml = '';
