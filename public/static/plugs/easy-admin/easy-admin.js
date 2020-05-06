@@ -662,11 +662,11 @@ define(["jquery"], function ($) {
             // 监听表单提交事件
             admin.api.formSubmit(formCallback, ok, no, ex);
 
-            // 初始化layui表单
-            form.render();
-
             // 初始化图片显示以及监听上传事件
             admin.api.upload();
+
+            // 初始化layui表单
+            form.render();
 
             // 表格修改
             $("body").on("mouseenter", ".table-edit-tips", function () {
