@@ -13,8 +13,8 @@
         <div class="layui-input-block layuimini-upload">
             <input name="logo_image" class="layui-input layui-col-xs6" lay-verify="required" placeholder="请上传LOGO图标" value="{:sysconfig('site','logo_image')}">
             <div class="layuimini-upload-btn">
-                <span><a class="layui-btn" data-upload="logo_image" data-upload-number="one" data-upload-exts="ico|png|jpg|jpeg"><i class="fa fa-upload"></i> 上传文件</a></span>
-                <span><a class="layui-btn layui-btn-normal"><i class="fa fa-list"></i> 选择文件</a></span>
+                <span><a class="layui-btn" data-upload="logo_image" data-upload-number="one" data-upload-exts="ico|png|jpg|jpeg"><i class="fa fa-upload"></i> 上传</a></span>
+                <span><a class="layui-btn layui-btn-normal" id="select_logo_image" data-upload-select="logo_image" data-upload-number="one"><i class="fa fa-list"></i> 选择</a></span>
             </div>
         </div>
     </div>
