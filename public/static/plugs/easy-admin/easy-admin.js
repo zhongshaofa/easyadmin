@@ -641,7 +641,6 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
             return mobile_flag;
         },
         open: function (title, url, width, height, isResize) {
-            if (isResize === undefined) isResize = true;
             isResize = isResize === undefined ? true : isResize;
             var index = layer.open({
                 title: title,
@@ -683,11 +682,39 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
 
             // 监听弹出层的打开
             $('body').on('click', '[data-open]', function () {
+
+                var clienWidth = $(this).attr('data-width'),
+                    clientHeight = $(this).attr('data-height'),
+                    dataFull = $(this).attr('data-full');
+
+                if (clienWidth === undefined || clientHeight === undefined) {
+                    var width = document.body.clientWidth,
+                        height =document.body.clientHeight;
+                    if (width >= 800 && height >= 600) {
+                        clienWidth = '800px';
+                        clientHeight = '600px';
+                    }
+                    else {
+                        clienWidth = '100%';
+                        clientHeight = '100%';
+                    }
+                }
+                if (dataFull === 'true') {
+                    clienWidth = '100%';
+                    clientHeight = '100%';
+                }
+
+                console.log(width)
+                console.log(height)
+
+                console.log(clienWidth)
+                console.log(clientHeight)
+
                 admin.open(
                     $(this).attr('data-title'),
                     admin.url($(this).attr('data-open')),
-                    $(this).attr('data-width'),
-                    $(this).attr('data-height')
+                    clienWidth,
+                    clientHeight,
                 );
             });
 
