@@ -8,6 +8,10 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
         element = layui.element,
         tableSelect = layui.tableSelect;
 
+    layer.config({
+        skin: 'layui-layer-easy'
+    });
+
     var init = {
         table_elem: '#currentTable',
         table_render_id: 'currentTableRenderId',
@@ -644,6 +648,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                 type: 2,
                 area: [width, height],
                 content: url,
+                maxmin: true,
                 success: function (layero, index) {
                     var body = layer.getChildFrame('body', index);
                 }
