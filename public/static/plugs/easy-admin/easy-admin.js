@@ -199,6 +199,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                 // 判断是否有操作列表权限
                 options.cols = admin.table.renderOperat(options.cols, options.elem);
 
+                // 初始化表格
                 var newTable = table.render(options);
 
                 // 监听表格搜索开关显示
