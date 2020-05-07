@@ -175,6 +175,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                 options.toolbar = options.toolbar || '#toolbar';
                 options.page = admin.parame(options.page, true);
                 options.search = admin.parame(options.search, true);
+                options.skin = options.skin || 'line';
                 options.limit = options.limit || 15;
                 options.limits = options.limits || [10, 15, 20, 25, 50, 100];
                 options.defaultToolbar = options.defaultToolbar || ['filter', {
@@ -221,7 +222,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                         toolbarHtml += ' <button class="layui-btn layui-btn-sm layuimini-btn-primary" data-table-refresh="' + tableId + '"><i class="fa fa-refresh"></i> </button>\n';
                     } else if (v === 'add') {
                         if (admin.checkAuth('add', elem)) {
-                            toolbarHtml += '<button class="layui-btn layui-btn-sm" data-open="' + init.add_url + '" data-title="添加" auth="' + init.add_url + '"><i class="layui-icon layui-icon-add-circle-fine"></i>添加</button>\n';
+                            toolbarHtml += '<button class="layui-btn layui-btn-normal layui-btn-sm" data-open="' + init.add_url + '" data-title="添加" auth="' + init.add_url + '"><i class="layui-icon layui-icon-add-circle-fine"></i>添加</button>\n';
                         }
                     } else if (v === 'delete') {
                         if (admin.checkAuth('delete', elem)) {
@@ -422,7 +423,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                         switch (item) {
                             case 'edit':
                                 var operat = {
-                                    class: 'layui-btn layui-btn-xs',
+                                    class: 'layui-btn layui-btn-success layui-btn-xs',
                                     method: 'open',
                                     field: 'id',
                                     icon: '',

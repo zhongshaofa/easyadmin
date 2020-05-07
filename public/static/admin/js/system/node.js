@@ -21,7 +21,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                 toolbar: ['refresh', [
                     {
                         text: ' 更新节点',
-                        class: 'layui-btn layui-btn-sm',
+                        class: 'layui-btn layui-btn-success layui-btn-sm',
                         icon: 'fa fa-hourglass ',
                         title: '确定更新新节点？',
                         auth:'refresh',

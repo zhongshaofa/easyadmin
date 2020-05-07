@@ -52,3 +52,40 @@ body {margin:15px 15px 15px 15px;background:#f2f2f2;}
     margin-left: 130px;
     min-height: 36px
 }
+
+.layuimini-container .layui-laypage .layui-laypage-curr .layui-laypage-em {
+    border-radius: 30px!important;
+    background-color: #1e9fff!important;
+}
+
+.layuimini-container .layui-table-tool{
+    background-color: #ffffff;
+    border-bottom: none!important;
+    padding-bottom: 15px!important;
+}
+
+.layuimini-container .layui-table-view{border: none!important;}
+
+.layuimini-container .layui-table-box{
+    border-width: 1px;
+    border-style: solid;
+    border-bottom: none!important;
+    border-color: #e6e6e6;
+}
+
+.layuimini-container .layui-table-box .layui-table-header  th{
+    font-weight: bold!important;
+    color: #565656 !important;
+}
+
+.layuimini-container .layui-btn-success{
+    color: #fff;
+    background-color: #4bb368;
+    border-color: #4bb368;
+}
+
+.layuimini-container .layui-btn-danger{
+    color: #fff;
+    background-color: #f56c6c;
+    border-color: #f56c6c;
+}
