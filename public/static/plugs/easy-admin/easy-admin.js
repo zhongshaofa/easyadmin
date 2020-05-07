@@ -1,11 +1,12 @@
-define(["jquery"], function ($) {
+define(["jquery","tableSelect"], function ($,tableSelect) {
 
     var form = layui.form,
         layer = layui.layer,
         table = layui.table,
         laydate = layui.laydate,
         upload = layui.upload,
-        element = layui.element;
+        element = layui.element,
+        tableSelect = layui.tableSelect;
 
     var init = {
         table_elem: '#currentTable',
@@ -885,6 +886,7 @@ define(["jquery"], function ($) {
             },
             upload: function () {
                 var uploadList = document.querySelectorAll("[data-upload]");
+                var uploadSelectList = document.querySelectorAll("[data-upload-select]");
 
                 if (uploadList.length > 0) {
                     $.each(uploadList, function (i, v) {
@@ -970,6 +972,54 @@ define(["jquery"], function ($) {
                         });
                         return false;
                     });
+                }
+
+                if(uploadSelectList.length > 0){
+                    $.each(uploadSelectList, function (i, v) {
+                        var exts = $(this).attr('data-upload-exts'),
+                            uploadName = $(this).attr('data-upload-select'),
+                            uploadNumber = $(this).attr('data-upload-number'),
+                            uploadSign = $(this).attr('data-upload-sign');
+                        exts = exts || init.upload_exts;
+                        uploadNumber = uploadNumber || 'one';
+                        uploadSign = uploadSign || '|';
+                        var selectCheck = uploadNumber === 'one' ? 'radio' : 'checkbox';
+                        var elem = "input[name='" + uploadName + "']",
+                            uploadElem = $(this).attr('id');
+
+                        tableSelect.render({
+                            elem: "#"+uploadElem,
+                            checkedKey: 'id',
+                            searchType: 'more',
+                            searchList: [
+                                {searchKey: 'title', searchPlaceholder: '请输入文件名'},
+                            ],
+                            table: {
+                                url: admin.url('ajax/getUploadFiles'),
+                                cols: [[
+                                    { type: selectCheck },
+                                    { field: 'id', title: 'ID' },
+                                    {field: 'url', minWidth: 80, search: false, title: '图片信息', imageHeight: 40, align: "center", templet: admin.table.image},
+                                    {field: 'original_name', width: 150, title: '文件原名', align: "center"},
+                                    {field: 'mime_type', width: 120, title: 'mime类型', align: "center"},
+                                    {field: 'create_time', width: 200, title: '创建时间', align: "center", search: 'range'},
+                                ]]
+                            },
+                            done: function (e, data) {
+                                var urlArray = [];
+                                $.each(data.data, function (index, val) {
+                                    urlArray.push(val.url)
+                                });
+                                var url = urlArray.join(uploadSign);
+                                admin.msg.success('选择成功', function () {
+                                    $(elem).val(url);
+                                    $(elem).trigger("input");
+                                });
+                            }
+                        })
+
+                    });
+
                 }
             },
         },

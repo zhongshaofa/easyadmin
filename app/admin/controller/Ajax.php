@@ -12,9 +12,11 @@
 
 namespace app\admin\controller;
 
+use app\admin\model\SystemUploadfile;
 use app\common\controller\AdminController;
 use app\common\service\MenuService;
 use EasyAdmin\upload\Uploadfile;
+use think\db\Query;
 use think\facade\Cache;
 
 class Ajax extends AdminController
@@ -86,6 +88,40 @@ class Ajax extends AdminController
         } else {
             $this->error($upload['msg']);
         }
+    }
+
+    /**
+     * 获取上传文件列表
+     * @return \think\response\Json
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function getUploadFiles(){
+        $get = $this->request->get();
+        $page = isset($get['page']) && !empty($get['page']) ? $get['page'] : 1;
+        $limit = isset($get['limit']) && !empty($get['limit']) ? $get['limit'] : 10;
+        $title = isset($get['title']) && !empty($get['title']) ? $get['title'] : null;
+        $this->model = new SystemUploadfile();
+        $count = $this->model
+            ->where(function (Query $query) use ($title) {
+                !empty($title) && $query->where('original_name', 'like', "%{$title}%");
+            })
+            ->count();
+        $list = $this->model
+            ->where(function (Query $query) use ($title) {
+                !empty($title) && $query->where('original_name', 'like', "%{$title}%");
+            })
+            ->page($page, $limit)
+            ->order($this->sort)
+            ->select();
+        $data = [
+            'code'  => 0,
+            'msg'   => '',
+            'count' => $count,
+            'data'  => $list,
+        ];
+        return json($data);
     }
 
 }
