@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50729
 File Encoding         : 65001
 
-Date: 2020-04-30 14:47:15
+Date: 2020-05-07 15:12:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -41,7 +41,7 @@ CREATE TABLE `ea_system_admin` (
 -- ----------------------------
 -- Records of ea_system_admin
 -- ----------------------------
-INSERT INTO `ea_system_admin` VALUES ('1', '', '/static/admin/images/head.jpg', 'admin', 'ed696eb5bba1f7460585cc6975e6cf9bf24903dd', 'admin', 'admin', '0', '0', '1', '1587613015', '1587614159', null);
+INSERT INTO `ea_system_admin` VALUES ('1', null, '/static/admin/images/head.jpg', 'admin', 'a33b679d5581a8692988ec9f92ad2d6a2259eaa7', null, '', '0', '0', '1', '1588835281', null, null);
 
 -- ----------------------------
 -- Table structure for ea_system_auth
@@ -53,9 +53,9 @@ CREATE TABLE `ea_system_auth` (
   `sort` int(11) DEFAULT '0' COMMENT '排序',
   `status` tinyint(1) unsigned DEFAULT '1' COMMENT '状态(1:禁用,2:启用)',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注说明',
-  `create_time` int(11) DEFAULT NULL,
-  `update_time` int(11) DEFAULT NULL,
-  `delete_time` int(11) DEFAULT NULL,
+  `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
+  `update_time` int(11) DEFAULT NULL COMMENT '更新时间',
+  `delete_time` int(11) DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统权限表';
@@ -110,8 +110,8 @@ CREATE TABLE `ea_system_config` (
   `value` text COMMENT '变量值',
   `remark` varchar(100) DEFAULT '' COMMENT '备注信息',
   `sort` int(10) DEFAULT '0',
-  `create_time` int(11) DEFAULT NULL,
-  `update_time` int(11) DEFAULT NULL,
+  `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
+  `update_time` int(11) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `group` (`group`)
@@ -168,9 +168,9 @@ CREATE TABLE `ea_system_menu` (
   `sort` int(11) DEFAULT '0' COMMENT '菜单排序',
   `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '状态(0:禁用,1:启用)',
   `remark` varchar(255) DEFAULT NULL,
-  `create_time` int(11) DEFAULT NULL,
-  `update_time` int(11) DEFAULT NULL,
-  `delete_time` int(11) DEFAULT NULL,
+  `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
+  `update_time` int(11) DEFAULT NULL COMMENT '更新时间',
+  `delete_time` int(11) DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`),
   KEY `title` (`title`),
   KEY `href` (`href`)
@@ -198,8 +198,8 @@ CREATE TABLE `ea_system_node` (
   `title` varchar(500) DEFAULT NULL COMMENT '节点标题',
   `type` tinyint(1) DEFAULT '3' COMMENT '节点类型（1：控制器，2：节点）',
   `is_auth` tinyint(1) unsigned DEFAULT '1' COMMENT '是否启动RBAC权限控制',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NULL DEFAULT NULL,
+  `create_time` int(10) DEFAULT NULL COMMENT '创建时间',
+  `update_time` int(10) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `node` (`node`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统节点表';
@@ -207,45 +207,45 @@ CREATE TABLE `ea_system_node` (
 -- ----------------------------
 -- Records of ea_system_node
 -- ----------------------------
-INSERT INTO `ea_system_node` VALUES ('1', 'system.admin', '管理员管理', '1', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('2', 'system.admin/index', '列表', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('3', 'system.admin/add', '添加', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('4', 'system.admin/edit', '编辑', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('5', 'system.admin/modify', '属性修改', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('6', 'system.admin/del', '删除', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('7', 'system.auth', '角色权限管理', '1', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('8', 'system.auth/authorize', '授权', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('9', 'system.auth/saveAuthorize', '授权保存', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('10', 'system.auth/index', '列表', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('11', 'system.auth/add', '添加', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('12', 'system.auth/edit', '编辑', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('13', 'system.auth/del', '删除', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('14', 'system.auth/modify', '属性修改', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('15', 'system.config', '系统配置管理', '1', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('16', 'system.config/index', '列表', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('21', 'system.menu', '菜单管理', '1', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('22', 'system.menu/index', '列表', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('23', 'system.menu/add', '添加', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('24', 'system.menu/edit', '编辑', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('25', 'system.menu/del', '删除', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('26', 'system.menu/modify', '属性修改', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('27', 'system.node', '系统节点管理', '1', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('28', 'system.node/index', '列表', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('29', 'system.node/refreshNode', '系统节点更新', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('30', 'system.node/add', '添加', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('31', 'system.node/edit', '编辑', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('32', 'system.node/del', '删除', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('33', 'system.node/modify', '属性修改', '2', '1', '2019-11-11 01:39:53', null);
-INSERT INTO `ea_system_node` VALUES ('34', 'system.admin/password', '编辑', '2', '1', '2019-11-11 02:09:27', null);
-INSERT INTO `ea_system_node` VALUES ('68', 'system.config/save', '保存', '2', '1', '2019-11-11 09:51:29', null);
-INSERT INTO `ea_system_node` VALUES ('69', 'system.node/clearNode', '清除失效节点', '2', '1', '2019-11-11 09:51:29', null);
-INSERT INTO `ea_system_node` VALUES ('70', 'system.uploadfile', '上传文件管理', '1', '1', '2019-11-12 01:37:01', null);
-INSERT INTO `ea_system_node` VALUES ('71', 'system.uploadfile/index', '列表', '2', '1', '2019-11-12 01:37:01', null);
-INSERT INTO `ea_system_node` VALUES ('72', 'system.uploadfile/add', '添加', '2', '1', '2019-11-12 01:37:01', null);
-INSERT INTO `ea_system_node` VALUES ('73', 'system.uploadfile/edit', '编辑', '2', '1', '2019-11-12 01:37:01', null);
-INSERT INTO `ea_system_node` VALUES ('74', 'system.uploadfile/del', '删除', '2', '1', '2019-11-12 01:37:01', null);
-INSERT INTO `ea_system_node` VALUES ('75', 'system.uploadfile/modify', '属性修改', '2', '1', '2019-11-12 01:37:01', null);
-INSERT INTO `ea_system_node` VALUES ('76', 'system.menu/getMenuTips', '添加菜单提示', '2', '1', '2019-11-14 05:57:03', null);
+INSERT INTO `ea_system_node` VALUES ('1', 'system.admin', '管理员管理', '1', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('2', 'system.admin/index', '列表', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('3', 'system.admin/add', '添加', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('4', 'system.admin/edit', '编辑', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('5', 'system.admin/modify', '属性修改', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('6', 'system.admin/del', '删除', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('7', 'system.auth', '角色权限管理', '1', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('8', 'system.auth/authorize', '授权', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('9', 'system.auth/saveAuthorize', '授权保存', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('10', 'system.auth/index', '列表', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('11', 'system.auth/add', '添加', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('12', 'system.auth/edit', '编辑', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('13', 'system.auth/del', '删除', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('14', 'system.auth/modify', '属性修改', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('15', 'system.config', '系统配置管理', '1', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('16', 'system.config/index', '列表', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('21', 'system.menu', '菜单管理', '1', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('22', 'system.menu/index', '列表', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('23', 'system.menu/add', '添加', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('24', 'system.menu/edit', '编辑', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('25', 'system.menu/del', '删除', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('26', 'system.menu/modify', '属性修改', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('27', 'system.node', '系统节点管理', '1', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('28', 'system.node/index', '列表', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('29', 'system.node/refreshNode', '系统节点更新', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('30', 'system.node/add', '添加', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('31', 'system.node/edit', '编辑', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('32', 'system.node/del', '删除', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('33', 'system.node/modify', '属性修改', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('34', 'system.admin/password', '编辑', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('68', 'system.config/save', '保存', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('69', 'system.node/clearNode', '清除失效节点', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('70', 'system.uploadfile', '上传文件管理', '1', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('71', 'system.uploadfile/index', '列表', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('72', 'system.uploadfile/add', '添加', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('73', 'system.uploadfile/edit', '编辑', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('74', 'system.uploadfile/del', '删除', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('75', 'system.uploadfile/modify', '属性修改', '2', '1', null, null);
+INSERT INTO `ea_system_node` VALUES ('76', 'system.menu/getMenuTips', '添加菜单提示', '2', '1', null, null);
 
 -- ----------------------------
 -- Table structure for ea_system_uploadfile
