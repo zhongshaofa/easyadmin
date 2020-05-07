@@ -19,7 +19,7 @@ layui.define(['table', 'jquery', 'form'], function (exports) {
         //默认设置
         opt.searchKey = opt.searchKey || 'keyword';
         opt.searchPlaceholder = opt.searchPlaceholder || '关键词搜索';
-        opt.checkedKey = opt.checkedKey;
+        opt.checkedKey = opt.checkedKey || '';
         opt.table.page = opt.table.page || true;
         opt.table.height = opt.height || 315;
 
@@ -99,15 +99,15 @@ layui.define(['table', 'jquery', 'form'], function (exports) {
                             }
                         }else{
                             //因为LAYUI问题，操作到变化全选状态时获取到的obj为空，这里用函数获取未选中的项。
-                            function nu (){
+                            var nu = function () {
                                 var noCheckedKey = '';
-                                for (var i=0;i<table.cache[tableName].length;i++){
-                                    if(!table.cache[tableName][i].LAY_CHECKED){
+                                for (var i = 0; i < table.cache[tableName].length; i++) {
+                                    if (!table.cache[tableName][i].LAY_CHECKED) {
                                         noCheckedKey = table.cache[tableName][i][opt.checkedKey];
                                     }
                                 }
                                 return noCheckedKey
-                            }
+                            };
                             var noCheckedKey = obj.data[opt.checkedKey] || nu();
                             for (var i=0;i<checkedData.length;i++){
                                 if(checkedData[i][opt.checkedKey] == noCheckedKey){
