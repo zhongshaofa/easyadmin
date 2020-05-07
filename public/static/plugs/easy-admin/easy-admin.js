@@ -118,7 +118,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
         msg: {
             // 成功消息
             success: function (msg, callback) {
-                if (callback == undefined) {
+                if (callback === undefined) {
                     callback = function () {
                     }
                 }
@@ -127,7 +127,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
             },
             // 失败消息
             error: function (msg, callback) {
-                if (callback == undefined) {
+                if (callback === undefined) {
                     callback = function () {
                     }
                 }
@@ -264,7 +264,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                     d.searchValue = d.searchValue || '';
                     d.searchOp = d.searchOp || '%*%';
                     d.timeType = d.timeType || 'datetime';
-                    if (d.field != false && d.search != false) {
+                    if (d.field !== false && d.search !== false) {
                         switch (d.search) {
                             case true:
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
@@ -279,7 +279,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                                 var selectHtml = '';
                                 $.each(d.selectList, function (sI, sV) {
                                     var selected = '';
-                                    if (sI == d.searchValue) {
+                                    if (sI === d.searchValue) {
                                         selected = 'selected=""';
                                     }
                                     selectHtml += '<option value="' + sI + '" ' + selected + '>' + sV + '</option>/n';
@@ -316,7 +316,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                         newCols.push(d);
                     }
                 });
-                if (formHtml != '') {
+                if (formHtml !== '') {
 
                     $(elem).before('<fieldset id="searchFieldset_' + tableId + '" class="table-search-fieldset layui-hide">\n' +
                         '<legend>条件搜索</legend>\n' +
@@ -509,7 +509,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                     var formatFilter = {},
                         formatOp = {};
                     $.each(dataField, function (key, val) {
-                        if (val != '') {
+                        if (val !== '') {
                             formatFilter[key] = val;
                             var op = $('#c-' + key).attr('data-search-op');
                             op = op || '%*%';
