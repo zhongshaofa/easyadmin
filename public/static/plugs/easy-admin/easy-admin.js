@@ -397,6 +397,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                 operat.icon = operat.icon || '';
                 operat.auth = operat.auth || '';
                 operat.url = operat.url || '';
+                operat.extend = operat.extend || '';
                 operat.method = operat.method || 'open';
                 operat.field = operat.field || 'id';
                 operat.title = operat.title || operat.text;

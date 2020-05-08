@@ -64,8 +64,16 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                                     text: '添加下级',
                                     auth: 'add',
                                     url: init.add_url,
+                                    extend: 'data-full="true"',
+                                }, {
+                                    class: 'layui-btn layui-btn-xs layui-btn-success',
+                                    method: 'open',
+                                    text: '编辑',
+                                    auth: 'edit',
+                                    url: init.edit_url,
+                                    extend: 'data-full="true"',
                                 }],
-                                'edit', 'delete'
+                                'delete'
                             ]
                         }
                     ]],
