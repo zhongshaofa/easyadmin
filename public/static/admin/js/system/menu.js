@@ -32,6 +32,7 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                     id: init.table_render_id,
                     toolbar: '#toolbar',
                     page: false,
+                    skin: 'line',
                     cols: [[
                         {type: 'checkbox'},
                         {field: 'title', width: 250, title: '菜单名称'},
