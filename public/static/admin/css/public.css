@@ -55,6 +55,9 @@ body {margin:15px 15px 15px 15px;background:#f2f2f2;}
     min-height: 36px
 }
 
+/**
+table样式
+ */
 .layuimini-container .layui-laypage .layui-laypage-curr .layui-laypage-em {
     border-radius: 30px!important;
     background-color: #1e9fff!important;
@@ -66,7 +69,9 @@ body {margin:15px 15px 15px 15px;background:#f2f2f2;}
     padding-bottom: 15px!important;
 }
 
-.layuimini-container .layui-table-view{border: none!important;}
+.layuimini-container .layui-table-view{
+    border: none!important;
+}
 
 .layuimini-container .layui-table-box{
     border-width: 1px;
@@ -80,6 +85,10 @@ body {margin:15px 15px 15px 15px;background:#f2f2f2;}
     color: #565656 !important;
 }
 
+
+/**
+按钮
+ */
 .layuimini-container .layui-btn-success{
     color: #fff;
     background-color: #4bb368;
@@ -93,9 +102,31 @@ body {margin:15px 15px 15px 15px;background:#f2f2f2;}
 }
 
 
-.layui-layer-easy {
-    /*自定义底部灰色操作区*/
+/**
+开关
+ */
+.layuimini-container .layui-form-switch {
+    border: 1px solid #f56d6d;
+    background-color: #f56d6d;
 }
+
+.layuimini-container .layui-form-switch em {
+    color: #fff!important;
+}
+
+.layuimini-container .layui-form-switch i {
+    background-color: #ffffff;
+}
+
+.layuimini-container .layui-form-onswitch {
+    border-color: #1f9fff;
+    background-color: #1f9fff;
+}
+
+
+/**
+弹出层样式
+ */
 .layui-layer-easy .layui-layer-title {
     background: #2c3e50 !important;
     color: #fff !important;
