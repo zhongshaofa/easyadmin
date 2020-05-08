@@ -1,8 +1,27 @@
 @import url("../css/iconfont.css");
 
-body {margin:15px 15px 15px 15px;background:#f2f2f2;}
-.layuimini-container {border:1px solid #f2f2f2;border-radius:5px;background-color:#ffffff}
-.layuimini-main {margin:10px 10px 10px 10px;}
+html,
+body {
+    height: 100%;
+    background:#f2f2f2;
+}
+.layuimini-container {
+    min-height: 250px;
+    padding: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.layuimini-main {
+    position: relative;
+    padding: 15px 15px;
+    background-color: #ffffff;
+    border: 1px solid #f2f2f2;
+    border-radius: 5px;
+
+}
 
 /**重写layui表格自适应*/
 .layuimini-container .layui-table-cell {height: 100%;max-width: 100%;}
