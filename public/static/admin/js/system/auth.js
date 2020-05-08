@@ -68,7 +68,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                 {
                     url: window.location.href,
                 }, function (res) {
-                    res.data == res.data || [];
+                    res.data = res.data || [];
                     tree.render({
                         elem: '#node_ids',
                         data: res.data,
@@ -83,7 +83,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                 var ids = [];
                 $.each(checkedData, function (i, v) {
                     ids.push(v.id);
-                    if (v.children != undefined && v.children.length > 0) {
+                    if (v.children !== undefined && v.children.length > 0) {
                         $.each(v.children, function (ii, vv) {
                             ids.push(vv.id);
                         });
