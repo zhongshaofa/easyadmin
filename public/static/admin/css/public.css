@@ -123,6 +123,12 @@ table样式
     background-color: #1f9fff;
 }
 
+/**
+下拉选择
+ */
+.layuimini-container .layui-form-select dl dd.layui-this {
+    background-color: #1e9fff!important;
+}
 
 /**
 弹出层样式
