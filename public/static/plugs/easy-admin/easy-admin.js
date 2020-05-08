@@ -1,4 +1,4 @@
-define(["jquery","tableSelect"], function ($,tableSelect) {
+define(["jquery", "tableSelect"], function ($, tableSelect) {
 
     var form = layui.form,
         layer = layui.layer,
@@ -348,7 +348,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                     });
                 }
             },
-            renderSwitch: function (cols, tableInit, tableId,modifyReload) {
+            renderSwitch: function (cols, tableInit, tableId, modifyReload) {
                 tableInit.modify_url = tableInit.modify_url || false;
                 cols = cols[0] || {};
                 tableId = tableId || init.table_render_id;
@@ -651,6 +651,17 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                 maxmin: true,
                 success: function (layero, index) {
                     var body = layer.getChildFrame('body', index);
+                    if (body.length > 0) {
+                        $.each(body, function (i, v) {
+
+                            // todo 优化弹出层背景色修改
+                            $(v).before('<style>\n' +
+                                'html, body {\n' +
+                                '    background: #ffffff;\n' +
+                                '}\n' +
+                                '</style>');
+                        });
+                    }
                 }
             });
             if (admin.checkMobile() || width === undefined || height === undefined) {
@@ -690,12 +701,11 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
 
                 if (clienWidth === undefined || clientHeight === undefined) {
                     var width = document.body.clientWidth,
-                        height =document.body.clientHeight;
+                        height = document.body.clientHeight;
                     if (width >= 800 && height >= 600) {
                         clienWidth = '800px';
                         clientHeight = '600px';
-                    }
-                    else {
+                    } else {
                         clienWidth = '100%';
                         clientHeight = '100%';
                     }
@@ -704,12 +714,6 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                     clienWidth = '100%';
                     clientHeight = '100%';
                 }
-
-                console.log(width)
-                console.log(height)
-
-                console.log(clienWidth)
-                console.log(clientHeight)
 
                 admin.open(
                     $(this).attr('data-title'),
@@ -862,7 +866,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                         // todo 必填项处理
                         if (verify === 'required') {
                             var label = $(this).parent().prev();
-                            if(label.is('label') && !label.hasClass('required')){
+                            if (label.is('label') && !label.hasClass('required')) {
                                 label.addClass('required');
                             }
                             if ($(this).attr('lay-reqtext') === undefined && $(this).attr('placeholder') !== undefined) {
@@ -903,7 +907,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                         }
                         if (url === undefined || url === '' || url === null) {
                             url = window.location.href;
-                        }else{
+                        } else {
                             url = admin.url(url);
                         }
                         form.on('submit(' + filter + ')', function (data) {
@@ -1009,7 +1013,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                     });
                 }
 
-                if(uploadSelectList.length > 0){
+                if (uploadSelectList.length > 0) {
                     $.each(uploadSelectList, function (i, v) {
                         var exts = $(this).attr('data-upload-exts'),
                             uploadName = $(this).attr('data-upload-select'),
@@ -1023,7 +1027,7 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                             uploadElem = $(this).attr('id');
 
                         tableSelect.render({
-                            elem: "#"+uploadElem,
+                            elem: "#" + uploadElem,
                             checkedKey: 'id',
                             searchType: 'more',
                             searchList: [
@@ -1032,8 +1036,8 @@ define(["jquery","tableSelect"], function ($,tableSelect) {
                             table: {
                                 url: admin.url('ajax/getUploadFiles'),
                                 cols: [[
-                                    { type: selectCheck },
-                                    { field: 'id', title: 'ID' },
+                                    {type: selectCheck},
+                                    {field: 'id', title: 'ID'},
                                     {field: 'url', minWidth: 80, search: false, title: '图片信息', imageHeight: 40, align: "center", templet: admin.table.image},
                                     {field: 'original_name', width: 150, title: '文件原名', align: "center"},
                                     {field: 'mime_type', width: 120, title: 'mime类型', align: "center"},

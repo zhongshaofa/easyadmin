@@ -1,9 +1,8 @@
 @import url("../css/iconfont.css");
 
-html,
-body {
+html, body {
     height: 100%;
-    background:#f2f2f2;
+    background: #f2f2f2;
 }
 .layuimini-container {
     min-height: 250px;
@@ -30,6 +29,15 @@ body {
 
 .text-center{
     text-align: center;
+}
+
+.layuimini-form{
+    margin-top: 10px;
+}
+
+.easy-bg-white{
+    background-color: #ffffff;
+    height: auto;
 }
 
 .hr-line {
