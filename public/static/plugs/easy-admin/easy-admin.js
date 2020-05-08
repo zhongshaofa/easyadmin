@@ -649,6 +649,7 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
                 area: [width, height],
                 content: url,
                 maxmin: true,
+                moveOut: true,
                 success: function (layero, index) {
                     var body = layer.getChildFrame('body', index);
                     if (body.length > 0) {
