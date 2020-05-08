@@ -14,6 +14,7 @@ namespace app\admin\controller\system;
 
 
 use app\admin\model\SystemAdmin;
+use app\admin\service\CacheService;
 use app\common\constants\AdminConstant;
 use app\common\constants\SystemConstant;
 use app\common\controller\AdminController;
@@ -106,6 +107,7 @@ class Admin extends AdminController
             $this->validate($post, $rule);
             try {
                 $save = $row->save($post);
+                (new CacheService())->cleanAuthCache();
             } catch (\Exception $e) {
                 $this->error('保存失败');
             }
