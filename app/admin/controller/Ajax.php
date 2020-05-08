@@ -37,9 +37,9 @@ class Ajax extends AdminController
         }
         $menuService = new MenuService(session('admin.id'));
         $data = [
-            'logoInfo'  => [
-                'title' => 'EasyAdmin',
-                'image' => '/static/common/images/logo-1.png',
+            'logoInfo' => [
+                'title' => sysconfig('site', 'logo_title'),
+                'image' => sysconfig('site', 'logo_image'),
                 'href'  => __url('index/index'),
             ],
             'homeInfo'  => $menuService->getHomeInfo(),

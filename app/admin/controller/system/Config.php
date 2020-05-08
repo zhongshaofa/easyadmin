@@ -14,6 +14,7 @@ namespace app\admin\controller\system;
 
 
 use app\admin\model\SystemConfig;
+use app\admin\service\TriggerService;
 use app\common\controller\AdminController;
 use EasyAdmin\annotation\ControllerAnnotation;
 use EasyAdmin\annotation\NodeAnotation;
@@ -55,6 +56,7 @@ class Config extends AdminController
                         'value' => $val,
                     ]);
             }
+            TriggerService::updateMenu();
         } catch (\Exception $e) {
             $this->error('保存失败');
         }
