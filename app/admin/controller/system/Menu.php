@@ -16,7 +16,6 @@ use app\admin\model\SystemMenu;
 use app\admin\model\SystemNode;
 use app\admin\service\TriggerService;
 use app\common\constants\MenuConstant;
-use app\common\constants\SystemConstant;
 use EasyAdmin\annotation\ControllerAnnotation;
 use EasyAdmin\annotation\NodeAnotation;
 use app\common\controller\AdminController;
@@ -67,7 +66,11 @@ class Menu extends AdminController
      */
     public function add($id = null)
     {
-        $homeId = $this->model->where(['pid' => MenuConstant::HOME_PID,])->value('id');
+        $homeId = $this->model
+            ->where([
+                'pid' => MenuConstant::HOME_PID,
+            ])
+            ->value('id');
         if ($id == $homeId) {
             $this->error('首页不能添加子菜单');
         }
@@ -125,8 +128,8 @@ class Menu extends AdminController
             }
         }
         $pidMenuList = $this->model->getPidMenuList();
-        $this->assign('id', $id);
         $this->assign([
+            'id'          => $id,
             'pidMenuList' => $pidMenuList,
             'row'         => $row,
         ]);
@@ -166,9 +169,17 @@ class Menu extends AdminController
         ];
         $this->validate($post, $rule);
         $row = $this->model->find($post['id']);
-        empty($row) && $this->error('数据不存在');
-        !in_array($post['field'], SystemConstant::ALLOW_MODIFY_FIELD) && $this->error('该字段不允许修改：' . $post['field']);
-        $homeId = $this->model->where(['pid' => MenuConstant::HOME_PID,])->value('id');
+        if (!$row) {
+            $this->error('数据不存在');
+        }
+        if (!in_array($post['field'], $this->allowModifyFileds)) {
+            $this->error('该字段不允许修改：' . $post['field']);
+        }
+        $homeId = $this->model
+            ->where([
+                'pid' => MenuConstant::HOME_PID,
+            ])
+            ->value('id');
         if ($post['id'] == $homeId && $post['field'] == 'status') {
             $this->error('首页状态不允许关闭');
         }

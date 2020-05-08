@@ -49,7 +49,8 @@ class Config extends AdminController
         $post = $this->request->post();
         try {
             foreach ($post as $key => $val) {
-                $this->model->where('name', $key)
+                $this->model
+                    ->where('name', $key)
                     ->update([
                         'value' => $val,
                     ]);

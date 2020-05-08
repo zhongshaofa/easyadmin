@@ -15,7 +15,7 @@ namespace app\admin\controller\system;
 
 use app\admin\model\SystemAuth;
 use app\admin\model\SystemAuthNode;
-use app\admin\service\CacheService;
+use app\admin\service\TriggerService;
 use app\common\controller\AdminController;
 use EasyAdmin\annotation\ControllerAnnotation;
 use EasyAdmin\annotation\NodeAnotation;
@@ -80,7 +80,7 @@ class Auth extends AdminController
                 }
                 $authNode->saveAll($saveAll);
             }
-            (new CacheService())->cleanAuthCache();
+            TriggerService::updateMenu();
         } catch (\Exception $e) {
             $this->error('保存失败');
         }

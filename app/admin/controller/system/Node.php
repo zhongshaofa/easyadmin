@@ -20,7 +20,6 @@ use EasyAdmin\annotation\ControllerAnnotation;
 use EasyAdmin\annotation\NodeAnotation;
 use EasyAdmin\auth\Node as NodeService;
 use think\App;
-use think\facade\Db;
 
 /**
  * @ControllerAnnotation(title="系统节点管理")
@@ -37,7 +36,6 @@ class Node extends AdminController
         parent::__construct($app);
         $this->model = new SystemNode();
     }
-
 
     /**
      * @NodeAnotation(title="列表")

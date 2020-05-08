@@ -14,9 +14,8 @@ namespace app\admin\controller\system;
 
 
 use app\admin\model\SystemAdmin;
-use app\admin\service\CacheService;
+use app\admin\service\TriggerService;
 use app\common\constants\AdminConstant;
-use app\common\constants\SystemConstant;
 use app\common\controller\AdminController;
 use EasyAdmin\annotation\ControllerAnnotation;
 use EasyAdmin\annotation\NodeAnotation;
@@ -107,7 +106,7 @@ class Admin extends AdminController
             $this->validate($post, $rule);
             try {
                 $save = $row->save($post);
-                (new CacheService())->cleanAuthCache();
+                TriggerService::updateMenu($id);
             } catch (\Exception $e) {
                 $this->error('保存失败');
             }
@@ -177,7 +176,7 @@ class Admin extends AdminController
             'value|值'  => 'require',
         ];
         $this->validate($post, $rule);
-        if (!in_array($post['field'], SystemConstant::ALLOW_MODIFY_FIELD)) {
+        if (!in_array($post['field'], $this->allowModifyFileds)) {
             $this->error('该字段不允许修改：' . $post['field']);
         }
         if ($post['id'] == AdminConstant::SUPER_ADMIN_ID && $post['field'] == 'status') {

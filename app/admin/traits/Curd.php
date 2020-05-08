@@ -12,7 +12,6 @@
 
 namespace app\admin\traits;
 
-use app\common\constants\SystemConstant;
 use EasyAdmin\annotation\NodeAnotation;
 
 /**
@@ -118,11 +117,13 @@ trait Curd
             'value|值'  => 'require',
         ];
         $this->validate($post, $rule);
-        if (!in_array($post['field'], SystemConstant::ALLOW_MODIFY_FIELD)) {
+        $row = $this->model->find($post['id']);
+        if (!$row) {
+            $this->error('数据不存在');
+        }
+        if (!in_array($post['field'], $this->allowModifyFileds)) {
             $this->error('该字段不允许修改：' . $post['field']);
         }
-        $row = $this->model->find($post['id']);
-        empty($row) && $this->error('数据不存在');
         try {
             $row->save([
                 $post['field'] => $post['value'],

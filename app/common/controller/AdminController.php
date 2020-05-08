@@ -42,6 +42,19 @@ class AdminController extends BaseController
         'id' => 'desc',
     ];
 
+    /**
+     * 允许修改的字段
+     * @var array
+     */
+    protected $allowModifyFileds = [
+        'status',
+        'sort',
+        'remark',
+        'is_delete',
+        'is_auth',
+        'title',
+    ];
+
 
     /**
      * 初始化方法
