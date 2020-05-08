@@ -452,7 +452,7 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
                                     text: '删除',
                                     title: '确定删除？',
                                     auth: 'delete',
-                                    url: option.init.edit_url,
+                                    url: option.init.del_url,
                                     extend: ""
                                 };
                                 operat.url = admin.table.toolSpliceUrl(operat.url, operat.field, data);
