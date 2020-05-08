@@ -20,7 +20,24 @@ body {
     background-color: #ffffff;
     border: 1px solid #f2f2f2;
     border-radius: 5px;
+}
 
+.layuimini-form .layui-form-item{
+    position: relative;
+    padding: 0 60px 0 0;
+    line-height: 24px;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.hr-line {
+    color: #fff;
+    height: 1px;
+    margin: 35px 0 0px 0;
+    background-color: #fff;
+    border-top: 1px dashed #e7eaec;
 }
 
 /**重写layui表格自适应*/
