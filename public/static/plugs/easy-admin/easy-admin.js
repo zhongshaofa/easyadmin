@@ -330,7 +330,7 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
                         formHtml +
                         '<div class="layui-form-item layui-inline" style="margin-left: 115px">\n' +
                         '<button type="submit" class="layui-btn layui-btn-normal" data-type="tableSearch" data-table="' + tableId + '" lay-submit lay-filter="' + tableId + '_filter"> 搜 索</button>\n' +
-                        '<button type="reset" class="layui-btn layui-btn-primary"> 重 置 </button>\n'+
+                        '<button type="reset" class="layui-btn layui-btn-primary" data-table-reset="' + tableId + '"> 重 置 </button>\n'+
                         ' </div>' +
                         '</form>' +
                         '</fieldset>');
@@ -757,6 +757,23 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
                     tableId = init.table_render_id;
                 }
                 table.reload(tableId);
+            });
+
+            // 监听搜索表格重置
+            $('body').on('click', '[data-table-reset]', function () {
+                var tableId = $(this).attr('data-table-reset');
+                if (tableId === undefined || tableId === '' || tableId == null) {
+                    tableId = init.table_render_id;
+                }
+                table.reload(tableId, {
+                    page: {
+                        curr: 1
+                    }
+                    , where: {
+                        filter: '{}',
+                        op: '{}'
+                    }
+                }, 'data');
             });
 
             // 监听请求
