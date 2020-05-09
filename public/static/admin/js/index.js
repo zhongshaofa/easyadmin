@@ -1,4 +1,4 @@
-define(["jquery", "easy-admin", "echarts", "echarts-theme", "miniAdmin"], function ($, ea, echarts, undefined, miniAdmin) {
+define(["jquery", "easy-admin", "echarts", "echarts-theme", "miniAdmin", "miniTab"], function ($, ea, echarts, undefined, miniAdmin, miniTab) {
 
     var Controller = {
         index: function () {
@@ -27,6 +27,9 @@ define(["jquery", "easy-admin", "echarts", "echarts-theme", "miniAdmin"], functi
             });
         },
         welcome: function () {
+
+            miniTab.listen();
+
             /**
              * 查看公告信息
              **/
@@ -125,7 +128,7 @@ define(["jquery", "easy-admin", "echarts", "echarts-theme", "miniAdmin"], functi
                 ]
             };
             echartsRecords.setOption(optionRecords);
-            ;
+
         },
         edit_admin: function () {
             ea.listen();
