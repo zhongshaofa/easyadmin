@@ -15,6 +15,7 @@ namespace app\common\controller;
 
 
 use app\BaseController;
+use think\facade\Env;
 use think\Model;
 
 /**
@@ -66,6 +67,12 @@ class AdminController extends BaseController
      */
     protected $layout = 'layout/default';
 
+    /**
+     * 是否为演示环境
+     * @var bool
+     */
+    protected $isDemo = false;
+
 
     /**
      * 初始化方法
@@ -74,7 +81,7 @@ class AdminController extends BaseController
     {
         parent::initialize();
         $this->layout && $this->app->view->engine()->layout($this->layout);
-
+        $this->isDemo = Env::get('easyadmin.is_demo', false);
     }
 
     /**

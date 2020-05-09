@@ -49,6 +49,7 @@ class Index extends AdminController
         empty($row) && $this->error('用户信息不存在');
         if ($this->request->isAjax()) {
             $post = $this->request->post();
+            $this->isDemo && $this->error('演示环境下不允许修改');
             $rule = [];
             $this->validate($post, $rule);
             try {
@@ -82,6 +83,7 @@ class Index extends AdminController
         }
         if ($this->request->isAjax()) {
             $post = $this->request->post();
+            $this->isDemo && $this->error('演示环境下不允许修改');
             $rule = [
                 'password|登录密码'       => 'require',
                 'password_again|确认密码' => 'require',
