@@ -19,6 +19,8 @@ define(["jquery", "easy-admin"], function ($, ea) {
             ea.table.render({
                 init: init,
                 modifyReload: true,
+                search: false,
+                page: false,
                 toolbar: ['refresh', [
                     {
                         text: ' 更新节点',
@@ -44,9 +46,6 @@ define(["jquery", "easy-admin"], function ($, ea) {
                         extend: ' data-request="system.node/clearNode" data-table="' + init.table_render_id + '"',
                     }
                 ]],
-                search: false,
-                defaultToolbar: ['filter'],
-                page: false,
                 cols: [[
                     {field: 'node', minWidth: 200, align: 'left', title: '系统节点'},
                     {field: 'title', minWidth: 80, title: '节点名称 <i class="table-edit-tips color-red">*</i>', edit: 'text', align: "center"},

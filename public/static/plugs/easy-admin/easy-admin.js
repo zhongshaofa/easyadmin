@@ -182,12 +182,13 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
                 options.skin = options.skin || 'line';
                 options.limit = options.limit || 15;
                 options.limits = options.limits || [10, 15, 20, 25, 50, 100];
-                options.defaultToolbar = options.defaultToolbar || ['filter', {
-                    title: '搜索表格',
+                options.defaultToolbar = (options.defaultToolbar === undefined && !options.search) ? ['filter', 'print', 'exports'] : ['filter', 'print', 'exports', {
+                    title: '搜索',
                     layEvent: 'TABLE_SEARCH',
                     icon: 'layui-icon-search',
                     extend: 'data-table-id="' + options.id + '"'
                 }];
+
 
                 // 初始化表格lay-filter
                 $(options.elem).attr('lay-filter', options.layFilter);

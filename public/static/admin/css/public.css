@@ -177,6 +177,10 @@ table样式
     border-color: #f56c6c;
 }
 
+.layuimini-container .layui-table-tool .layui-btn + .layui-btn {
+    margin-left: 5px;
+}
+
 
 /**
 开关
