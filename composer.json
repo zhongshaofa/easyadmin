@@ -27,8 +27,7 @@
         "qcloud/cos-sdk-v5": "^2.0",
         "qiniu/php-sdk": "^7.2",
         "zhongshaofa/easy-addons": "dev-master",
-        "alibabacloud/client": "^1.5",
-        "rap2hpoutre/fast-excel": "^1.7"
+        "alibabacloud/client": "^1.5"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
