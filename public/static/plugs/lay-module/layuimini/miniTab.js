@@ -371,7 +371,7 @@ define(["jquery"], function ($) {
             element.on('tab(' + options.filter + ')', function (data) {
                 var tabId = $(this).attr('lay-id');
                 if (options.urlHashLocation) {
-                    location.hash = '/' + tabId;
+                    location.hash = tabId;
                 }
                 if (typeof options.listenSwichCallback === 'function') {
                     options.listenSwichCallback();
@@ -402,7 +402,7 @@ define(["jquery"], function ($) {
             options.homeInfo = options.homeInfo || {};
             options.menuList = options.menuList || [];
             if (!options.urlHashLocation) return false;
-            var tabId = location.hash.replace(/^#\//, '');
+            var tabId = location.hash.replace(/^#/, '');
             if (tabId === null || tabId === undefined || tabId ==='') return false;
 
             // 判断是否为首页
