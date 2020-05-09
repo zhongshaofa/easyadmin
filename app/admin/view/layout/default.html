@@ -13,7 +13,6 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js?v={:time()}"></script>
     <![endif]-->
     <link rel="stylesheet" href="__STATIC__/admin/css/public.css?v={:time()}" media="all">
-    {block name="style"}{/block}
     <script>
         window.CONFIG = {
             ADMIN: "{$admin_module_name|default='admin'}",
@@ -28,7 +27,6 @@
     <script src="__STATIC__/config-admin.js?v={:time()}" charset="utf-8"></script>
 </head>
 <body>
-{block name="cotent"}{/block}
-{block name="script"}{/block}
+{__CONTENT__}
 </body>
 </html>

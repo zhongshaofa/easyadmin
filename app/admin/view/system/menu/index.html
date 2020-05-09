@@ -1,6 +1,3 @@
-{extend name="public:iframe" /}
-
-{block name="style"}
 <link rel="stylesheet" href="__STATIC__/plugs/lay-module/treetable-lay/treetable.css?v={:time()}" media="all">
 <style>
     .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
@@ -9,8 +6,6 @@
         padding: 0 8px;
     }
 </style>
-{/block}
-{block name="cotent"}
 <div class="layuimini-container">
     <div class="layuimini-main">
         <table id="currentTable" class="layui-table"
@@ -26,4 +21,3 @@
     <button class="layui-btn layui-btn-normal layui-btn-sm {if !auth('system.menu/add')}layui-hide{/if}" data-open="system.menu/add" data-title="添加" data-full="true"><i class="layui-icon layui-icon-add-circle-fine"></i>添加</button>
     <button class="layui-btn layui-btn-sm layui-btn-danger {if !auth('system.menu/add')}layui-hide{/if}" data-url="system.menu/del" data-treetable-delete="currentTableRenderId"><i class="layui-icon layui-icon-delete"></i>删除</button>
 </script>
-{/block}
