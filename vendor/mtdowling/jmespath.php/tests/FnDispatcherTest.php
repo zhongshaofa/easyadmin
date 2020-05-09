@@ -1,10 +1,9 @@
 <?php
 namespace JmesPath\Tests;
 
-use JmesPath\fnDispatcher;
-use PHPUnit\Framework\TestCase;
+use JmesPath\FnDispatcher;
 
-class fnDispatcherTest extends TestCase
+class FnDispatcherTest extends \PHPUnit_Framework_TestCase
 {
     public function testConvertsToString()
     {

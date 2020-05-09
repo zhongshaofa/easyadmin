@@ -3,25 +3,24 @@ namespace JmesPath\Tests\Tree;
 
 use JmesPath\AstRuntime;
 use JmesPath\TreeInterpreter;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @covers JmesPath\Tree\TreeInterpreter
  */
-class TreeInterpreterTest extends TestCase
+class TreeInterpreterTest extends \PHPUnit_Framework_TestCase
 {
     public function testReturnsNullWhenMergingNonArray()
     {
         $t = new TreeInterpreter();
-        $this->assertNull($t->visit([
+        $this->assertNull($t->visit(array(
             'type' => 'flatten',
-            'children' => [
-                ['type' => 'literal', 'value' => 1],
-                ['type' => 'literal', 'value' => 1]
-            ]
-        ], [], [
+            'children' => array(
+                array('type' => 'literal', 'value' => 1),
+                array('type' => 'literal', 'value' => 1)
+            )
+        ), array(), array(
             'runtime' => new AstRuntime()
-        ]));
+        )));
     }
 
     public function testWorksWithArrayObjectAsObject()

@@ -9,22 +9,22 @@ $bucket = Common::getBucketName();
 $ossClient = Common::getOssClient();
 if (is_null($ossClient)) exit(1);
 
-//******************************* Simple Usage ***************************************************************
+//*******************************简单使用***************************************************************
 
-// Set bucket static website configuration
+// 设置Bucket的静态网站托管模式
 $websiteConfig = new WebsiteConfig("index.html", "error.html");
 $ossClient->putBucketWebsite($bucket, $websiteConfig);
 Common::println("bucket $bucket websiteConfig created:" . $websiteConfig->serializeToXml());
 
-// Get bucket static website configuration
+// 查看Bucket的静态网站托管状态
 $websiteConfig = $ossClient->getBucketWebsite($bucket);
 Common::println("bucket $bucket websiteConfig fetched:" . $websiteConfig->serializeToXml());
 
-// Delete bucket static website configuration
+// 删除Bucket的静态网站托管模式
 $ossClient->deleteBucketWebsite($bucket);
 Common::println("bucket $bucket websiteConfig deleted");
 
-//******************************* For complete usage, see the following functions  ****************************************************
+//******************************* 完整用法参考下面函数 ****************************************************
 
 putBucketWebsite($ossClient, $bucket);
 getBucketWebsite($ossClient, $bucket);
@@ -32,10 +32,10 @@ deleteBucketWebsite($ossClient, $bucket);
 getBucketWebsite($ossClient, $bucket);
 
 /**
- * Sets bucket static website configuration
+ * 设置bucket的静态网站托管模式配置
  *
  * @param $ossClient OssClient
- * @param  $bucket string bucket name
+ * @param  $bucket string 存储空间名称
  * @return null
  */
 function putBucketWebsite($ossClient, $bucket)
@@ -52,10 +52,10 @@ function putBucketWebsite($ossClient, $bucket)
 }
 
 /**
- * Get bucket static website configuration
+ * 获取bucket的静态网站托管状态
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket bucket name
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 存储空间名称
  * @return null
  */
 function getBucketWebsite($ossClient, $bucket)
@@ -73,10 +73,10 @@ function getBucketWebsite($ossClient, $bucket)
 }
 
 /**
- * Delete bucket static website configuration
+ * 删除bucket的静态网站托管模式配置
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket bucket name
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 存储空间名称
  * @return null
  */
 function deleteBucketWebsite($ossClient, $bucket)

@@ -5,7 +5,8 @@ namespace OSS\Result;
 use OSS\Core\OssException;
 
 /**
- * The type of the return value of getBucketAcl, it wraps the data parsed from xml.
+ * Class AclResult getBucketAcl接口返回结果类，封装了
+ * 返回的xml数据的解析
  *
  * @package OSS\Result
  */

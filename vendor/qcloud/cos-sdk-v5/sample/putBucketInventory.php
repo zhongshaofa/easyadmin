@@ -14,7 +14,8 @@ $cosClient = new Qcloud\Cos\Client(
             'secretKey' => $secretKey)));
 try {
     $result = $cosClient->putBucketInventory(array(
-        'Bucket' => 'examplebucket-125000000', //格式：BucketName-APPID
+        'Bucket'=>$bucket,
+        //bucket的命名规则为{name}-{appid} ，此处填写的存储桶名称必须为此格式
         'Id' => 'string',
         'Destination' => array(
             'COSBucketDestination'=>array(
@@ -35,8 +36,8 @@ try {
         'OptionalFields' => array(
             'Size', 
             'ETag',
-        )
-    ));
+        )   
+    ));         
     // 请求成功
     print_r($result);
 } catch (\Exception $e) {

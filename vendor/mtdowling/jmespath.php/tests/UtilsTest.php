@@ -2,9 +2,8 @@
 namespace JmesPath\Tests;
 
 use JmesPath\Utils;
-use PHPUnit\Framework\TestCase;
 
-class UtilsTest extends TestCase
+class UtilsTest extends \PHPUnit_Framework_TestCase
 {
     public function typeProvider()
     {

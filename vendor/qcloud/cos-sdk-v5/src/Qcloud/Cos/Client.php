@@ -22,7 +22,7 @@ use GuzzleHttp\Pool;
 
 
 class Client extends GuzzleClient {
-    const VERSION = '2.0.5';
+    const VERSION = '2.0.3';
 
     private $httpCilent;
     private $api;
@@ -87,7 +87,6 @@ class Client extends GuzzleClient {
         $request = $seri($command);
         $request = $transformer->bucketStyleTransformer($command, $request);
         $request = $transformer->uploadBodyTransformer($command, $request);
-        $request = $transformer->metadataTransformer($command, $request);
         $request = $transformer->md5Transformer($command, $request);
         $request = $transformer->specialParamTransformer($command, $request);
         return $request;
@@ -104,26 +103,16 @@ class Client extends GuzzleClient {
             }
         }
         $deseri = new Deserializer($this->desc, true);
-        $rsp = $deseri($response, $request, $command);
+        $response = $deseri($response, $request, $command);
+        if ($command['Key'] != null && $response['Key'] == null) {
+            $response['Key'] = $command['Key'];
+        }
+        if ($command['Bucket'] != null && $response['Bucket'] == null) {
+            $response['Bucket'] = $command['Bucket'];
+        }
+        $response['Location'] = $request->getUri()->getHost() .  $request->getUri()->getPath();
 
-        $headers = $response->getHeaders();
-        $metadata = array();
-        foreach ($headers as $key => $value) {
-            if (strpos($key, "x-cos-meta-") === 0) {
-                $metadata[substr($key, 11)] = $value[0];
-            }
-        }
-        if (!empty($metadata)) {
-            $rsp['Metadata'] = $metadata;
-        }
-        if ($command['Key'] != null && $rsp['Key'] == null) {
-            $rsp['Key'] = $command['Key'];
-        }
-        if ($command['Bucket'] != null && $rsp['Bucket'] == null) {
-            $rsp['Bucket'] = $command['Bucket'];
-        }
-        $rsp['Location'] = $request->getHeader("Host")[0] .  $request->getUri()->getPath();
-        return $rsp;
+        return $response;
     }
     public function __destruct() {
     }

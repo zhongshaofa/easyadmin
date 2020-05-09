@@ -11,7 +11,7 @@ namespace OSS\Result;
 class HeaderResult extends Result
 {
     /**
-     * The returned ResponseCore header is used as the return data
+     * 把返回的ResponseCore中的header作为返回数据
      *
      * @return array
      */

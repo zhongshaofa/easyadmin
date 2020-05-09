@@ -8,28 +8,28 @@ $ossClient = Common::getOssClient();
 if (is_null($ossClient)) exit(1);
 $bucket = Common::getBucketName();
 
-//******************************* Simple Usage****************************************************************
+//******************************* 简单使用 ****************************************************************
 
-// Create a bucket
+//创建bucket
 $ossClient->createBucket($bucket, OssClient::OSS_ACL_TYPE_PUBLIC_READ_WRITE);
 Common::println("bucket $bucket created");
 
-// Check whether a bucket exists
+// 判断Bucket是否存在
 $doesExist = $ossClient->doesBucketExist($bucket);
 Common::println("bucket $bucket exist? " . ($doesExist ? "yes" : "no"));
 
-// Get the bucket list
+// 获取Bucket列表
 $bucketListInfo = $ossClient->listBuckets();
 
-// Set bucket ACL
+// 设置bucket的ACL
 $ossClient->putBucketAcl($bucket, OssClient::OSS_ACL_TYPE_PUBLIC_READ_WRITE);
 Common::println("bucket $bucket acl put");
-// Get bucket ACL
+// 获取bucket的ACL
 $acl = $ossClient->getBucketAcl($bucket);
 Common::println("bucket $bucket acl get: " . $acl);
 
 
-//******************************* For complete usage, see the following functions ****************************************************
+//******************************* 完整用法参考下面函数 ****************************************************
 
 createBucket($ossClient, $bucket);
 doesBucketExist($ossClient, $bucket);
@@ -39,13 +39,13 @@ getBucketAcl($ossClient, $bucket);
 listBuckets($ossClient);
 
 /**
- * Create a new bucket
- * acl indicates the access permission of a bucket, including: private, public-read-only/private-read-write, and public read-write.
- * Private indicates that only the bucket owner or authorized users can access the data..
- * The three permissions are separately defined by (OssClient::OSS_ACL_TYPE_PRIVATE,OssClient::OSS_ACL_TYPE_PUBLIC_READ, OssClient::OSS_ACL_TYPE_PUBLIC_READ_WRITE)
+ * 创建一个存储空间
+ * acl 指的是bucket的访问控制权限，有三种，私有读写，公共读私有写，公共读写。
+ * 私有读写就是只有bucket的拥有者或授权用户才有权限操作
+ * 三种权限分别对应 (OssClient::OSS_ACL_TYPE_PRIVATE，OssClient::OSS_ACL_TYPE_PUBLIC_READ, OssClient::OSS_ACL_TYPE_PUBLIC_READ_WRITE)
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket Name of the bucket to create
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 要创建的存储空间名称
  * @return null
  */
 function createBucket($ossClient, $bucket)
@@ -61,10 +61,10 @@ function createBucket($ossClient, $bucket)
 }
 
 /**
- * Check whether a bucket exists.
+ *  判断Bucket是否存在
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket bucket name
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 存储空间名称
  */
 function doesBucketExist($ossClient, $bucket)
 {
@@ -83,11 +83,10 @@ function doesBucketExist($ossClient, $bucket)
 }
 
 /**
- * Delete a bucket. If the bucket is not empty, the deletion fails.
- * A bucket which is not empty indicates that it does not contain any objects or parts that are not completely uploaded during multipart upload
+ * 删除bucket，如果bucket不为空则bucket无法删除成功， 不为空表示bucket既没有object，也没有未完成的multipart上传时的parts
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket Name of the bucket to delete
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 待删除的存储空间名称
  * @return null
  */
 function deleteBucket($ossClient, $bucket)
@@ -103,10 +102,10 @@ function deleteBucket($ossClient, $bucket)
 }
 
 /**
- * Set bucket ACL
+ * 设置bucket的acl配置
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket bucket name
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 存储空间名称
  * @return null
  */
 function putBucketAcl($ossClient, $bucket)
@@ -124,10 +123,10 @@ function putBucketAcl($ossClient, $bucket)
 
 
 /**
- * Get bucket ACL
+ * 获取bucket的acl配置
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket bucket name
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 存储空间名称
  * @return null
  */
 function getBucketAcl($ossClient, $bucket)
@@ -145,9 +144,9 @@ function getBucketAcl($ossClient, $bucket)
 
 
 /**
- * List all buckets
+ * 列出用户所有的Bucket
  *
- * @param OssClient $ossClient OssClient instance
+ * @param OssClient $ossClient OssClient实例
  * @return null
  */
 function listBuckets($ossClient)

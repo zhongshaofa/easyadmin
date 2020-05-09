@@ -236,7 +236,7 @@ abstract class Connection
      */
     protected function parseCache(BaseQuery $query, array $cache): CacheItem
     {
-        [$key, $expire, $tag] = $cache;
+        list($key, $expire, $tag) = $cache;
 
         if ($key instanceof CacheItem) {
             $cacheItem = $key;

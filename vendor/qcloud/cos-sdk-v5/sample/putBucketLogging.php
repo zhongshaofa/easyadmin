@@ -14,9 +14,10 @@ $cosClient = new Qcloud\Cos\Client(
             'secretKey' => $secretKey)));
 try {
     $result = $cosClient->putBucketLogging(array(
-        'Bucket' => 'examplebucket-125000000', //格式：BucketName-APPID
+        //bucket的命名规则为{name}-{appid} ，此处填写的存储桶名称必须为此格式
+        'Bucket'=>$bucket,
         'LoggingEnabled' => array(
-            'TargetBucket' => 'examplebucket2-125000000', //格式：BucketName-APPID
+            'TargetBucket' => 'lewzylucd-1251668577',
             'TargetPrefix' => '', 
         )   
     ));

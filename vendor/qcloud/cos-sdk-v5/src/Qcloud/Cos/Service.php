@@ -107,11 +107,6 @@ class Service {
                             'type' => 'string',
                             'location' => 'query',
                             'sentAs' => 'uploadId',
-                        ),
-                        'PicOperations' => array(
-                            'type' => 'string',
-                            'location' => 'header',
-                            'sentAs' => 'Pic-Operations',
                         )
                     )
                 ),
@@ -201,6 +196,14 @@ class Service {
                                 'Qcloud\\Cos\\Client::explodeKey'
                             )
                         ),
+                        'Metadata' => array(
+                            'type' => 'object',
+                            'location' => 'header',
+                            'sentAs' => 'x-cos-meta-',
+                            'additionalProperties' => array(
+                                'type' => 'string',
+                            ),
+                        ),
                         'ServerSideEncryption' => array(
                             'type' => 'string',
                             'location' => 'header',
@@ -244,11 +247,6 @@ class Service {
                         'ACP' => array(
                             'type' => 'object',
                             'additionalProperties' => true,
-                        ),
-                        'PicOperations' => array(
-                            'type' => 'string',
-                            'location' => 'header',
-                            'sentAs' => 'Pic-Operations',
                         )
                     )
                 ),
@@ -372,6 +370,14 @@ class Service {
                             'minLength' => 1,
                             'filters' => array(
                                 'Qcloud\\Cos\\Client::explodeKey')
+                        ),
+                        'Metadata' => array(
+                            'type' => 'object',
+                            'location' => 'header',
+                            'sentAs' => 'x-cos-meta-',
+                            'additionalProperties' => array(
+                                'type' => 'string',
+                            ),
                         ),
                         'MetadataDirective' => array(
                             'type' => 'string',
@@ -827,21 +833,6 @@ class Service {
                         )
                     ),
                 ),
-                // 查询存储桶（Bucket) Accelerate配置信息的方法.
-                'GetBucketAccelerate' => array(
-                    'httpMethod' => 'GET',
-                    'uri' => '/{Bucket}?accelerate',
-                    'class' => 'Qcloud\\Cos\\Command',
-                    'responseClass' => 'GetBucketAccelerateOutput',
-                    'responseType' => 'model',
-                    'parameters' => array(
-                        'Bucket' => array(
-                            'required' => true,
-                            'type' => 'string',
-                            'location' => 'uri',
-                        )
-                    ),
-                ),
                 // 查询存储桶（Bucket) Website配置信息的方法.
                 'GetBucketWebsite' => array(
                     'httpMethod' => 'GET',
@@ -1142,6 +1133,14 @@ class Service {
                             'minLength' => 1,
                             'filters' => array(
                                 'Qcloud\\Cos\\Client::explodeKey'
+                            )
+                        ),
+                        'Metadata' => array(
+                            'type' => 'object',
+                            'location' => 'header',
+                            'sentAs' => 'x-cos-meta-',
+                            'additionalProperties' => array(
+                                'type' => 'string'
                             )
                         ),
                         'ServerSideEncryption' => array(
@@ -1704,37 +1703,6 @@ class Service {
                             'sentAs' => 'MfaDelete',
                         ),
                         'Status' => array(
-                            'type' => 'string',
-                            'location' => 'xml',
-                        ),
-                    ),
-                ),
-                // 配置存储桶（Bucket) Accelerate的方法.
-                'PutBucketAccelerate' => array(
-                    'httpMethod' => 'PUT',
-                    'uri' => '/{Bucket}?accelerate',
-                    'class' => 'Qcloud\\Cos\\Command',
-                    'responseClass' => 'PutBucketAccelerateOutput',
-                    'responseType' => 'model',
-                    'data' => array(
-                        'xmlRoot' => array(
-                            'name' => 'AccelerateConfiguration',
-                        ),
-                        'xmlAllowEmpty' => true,
-                    ),
-                    'parameters' => array(
-                        'Bucket' => array(
-                            'required' => true,
-                            'type' => 'string',
-                            'location' => 'uri',
-                        ),
-                        'Status' => array(
-                            'required' => true,
-                            'type' => 'string',
-                            'location' => 'xml',
-                        ),
-                        'Type' => array(
-                            'required' => true,
                             'type' => 'string',
                             'location' => 'xml',
                         ),
@@ -3057,6 +3025,14 @@ class Service {
                             'location' => 'header',
                             'sentAs' => 'x-cos-server-side-encryption',
                         ),
+                        'Metadata' => array(
+                            'type' => 'object',
+                            'location' => 'header',
+                            'sentAs' => 'x-cos-meta-',
+                            'additionalProperties' => array(
+                                'type' => 'string',
+                            ),
+                        ),
                         'SSECustomerAlgorithm' => array(
                             'type' => 'string',
                             'location' => 'header',
@@ -3459,24 +3435,6 @@ class Service {
                                 'strip_tags',
                                 'trim',
                             ),
-                        ),
-                    ),
-                ),
-                'GetBucketAccelerateOutput' => array(
-                    'type' => 'object',
-                    'additionalProperties' => true,
-                    'properties' => array(
-                        'Status' => array(
-                            'type' => 'string',
-                            'location' => 'xml',
-                        ),
-                        'Type' => array(
-                            'type' => 'string',
-                            'location' => 'xml',
-                        ),
-                        'RequestId' => array(
-                            'location' => 'header',
-                            'sentAs' => 'x-cos-request-id',
                         ),
                     ),
                 ),
@@ -3983,16 +3941,6 @@ class Service {
                     ),
                 ),
                 'PutBucketWebsiteOutput' => array(
-                    'type' => 'object',
-                    'additionalProperties' => true,
-                    'properties' => array(
-                        'RequestId' => array(
-                            'location' => 'header', 
-                            'sentAs' => 'x-cos-request-id',
-                        ),
-                    ),
-                ),
-                'PutBucketAccelerateOutput' => array(
                     'type' => 'object',
                     'additionalProperties' => true,
                     'properties' => array(
@@ -4614,6 +4562,14 @@ class Service {
                             'type' => 'string',
                             'location' => 'header',
                             'sentAs' => 'x-cos-server-side-encryption',
+                        ),
+                        'Metadata' => array(
+                            'type' => 'object',
+                            'location' => 'header',
+                            'sentAs' => 'x-cos-meta-',
+                            'additionalProperties' => array(
+                                'type' => 'string',
+                            ),
                         ),
                         'SSECustomerAlgorithm' => array(
                             'type' => 'string',

@@ -57,16 +57,13 @@ class CosTransformer {
             }
         }
         
-        $origin_host = $bucketname. '.cos.' . $this->config['region'] . '.' . $this->config['endpoint'];
-        $host = $origin_host;
+        $host = $bucketname. '.cos.' . $this->config['region'] . '.' . $this->config['endpoint'];
         if ($this->config['ip'] != null) {
             $host = $this->config['ip'];
             if ($this->config['port'] != null) {
                 $host = $this->config['ip'] . ":" . $this->config['port'];
             }
         }
-
-
         $path = $this->config['schema'].'://'. $host . $uri;
         $uri = new Uri($path);
         $query = $request->getUri()->getQuery();
@@ -74,9 +71,7 @@ class CosTransformer {
             $query =   $uri->getQuery() . "&" . $request->getUri()->getQuery();
         }
         $uri = $uri->withQuery($query);
-        $request = $request->withUri($uri);
-        $request = $request->withHeader('Host', $origin_host);
-        return $request;
+        return $request->withUri($uri);
     }
 
     // format upload body
@@ -118,18 +113,6 @@ class CosTransformer {
         return $request;
     }
 
-    // add meta
-    public function metadataTransformer(CommandInterface $command, $request) {
-        $operation = $this->operation;
-        if (isset($command['Metadata'])) {
-            $meta = $command['Metadata'];
-            foreach ($meta as $key => $value) {
-                $request = $request->withHeader('x-cos-meta-' . $key, $value);
-            }
-        }
-        return $request;
-    }
-
     // count md5
     private function addMd5($request) {
         $body = $request->getBody();
@@ -140,7 +123,7 @@ class CosTransformer {
         return $request;
     }
 
-    // inventoryId
+    // count md5
     public function specialParamTransformer(CommandInterface $command, $request) {
         $action = $command->getName();
         if ($action == 'PutBucketInventory') {

@@ -168,11 +168,6 @@ class MessageFormatter
         );
     }
 
-    /**
-     * Get headers from message as string
-     *
-     * @return string
-     */
     private function headers(MessageInterface $message)
     {
         $result = '';

@@ -28,7 +28,6 @@ use think\model\relation\HasOneThrough;
 use think\model\relation\MorphMany;
 use think\model\relation\MorphOne;
 use think\model\relation\MorphTo;
-use think\model\relation\MorphToMany;
 use think\model\relation\OneToOne;
 
 /**
@@ -149,7 +148,7 @@ trait RelationShip
                 $subRelation = $relation;
                 $relation    = $key;
             } elseif (strpos($relation, '.')) {
-                [$relation, $subRelation] = explode('.', $relation, 2);
+                list($relation, $subRelation) = explode('.', $relation, 2);
             }
 
             $method       = Str::camel($relation);
@@ -264,7 +263,7 @@ trait RelationShip
                 $subRelation = $relation;
                 $relation    = $key;
             } elseif (strpos($relation, '.')) {
-                [$relation, $subRelation] = explode('.', $relation, 2);
+                list($relation, $subRelation) = explode('.', $relation, 2);
 
                 $subRelation = [$subRelation];
             }
@@ -313,7 +312,7 @@ trait RelationShip
                 $subRelation = $relation;
                 $relation    = $key;
             } elseif (strpos($relation, '.')) {
-                [$relation, $subRelation] = explode('.', $relation, 2);
+                list($relation, $subRelation) = explode('.', $relation, 2);
 
                 $subRelation = [$subRelation];
             }
@@ -550,7 +549,7 @@ trait RelationShip
         }
 
         if (is_array($morph)) {
-            [$morphType, $foreignKey] = $morph;
+            list($morphType, $foreignKey) = $morph;
         } else {
             $morphType  = $morph . '_type';
             $foreignKey = $morph . '_id';
@@ -582,7 +581,7 @@ trait RelationShip
         $type = $type ?: get_class($this);
 
         if (is_array($morph)) {
-            [$morphType, $foreignKey] = $morph;
+            list($morphType, $foreignKey) = $morph;
         } else {
             $morphType  = $morph . '_type';
             $foreignKey = $morph . '_id';
@@ -609,72 +608,13 @@ trait RelationShip
 
         // 记录当前关联信息
         if (is_array($morph)) {
-            [$morphType, $foreignKey] = $morph;
+            list($morphType, $foreignKey) = $morph;
         } else {
             $morphType  = $morph . '_type';
             $foreignKey = $morph . '_id';
         }
 
         return new MorphTo($this, $morphType, $foreignKey, $alias, $relation);
-    }
-
-    /**
-     * MORPH TO MANY关联定义
-     * @access public
-     * @param  string       $model 模型名
-     * @param  string       $middle 中间表名/模型名
-     * @param  string|array $morph 多态字段信息
-     * @param  string       $localKey   当前模型关联键
-     * @return MorphToMany
-     */
-    public function morphToMany(string $model, string $middle, $morph = null, string $localKey = null): MorphToMany
-    {
-        if (is_null($morph)) {
-            $morph = $middle;
-        }
-
-        // 记录当前关联信息
-        if (is_array($morph)) {
-            [$morphType, $morphKey] = $morph;
-        } else {
-            $morphType = $morph . '_type';
-            $morphKey  = $morph . '_id';
-        }
-
-        $model    = $this->parseModel($model);
-        $name     = Str::snake(class_basename($model));
-        $localKey = $localKey ?: $this->getForeignKey($name);
-
-        return new MorphToMany($this, $model, $middle, $morphType, $morphKey, $localKey);
-    }
-
-    /**
-     * MORPH BY MANY关联定义
-     * @access public
-     * @param  string       $model 模型名
-     * @param  string       $middle 中间表名/模型名
-     * @param  string|array $morph 多态字段信息
-     * @param  string       $foreignKey 关联外键
-     * @return MorphToMany
-     */
-    public function morphByMany(string $model, string $middle, $morph = null, string $foreignKey = null): MorphToMany
-    {
-        if (is_null($morph)) {
-            $morph = $middle;
-        }
-
-        // 记录当前关联信息
-        if (is_array($morph)) {
-            [$morphType, $morphKey] = $morph;
-        } else {
-            $morphType = $morph . '_type';
-            $morphKey  = $morph . '_id';
-        }
-
-        $model      = $this->parseModel($model);
-        $foreignKey = $foreignKey ?: $this->getForeignKey($this->name);
-
-        return new MorphToMany($this, $model, $middle, $morphType, $morphKey, $foreignKey, true);
     }
 
     /**

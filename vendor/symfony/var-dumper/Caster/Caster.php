@@ -41,21 +41,13 @@ class Caster
      * Casts objects to arrays and adds the dynamic property prefix.
      *
      * @param object $obj          The object to cast
+     * @param string $class        The class of the object
      * @param bool   $hasDebugInfo Whether the __debugInfo method exists on $obj or not
      *
      * @return array The array-cast of the object, with prefixed dynamic properties
      */
-    public static function castObject($obj, string $class, bool $hasDebugInfo = false): array
+    public static function castObject($obj, $class, $hasDebugInfo = false)
     {
-        if ($hasDebugInfo) {
-            try {
-                $debugInfo = $obj->__debugInfo();
-            } catch (\Exception $e) {
-                // ignore failing __debugInfo()
-                $hasDebugInfo = false;
-            }
-        }
-
         $a = $obj instanceof \Closure ? [] : (array) $obj;
 
         if ($obj instanceof \__PHP_Incomplete_Class) {
@@ -91,7 +83,7 @@ class Caster
             }
         }
 
-        if ($hasDebugInfo && \is_array($debugInfo)) {
+        if ($hasDebugInfo && \is_array($debugInfo = $obj->__debugInfo())) {
             foreach ($debugInfo as $k => $v) {
                 if (!isset($k[0]) || "\0" !== $k[0]) {
                     $k = self::PREFIX_VIRTUAL.$k;
@@ -118,7 +110,7 @@ class Caster
      *
      * @return array The filtered array
      */
-    public static function filter(array $a, int $filter, array $listedProperties = [], ?int &$count = 0): array
+    public static function filter(array $a, $filter, array $listedProperties = [], &$count = 0)
     {
         $count = 0;
 
@@ -159,7 +151,7 @@ class Caster
         return $a;
     }
 
-    public static function castPhpIncompleteClass(\__PHP_Incomplete_Class $c, array $a, Stub $stub, bool $isNested): array
+    public static function castPhpIncompleteClass(\__PHP_Incomplete_Class $c, array $a, Stub $stub, $isNested)
     {
         if (isset($a['__PHP_Incomplete_Class_Name'])) {
             $stub->class .= '('.$a['__PHP_Incomplete_Class_Name'].')';

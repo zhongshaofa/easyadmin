@@ -1,27 +1,19 @@
 cos-php-sdk-v5 Upgrade Guide
 ====================
-2.0.4 to 2.0.5
-----------
-- Fix bug when upload object with metadata
-
-2.0.3 to 2.0.4
-----------
-- Fix bug when using ip-port
-
 2.0.2 to 2.0.3
 ----------
-- Fix path parse bug with /0/
+1. Fix path parse bug with /0/
 
 2.0.1 to 2.0.2
 ----------
-- Fix bug of `putObject` with `fopen`
-- Add ut
+1. Fix bug of `putObject` with `fopen`
+2. Add ut
 
 
 2.0.0 to 2.0.1
 ----------
-- Add interface of inventory/tagging/logging
-- Fix bug of some interface with query string
+1. Add interface of inventory/tagging/logging
+2. Fix bug of some interface with query string
 
 
 1.3 to 2.0

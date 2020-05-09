@@ -8,21 +8,21 @@ $bucket = Common::getBucketName();
 $ossClient = Common::getOssClient();
 if (is_null($ossClient)) exit(1);
 
-//*******************************Simple Usage ***************************************************************
+//*******************************简单使用***************************************************************
 
-// Set bucket access logging rules. Access logs are stored under the same bucket with a 'access.log' prefix.
+// 设置Bucket访问日志记录规则, 访问日志文件的存放位置是同bucket下的access.log前缀的文件
 $ossClient->putBucketLogging($bucket, $bucket, "access.log", array());
 Common::println("bucket $bucket lifecycleConfig created");
 
-// Get bucket access logging rules
+// 获取Bucket访问日志记录规则
 $loggingConfig = $ossClient->getBucketLogging($bucket, array());
 Common::println("bucket $bucket lifecycleConfig fetched:" . $loggingConfig->serializeToXml());
 
-// Delete bucket access logging rules
+// 删除Bucket访问日志记录规则
 $loggingConfig = $ossClient->getBucketLogging($bucket, array());
 Common::println("bucket $bucket lifecycleConfig deleted");
 
-//******************************* For complete usage, see the following functions ****************************************************
+//******************************* 完整用法参考下面函数 ****************************************************
 
 putBucketLogging($ossClient, $bucket);
 getBucketLogging($ossClient, $bucket);
@@ -30,16 +30,16 @@ deleteBucketLogging($ossClient, $bucket);
 getBucketLogging($ossClient, $bucket);
 
 /**
- * Set bucket logging configuration
+ * 设置bucket的Logging配置
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket bucket name
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 存储空间名称
  * @return null
  */
 function putBucketLogging($ossClient, $bucket)
 {
     $option = array();
-    // Access logs are stored in the same bucket.
+    //访问日志存放在本bucket下
     $targetBucket = $bucket;
     $targetPrefix = "access.log";
 
@@ -54,10 +54,10 @@ function putBucketLogging($ossClient, $bucket)
 }
 
 /**
- * Get bucket logging configuration
+ * 获取bucket的Logging配置
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket bucket name
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 存储空间名称
  * @return null
  */
 function getBucketLogging($ossClient, $bucket)
@@ -76,10 +76,10 @@ function getBucketLogging($ossClient, $bucket)
 }
 
 /**
- * Delete bucket logging configuration
+ * 删除bucket的Logging配置
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket bucket name
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 存储空间名称
  * @return null
  */
 function deleteBucketLogging($ossClient, $bucket)

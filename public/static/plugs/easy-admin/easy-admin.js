@@ -326,10 +326,11 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
 
                     $(elem).before('<fieldset id="searchFieldset_' + tableId + '" class="table-search-fieldset layui-hide">\n' +
                         '<legend>条件搜索</legend>\n' +
-                        '<form class="layui-form layui-form-pane">\n' +
+                        '<form class="layui-form layui-form-pane form-search">\n' +
                         formHtml +
-                        '<div class="layui-form-item layui-inline">\n' +
-                        '<button type="submit" class="layui-btn layui-btn-primary" data-type="tableSearch" data-table="' + tableId + '" lay-submit lay-filter="' + tableId + '_filter"><i class="layui-icon">&#xe615;</i> 搜 索</button>\n' +
+                        '<div class="layui-form-item layui-inline" style="margin-left: 115px">\n' +
+                        '<button type="submit" class="layui-btn layui-btn-normal" data-type="tableSearch" data-table="' + tableId + '" lay-submit lay-filter="' + tableId + '_filter"> 搜 索</button>\n' +
+                        '<button type="reset" class="layui-btn layui-btn-primary"> 重 置 </button>\n'+
                         ' </div>' +
                         '</form>' +
                         '</fieldset>');
@@ -339,10 +340,10 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
                     // 初始化form表单
                     form.render();
                     $.each(newCols, function (ncI, ncV) {
-                        if (ncV.search == 'range') {
+                        if (ncV.search === 'range') {
                             laydate.render({range: true, type: ncV.timeType, elem: '[name="' + ncV.field + '"]'});
                         }
-                        if (ncV.search == 'time') {
+                        if (ncV.search === 'time') {
                             laydate.render({type: ncV.timeType, elem: '[name="' + ncV.field + '"]'});
                         }
                     });

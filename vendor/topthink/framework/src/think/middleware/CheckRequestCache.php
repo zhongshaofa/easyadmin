@@ -65,7 +65,7 @@ class CheckRequestCache
 
             if ($cache) {
                 if (is_array($cache)) {
-                    [$key, $expire, $tag] = $cache;
+                    list($key, $expire, $tag) = $cache;
                 } else {
                     $key    = str_replace('|', '/', $request->url());
                     $expire = $cache;
@@ -76,8 +76,8 @@ class CheckRequestCache
                     // 读取缓存
                     return Response::create()->code(304);
                 } elseif (($hit = $this->cache->get($key)) !== null) {
-                    [$content, $header, $when] = $hit;
-                    if (null === $expire || $when + $expire > $request->server('REQUEST_TIME')) {
+                    list($content, $header, $when) = $hit;
+                    if ($expire === null || $when + $expire > $request->server('REQUEST_TIME')) {
                         return Response::create($content)->header($header);
                     }
                 }
@@ -130,7 +130,7 @@ class CheckRequestCache
             // 自动缓存功能
             $key = '__URL__';
         } elseif (strpos($key, '|')) {
-            [$key, $fun] = explode('|', $key);
+            list($key, $fun) = explode('|', $key);
         }
 
         // 特殊规则替换

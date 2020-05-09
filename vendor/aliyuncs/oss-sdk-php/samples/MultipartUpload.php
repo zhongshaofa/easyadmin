@@ -9,27 +9,27 @@ $bucket = Common::getBucketName();
 $ossClient = Common::getOssClient();
 if (is_null($ossClient)) exit(1);
 
-//******************************* Simple usage ***************************************************************
+//*******************************简单使用***************************************************************
 
 /**
- * See the putObjectByRawAPis usage in complete example to check out basic multipart upload APIs which can be used as resumable upload.
+ * 查看完整用法中的 "putObjectByRawApis"函数，查看使用基础的分片上传api进行文件上传，用户可以基于这个自行实现断点续传等功能
  */
 
-// Upload a file using the multipart upload interface, which determines to use simple upload or multipart upload based on the file size.
+// 使用分片上传接口上传文件, 接口会根据文件大小决定是使用普通上传还是分片上传
 $ossClient->multiuploadFile($bucket, "file.php", __FILE__, array());
 Common::println("local file " . __FILE__ . " is uploaded to the bucket $bucket, file.php");
 
 
-// Upload local directory's data into target dir
+// 上传本地目录到bucket内的targetdir子目录中
 $ossClient->uploadDir($bucket, "targetdir", __DIR__);
 Common::println("local dir " . __DIR__ . " is uploaded to the bucket $bucket, targetdir/");
 
 
-// List the incomplete multipart uploads
+// 列出当前未完成的分片上传
 $listMultipartUploadInfo = $ossClient->listMultipartUploads($bucket, array());
 
 
-//******************************* For complete usage, see the following functions ****************************************************
+//******************************* 完整用法参考下面函数 ****************************************************
 
 multiuploadFile($ossClient, $bucket);
 putObjectByRawApis($ossClient, $bucket);
@@ -37,10 +37,10 @@ uploadDir($ossClient, $bucket);
 listMultipartUploads($ossClient, $bucket);
 
 /**
- * Upload files using multipart upload
+ * 通过multipart上传文件
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket bucket name
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 存储空间名称
  * @return null
  */
 function multiuploadFile($ossClient, $bucket)
@@ -60,17 +60,17 @@ function multiuploadFile($ossClient, $bucket)
 }
 
 /**
- * Use basic multipart upload for file upload.
+ * 使用基本的api分阶段进行分片上传
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket bucket name
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 存储空间名称
  * @throws OssException
  */
 function putObjectByRawApis($ossClient, $bucket)
 {
     $object = "test/multipart-test.txt";
     /**
-     *  step 1. Initialize a block upload event, that is, a multipart upload process to get an upload id
+     *  step 1. 初始化一个分块上传事件, 也就是初始化上传Multipart, 获取upload id
      */
     try {
         $uploadId = $ossClient->initiateMultipartUpload($bucket, $object);
@@ -81,7 +81,7 @@ function putObjectByRawApis($ossClient, $bucket)
     }
     print(__FUNCTION__ . ": initiateMultipartUpload OK" . "\n");
     /*
-     * step 2. Upload parts
+     * step 2. 上传分片
      */
     $partSize = 10 * 1024 * 1024;
     $uploadFile = __FILE__;
@@ -104,7 +104,7 @@ function putObjectByRawApis($ossClient, $bucket)
             $contentMd5 = OssUtil::getMd5SumForFile($uploadFile, $fromPos, $toPos);
             $upOptions[$ossClient::OSS_CONTENT_MD5] = $contentMd5;
         }
-        //2. Upload each part to OSS
+        //2. 将每一分片上传到OSS
         try {
             $responseUploadPart[] = $ossClient->uploadPart($bucket, $object, $uploadId, $upOptions);
         } catch (OssException $e) {
@@ -122,7 +122,7 @@ function putObjectByRawApis($ossClient, $bucket)
         );
     }
     /**
-     * step 3. Complete the upload
+     * step 3. 完成上传
      */
     try {
         $ossClient->completeMultipartUpload($bucket, $object, $uploadId, $uploadParts);
@@ -135,10 +135,10 @@ function putObjectByRawApis($ossClient, $bucket)
 }
 
 /**
- * Upload by directories
+ * 按照目录上传文件
  *
  * @param OssClient $ossClient OssClient
- * @param string $bucket bucket name
+ * @param string $bucket 存储空间名称
  *
  */
 function uploadDir($ossClient, $bucket)
@@ -156,7 +156,7 @@ function uploadDir($ossClient, $bucket)
 }
 
 /**
- * Get ongoing multipart uploads
+ * 获取当前未完成的分片上传列表
  *
  * @param $ossClient OssClient
  * @param $bucket   string

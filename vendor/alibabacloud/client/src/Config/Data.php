@@ -13,7 +13,6 @@ return [
                 [
                     'global'      => 'ccc.cn-shanghai.aliyuncs.com',
                     'cn-shanghai' => 'ccc.cn-shanghai.aliyuncs.com',
-                    'cn-hangzhou' => 'ccc.cn-hangzhou.aliyuncs.com',
                 ],
             'dbs'             =>
                 [
@@ -280,35 +279,21 @@ return [
                 ],
             'cs'              =>
                 [
-                    'us-east-1'             => 'cs.us-east-1.aliyuncs.com',
-                    'cn-hongkong'           => 'cs.cn-hongkong.aliyuncs.com',
-                    'cn-qingdao-cm9'        => 'cs.aliyuncs.com',
-                    'cn-shanghai'           => 'cs.cn-shanghai.aliyuncs.com',
-                    'cn-shenzhen-inner'     => 'cs.aliyuncs.com',
-                    'us-west-1'             => 'cs.us-west-1.aliyuncs.com',
-                    'cn-shanghai-inner'     => 'cs.aliyuncs.com',
-                    'cn-hangzhou'           => 'cs.cn-hangzhou.aliyuncs.com',
-                    'cn-beijing-inner'      => 'cs.aliyuncs.com',
-                    'cn-shenzhen'           => 'cs.cn-shenzhen.aliyuncs.com',
-                    'cn-qingdao'            => 'cs.aliyuncs.com',
-                    'cn-beijing'            => 'cs.cn-beijing.aliyuncs.com',
-                    'cn-hangzhou-d'         => 'cs.aliyuncs.com',
-                    'cn-shanghai-et2-b01'   => 'cs.aliyuncs.com',
-                    'ap-southeast-1'        => 'cs.ap-southeast-1.aliyuncs.com',
-                    'cn-chengdu'            => 'cs.cn-chengdu.aliyuncs.com',
-                    'cn-zhangjiakou'        => 'cs.cn-zhangjiakou.aliyuncs.com',
-                    'cn-huhehaote'          => 'cs.cn-huhehaote.aliyuncs.com',
-                    'ap-southeast-2'        => 'cs.ap-southeast-2.aliyuncs.com',
-                    'ap-southeast-3'        => 'cs.ap-southeast-3.aliyuncs.com',
-                    'ap-southeast-5'        => 'cs.ap-southeast-5.aliyuncs.com',
-                    'ap-northeast-1'        => 'cs.ap-northeast-1.aliyuncs.com',
-                    'eu-west-1'             => 'cs.eu-west-1.aliyuncs.com',
-                    'eu-central-1'          => 'cs.eu-central-1.aliyuncs.com',
-                    'me-east-1'             => 'cs.me-east-1.aliyuncs.com',
-                    'ap-south-1'            => 'cs.ap-south-1.aliyuncs.com',
-                    'cn-shanghai-finance-1' => 'cs.cn-shanghai-finance-1.aliyuncs.com',
-                    'cn-shenzhen-finance-1' => 'cs.cn-shenzhen-finance-1.aliyuncs.com',
-                    'cn-north-2-gov-1'      => 'cs.cn-north-2-gov-1.aliyuncs.com',
+                    'us-east-1'           => 'cs.aliyuncs.com',
+                    'cn-hongkong'         => 'cs.aliyuncs.com',
+                    'cn-qingdao-cm9'      => 'cs.aliyuncs.com',
+                    'cn-shanghai'         => 'cs.aliyuncs.com',
+                    'cn-shenzhen-inner'   => 'cs.aliyuncs.com',
+                    'us-west-1'           => 'cs.aliyuncs.com',
+                    'cn-shanghai-inner'   => 'cs.aliyuncs.com',
+                    'cn-hangzhou'         => 'cs.aliyuncs.com',
+                    'cn-beijing-inner'    => 'cs.aliyuncs.com',
+                    'cn-shenzhen'         => 'cs.aliyuncs.com',
+                    'cn-qingdao'          => 'cs.aliyuncs.com',
+                    'cn-beijing'          => 'cs.aliyuncs.com',
+                    'cn-hangzhou-d'       => 'cs.aliyuncs.com',
+                    'cn-shanghai-et2-b01' => 'cs.aliyuncs.com',
+                    'ap-southeast-1'      => 'cs.aliyuncs.com',
                 ],
             'push'            =>
                 [
@@ -376,7 +361,6 @@ return [
                     'cn-shanghai-finance-1' => 'ess.aliyuncs.com',
                     'cn-shenzhen-finance-1' => 'ess.aliyuncs.com',
                     'cn-north-2-gov-1'      => 'ess.aliyuncs.com',
-                    'cn-chengdu'            => 'ess.cn-chengdu.aliyuncs.com',
                 ],
             'ace-ops'         =>
                 [
@@ -730,8 +714,7 @@ return [
                     'cn-beijing'          => 'dm.aliyuncs.com',
                     'cn-hangzhou-d'       => 'dm.aliyuncs.com',
                     'cn-shanghai-et2-b01' => 'dm.aliyuncs.com',
-                    'ap-southeast-1'      => 'dm.ap-southeast-1.aliyuncs.com',
-                    'ap-southeast-2'      => 'dm.ap-southeast-2.aliyuncs.com',
+                    'ap-southeast-1'      => 'dm.aliyuncs.com',
                 ],
             'green'           =>
                 [
@@ -771,22 +754,21 @@ return [
                 ],
             'oceanbase'       =>
                 [
-                    'us-east-1'             => 'oceanbase.aliyuncs.com',
-                    'cn-hongkong'           => 'oceanbase.aliyuncs.com',
-                    'cn-qingdao-cm9'        => 'oceanbase.aliyuncs.com',
-                    'cn-shanghai'           => 'oceanbasepro-share.cn-shanghai.aliyuncs.com',
-                    'cn-shenzhen-inner'     => 'oceanbase.aliyuncs.com',
-                    'us-west-1'             => 'oceanbase.aliyuncs.com',
-                    'cn-shanghai-inner'     => 'oceanbase.aliyuncs.com',
-                    'cn-hangzhou'           => 'oceanbasepro-share.cn-hangzhou.aliyuncs.com',
-                    'cn-beijing-inner'      => 'oceanbase.aliyuncs.com',
-                    'cn-shenzhen'           => 'oceanbase.aliyuncs.com',
-                    'cn-qingdao'            => 'oceanbase.aliyuncs.com',
-                    'cn-beijing'            => 'oceanbase.aliyuncs.com',
-                    'cn-hangzhou-d'         => 'oceanbase.aliyuncs.com',
-                    'cn-shanghai-et2-b01'   => 'oceanbase.aliyuncs.com',
-                    'ap-southeast-1'        => 'oceanbase.aliyuncs.com',
-                    'cn-shanghai-finance-1' => 'oceanbasepro-share.cn-shanghai-finance-1.aliyuncs.com',
+                    'us-east-1'           => 'oceanbase.aliyuncs.com',
+                    'cn-hongkong'         => 'oceanbase.aliyuncs.com',
+                    'cn-qingdao-cm9'      => 'oceanbase.aliyuncs.com',
+                    'cn-shanghai'         => 'oceanbasepro-share.cn-shanghai.aliyuncs.com',
+                    'cn-shenzhen-inner'   => 'oceanbase.aliyuncs.com',
+                    'us-west-1'           => 'oceanbase.aliyuncs.com',
+                    'cn-shanghai-inner'   => 'oceanbase.aliyuncs.com',
+                    'cn-hangzhou'         => 'ob.cn-hangzhou.aliyuncs.com',
+                    'cn-beijing-inner'    => 'oceanbase.aliyuncs.com',
+                    'cn-shenzhen'         => 'oceanbase.aliyuncs.com',
+                    'cn-qingdao'          => 'oceanbase.aliyuncs.com',
+                    'cn-beijing'          => 'oceanbase.aliyuncs.com',
+                    'cn-hangzhou-d'       => 'oceanbase.aliyuncs.com',
+                    'cn-shanghai-et2-b01' => 'oceanbase.aliyuncs.com',
+                    'ap-southeast-1'      => 'oceanbase.aliyuncs.com',
                 ],
             'msc'             =>
                 [
@@ -1279,33 +1261,31 @@ return [
                 ],
             'ots'             =>
                 [
-                    'us-east-1'             => 'ots.us-east-1.aliyuncs.com',
-                    'cn-hongkong'           => 'ots.cn-hongkong.aliyuncs.com',
-                    'cn-qingdao-cm9'        => 'ots-pop.aliyuncs.com',
-                    'cn-shanghai'           => 'ots.cn-shanghai.aliyuncs.com',
-                    'cn-shenzhen-inner'     => 'ots-pop.aliyuncs.com',
-                    'us-west-1'             => 'ots.us-west-1.aliyuncs.com',
-                    'cn-shanghai-inner'     => 'ots-pop.aliyuncs.com',
-                    'cn-hangzhou'           => 'ots.cn-hangzhou.aliyuncs.com',
-                    'cn-beijing-inner'      => 'ots-pop.aliyuncs.com',
-                    'cn-shenzhen'           => 'ots.cn-shenzhen.aliyuncs.com',
-                    'cn-qingdao'            => 'ots.cn-qingdao.aliyuncs.com',
-                    'cn-beijing'            => 'ots.cn-beijing.aliyuncs.com',
-                    'cn-hangzhou-d'         => 'ots-pop.aliyuncs.com',
-                    'cn-shanghai-et2-b01'   => 'ots-pop.aliyuncs.com',
-                    'ap-southeast-1'        => 'ots.ap-southeast-1.aliyuncs.com',
-                    'cn-zhangjiakou'        => 'ots.cn-zhangjiakou.aliyuncs.com',
-                    'cn-huhehaote'          => 'ots.cn-huhehaote.aliyuncs.com',
-                    'ap-southeast-2'        => 'ots.ap-southeast-2.aliyuncs.com',
-                    'ap-southeast-3'        => 'ots.ap-southeast-3.aliyuncs.com',
-                    'ap-southeast-5'        => 'ots.ap-southeast-5.aliyuncs.com',
-                    'ap-northeast-1'        => 'ots.ap-northeast-1.aliyuncs.com',
-                    'eu-west-1'             => 'ots.eu-west-1.aliyuncs.com',
-                    'eu-central-1'          => 'ots.eu-central-1.aliyuncs.com',
-                    'me-east-1'             => 'ots.me-east-1.aliyuncs.com',
-                    'ap-south-1'            => 'ots.ap-south-1.aliyuncs.com',
-                    'cn-chengdu'            => 'ots.cn-chengdu.aliyuncs.com',
-                    'cn-shanghai-finance-1' => 'ots.cn-shanghai-finance-1.aliyuncs.com',
+                    'us-east-1'           => 'ots.us-east-1.aliyuncs.com',
+                    'cn-hongkong'         => 'ots-pop.aliyuncs.com',
+                    'cn-qingdao-cm9'      => 'ots-pop.aliyuncs.com',
+                    'cn-shanghai'         => 'ots.cn-shanghai.aliyuncs.com',
+                    'cn-shenzhen-inner'   => 'ots-pop.aliyuncs.com',
+                    'us-west-1'           => 'ots.us-west-1.aliyuncs.com',
+                    'cn-shanghai-inner'   => 'ots-pop.aliyuncs.com',
+                    'cn-hangzhou'         => 'ots.cn-hangzhou.aliyuncs.com',
+                    'cn-beijing-inner'    => 'ots-pop.aliyuncs.com',
+                    'cn-shenzhen'         => 'ots.cn-shenzhen.aliyuncs.com',
+                    'cn-qingdao'          => 'ots-pop.aliyuncs.com',
+                    'cn-beijing'          => 'ots.cn-beijing.aliyuncs.com',
+                    'cn-hangzhou-d'       => 'ots-pop.aliyuncs.com',
+                    'cn-shanghai-et2-b01' => 'ots-pop.aliyuncs.com',
+                    'ap-southeast-1'      => 'ots.ap-southeast-1.aliyuncs.com',
+                    'cn-zhangjiakou'      => 'ots.cn-zhangjiakou.aliyuncs.com',
+                    'cn-huhehaote'        => 'ots.cn-huhehaote.aliyuncs.com',
+                    'ap-southeast-2'      => 'ots.ap-southeast-2.aliyuncs.com',
+                    'ap-southeast-3'      => 'ots.ap-southeast-3.aliyuncs.com',
+                    'ap-southeast-5'      => 'ots.ap-southeast-5.aliyuncs.com',
+                    'ap-northeast-1'      => 'ots.ap-northeast-1.aliyuncs.com',
+                    'eu-west-1'           => 'ots.eu-west-1.aliyuncs.com',
+                    'eu-central-1'        => 'ots.eu-central-1.aliyuncs.com',
+                    'me-east-1'           => 'ots.me-east-1.aliyuncs.com',
+                    'ap-south-1'          => 'ots.ap-south-1.aliyuncs.com',
                 ],
             'oss'             =>
                 [
@@ -1431,7 +1411,6 @@ return [
                     'cn-shanghai-finance-1' => 'ons.cn-shanghai-finance-1.aliyuncs.com',
                     'cn-shenzhen-finance-1' => 'ons.cn-shenzhen-finance-1.aliyuncs.com',
                     'cn-north-2-gov-1'      => 'ons.cn-north-2-gov-1.aliyuncs.com',
-                    'ap-southeast-5'        => 'ons.ap-southeast-5.aliyuncs.com',
                 ],
             'cdn'             =>
                 [
@@ -1708,7 +1687,6 @@ return [
                     'cn-shanghai-finance-1' => 'nas.cn-shanghai-finance-1.aliyuncs.com',
                     'cn-shenzhen-finance-1' => 'nas.cn-shenzhen-finance-1.aliyuncs.com',
                     'cn-north-2-gov-1'      => 'nas.cn-north-2-gov-1.aliyuncs.com',
-                    'eu-west-1'             => 'nas.eu-west-1.aliyuncs.com',
                 ],
             'hbase'           =>
                 [
@@ -1732,8 +1710,6 @@ return [
                     'cn-shanghai-finance-1' => 'hbase.aliyuncs.com',
                     'cn-shenzhen-finance-1' => 'hbase.aliyuncs.com',
                     'cn-north-2-gov-1'      => 'hbase.aliyuncs.com',
-                    'cn-zhangjiakou'        => 'hbase.cn-zhangjiakou.aliyuncs.com',
-                    'cn-hongkong'           => 'hbase.aliyuncs.com',
                 ],
             'ddosbasic'       =>
                 [
@@ -1777,8 +1753,6 @@ return [
                     'us-west-1'             => 'polardb.aliyuncs.com',
                     'cn-hangzhou-finance'   => 'polardb.aliyuncs.com',
                     'cn-shanghai-finance-1' => 'polardb.aliyuncs.com',
-                    'eu-central-1'          => 'polardb.eu-central-1.aliyuncs.com',
-                    'cn-shenzhen-finance-1' => 'polardb.aliyuncs.com',
                 ],
             'actiontrail'     =>
                 [
@@ -1822,8 +1796,6 @@ return [
                     'cn-qingdao'     => 'sgw.cn-shanghai.aliyuncs.com',
                     'cn-shenzhen'    => 'sgw.cn-shanghai.aliyuncs.com',
                     'cn-huhehaote'   => 'sgw.cn-shanghai.aliyuncs.com',
-                    'cn-chengdu'     => 'sgw.cn-shanghai.aliyuncs.com',
-                    'ap-southeast-5' => 'sgw.ap-southeast-5.aliyuncs.com',
                 ],
             'openanalytics'   =>
                 [
@@ -1841,7 +1813,6 @@ return [
                     'ap-northeast-1' => 'datalakeanalytics.ap-northeast-1.aliyuncs.com',
                     'us-east-1'      => 'datalakeanalytics.us-east-1.aliyuncs.com',
                     'eu-central-1'   => 'datalakeanalytics.eu-central-1.aliyuncs.com',
-                    'ap-south-1'     => 'openanalytics.ap-south-1.aliyuncs.com',
                 ],
             'clouddesktop'    =>
                 [
@@ -1875,8 +1846,6 @@ return [
                     'ap-southeast-1'        => 'hsm.aliyuncs.com',
                     'cn-shanghai-finance-1' => 'hsm.aliyuncs.com',
                     'cn-shenzhen-finance-1' => 'hsm.aliyuncs.com',
-                    'cn-hangzhou-finance'   => 'hsm.aliyuncs.com',
-                    'cn-north-2-gov-1'      => 'hsm.aliyuncs.com',
                 ],
             'petadata'        =>
                 [
@@ -2009,29 +1978,7 @@ return [
                 ],
             'bastionhost'     =>
                 [
-                    'cn-hangzhou'           => 'yundun-bastionhost.aliyuncs.com',
-                    'cn-qingdao'            => 'yundun-bastionhost.aliyuncs.com',
-                    'cn-beijing'            => 'yundun-bastionhost.aliyuncs.com',
-                    'cn-chengdu'            => 'yundun-bastionhost.aliyuncs.com',
-                    'cn-zhangjiakou'        => 'yundun-bastionhost.aliyuncs.com',
-                    'cn-huhehaote'          => 'yundun-bastionhost.aliyuncs.com',
-                    'cn-shanghai'           => 'yundun-bastionhost.aliyuncs.com',
-                    'cn-shenzhen'           => 'yundun-bastionhost.aliyuncs.com',
-                    'cn-hongkong'           => 'yundun-bastionhost.aliyuncs.com',
-                    'ap-southeast-1'        => 'yundun-bastionhost.aliyuncs.com',
-                    'ap-southeast-2'        => 'yundun-bastionhost.aliyuncs.com',
-                    'ap-southeast-3'        => 'yundun-bastionhost.aliyuncs.com',
-                    'ap-southeast-5'        => 'yundun-bastionhost.aliyuncs.com',
-                    'ap-northeast-1'        => 'yundun-bastionhost.aliyuncs.com',
-                    'eu-west-1'             => 'yundun-bastionhost.aliyuncs.com',
-                    'us-west-1'             => 'yundun-bastionhost.aliyuncs.com',
-                    'us-east-1'             => 'yundun-bastionhost.aliyuncs.com',
-                    'eu-central-1'          => 'yundun-bastionhost.aliyuncs.com',
-                    'me-east-1'             => 'yundun-bastionhost.aliyuncs.com',
-                    'ap-south-1'            => 'yundun-bastionhost.aliyuncs.com',
-                    'cn-shanghai-finance-1' => 'yundun-bastionhost.aliyuncs.com',
-                    'cn-shenzhen-finance-1' => 'yundun-bastionhost.aliyuncs.com',
-                    'cn-north-2-gov-1'      => 'yundun-bastionhost.aliyuncs.com',
+                    'cn-hangzhou' => 'yundun-bastionhost.aliyuncs.com',
                 ],
             'pvtz'            =>
                 [
@@ -2070,8 +2017,7 @@ return [
                 ],
             'sas'             =>
                 [
-                    'cn-hangzhou'    => 'tds.aliyuncs.com',
-                    'ap-southeast-3' => 'tds.ap-southeast-3.aliyuncs.com',
+                    'cn-hangzhou' => 'sas.aliyuncs.com',
                 ],
             'cloudauth'       =>
                 [
@@ -2090,20 +2036,20 @@ return [
                 [
                     'cn-hangzhou'      => 'baas.cn-hangzhou.aliyuncs.com',
                     'ap-southeast-1'   => 'baas.ap-southeast-1.aliyuncs.com',
-                    'ap-northeast-1'   => 'baas.ap-southeast-1.aliyuncs.com',
+                    'ap-northeast-1'   => 'baas.ap-northeast-1.aliyuncs.com',
                     'cn-beijing'       => 'baas.aliyuncs.com',
                     'cn-shanghai'      => 'baas.aliyuncs.com',
                     'cn-shenzhen'      => 'baas.aliyuncs.com',
-                    'cn-hongkong'      => 'baas.ap-southeast-1.aliyuncs.com',
-                    'ap-southeast-2'   => 'baas.ap-southeast-1.aliyuncs.com',
-                    'us-east-1'        => 'baas.ap-southeast-1.aliyuncs.com',
-                    'eu-central-1'     => 'baas.ap-southeast-1.aliyuncs.com',
+                    'cn-hongkong'      => 'baas.cn-hongkong.aliyuncs.com',
+                    'ap-southeast-2'   => 'baas.ap-southeast-2.aliyuncs.com',
+                    'us-east-1'        => 'baas.us-east-1.aliyuncs.com',
+                    'eu-central-1'     => 'baas.aliyuncs.com',
                     'cn-qingdao'       => 'baas.aliyuncs.com',
                     'cn-zhangjiakou'   => 'baas.aliyuncs.com',
                     'cn-huhehaote'     => 'baas.aliyuncs.com',
-                    'eu-west-1'        => 'baas.ap-southeast-1.aliyuncs.com',
-                    'us-west-1'        => 'baas.ap-southeast-1.aliyuncs.com',
-                    'ap-south-1'       => 'baas.ap-southeast-1.aliyuncs.com',
+                    'eu-west-1'        => 'baas.eu-west-1.aliyuncs.com',
+                    'us-west-1'        => 'baas.aliyuncs.com',
+                    'ap-south-1'       => 'baas.aliyuncs.com',
                     'cn-north-2-gov-1' => 'baas.cn-north-2-gov-1.aliyuncs.com',
                 ],
             'alimt'           =>
@@ -2274,7 +2220,6 @@ return [
                     'cn-hangzhou-finance'   => 'foas.cn-hangzhou-finance.aliyuncs.com',
                     'cn-shanghai-finance-1' => 'foas.cn-shanghai-finance-1.aliyuncs.com',
                     'cn-north-2-gov-1'      => 'foas.cn-north-2-gov-1.aliyuncs.com',
-                    'cn-hongkong'           => 'foas.cn-hongkong.aliyuncs.com',
                 ],
             'iotid'           =>
                 [
@@ -2348,14 +2293,9 @@ return [
                 ],
             'privatelink'     =>
                 [
-                    'cn-hangzhou'    => 'privatelink.cn-hangzhou.aliyuncs.com',
-                    'cn-huhehaote'   => 'privatelink.cn-huhehaote.aliyuncs.com',
-                    'eu-west-1'      => 'privatelink.eu-west-1.aliyuncs.com',
-                    'ap-southeast-2' => 'privatelink.ap-southeast-2.aliyuncs.com',
-                    'ap-southeast-5' => 'privatelink.ap-southeast-5.aliyuncs.com',
-                    'ap-northeast-1' => 'privatelink.ap-northeast-1.aliyuncs.com',
-                    'ap-south-1'     => 'privatelink.ap-south-1.aliyuncs.com',
-                    'cn-shenzhen'    => 'privatelink.cn-shenzhen.aliyuncs.com',
+                    'cn-hangzhou'  => 'privatelink.cn-hangzhou.aliyuncs.com',
+                    'cn-huhehaote' => 'privatelink.cn-huhehaote.aliyuncs.com',
+                    'eu-west-1'    => 'privatelink.eu-west-1.aliyuncs.com',
                 ],
             'batchcomputenew' =>
                 [
@@ -2380,15 +2320,13 @@ return [
                 [
                     'cn-qingdao'     => 'hbr.cn-shanghai.aliyuncs.com',
                     'cn-beijing'     => 'hbr.cn-beijing.aliyuncs.com',
-                    'cn-zhangjiakou' => 'hbr.cn-zhangjiakou.aliyuncs.com',
-                    'cn-huhehaote'   => 'hbr.cn-huhehaote.aliyuncs.com',
+                    'cn-zhangjiakou' => 'hbr.cn-shanghai.aliyuncs.com',
+                    'cn-huhehaote'   => 'hbr.cn-shanghai.aliyuncs.com',
                     'cn-hangzhou'    => 'hbr.cn-hangzhou.aliyuncs.com',
                     'cn-shanghai'    => 'hbr.cn-shanghai.aliyuncs.com',
                     'cn-shenzhen'    => 'hbr.cn-shenzhen.aliyuncs.com',
                     'ap-southeast-1' => 'hbr.ap-southeast-1.aliyuncs.com',
                     'ap-southeast-2' => 'hbr.ap-southeast-2.aliyuncs.com',
-                    'cn-hongkong'    => 'hbr.cn-hongkong.aliyuncs.com',
-                    'ap-southeast-5' => 'hbr.ap-southeast-5.aliyuncs.com',
                 ],
             'image'           =>
                 [
@@ -2406,7 +2344,6 @@ return [
                 [
                     'cn-zhangjiakou' => 'sddp.cn-zhangjiakou.aliyuncs.com',
                     'cn-hangzhou'    => 'sddp.cn-hangzhou.aliyuncs.com',
-                    'ap-southeast-1' => 'sddp.ap-southeast-1.aliyuncs.com',
                 ],
             'oos'             =>
                 [
@@ -2416,24 +2353,17 @@ return [
                     'cn-hongkong'    => 'oos.cn-hongkong.aliyuncs.com',
                     'us-east-1'      => 'oos.us-east-1.aliyuncs.com',
                     'cn-beijing'     => 'oos.cn-beijing.aliyuncs.com',
-                    'cn-zhangjiakou' => 'oos.cn-zhangjiakou.aliyuncs.com',
+                    'cn-zhangjiakou' => 'oos.cn-zhangjakou.aliyuncs.com',
                     'cn-huhehaote'   => 'oos.cn-huhehaote.aliyuncs.com',
                     'eu-west-1'      => 'oos.eu-west-1.aliyuncs.com',
                     'eu-central-1'   => 'oos.eu-central-1.aliyuncs.com',
                     'ap-south-1'     => 'oos.ap-south-1.aliyuncs.com',
-                    'cn-chengdu'     => 'oos.cn-chengdu.aliyuncs.com',
-                    'ap-southeast-1' => 'oos.ap-southeast-1.aliyuncs.com',
-                    'ap-southeast-2' => 'oos.ap-southeast-2.aliyuncs.com',
-                    'ap-southeast-3' => 'oos.ap-southeast-3.aliyuncs.com',
-                    'ap-southeast-5' => 'oos.ap-southeast-5.aliyuncs.com',
-                    'ap-northeast-1' => 'oos.ap-northeast-1.aliyuncs.com',
                 ],
             'fnf'             =>
                 [
                     'cn-hangzhou' => 'cn-hangzhou.fnf.aliyuncs.com',
                     'cn-shanghai' => 'cn-shanghai.fnf.aliyuncs.com',
                     'cn-shenzhen' => 'cn-shenzhen.fnf.aliyuncs.com',
-                    'cn-beijing'  => 'cn-beijing.fnf.aliyuncs.com',
                 ],
             'smc'             =>
                 [
@@ -2485,7 +2415,6 @@ return [
                     'cn-huhehaote' => 'ivpd.cn-huhehaote.aliyuncs.com',
                     'cn-shanghai'  => 'ivpd.cn-shanghai.aliyuncs.com',
                     'cn-hangzhou'  => 'ivpd.cn-hangzhou.aliyuncs.com',
-                    'cn-beijing'   => 'ivpd.cn-beijing.aliyuncs.com',
                 ],
             'hivisengine'     =>
                 [
@@ -2524,10 +2453,8 @@ return [
                 ],
             'mse'             =>
                 [
-                    'cn-hangzhou'    => 'mse.cn-hangzhou.aliyuncs.com',
-                    'cn-shanghai'    => 'mse.cn-shanghai.aliyuncs.com',
-                    'cn-beijing'     => 'mse.cn-beijing.aliyuncs.com',
-                    'cn-zhangjiakou' => 'mse.cn-zhangjiakou.aliyuncs.com',
+                    'cn-hangzhou' => 'mse.cn-hangzhou.aliyuncs.com',
+                    'cn-shanghai' => 'mse.cn-shanghai.aliyuncs.com',
                 ],
             'dg'              =>
                 [
@@ -2545,32 +2472,28 @@ return [
                     'cn-hangzhou'    => 'cassandra.aliyuncs.com',
                     'cn-shanghai'    => 'cassandra.aliyuncs.com',
                     'cn-shenzhen'    => 'cassandra.aliyuncs.com',
-                    'cn-hongkong'    => 'cassandra.aliyuncs.com',
                 ],
             'ads'             =>
                 [
-                    'cn-qingdao'            => 'adb.aliyuncs.com',
-                    'cn-beijing'            => 'adb.aliyuncs.com',
-                    'cn-zhangjiakou'        => 'adb.cn-zhangjiakou.aliyuncs.com',
-                    'cn-hangzhou'           => 'adb.aliyuncs.com',
-                    'cn-shanghai'           => 'adb.aliyuncs.com',
-                    'cn-shenzhen'           => 'adb.aliyuncs.com',
-                    'cn-hongkong'           => 'adb.aliyuncs.com',
-                    'ap-southeast-1'        => 'adb.aliyuncs.com',
-                    'ap-northeast-1'        => 'adb.ap-northeast-1.aliyuncs.com',
-                    'eu-west-1'             => 'adb.eu-west-1.aliyuncs.com',
-                    'us-west-1'             => 'adb.aliyuncs.com',
-                    'us-east-1'             => 'adb.aliyuncs.com',
-                    'ap-southeast-2'        => 'adb.ap-southeast-2.aliyuncs.com',
-                    'eu-central-1'          => 'adb.eu-central-1.aliyuncs.com',
-                    'ap-south-1'            => 'adb.ap-south-1.aliyuncs.com',
-                    'cn-north-2-gov-1'      => 'adb.aliyuncs.com',
-                    'cn-chengdu'            => 'adb.cn-chengdu.aliyuncs.com',
-                    'cn-huhehaote'          => 'adb.cn-huhehaote.aliyuncs.com',
-                    'ap-southeast-3'        => 'adb.ap-southeast-3.aliyuncs.com',
-                    'ap-southeast-5'        => 'adb.ap-southeast-5.aliyuncs.com',
-                    'cn-hangzhou-finance'   => 'adb.aliyuncs.com',
-                    'cn-shanghai-finance-1' => 'adb.aliyuncs.com',
+                    'cn-qingdao'       => 'adb.aliyuncs.com',
+                    'cn-beijing'       => 'adb.aliyuncs.com',
+                    'cn-zhangjiakou'   => 'adb.cn-zhangjiakou.aliyuncs.com',
+                    'cn-hangzhou'      => 'adb.aliyuncs.com',
+                    'cn-shanghai'      => 'adb.aliyuncs.com',
+                    'cn-shenzhen'      => 'adb.aliyuncs.com',
+                    'cn-hongkong'      => 'adb.aliyuncs.com',
+                    'ap-southeast-1'   => 'adb.aliyuncs.com',
+                    'ap-northeast-1'   => 'adb.ap-northeast-1.aliyuncs.com',
+                    'eu-west-1'        => 'adb.eu-west-1.aliyuncs.com',
+                    'us-west-1'        => 'adb.aliyuncs.com',
+                    'us-east-1'        => 'adb.aliyuncs.com',
+                    'ap-southeast-2'   => 'adb.ap-southeast-2.aliyuncs.com',
+                    'eu-central-1'     => 'adb.eu-central-1.aliyuncs.com',
+                    'ap-south-1'       => 'adb.ap-south-1.aliyuncs.com',
+                    'cn-north-2-gov-1' => 'adb.aliyuncs.com',
+                    'cn-chengdu'       => 'adb.cn-chengdu.aliyuncs.com',
+                    'cn-huhehaote'     => 'adb.cn-huhehaote.aliyuncs.com',
+                    'ap-southeast-3'   => 'adb.ap-southeast-3.aliyuncs.com',
                 ],
             'csb'             =>
                 [
@@ -2587,29 +2510,7 @@ return [
                 ],
             'dbaudit'         =>
                 [
-                    'cn-hangzhou'           => 'yundun-dbaudit.aliyuncs.com',
-                    'cn-qingdao'            => 'yundun-dbaudit.aliyuncs.com',
-                    'cn-beijing'            => 'yundun-dbaudit.aliyuncs.com',
-                    'cn-zhangjiakou'        => 'yundun-dbaudit.aliyuncs.com',
-                    'cn-huhehaote'          => 'yundun-dbaudit.aliyuncs.com',
-                    'cn-shanghai'           => 'yundun-dbaudit.aliyuncs.com',
-                    'cn-shenzhen'           => 'yundun-dbaudit.aliyuncs.com',
-                    'cn-hongkong'           => 'yundun-dbaudit.aliyuncs.com',
-                    'ap-southeast-1'        => 'yundun-dbaudit.aliyuncs.com',
-                    'ap-southeast-2'        => 'yundun-dbaudit.aliyuncs.com',
-                    'ap-southeast-3'        => 'yundun-dbaudit.aliyuncs.com',
-                    'ap-southeast-5'        => 'yundun-dbaudit.aliyuncs.com',
-                    'ap-northeast-1'        => 'yundun-dbaudit.aliyuncs.com',
-                    'us-west-1'             => 'yundun-dbaudit.aliyuncs.com',
-                    'us-east-1'             => 'yundun-dbaudit.aliyuncs.com',
-                    'eu-central-1'          => 'yundun-dbaudit.aliyuncs.com',
-                    'me-east-1'             => 'yundun-dbaudit.aliyuncs.com',
-                    'ap-south-1'            => 'yundun-dbaudit.aliyuncs.com',
-                    'cn-shanghai-finance-1' => 'yundun-dbaudit.aliyuncs.com',
-                    'cn-shenzhen-finance-1' => 'yundun-dbaudit.aliyuncs.com',
-                    'cn-north-2-gov-1'      => 'yundun-dbaudit.aliyuncs.com',
-                    'cn-chengdu'            => 'yundun-dbaudit.aliyuncs.com',
-                    'eu-west-1'             => 'yundun-dbaudit.aliyuncs.com',
+                    'cn-hangzhou' => 'yundun-dbaudit.aliyuncs.com',
                 ],
             'bssopenapi'      =>
                 [
@@ -2680,24 +2581,11 @@ return [
                 ],
             'antcloudauth'    =>
                 [
-                    'cn-shanghai' => 'antcloudauth.cn-shanghai.aliyuncs.com',
+                    'cn-shanghai' => 'antcloudauth.aliyuncs.com',
                 ],
             'prepaid_ads'     =>
                 [
-                    'cn-hangzhou-finance'   => 'ads.cn-hangzhou-finance.aliyuncs.com',
-                    'cn-beijing'            => 'ads.cn-beijing.aliyuncs.com',
-                    'cn-chengdu'            => 'ads.cn-chengdu.aliyuncs.com',
-                    'cn-zhangjiakou'        => 'ads.cn-zhangjiakou.aliyuncs.com',
-                    'cn-hangzhou'           => 'ads.cn-hangzhou.aliyuncs.com',
-                    'cn-shanghai'           => 'ads.cn-shanghai.aliyuncs.com',
-                    'cn-shenzhen'           => 'ads.cn-shenzhen.aliyuncs.com',
-                    'cn-hongkong'           => 'ads.cn-hongkong.aliyuncs.com',
-                    'ap-southeast-1'        => 'ads.ap-southeast-1.aliyuncs.com',
-                    'ap-southeast-3'        => 'ads.ap-southeast-3.aliyuncs.com',
-                    'ap-northeast-1'        => 'ads-share.ap-northeast-1.aliyuncs.com',
-                    'us-west-1'             => 'ads.us-west-1.aliyuncs.com',
-                    'cn-shenzhen-finance-1' => 'ads.cn-shenzhen-finance-1.aliyuncs.com',
-                    'cn-north-2-gov-1'      => 'ads.cn-north-2-gov-1.aliyuncs.com',
+                    'cn-hangzhou-finance' => 'ads.cn-hangzhou-finance.aliyuncs.com',
                 ],
             'hdr'             =>
                 [
@@ -2708,7 +2596,6 @@ return [
                     'cn-shanghai'    => 'hdr.cn-shanghai.aliyuncs.com',
                     'cn-shenzhen'    => 'hdr.cn-shanghai.aliyuncs.com',
                     'cn-hongkong'    => 'hdr.cn-shanghai.aliyuncs.com',
-                    'cn-chengdu'     => 'hdr.cn-shanghai.aliyuncs.com',
                 ],
             'cbs'             =>
                 [
@@ -2725,13 +2612,6 @@ return [
                     'cn-hangzhou-finance'   => 'dbs-api.cn-hangzhou.aliyuncs.com',
                     'cn-shanghai-finance-1' => 'dbs-api.cn-hangzhou.aliyuncs.com',
                     'cn-shenzhen-finance-1' => 'dbs-api.cn-hangzhou.aliyuncs.com',
-                    'cn-chengdu'            => 'dbs.cn-chengdu.aliyuncs.com',
-                    'ap-southeast-2'        => 'dbs.ap-southeast-2.aliyuncs.com',
-                    'ap-southeast-3'        => 'dbs.ap-southeast-3.aliyuncs.com',
-                    'ap-southeast-5'        => 'dbs.ap-southeast-5.aliyuncs.com',
-                    'us-west-1'             => 'dbs.cn-hangzhou.aliyuncs.com',
-                    'us-east-1'             => 'dbs.cn-hangzhou.aliyuncs.com',
-                    'eu-central-1'          => 'dbs.eu-central-1.aliyuncs.com',
                 ],
             'datag'           =>
                 [
@@ -2748,7 +2628,7 @@ return [
                 ],
             'iqa'             =>
                 [
-                    'cn-hangzhou' => 'iqa.cn-hangzhou.aliyuncs.com',
+                    'cn-hangzhou' => 'iqa.aliyuncs.com',
                 ],
             'sofa'            =>
                 [
@@ -2758,196 +2638,16 @@ return [
                 ],
             'edas'            =>
                 [
-                    'cn-hangzhou'      => 'edas.cn-hangzhou.aliyuncs.com',
-                    'cn-shanghai'      => 'edas.cn-shanghai.aliyuncs.com',
-                    'cn-qingdao'       => 'edas.cn-qingdao.aliyuncs.com',
-                    'cn-beijing'       => 'edas.cn-beijing.aliyuncs.com',
-                    'cn-zhangjiakou'   => 'edas.cn-shanghai.aliyuncs.com',
-                    'cn-shenzhen'      => 'edas.cn-shenzhen.aliyuncs.com',
-                    'cn-hongkong'      => 'edas.cn-shanghai.aliyuncs.com',
-                    'ap-southeast-1'   => 'edas.ap-southeast-1.aliyuncs.com',
-                    'ap-southeast-2'   => 'edas.ap-southeast-1.aliyuncs.com',
-                    'us-east-1'        => 'edas.ap-southeast-1.aliyuncs.com',
-                    'eu-central-1'     => 'edas.ap-southeast-1.aliyuncs.com',
-                    'cn-north-2-gov-1' => 'edas.cn-shanghai.aliyuncs.com',
+                    'cn-hangzhou' => 'edas.cn-hangzhou.aliyuncs.com',
+                    'cn-shanghai' => 'edas.cn-shanghai.aliyuncs.com',
                 ],
             'gwsservice'      =>
                 [
-                    'cn-shanghai'    => 'gws.cn-shanghai.aliyuncs.com',
-                    'cn-beijing'     => 'gws.cn-beijing.aliyuncs.com',
-                    'cn-zhangjiakou' => 'gws.cn-zhangjiakou.aliyuncs.com',
-                    'cn-huhehaote'   => 'gws.cn-huhehaote.aliyuncs.com',
-                    'cn-hangzhou'    => 'gws.cn-hangzhou.aliyuncs.com',
-                    'cn-shenzhen'    => 'gws.cn-shenzhen.aliyuncs.com',
-                    'cn-chengdu'     => 'gws.cn-chengdu.aliyuncs.com',
-                    'ap-southeast-1' => 'gws.ap-southeast-1.aliyuncs.com',
+                    'cn-shanghai' => 'gws.cn-shanghai.aliyuncs.com',
                 ],
             'gds'             =>
                 [
-                    'ap-southeast-1' => 'gdb-api.aliyuncs.com',
-                    'cn-beijing'     => 'gdb-api.aliyuncs.com',
-                    'cn-zhangjiakou' => 'gdb-api.cn-zhangjiakou.aliyuncs.com',
-                    'cn-hangzhou'    => 'gdb-api.aliyuncs.com',
-                    'cn-shanghai'    => 'gdb-api.aliyuncs.com',
-                    'cn-shenzhen'    => 'gdb-api.aliyuncs.com',
-                    'ap-southeast-5' => 'gdb-api.ap-southeast-5.aliyuncs.com',
-                ],
-            'eais'            =>
-                [
-                    'cn-beijing'  => 'eais.cn-beijing.aliyuncs.com',
-                    'cn-shenzhen' => 'eais.cn-shenzhen.aliyuncs.com',
-                ],
-            'clickhouse'      =>
-                [
-                    'cn-beijing'     => 'clickhouse.aliyuncs.com',
-                    'cn-hangzhou'    => 'clickhouse.aliyuncs.com',
-                    'cn-shanghai'    => 'clickhouse.aliyuncs.com',
-                    'cn-shenzhen'    => 'clickhouse.aliyuncs.com',
-                    'ap-southeast-1' => 'clickhouse.aliyuncs.com',
-                ],
-            'msepost'         =>
-                [
-                    'cn-beijing'     => 'mse.cn-beijing.aliyuncs.com',
-                    'cn-zhangjiakou' => 'mse.cn-zhangjiakou.aliyuncs.com',
-                    'cn-hangzhou'    => 'mse.cn-hangzhou.aliyuncs.com',
-                    'cn-shanghai'    => 'mse.cn-shanghai.aliyuncs.com',
-                ],
-            'visionai'        =>
-                [
-                    'cn-beijing'  => 'visionai.cn-beijing.aliyuncs.com',
-                    'cn-hangzhou' => 'visionai.cn-hangzhou.aliyuncs.com',
-                ],
-            'mseprepaid'      =>
-                [
-                    'cn-beijing'     => 'mse.cn-beijing.aliyuncs.com',
-                    'cn-zhangjiakou' => 'mse.cn-zhangjiakou.aliyuncs.com',
-                    'cn-hangzhou'    => 'mse.cn-hangzhou.aliyuncs.com',
-                    'cn-shanghai'    => 'mse.cn-shanghai.aliyuncs.com',
-                ],
-            'adam'            =>
-                [
-                    'cn-beijing' => 'adam.cn-beijing.aliyuncs.com',
-                ],
-            'onsmqtt'         =>
-                [
-                    'cn-beijing'            => 'onsmqtt.cn-beijing.aliyuncs.com',
-                    'cn-zhangjiakou'        => 'onsmqtt.cn-zhangjiakou.aliyuncs.com',
-                    'cn-huhehaote'          => 'onsmqtt.cn-huhehaote.aliyuncs.com',
-                    'cn-hangzhou'           => 'onsmqtt.cn-hangzhou.aliyuncs.com',
-                    'cn-shanghai'           => 'onsmqtt.cn-shanghai.aliyuncs.com',
-                    'cn-shenzhen'           => 'onsmqtt.cn-shenzhen.aliyuncs.com',
-                    'cn-hongkong'           => 'onsmqtt.cn-hongkong.aliyuncs.com',
-                    'ap-southeast-1'        => 'onsmqtt.ap-southeast-1.aliyuncs.com',
-                    'ap-southeast-2'        => 'onsmqtt.ap-southeast-2.aliyuncs.com',
-                    'ap-southeast-3'        => 'onsmqtt.ap-southeast-3.aliyuncs.com',
-                    'ap-southeast-5'        => 'onsmqtt.ap-southeast-5.aliyuncs.com',
-                    'us-west-1'             => 'onsmqtt.us-west-1.aliyuncs.com',
-                    'eu-central-1'          => 'onsmqtt.eu-central-1.aliyuncs.com',
-                    'cn-shanghai-finance-1' => 'onsmqtt.cn-shanghai-finance-1.aliyuncs.com',
-                    'cn-shenzhen-finance-1' => 'onsmqtt.cn-shenzhen-finance-1.aliyuncs.com',
-                ],
-            'dypls'           =>
-                [
-                    'cn-hangzhou' => 'dyplsapi.aliyuncs.com',
-                ],
-            'resourcemanager' =>
-                [
-                    'cn-hangzhou' => 'resourcemanager.aliyuncs.com',
-                    'cn-shanghai' => 'resourcemanager.aliyuncs.com',
-                ],
-            'nlpautoml'       =>
-                [
-                    'cn-hangzhou' => 'nlp-automl.cn-hangzhou.aliyuncs.com',
-                ],
-            'companyreg'      =>
-                [
-                    'cn-hangzhou' => 'companyreg.aliyuncs.com',
-                ],
-            'aliyuncvc'       =>
-                [
-                    'cn-hangzhou' => 'aliyuncvc.cn-hangzhou.aliyuncs.com',
-                ],
-            'alimtautoml'     =>
-                [
-                    'cn-hangzhou' => 'alimtautoml.cn-hangzhou.aliyuncs.com',
-                ],
-            'dbfs'            =>
-                [
-                    'cn-hangzhou' => 'dbfs.aliyuncs.com',
-                ],
-            'addrp'           =>
-                [
-                    'cn-hangzhou' => 'address-purification.cn-hangzhou.aliyuncs.com',
-                ],
-            'gaplus'          =>
-                [
-                    'cn-hangzhou' => 'ga.cn-hangzhou.aliyuncs.com',
-                ],
-            'datav'           =>
-                [
-                    'cn-hangzhou' => 'datav.cn-hangzhou.aliyuncs.com',
-                ],
-            'ocr'             =>
-                [
-                    'cn-shanghai' => 'ocr.cn-shanghai.aliyuncs.com',
-                ],
-            'objectdet'       =>
-                [
-                    'cn-shanghai' => 'objectdet.cn-shanghai.aliyuncs.com',
-                ],
-            'assetservice'    =>
-                [
-                    'cn-shanghai' => 'assettech.cn-shanghai.aliyuncs.com',
-                ],
-            'imageenhan'      =>
-                [
-                    'cn-shanghai' => 'imageenhan.cn-shanghai.aliyuncs.com',
-                ],
-            'imageaudit'      =>
-                [
-                    'cn-shanghai' => 'imageaudit.cn-shanghai.aliyuncs.com',
-                ],
-            'imagerecog'      =>
-                [
-                    'cn-shanghai' => 'imagerecog.cn-shanghai.aliyuncs.com',
-                ],
-            'imageseg'        =>
-                [
-                    'cn-shanghai' => 'imageseg.cn-shanghai.aliyuncs.com',
-                ],
-            'goodstech'       =>
-                [
-                    'cn-shanghai' => 'goodstech.cn-shanghai.aliyuncs.com',
-                ],
-            'facebody'        =>
-                [
-                    'cn-shanghai' => 'facebody.cn-shanghai.aliyuncs.com',
-                ],
-            'voicebot'        =>
-                [
-                    'cn-hangzhou' => 'voicenavigator.cn-hangzhou.aliyuncs.com',
-                    'cn-shanghai' => 'voicenavigator.cn-shanghai.aliyuncs.com',
-                ],
-            'dyiot'           =>
-                [
-                    'cn-hangzhou' => 'dyiotapi.aliyuncs.com',
-                ],
-            'drp'             =>
-                [
-                    'cn-hangzhou' => 'drp-share.cn-hangzhou.aliyuncs.com',
-                ],
-            'uem'             =>
-                [
-                    'cn-hangzhou' => 'uem.aliyuncs.com',
-                ],
-            'outboundbot'     =>
-                [
-                    'cn-hangzhou' => 'outboundbot.cn-hangzhou.aliyuncs.com',
-                    'cn-shanghai' => 'outboundbot.cn-shanghai.aliyuncs.com',
-                ],
-            'hcs_hgw'         =>
-                [
-                    'cn-shanghai' => 'hgw.cn-shanghai.aliyuncs.com',
+                    'ap-southeast-1' => 'gdb.aliyuncs.com',
                 ],
         ],
 ];

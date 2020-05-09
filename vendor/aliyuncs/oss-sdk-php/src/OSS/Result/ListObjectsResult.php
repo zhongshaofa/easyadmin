@@ -14,7 +14,7 @@ use OSS\Model\PrefixInfo;
 class ListObjectsResult extends Result
 {
     /**
-     * Parse the xml data returned by the ListObjects interface
+     * 解析ListObjects接口返回的xml数据
      *
      * return ObjectListInfo
      */

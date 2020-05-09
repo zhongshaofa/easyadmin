@@ -78,7 +78,7 @@ class OssClientObjectTest extends TestOssClientBase
     public function testObject()
     {
         /**
-         *  Upload the local variable to bucket
+         *  上传本地变量到bucket
          */
         $object = "oss-php-sdk-test/upload-test-object-name.txt";
         $content = file_get_contents(__FILE__);
@@ -129,7 +129,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         * GetObject to the local variable and check for match
+         * getObject到本地变量，检查是否match
          */
         try {
             $content = $this->ossClient->getObject($this->bucket, $object);
@@ -139,7 +139,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         * GetObject first five bytes
+         * getObject的前五个字节
          */
         try {
             $options = array(OssClient::OSS_RANGE => '0-4');
@@ -151,7 +151,7 @@ class OssClientObjectTest extends TestOssClientBase
 
 
         /**
-         * Upload the local file to object
+         * 上传本地文件到object
          */
         try {
             $this->ossClient->uploadFile($this->bucket, $object, __FILE__);
@@ -160,7 +160,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         * Download the file to the local variable and check for match.
+         * 下载文件到本地变量，检查是否match
          */
         try {
             $content = $this->ossClient->getObject($this->bucket, $object);
@@ -170,7 +170,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         * Download the file to the local file
+         * 下载文件到本地文件
          */
         $localfile = "upload-test-object-name.txt";
         $options = array(
@@ -188,7 +188,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         * Download the file to the local file. no such key
+         * 下载文件到本地文件 no such key
          */
         $localfile = "upload-test-object-name-no-such-key.txt";
         $options = array(
@@ -208,7 +208,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         * Download the file to the content. no such key
+         * 下载文件到内容 no such key
          */
         try {
             $result = $this->ossClient->getObject($this->bucket, $object . "no-such-key");
@@ -222,7 +222,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         * Copy object
+         * 复制object
          */
         $to_bucket = $this->bucket;
         $to_object = $object . '.copy';
@@ -239,7 +239,7 @@ class OssClientObjectTest extends TestOssClientBase
         } 
 
         /**
-         * Check if the replication is the same
+         * 检查复制的是否相同
          */
         try {
             $content = $this->ossClient->getObject($this->bucket, $to_object);
@@ -249,7 +249,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         * List the files in your bucket.
+         * 列出bucket内的文件列表
          */
         $prefix = '';
         $delimiter = '/';
@@ -276,7 +276,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         * Set the meta information for the file
+         * 设置文件的meta信息
          */
         $from_bucket = $this->bucket;
         $from_object = "oss-php-sdk-test/upload-test-object-name.txt";
@@ -295,7 +295,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         * Get the meta information for the file
+         * 获取文件的meta信息
          */
         $object = "oss-php-sdk-test/upload-test-object-name.txt";
         try {
@@ -306,7 +306,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         *  Delete single file
+         *  删除单个文件
          */
         $object = "oss-php-sdk-test/upload-test-object-name.txt";
 
@@ -319,7 +319,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         *  Delete multiple files
+         *  删除多个个文件
          */
         $object1 = "oss-php-sdk-test/upload-test-object-name.txt";
         $object2 = "oss-php-sdk-test/upload-test-object-name.txt.copy";
@@ -345,7 +345,7 @@ class OssClientObjectTest extends TestOssClientBase
         $content_array = array('Hello OSS', 'Hi OSS', 'OSS OK');
         
         /**
-         * Append the upload string
+         * 追加上传字符串
          */
         try {
             $position = $this->ossClient->appendObject($this->bucket, $object, $content_array[0], 0);
@@ -359,7 +359,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         * Check if the content is the same
+         * 检查内容的是否相同
          */
         try {
             $content = $this->ossClient->getObject($this->bucket, $object);
@@ -370,7 +370,7 @@ class OssClientObjectTest extends TestOssClientBase
 
         
         /**
-         * Delete test object
+         * 删除测试object
          */
         try {
             $this->ossClient->deleteObject($this->bucket, $object);
@@ -379,7 +379,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
         
         /**
-         * Append the upload of local files
+         * 追加上传本地文件
          */
         try {
             $position = $this->ossClient->appendFile($this->bucket, $object, __FILE__, 0);
@@ -391,7 +391,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         * Check if the replication is the same
+         * 检查复制的是否相同
          */
         try {
             $content = $this->ossClient->getObject($this->bucket, $object);
@@ -401,7 +401,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
         
         /**
-         * Delete test object
+         * 删除测试object
          */
         try {
             $this->ossClient->deleteObject($this->bucket, $object);
@@ -418,7 +418,7 @@ class OssClientObjectTest extends TestOssClientBase
         );
 
         /**
-         * Append upload with option
+         * 带option的追加上传
          */
         try {
             $position = $this->ossClient->appendObject($this->bucket, $object, "Hello OSS, ", 0, $options);
@@ -428,7 +428,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         * Get the meta information for the file
+         * 获取文件的meta信息
          */
         try {
             $objectMeta = $this->ossClient->getObjectMeta($this->bucket, $object);
@@ -438,7 +438,7 @@ class OssClientObjectTest extends TestOssClientBase
         }
 
         /**
-         * Delete test object
+         * 删除测试object
          */
         try {
             $this->ossClient->deleteObject($this->bucket, $object);
@@ -465,7 +465,7 @@ class OssClientObjectTest extends TestOssClientBase
     	$options = array(OssClient::OSS_CHECK_MD5 => true);
     	
     	/**
-    	 * Upload data to start MD5
+    	 * 上传数据开启MD5
     	 */
     	try {
     		$this->ossClient->putObject($this->bucket, $object, $content, $options);
@@ -474,7 +474,7 @@ class OssClientObjectTest extends TestOssClientBase
     	}
     	
     	/**
-    	 * Check if the replication is the same
+    	 * 检查复制的是否相同
     	 */
     	try {
     		$content = $this->ossClient->getObject($this->bucket, $object);
@@ -484,7 +484,7 @@ class OssClientObjectTest extends TestOssClientBase
     	}
 
     	/**
-    	 * Upload file to start MD5
+    	 * 上传文件开启MD5
     	 */
     	try {
     		$this->ossClient->uploadFile($this->bucket, $object, __FILE__, $options);
@@ -493,7 +493,7 @@ class OssClientObjectTest extends TestOssClientBase
     	}
     	
     	/**
-    	 * Check if the replication is the same
+    	 * 检查复制的是否相同
     	 */
     	try {
     		$content = $this->ossClient->getObject($this->bucket, $object);
@@ -503,7 +503,7 @@ class OssClientObjectTest extends TestOssClientBase
     	}
     
     	/**
-    	 * Delete test object
+    	 * 删除测试object
     	 */
     	try {
     		$this->ossClient->deleteObject($this->bucket, $object);
@@ -516,7 +516,7 @@ class OssClientObjectTest extends TestOssClientBase
     	$options = array(OssClient::OSS_CHECK_MD5 => true);
     	
     	/**
-    	 * Append the upload string
+    	 * 追加上传字符串
     	 */
     	try {
     		$position = $this->ossClient->appendObject($this->bucket, $object, $content_array[0], 0, $options);
@@ -530,7 +530,7 @@ class OssClientObjectTest extends TestOssClientBase
     	}
     	
     	/**
-    	 * Check if the content is the same
+    	 * 检查内容的是否相同
     	 */
     	try {
     		$content = $this->ossClient->getObject($this->bucket, $object);
@@ -540,7 +540,7 @@ class OssClientObjectTest extends TestOssClientBase
     	}
     	
     	/**
-    	 * Delete test object
+    	 * 删除测试object
     	 */
     	try {
     		$this->ossClient->deleteObject($this->bucket, $object);
@@ -549,7 +549,7 @@ class OssClientObjectTest extends TestOssClientBase
     	}
     	
     	/**
-    	 * Append upload of local files
+    	 * 追加上传本地文件
     	 */
     	try {
     		$position = $this->ossClient->appendFile($this->bucket, $object, __FILE__, 0, $options);
@@ -561,7 +561,7 @@ class OssClientObjectTest extends TestOssClientBase
     	}
     	
     	/**
-    	 * Check if the replication is the same
+    	 * 检查复制的是否相同
     	 */
     	try {
     		$content = $this->ossClient->getObject($this->bucket, $object);
@@ -571,23 +571,13 @@ class OssClientObjectTest extends TestOssClientBase
     	}
     	
     	/**
-    	 * delete test object
+    	 * 删除测试object
     	 */
     	try {
     		$this->ossClient->deleteObject($this->bucket, $object);
     	} catch (OssException $e) {
     		$this->assertFalse(true);
     	}
-    }
-
-    public function testWithInvalidBucketName()
-    {
-        try {
-            $this->ossClient->createBucket("abcefc/", "test-key");
-            $this->assertFalse(true);
-        } catch (OssException $e) {
-            $this->assertEquals('"abcefc/"bucket name is invalid', $e->getMessage());
-        }
     }
 
     public function setUp()

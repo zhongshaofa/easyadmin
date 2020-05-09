@@ -11,9 +11,9 @@ if (is_null($ossClient)) exit(1);
 $bucket = Common::getBucketName();
 
 
-//******************************* Simple usage****************************************************************
+//******************************* 简单使用 ****************************************************************
 
-// Set cors configuration
+// 设置cors配置
 $corsConfig = new CorsConfig();
 $rule = new CorsRule();
 $rule->addAllowedHeader("x-oss-header");
@@ -24,15 +24,15 @@ $corsConfig->addRule($rule);
 $ossClient->putBucketCors($bucket, $corsConfig);
 Common::println("bucket $bucket corsConfig created:" . $corsConfig->serializeToXml());
 
-// Get cors configuration
+// 获取cors配置
 $corsConfig = $ossClient->getBucketCors($bucket);
 Common::println("bucket $bucket corsConfig fetched:" . $corsConfig->serializeToXml());
 
-// Delete cors configuration
+// 删除cors配置
 $ossClient->deleteBucketCors($bucket);
 Common::println("bucket $bucket corsConfig deleted");
 
-//******************************* For complete usage, see the following functions  *****************************************************
+//******************************* 完整用法参考下面函数  *****************************************************
 
 putBucketCors($ossClient, $bucket);
 getBucketCors($ossClient, $bucket);
@@ -40,10 +40,10 @@ deleteBucketCors($ossClient, $bucket);
 getBucketCors($ossClient, $bucket);
 
 /**
- * Set bucket cores
+ * 设置bucket的cors配置
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket bucket name
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 存储空间名称
  * @return null
  */
 function putBucketCors($ossClient, $bucket)
@@ -67,10 +67,10 @@ function putBucketCors($ossClient, $bucket)
 }
 
 /**
- * Get and print the cors configuration of a bucket
+ * 获取并打印bucket的cors配置
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket bucket name
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 存储空间名称
  * @return null
  */
 function getBucketCors($ossClient, $bucket)
@@ -88,10 +88,10 @@ function getBucketCors($ossClient, $bucket)
 }
 
 /**
- * Delete all cors configuraiton of a bucket
+ * 删除bucket的所有的cors配置
  *
- * @param OssClient $ossClient OssClient instance
- * @param string $bucket bucket name
+ * @param OssClient $ossClient OssClient实例
+ * @param string $bucket 存储空间名称
  * @return null
  */
 function deleteBucketCors($ossClient, $bucket)

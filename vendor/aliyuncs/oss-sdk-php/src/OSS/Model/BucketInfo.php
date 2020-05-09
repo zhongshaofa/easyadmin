@@ -4,7 +4,7 @@ namespace OSS\Model;
 
 
 /**
- * Bucket information class. This is the type of element in BucketListInfo's
+ * Bucket信息，ListBuckets接口返回数据
  *
  * Class BucketInfo
  * @package OSS\Model
@@ -26,7 +26,7 @@ class BucketInfo
     }
 
     /**
-     * Get bucket location
+     * 得到bucket所在的region
      *
      * @return string
      */
@@ -36,7 +36,7 @@ class BucketInfo
     }
 
     /**
-     * Get bucket name
+     * 得到bucket的名称
      *
      * @return string
      */
@@ -46,7 +46,7 @@ class BucketInfo
     }
 
     /**
-     * Get bucket creation time.
+     * 得到bucket的创建时间
      *
      * @return string
      */
@@ -56,20 +56,20 @@ class BucketInfo
     }
 
     /**
-     * bucket region
+     * bucket所在的region
      *
      * @var string
      */
     private $location;
     /**
-     * bucket name
+     * bucket的名称
      *
      * @var string
      */
     private $name;
 
     /**
-     * bucket creation time
+     * bucket的创建事件
      *
      * @var string
      */

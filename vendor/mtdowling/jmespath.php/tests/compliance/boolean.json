@@ -205,9 +205,7 @@
     "given": {
       "one": 1,
       "two": 2,
-      "three": 3,
-      "emptylist": [],
-      "boolvalue": false
+      "three": 3
     },
     "cases": [
       {
@@ -237,22 +235,6 @@
       {
         "expression": "one != two",
         "result": true
-      },
-      {
-        "expression": "emptylist < one",
-        "result": null
-      },
-      {
-        "expression": "emptylist < nullvalue",
-        "result": null
-      },
-      {
-        "expression": "emptylist < boolvalue",
-        "result": null
-      },
-      {
-        "expression": "one < boolvalue",
-        "result": null
       },
       {
         "expression": "one < two && three > one",

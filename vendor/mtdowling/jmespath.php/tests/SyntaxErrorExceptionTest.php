@@ -2,12 +2,11 @@
 namespace JmesPath\Tests;
 
 use JmesPath\SyntaxErrorException;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @covers JmesPath\SyntaxErrorException
  */
-class SyntaxErrorExceptionTest extends TestCase
+class SyntaxErrorExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreatesWithNoArray()
     {

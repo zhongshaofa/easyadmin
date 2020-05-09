@@ -3,7 +3,8 @@
 namespace OSS\Result;
 
 /**
- * Class ExistResult checks if bucket or object exists, according to the http status in response headers.
+ * Class ExistResult 检查bucket和object是否存在的返回结果，
+ * 根据返回response的http status判断
  * @package OSS\Result
  */
 class ExistResult extends Result
@@ -17,8 +18,8 @@ class ExistResult extends Result
     }
 
     /**
-     * Check if the response status is OK according to the http status code.
-     * [200-299]: OK; [404]: Not found. It means the object or bucket is not found--it's a valid response too.
+     * 根据返回http状态码判断，[200-299]即认为是OK, 判断是否存在的接口，404也认为是一种
+     * 有效响应
      *
      * @return bool
      */

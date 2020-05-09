@@ -340,7 +340,7 @@ class Lexer
         eof:
         $tokens[] = [
             'type'  => self::T_EOF,
-            'pos'   => mb_strlen($input, 'UTF-8'),
+            'pos'   => strlen($input),
             'value' => null
         ];
 

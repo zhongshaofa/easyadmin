@@ -58,7 +58,7 @@ class Mongo
     protected function parseKey(Query $query, string $key): string
     {
         if (0 === strpos($key, '__TABLE__.')) {
-            [$collection, $key] = explode('.', $key, 2);
+            list($collection, $key) = explode('.', $key, 2);
         }
 
         if ('id' == $key && $this->connection->getConfig('pk_convert_id')) {
@@ -205,8 +205,8 @@ class Mongo
         $options = $query->getOptions();
         if (!empty($options['soft_delete'])) {
             // 附加软删除条件
-            [$field, $condition] = $options['soft_delete'];
-            $filter['$and'][]    = $this->parseWhereItem($query, $field, $condition);
+            list($field, $condition) = $options['soft_delete'];
+            $filter['$and'][]        = $this->parseWhereItem($query, $field, $condition);
         }
 
         return $filter;
@@ -220,7 +220,7 @@ class Mongo
         if (!is_array($val)) {
             $val = ['=', $val];
         }
-        [$exp, $value] = $val;
+        list($exp, $value) = $val;
 
         // 对一个字段使用多个查询条件
         if (is_array($exp)) {
@@ -523,8 +523,8 @@ class Mongo
      */
     public function aggregate(Query $query, array $extra): Command
     {
-        $options       = $query->getOptions();
-        [$fun, $field] = $extra;
+        $options           = $query->getOptions();
+        list($fun, $field) = $extra;
 
         if ('id' == $field && $this->connection->getConfig('pk_convert_id')) {
             $field = '_id';
@@ -568,7 +568,7 @@ class Mongo
     {
         $options = $query->getOptions();
 
-        [$aggregate, $groupBy] = $extra;
+        list($aggregate, $groupBy) = $extra;
 
         $groups = ['_id' => []];
 

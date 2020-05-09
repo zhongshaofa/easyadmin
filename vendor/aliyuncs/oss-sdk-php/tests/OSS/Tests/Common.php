@@ -10,14 +10,14 @@ use OSS\Core\OssException;
 /**
  * Class Common
  *
- * Sample program [Samples / *. Php] Common class, used to obtain OssClient instance and other public methods
+ * 示例程序【Samples/*.php】 的Common类，用于获取OssClient实例和其他公用方法
  */
 class Common
 {
     /**
-     * According to the Config configuration, get an OssClient instance
+     * 根据Config配置，得到一个OssClient实例
      *
-     * @return OssClient  An OssClient instance
+     * @return OssClient 一个OssClient实例
      */
     public static function getOssClient()
     {
@@ -39,18 +39,8 @@ class Common
         return getenv('OSS_BUCKET');
     }
 
-    public static function getRegion()
-    {
-		return getenv('OSS_REGION'); 
-    }
-
-	public static function getCallbackUrl()
-    {
-        return getenv('OSS_CALLBACK_URL');
-    }
-
     /**
-     * Tool method, create a bucket
+     * 工具方法，创建一个bucket
      */
     public static function createBucket()
     {

@@ -142,8 +142,7 @@ class Parser
         return ['type' => T::T_NOT, 'children' => [$this->expr(self::$bp[T::T_NOT])]];
     }
 
-    private function nud_lparen()
-    {
+    private function nud_lparen() {
         $this->next();
         $result = $this->expr(0);
         if ($this->token['type'] !== T::T_RPAREN) {

@@ -40,7 +40,7 @@ class WebsiteConfig implements XmlConfig
     }
 
     /**
-     * Serialize the WebsiteConfig object into xml string.
+     * 把WebsiteConfig序列化成xml
      *
      * @return string
      * @throws OssException

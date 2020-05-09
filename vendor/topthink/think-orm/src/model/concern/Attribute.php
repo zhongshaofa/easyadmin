@@ -398,9 +398,9 @@ trait Attribute
         }
 
         if (is_array($type)) {
-            [$type, $param] = $type;
+            list($type, $param) = $type;
         } elseif (strpos($type, ':')) {
-            [$type, $param] = explode(':', $type, 2);
+            list($type, $param) = explode(':', $type, 2);
         }
 
         switch ($type) {
@@ -411,7 +411,7 @@ trait Attribute
                 if (empty($param)) {
                     $value = (float) $value;
                 } else {
-                    $value = (float) number_format($value, (int) $param, '.', '');
+                    $value = (float) number_format($value, $param, '.', '');
                 }
                 break;
             case 'boolean':
@@ -424,7 +424,7 @@ trait Attribute
                 break;
             case 'datetime':
                 $value = is_numeric($value) ? $value : strtotime($value);
-                $value = $this->formatDateTime('Y-m-d H:i:s.u', $value, true);
+                $value = $this->formatDateTime('Y-m-d H:i:s.u', $value);
                 break;
             case 'object':
                 if (is_object($value)) {
@@ -563,9 +563,9 @@ trait Attribute
         }
 
         if (is_array($type)) {
-            [$type, $param] = $type;
+            list($type, $param) = $type;
         } elseif (strpos($type, ':')) {
-            [$type, $param] = explode(':', $type, 2);
+            list($type, $param) = explode(':', $type, 2);
         }
 
         switch ($type) {
@@ -576,7 +576,7 @@ trait Attribute
                 if (empty($param)) {
                     $value = (float) $value;
                 } else {
-                    $value = (float) number_format($value, (int) $param, '.', '');
+                    $value = (float) number_format($value, $param, '.', '');
                 }
                 break;
             case 'boolean':
@@ -637,7 +637,7 @@ trait Attribute
             $name = $this->getRealFieldName($name);
 
             if (strpos($name, '.')) {
-                [$name, $key] = explode('.', $name);
+                list($name, $key) = explode('.', $name);
 
                 $this->withAttr[$name][$key] = $callback;
             } else {

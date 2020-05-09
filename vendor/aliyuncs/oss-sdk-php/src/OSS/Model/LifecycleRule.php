@@ -12,7 +12,7 @@ namespace OSS\Model;
 class LifecycleRule
 {
     /**
-     * Get Id
+     * 得到规则ID
      *
      * @return string
      */
@@ -22,7 +22,7 @@ class LifecycleRule
     }
 
     /**
-     * @param string $id Rule Id
+     * @param string $id 规则ID
      */
     public function setId($id)
     {
@@ -30,7 +30,7 @@ class LifecycleRule
     }
 
     /**
-     * Get a file prefix
+     * 得到文件前缀
      *
      * @return string
      */
@@ -40,9 +40,9 @@ class LifecycleRule
     }
 
     /**
-     * Set a file prefix
+     * 设置文件前缀
      *
-     * @param string $prefix The file prefix
+     * @param string $prefix 文件前缀
      */
     public function setPrefix($prefix)
     {
@@ -50,7 +50,7 @@ class LifecycleRule
     }
 
     /**
-     * Get Lifecycle status
+     * Lifecycle规则的状态
      *
      * @return string
      */
@@ -60,7 +60,7 @@ class LifecycleRule
     }
 
     /**
-     * Set Lifecycle status
+     * 设置Lifecycle规则状态
      *
      * @param string $status
      */
@@ -90,9 +90,9 @@ class LifecycleRule
     /**
      * LifecycleRule constructor.
      *
-     * @param string $id rule Id
-     * @param string $prefix File prefix
-     * @param string $status Rule status, which has the following valid values: [self::LIFECYCLE_STATUS_ENABLED, self::LIFECYCLE_STATUS_DISABLED]
+     * @param string $id 规则ID
+     * @param string $prefix 文件前缀
+     * @param string $status 规则状态，可选[self::LIFECYCLE_STATUS_ENABLED, self::LIFECYCLE_STATUS_DISABLED]
      * @param LifecycleAction[] $actions
      */
     public function __construct($id, $prefix, $status, $actions)

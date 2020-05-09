@@ -13,7 +13,7 @@ use OSS\Model\PartInfo;
 class ListPartsResult extends Result
 {
     /**
-     * Parse the xml data returned by the ListParts interface
+     * 解析ListParts接口返回的xml数据
      *
      * @return ListPartsInfo
      */

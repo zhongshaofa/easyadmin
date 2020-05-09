@@ -96,7 +96,7 @@ class CacheItem
     /**
      * 获取缓存Tag
      * @access public
-     * @return string|array
+     * @return string
      */
     public function getTag()
     {
@@ -139,10 +139,10 @@ class CacheItem
     /**
      * 为此缓存项设置所属标签
      * @access public
-     * @param  string|array $tag
+     * @param  string $tag
      * @return $this
      */
-    public function tag($tag = null)
+    public function tag(string $tag = null)
     {
         $this->tag = $tag;
         return $this;

@@ -18,7 +18,6 @@ use DateTime;
 use DateTimeInterface;
 use Exception;
 use Psr\SimpleCache\CacheInterface;
-use think\Container;
 use think\contract\CacheHandlerInterface;
 use think\exception\InvalidArgumentException;
 use throwable;
@@ -157,7 +156,7 @@ abstract class Driver implements CacheInterface, CacheHandlerInterface
 
             if ($value instanceof Closure) {
                 // 获取缓存数据
-                $value = Container::getInstance()->invokeFunction($value);
+                $value = $value();
             }
 
             // 缓存数据
@@ -228,7 +227,7 @@ abstract class Driver implements CacheInterface, CacheHandlerInterface
             return (string) $data;
         }
 
-        $serialize = $this->options['serialize'][0] ?? "serialize";
+        $serialize = $this->options['serialize'][0] ?? "\Opis\Closure\serialize";
 
         return $serialize($data);
     }
@@ -245,7 +244,7 @@ abstract class Driver implements CacheInterface, CacheHandlerInterface
             return $data;
         }
 
-        $unserialize = $this->options['serialize'][1] ?? "unserialize";
+        $unserialize = $this->options['serialize'][1] ?? "\Opis\Closure\unserialize";
 
         return $unserialize($data);
     }

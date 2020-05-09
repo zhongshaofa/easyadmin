@@ -75,9 +75,7 @@ class Handle
                 $log .= PHP_EOL . $exception->getTraceAsString();
             }
 
-            try {
-                $this->app->log->record($log, 'error');
-            } catch (Exception $e){}
+            $this->app->log->record($log, 'error');
         }
     }
 
@@ -152,23 +150,14 @@ class Handle
     {
         if ($this->app->isDebug()) {
             // 调试模式，获取详细的错误信息
-            $traces = [];
-            $nextException = $exception;
-            do {
-                $traces[] = [
-                    'name'    => get_class($nextException),
-                    'file'    => $nextException->getFile(),
-                    'line'    => $nextException->getLine(),
-                    'code'    => $this->getCode($nextException),
-                    'message' => $this->getMessage($nextException),
-                    'trace'   => $nextException->getTrace(),
-                    'source'  => $this->getSourceCode($nextException),
-                ];
-            } while ($nextException = $nextException->getPrevious());
             $data = [
-                'code'    => $this->getCode($exception),
+                'name'    => get_class($exception),
+                'file'    => $exception->getFile(),
+                'line'    => $exception->getLine(),
                 'message' => $this->getMessage($exception),
-                'traces'  => $traces,
+                'trace'   => $exception->getTrace(),
+                'code'    => $this->getCode($exception),
+                'source'  => $this->getSourceCode($exception),
                 'datas'   => $this->getExtendData($exception),
                 'tables'  => [
                     'GET Data'              => $this->app->request->get(),

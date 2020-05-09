@@ -387,11 +387,6 @@
           "comment": "Nested multiselect",
           "expression": "[[*]]",
           "result": [[]]
-        },
-        {
-          "comment": "Select on null",
-          "expression": "missing.{foo: bar}",
-          "result": null
         }
     ]
 }

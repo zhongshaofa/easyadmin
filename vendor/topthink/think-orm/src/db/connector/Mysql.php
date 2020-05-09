@@ -53,7 +53,7 @@ class Mysql extends PDOConnection
      */
     public function getFields(string $tableName): array
     {
-        [$tableName] = explode(' ', $tableName);
+        list($tableName) = explode(' ', $tableName);
 
         if (false === strpos($tableName, '`')) {
             if (strpos($tableName, '.')) {
@@ -120,7 +120,7 @@ class Mysql extends PDOConnection
     public function startTransXa(string $xid)
     {
         $this->initConnect(true);
-        $this->linkID->exec("XA START '$xid'");
+        $this->linkID->execute("XA START '$xid'");
     }
 
     /**
@@ -132,8 +132,8 @@ class Mysql extends PDOConnection
     public function prepareXa(string $xid)
     {
         $this->initConnect(true);
-        $this->linkID->exec("XA END '$xid'");
-        $this->linkID->exec("XA PREPARE '$xid'");
+        $this->linkID->execute("XA END '$xid'");
+        $this->linkID->execute("XA PREPARE '$xid'");
     }
 
     /**
@@ -145,7 +145,7 @@ class Mysql extends PDOConnection
     public function commitXa(string $xid)
     {
         $this->initConnect(true);
-        $this->linkID->exec("XA COMMIT '$xid'");
+        $this->linkID->execute("XA COMMIT '$xid'");
     }
 
     /**
@@ -157,6 +157,6 @@ class Mysql extends PDOConnection
     public function rollbackXa(string $xid)
     {
         $this->initConnect(true);
-        $this->linkID->exec("XA ROLLBACK '$xid'");
+        $this->linkID->execute("XA ROLLBACK '$xid'");
     }
 }

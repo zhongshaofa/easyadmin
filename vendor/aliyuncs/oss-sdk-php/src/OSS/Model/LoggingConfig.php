@@ -42,7 +42,7 @@ class LoggingConfig implements XmlConfig
     }
 
     /**
-     *  Serialize to xml string
+     *  序列化成xml字符串
      *
      */
     public function serializeToXml()

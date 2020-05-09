@@ -2,7 +2,7 @@
 
 namespace League\Flysystem;
 
-class Exception extends \Exception implements FilesystemException
+class Exception extends \Exception
 {
     //
 }

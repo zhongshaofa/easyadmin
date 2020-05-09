@@ -13,7 +13,7 @@ use OSS\Core\OssException;
 class CorsRule
 {
     /**
-     * Add an allowedOrigin rule
+     * Rule中增加一条allowedOrigin
      *
      * @param string $allowedOrigin
      */
@@ -25,7 +25,7 @@ class CorsRule
     }
 
     /**
-     * Add an allowedMethod rule
+     * Rule中增加一条allowedMethod
      *
      * @param string $allowedMethod
      */
@@ -37,7 +37,7 @@ class CorsRule
     }
 
     /**
-     * Add an allowedHeader rule
+     * Rule中增加一条allowedHeader
      *
      * @param string $allowedHeader
      */
@@ -49,7 +49,7 @@ class CorsRule
     }
 
     /**
-     * Add an exposeHeader rule
+     * Rule中增加一条exposeHeader
      *
      * @param string $exposeHeader
      */
@@ -77,7 +77,7 @@ class CorsRule
     }
 
     /**
-     * Get the AllowedHeaders list
+     * 得到AllowedHeaders列表
      *
      * @return string[]
      */
@@ -87,7 +87,7 @@ class CorsRule
     }
 
     /**
-     * Get the AllowedOrigins list
+     * 得到AllowedOrigins列表
      *
      * @return string[]
      */
@@ -97,7 +97,7 @@ class CorsRule
     }
 
     /**
-     * Get the AllowedMethods list
+     * 得到AllowedMethods列表
      *
      * @return string[]
      */
@@ -107,7 +107,7 @@ class CorsRule
     }
 
     /**
-     * Get the ExposeHeaders list
+     * 得到ExposeHeaders列表
      *
      * @return string[]
      */
@@ -117,7 +117,7 @@ class CorsRule
     }
 
     /**
-     * Serialize all the rules into the xml represented by parameter $xmlRule
+     * 根据提供的xmlRule， 把this按照一定的规则插入到$xmlRule中
      *
      * @param \SimpleXMLElement $xmlRule
      * @throws OssException

@@ -83,8 +83,7 @@ class Controller extends Dispatch
             ->send($this->request)
             ->then(function () use ($instance) {
                 // 获取当前操作名
-                $suffix = $this->rule->config('action_suffix');
-                $action = $this->actionName . $suffix;
+                $action = $this->actionName . $this->rule->config('action_suffix');
 
                 if (is_callable([$instance, $action])) {
                     $vars = $this->request->param();
@@ -92,10 +91,6 @@ class Controller extends Dispatch
                         $reflect = new ReflectionMethod($instance, $action);
                         // 严格获取当前操作方法名
                         $actionName = $reflect->getName();
-                        if ($suffix) {
-                            $actionName = substr($actionName, 0, -strlen($suffix));
-                        }
-
                         $this->request->setAction($actionName);
                     } catch (ReflectionException $e) {
                         $reflect = new ReflectionMethod($instance, '__call');
@@ -132,12 +127,12 @@ class Controller extends Dispatch
             foreach ($middlewares as $key => $val) {
                 if (!is_int($key)) {
                     if (isset($val['only']) && !in_array($this->request->action(true), array_map(function ($item) {
-                        return strtolower($item);
-                    }, is_string($val['only']) ? explode(",", $val['only']) : $val['only']))) {
+                            return strtolower($item);
+                        }, is_string($val['only']) ? explode(",", $val['only']) : $val['only']))) {
                         continue;
                     } elseif (isset($val['except']) && in_array($this->request->action(true), array_map(function ($item) {
-                        return strtolower($item);
-                    }, is_string($val['except']) ? explode(',', $val['except']) : $val['except']))) {
+                            return strtolower($item);
+                        }, is_string($val['except']) ? explode(',', $val['except']) : $val['except']))) {
                         continue;
                     } else {
                         $val = $key;

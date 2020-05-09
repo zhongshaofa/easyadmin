@@ -1,12 +1,5 @@
 # CHANGELOG
 
-## 1.5.20 - 2019-12-30
-- Improved Docs.
-- Updated Endpoints.
-
-## 1.5.19 - 2019-12-17
-- Updated Endpoints.
-
 ## 1.5.18 - 2019-10-11
 - Updated Request link.
 - Updated Endpoints data.

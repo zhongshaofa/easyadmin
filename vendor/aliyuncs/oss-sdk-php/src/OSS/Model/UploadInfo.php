@@ -5,7 +5,7 @@ namespace OSS\Model;
 /**
  * Class UploadInfo
  *
- * The return value of ListMultipartUpload
+ * ListMultipartUpload接口得到的UploadInfo
  *
  * @package OSS\Model
  */

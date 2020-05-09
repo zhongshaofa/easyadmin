@@ -29,7 +29,7 @@ class RefererConfig implements XmlConfig
 
 
     /**
-     * serialize the RefererConfig object into xml string
+     * 把RefererConfig序列化成xml
      *
      * @return string
      */

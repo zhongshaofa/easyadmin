@@ -7,8 +7,8 @@ use OSS\Http\ResponseCore;
 
 
 /**
- * Class Result, The result class of The operation of the base class, different requests in dealing with the return of data have different logic,
- * The specific parsing logic postponed to subclass implementation
+ * Class Result, 操作结果类的基类，不同的请求在处理返回数据的时候有不同的逻辑，
+ * 具体的解析逻辑推迟到子类实现
  *
  * @package OSS\Model
  */
@@ -29,7 +29,7 @@ abstract class Result
     }
 
     /**
-     * Get requestId
+     * 获取requestId
      *
      * @return string
      */
@@ -46,7 +46,7 @@ abstract class Result
     }
 
     /**
-     * Get the returned data, different request returns the data format is different
+     * 得到返回数据，不同的请求返回数据格式不同
      *
      * $return mixed
      */
@@ -56,14 +56,14 @@ abstract class Result
     }
 
     /**
-     * Subclass implementation, different requests return data has different analytical logic, implemented by subclasses
+     * 由子类实现，不同的请求返回数据有不同的解析逻辑，由子类实现
      *
      * @return mixed
      */
     abstract protected function parseDataFromResponse();
 
     /**
-     * Whether the operation is successful
+     * 操作是否成功
      *
      * @return mixed
      */
@@ -99,7 +99,7 @@ abstract class Result
     }
 
     /**
-     * Try to get the error message from body
+     * 尝试从body中获取错误Message
      *
      * @param $body
      * @return string
@@ -117,7 +117,7 @@ abstract class Result
     }
 
     /**
-     * Try to get the error Code from body
+     * 尝试从body中获取错误Code
      *
      * @param $body
      * @return string
@@ -135,7 +135,7 @@ abstract class Result
     }
 
     /**
-     * Judging from the return http status code, [200-299] that is OK
+     * 根据返回http状态码判断，[200-299]即认为是OK
      *
      * @return bool
      */
@@ -149,7 +149,7 @@ abstract class Result
     }
 
     /**
-     * Return the original return data
+     * 返回原始的返回数据
      *
      * @return ResponseCore
      */
@@ -159,15 +159,15 @@ abstract class Result
     }
 
     /**
-     * Indicate whether the request is successful
+     * 标示请求是否成功
      */
     protected $isOk = false;
     /**
-     * Data parsed by subclasses
+     * 由子类解析过的数据
      */
     protected $parsedData = null;
     /**
-     * Store the original Response returned by the auth function
+     * 存放auth函数返回的原始Response
      *
      * @var ResponseCore
      */
