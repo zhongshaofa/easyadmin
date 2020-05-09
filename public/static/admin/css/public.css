@@ -181,6 +181,24 @@ table样式
     margin-left: 5px;
 }
 
+.layuimini-container .layui-table-tool .layui-inline[lay-event]{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0px;
+}
+
+.layuimini-container .layui-table-tool .layui-inline .layui-icon {
+    font-size: 16px;
+}
+
+.layuimini-container .layui-table-tool-self {
+    right: 0px;
+}
+
+.layuimini-container .layui-table-tool {
+    padding: 10px 0px;
+}
 
 /**
 开关
