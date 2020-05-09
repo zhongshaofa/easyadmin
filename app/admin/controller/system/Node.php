@@ -86,7 +86,7 @@ class Node extends AdminController
                     }
                 }
             }
-            $model->insertAll($nodeList);
+            $model->saveAll($nodeList);
             TriggerService::updateNode();
         } catch (\Exception $e) {
             $this->error('节点更新失败');
