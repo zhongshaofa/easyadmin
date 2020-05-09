@@ -120,8 +120,11 @@ table样式
 .layuimini-container .layui-table-box{
     border-width: 1px;
     border-style: solid;
-    border-bottom: none!important;
     border-color: #e6e6e6;
+}
+
+.layuimini-container .layui-table-page, .layui-table-total{
+    border-width: 0px 0 0;
 }
 
 .layuimini-container .layui-table-box .layui-table-header  th{
