@@ -55,6 +55,12 @@ class AdminController extends BaseController
     ];
 
     /**
+     * 不导出的字段信息
+     * @var array
+     */
+    protected $noExportFileds = ['delete_time', 'update_time'];
+
+    /**
      * 模板布局, false取消
      * @var string|bool
      */

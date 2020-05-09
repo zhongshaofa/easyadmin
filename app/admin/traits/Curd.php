@@ -13,6 +13,9 @@
 namespace app\admin\traits;
 
 use EasyAdmin\annotation\NodeAnotation;
+use EasyAdmin\tool\CommonTool;
+use jianyan\excel\Excel;
+use think\facade\Db;
 
 /**
  * 后台CURD复用
@@ -103,6 +106,33 @@ trait Curd
             $this->error('删除失败');
         }
         $save ? $this->success('删除成功') : $this->error('删除失败');
+    }
+
+    /**
+     * @NodeAnotation(title="导出")
+     */
+    public function export()
+    {
+        list($page, $limit, $where) = $this->buildTableParames();
+        $tableName = $this->model->getName();
+        $tableName = CommonTool::humpToLine(lcfirst($tableName));
+        $prefix = config('database.connections.mysql.prefix');
+        $dbList = Db::query("show full columns from {$prefix}{$tableName}");
+        $header = [];
+        foreach ($dbList as $vo) {
+            $comment = !empty($vo['Comment']) ? $vo['Comment'] : $vo['Field'];
+            if (!in_array($vo['Field'], $this->noExportFileds)) {
+                $header[] = [$comment, $vo['Field']];
+            }
+        }
+        $list = $this->model
+            ->where($where)
+            ->limit(100000)
+            ->order('id', 'desc')
+            ->select()
+            ->toArray();
+        $fileName = time();
+        return Excel::exportData($list, $header, $fileName, 'xlsx');
     }
 
     /**

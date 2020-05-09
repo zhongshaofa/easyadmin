@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "topthink/framework": "^6.0.2",
+        "topthink/framework": "^6.0.0",
         "topthink/think-orm": "^2.0",
         "topthink/think-multi-app": "^1.0",
         "topthink/think-view": "^1.0",
@@ -27,7 +27,8 @@
         "qcloud/cos-sdk-v5": "^2.0",
         "qiniu/php-sdk": "^7.2",
         "zhongshaofa/easy-addons": "dev-master",
-        "alibabacloud/client": "^1.5"
+        "alibabacloud/client": "^1.5",
+        "jianyan74/php-excel": "^1.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",

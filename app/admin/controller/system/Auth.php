@@ -87,7 +87,4 @@ class Auth extends AdminController
         $this->success('保存成功');
     }
 
-    public function export(){
-
-    }
 }
