@@ -350,3 +350,11 @@ table样式
     margin: 0;
     padding: 0;
 }
+
+@media screen and (max-width: 1024px) {
+    .layuimini-form .layui-form-item{
+        position: relative;
+        padding: 0 30px 0 0;
+        line-height: 24px;
+    }
+}

@@ -19,9 +19,9 @@ require.config({
         "treetable": ["plugs/lay-module/treetable-lay/treetable"],
         "tableSelect": ["plugs/lay-module/tableSelect/tableSelect"],
         "iconPickerFa": ["plugs/lay-module/iconPicker/iconPickerFa"],
-        "wangEditor": ["plugs/lay-module/wangEditor/wangEditor"],
         "autocomplete": ["plugs/lay-module/autocomplete/autocomplete"],
         "vue": ["plugs/vue-2.6.10/vue.min"],
+        "ckeditor": ["plugs/ckeditor5/ckeditor"],
     }
 });
 
