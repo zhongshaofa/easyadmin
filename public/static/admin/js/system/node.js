@@ -49,7 +49,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                 cols: [[
                     {field: 'node', minWidth: 200, align: 'left', title: '系统节点'},
                     {field: 'title', minWidth: 80, title: '节点名称 <i class="table-edit-tips color-red">*</i>', edit: 'text', align: "center"},
-                    {field: 'create_time', minWidth: 80, title: '创建时间', align: "center", search: 'range'},
+                    {field: 'update_time', minWidth: 80, title: '更新时间', align: "center", search: 'range'},
                     {field: 'is_auth', title: '节点控制', width: 85, align: "center", search: 'select', selectList: {0: '禁用', 1: '启用'}, filter: 'is_auth', templet: ea.table.switch},
                 ]],
             });

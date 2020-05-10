@@ -807,7 +807,7 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
             $('body').on('click', '[data-table-export]', function () {
                 var tableId = $(this).attr('data-table-export'),
                     url = $(this).attr('data-url');
-                var index = admin.msg.confirm('确定导出？', function () {
+                var index = admin.msg.confirm('根据查询进行导出，确定导出？', function () {
                     window.location = admin.url(url);
                     layer.close(index);
                 });
