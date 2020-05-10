@@ -8,6 +8,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
         edit_url: 'system.admin/edit',
         del_url: 'system.admin/del',
         modify_url: 'system.admin/modify',
+        export_url:'system.admin/export',
         password_url: 'system.admin/password',
     };
 
@@ -18,7 +19,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
             ea.table.render({
                 init: init,
                 modifyReload: true,
-                toolbar: ['refresh', 'add', 'delete'],
+                // toolbar: ['refresh', 'add', 'delete'],
                 cols: [[
                     {type: "checkbox"},
                     {field: 'id', width: 80, title: 'ID', sort: true, align: "center"},

@@ -176,7 +176,6 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
                 options.id = options.id || options.init.table_render_id;
                 options.layFilter = options.id + '_LayFilter';
                 options.url = options.url || admin.url(options.init.index_url);
-                options.toolbar = options.toolbar || '#toolbar';
                 options.page = admin.parame(options.page, true);
                 options.search = admin.parame(options.search, true);
                 options.skin = options.skin || 'line';
@@ -194,12 +193,12 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
                 $(options.elem).attr('lay-filter', options.layFilter);
 
                 // 初始化表格搜索
-                options.toolbar = options.toolbar || ['refresh', 'add', 'delete'];
                 if (options.search === true) {
                     admin.table.renderSearch(options.cols, options.elem, options.id);
                 }
 
                 // 初始化表格左上方工具栏
+                options.toolbar = options.toolbar || ['refresh', 'add', 'delete', 'export'];
                 options.toolbar = admin.table.renderToolbar(options.toolbar, options.elem, options.id, options.init);
 
                 // 判断是否有操作列表权限
@@ -227,11 +226,15 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
                         toolbarHtml += ' <button class="layui-btn layui-btn-sm layuimini-btn-primary" data-table-refresh="' + tableId + '"><i class="fa fa-refresh"></i> </button>\n';
                     } else if (v === 'add') {
                         if (admin.checkAuth('add', elem)) {
-                            toolbarHtml += '<button class="layui-btn layui-btn-normal layui-btn-sm" data-open="' + init.add_url + '" data-title="添加" auth="' + init.add_url + '"><i class="layui-icon layui-icon-add-circle-fine"></i>添加</button>\n';
+                            toolbarHtml += '<button class="layui-btn layui-btn-normal layui-btn-sm" data-open="' + init.add_url + '" data-title="添加"><i class="fa fa-plus"></i> 添加</button>\n';
                         }
                     } else if (v === 'delete') {
                         if (admin.checkAuth('delete', elem)) {
-                            toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-danger" data-url="' + init.del_url + '" data-table-delete="' + tableId + '" auth="' + init.del_url + '"><i class="layui-icon layui-icon-delete"></i>删除</button>\n';
+                            toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-danger" data-url="' + init.del_url + '" data-table-delete="' + tableId + '"><i class="fa fa-trash-o"></i> 删除</button>\n';
+                        }
+                    } else if (v === 'export') {
+                        if (admin.checkAuth('export', elem)) {
+                            toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-success" data-url="' + init.export_url + '" data-table-export="' + tableId + '"><i class="fa fa-file-excel-o"></i> 导出</button>\n';
                         }
                     } else if (typeof v === "object") {
                         $.each(v, function (ii, vv) {
@@ -331,7 +334,7 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
                         formHtml +
                         '<div class="layui-form-item layui-inline" style="margin-left: 115px">\n' +
                         '<button type="submit" class="layui-btn layui-btn-normal" data-type="tableSearch" data-table="' + tableId + '" lay-submit lay-filter="' + tableId + '_filter"> 搜 索</button>\n' +
-                        '<button type="reset" class="layui-btn layui-btn-primary" data-table-reset="' + tableId + '"> 重 置 </button>\n'+
+                        '<button type="reset" class="layui-btn layui-btn-primary" data-table-reset="' + tableId + '"> 重 置 </button>\n' +
                         ' </div>' +
                         '</form>' +
                         '</fieldset>');
@@ -798,6 +801,16 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
                     })
                 });
                 return false;
+            });
+
+            // excel导出
+            $('body').on('click', '[data-table-export]', function () {
+                var tableId = $(this).attr('data-table-export'),
+                    url = $(this).attr('data-url');
+                var index = admin.msg.confirm('确定导出？', function () {
+                    window.location = admin.url(url);
+                    layer.close(index);
+                });
             });
 
             // 数据表格多删除

@@ -11,6 +11,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
         edit_url: 'system.uploadfile/edit',
         del_url: 'system.uploadfile/del',
         modify_url: 'system.uploadfile/modify',
+        export_url:'system.uploadfile/export',
     };
 
     var Controller = {
@@ -18,7 +19,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
         index: function () {
             ea.table.render({
                 init: init,
-                toolbar: ['refresh', 'add', 'delete'],
+                // toolbar: ['refresh', 'add', 'delete'],
                 cols: [[
                     {type: "checkbox"},
                     {field: 'id', width: 80, title: 'ID', sort: true, align: "center"},
