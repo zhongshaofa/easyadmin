@@ -1,4 +1,4 @@
-define(["jquery", "easy-admin","ckeditor"], function ($, ea,ckeditor) {
+define(["jquery", "easy-admin","ckeditor"], function ($, ea,undefined) {
     var table = layui.table;
     var form = layui.form;
     var upload = layui.upload;
@@ -57,13 +57,7 @@ define(["jquery", "easy-admin","ckeditor"], function ($, ea,ckeditor) {
         },
         add: function () {
 
-            ckeditor.create(document.querySelector('#editor'))
-                .then(editor => {
-                    window.editor = editor;
-                })
-                .catch(error => {
-                    console.error('There was a problem initializing the editor.', error);
-                });
+            CKEDITOR.replace( 'remark' );
 
             ea.listen();
         },

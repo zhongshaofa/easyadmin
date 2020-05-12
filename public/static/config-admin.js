@@ -21,7 +21,7 @@ require.config({
         "iconPickerFa": ["plugs/lay-module/iconPicker/iconPickerFa"],
         "autocomplete": ["plugs/lay-module/autocomplete/autocomplete"],
         "vue": ["plugs/vue-2.6.10/vue.min"],
-        "ckeditor": ["plugs/ckeditor5/ckeditor"],
+        "ckeditor": ["plugs/ckeditor4/ckeditor"],
     }
 });
 
