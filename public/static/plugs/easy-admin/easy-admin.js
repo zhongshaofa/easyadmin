@@ -948,6 +948,16 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         }
                         form.on('submit(' + filter + ')', function (data) {
                             var dataField = data.field;
+
+                            // 富文本数据处理
+                            var editorList = document.querySelectorAll(".editor");
+                            if (editorList.length > 0) {
+                                $.each(editorList, function (i, v) {
+                                    var name = $(this).attr("name");
+                                    dataField[name] = CKEDITOR.instances[name].getData();
+                                });
+                            }
+
                             if (typeof formCallback === 'function') {
                                 formCallback(url, dataField);
                             } else {
@@ -1101,7 +1111,8 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 var editorList = document.querySelectorAll(".editor");
                 if (editorList.length > 0) {
                     $.each(editorList, function (i, v) {
-                        CKEDITOR.replace(this);
+                        var name = $(this).attr("name");
+                        CKEDITOR.replace(name);
                     });
                 }
             },
