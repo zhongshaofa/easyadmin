@@ -1111,8 +1111,11 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 var editorList = document.querySelectorAll(".editor");
                 if (editorList.length > 0) {
                     $.each(editorList, function (i, v) {
-                        var name = $(this).attr("name");
-                        CKEDITOR.replace(name);
+                        CKEDITOR.replace(
+                            $(this).attr("name"),
+                            {
+                                height: $(this).height()
+                            });
                     });
                 }
             },
