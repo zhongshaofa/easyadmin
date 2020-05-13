@@ -1,4 +1,4 @@
-define(["jquery", "easy-admin","ckeditor"], function ($, ea,undefined) {
+define(["jquery", "easy-admin"], function ($, ea) {
     var table = layui.table;
     var form = layui.form;
     var upload = layui.upload;
@@ -10,7 +10,7 @@ define(["jquery", "easy-admin","ckeditor"], function ($, ea,undefined) {
         add_url: 'system.auth/add',
         edit_url: 'system.auth/edit',
         del_url: 'system.auth/del',
-        export_url:'system.auth/export',
+        export_url: 'system.auth/export',
         modify_url: 'system.auth/modify',
         authorize_url: 'system.auth/authorize',
         save_authorize: 'system.auth/saveAuthorize',
@@ -56,9 +56,6 @@ define(["jquery", "easy-admin","ckeditor"], function ($, ea,undefined) {
             ea.listen();
         },
         add: function () {
-
-            CKEDITOR.replace( 'remark' );
-
             ea.listen();
         },
         edit: function () {

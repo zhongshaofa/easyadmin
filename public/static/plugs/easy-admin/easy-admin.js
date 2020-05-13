@@ -1,4 +1,4 @@
-define(["jquery", "tableSelect"], function ($, tableSelect) {
+define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefined) {
 
     var form = layui.form,
         layer = layui.layer,
@@ -690,6 +690,9 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
             // 初始化图片显示以及监听上传事件
             admin.api.upload();
 
+            // 监听富文本初始化
+            admin.api.editor();
+
             // 初始化layui表单
             form.render();
 
@@ -1092,6 +1095,14 @@ define(["jquery", "tableSelect"], function ($, tableSelect) {
 
                     });
 
+                }
+            },
+            editor: function () {
+                var editorList = document.querySelectorAll(".editor");
+                if (editorList.length > 0) {
+                    $.each(editorList, function (i, v) {
+                        CKEDITOR.replace(this);
+                    });
                 }
             },
         },
