@@ -1,6 +1,4 @@
 define(["jquery-particleground", "easy-admin"], function (undefined, ea) {
-    var form = layui.form,
-        layer = layui.layer;
 
     var Controller = {
         index: function () {

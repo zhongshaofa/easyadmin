@@ -1,7 +1,6 @@
 define(["jquery", "easy-admin", "vue"], function ($, ea, Vue) {
 
-    var form = layui.form,
-        element = layui.element;
+    var form = layui.form;
 
     var Controller = {
         index: function () {

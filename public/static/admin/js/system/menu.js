@@ -1,10 +1,9 @@
 define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], function ($, ea) {
 
-    var table = layui.table;
-    var form = layui.form;
-    var treetable = layui.treetable;
-    var iconPickerFa = layui.iconPickerFa;
-    var autocomplete = layui.autocomplete;
+    var table = layui.table,
+        treetable = layui.treetable,
+        iconPickerFa = layui.iconPickerFa,
+        autocomplete = layui.autocomplete;
 
     var init = {
         table_elem: '#currentTable',
