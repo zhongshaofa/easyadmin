@@ -498,7 +498,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
             list: function (data, option) {
                 option.selectList = option.selectList || {};
                 var value = data[option.field];
-                if (option.selectList[value] == undefined || option.selectList[value] == '' || option.selectList[value] == null) {
+                if (option.selectList[value] === undefined || option.selectList[value] === '' || option.selectList[value] === null) {
                     return value;
                 } else {
                     return option.selectList[value];
@@ -514,6 +514,14 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 option.tips = option.tips || '开|关';
                 var checked = data[option.field] === option.checked ? 'checked' : '';
                 return '<input type="checkbox" name="' + option.field + '" value="' + data.id + '" lay-skin="switch" lay-text="' + option.tips + '" lay-filter="' + option.filter + '" ' + checked + ' >';
+            },
+            price: function (data, option) {
+                var value = data[option.field];
+                return "￥" + value;
+            },
+            percent: function (data, option) {
+                var value = data[option.field];
+                return value + "%";
             },
             listenTableSearch: function (tableId) {
                 form.on('submit(' + tableId + '_filter)', function (data) {
