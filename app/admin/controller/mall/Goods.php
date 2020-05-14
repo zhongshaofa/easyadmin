@@ -35,13 +35,14 @@ class Goods extends AdminController
             if (input('selectFieds')) {
                 return $this->selectList();
             }
+            $this->relationSerach = true;
             list($page, $limit, $where) = $this->buildTableParames();
             $count = $this->model
-                ->with('cate')
+                ->withJoin('cate', 'LEFT')
                 ->where($where)
                 ->count();
             $list = $this->model
-                ->with('cate')
+                ->withJoin('cate', 'LEFT')
                 ->where($where)
                 ->page($page, $limit)
                 ->order($this->sort)

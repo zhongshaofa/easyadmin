@@ -15,6 +15,7 @@ namespace app\common\controller;
 
 
 use app\BaseController;
+use EasyAdmin\tool\CommonTool;
 use think\facade\Env;
 use think\Model;
 
@@ -65,7 +66,7 @@ class AdminController extends BaseController
      * 下拉选择条件
      * @var array
      */
-    protected $selectWhere=[];
+    protected $selectWhere = [];
 
     /**
      * 是否关联查询
@@ -151,7 +152,14 @@ class AdminController extends BaseController
         $filters = json_decode($filters, true);
         $ops = json_decode($ops, true);
         $where = [];
+
+        // 判断是否关联查询
+        $tableName = CommonTool::humpToLine(lcfirst($this->model->getName()));
+
         foreach ($filters as $key => $val) {
+            if ($this->relationSerach && count(explode('.', $key)) == 1) {
+                $key = "{$tableName}.{$key}";
+            }
             $op = isset($ops[$key]) && !empty($ops[$key]) ? $ops[$key] : '%*%';
             switch (strtolower($op)) {
                 case '=':
@@ -182,13 +190,14 @@ class AdminController extends BaseController
      * 下拉选择列表
      * @return \think\response\Json
      */
-    public function selectList(){
+    public function selectList()
+    {
         $fields = input('selectFieds');
         $data = $this->model
             ->where($this->selectWhere)
             ->field($fields)
             ->select();
-        $this->success(null,$data);
+        $this->success(null, $data);
     }
 
 }
