@@ -14,9 +14,10 @@ CKEDITOR.editorConfig = function (config) {
         {name: 'forms'},
         {name: 'links'},
         {name: 'clipboard', groups: ['clipboard', 'undo']},
+        { name: 'insert', groups: [ 'EasyImageUpload' ] },
         {name: 'tools'},
     ];
-    config.filebrowserImageUploadUrl= config.filebrowserImageUploadUrl ||"/dd/ajax/upload";
+    config.filebrowserImageUploadUrl = config.filebrowserImageUploadUrl || "/admin/ajax/uploadEditor";
 
     config.removeButtons = 'Underline,Subscript,Superscript';
 

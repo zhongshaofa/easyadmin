@@ -42,8 +42,8 @@ class Ajax extends AdminController
                 'image' => sysconfig('site', 'logo_image'),
                 'href'  => __url('index/index'),
             ],
-            'homeInfo'  => $menuService->getHomeInfo(),
-            'menuInfo'  => $menuService->getMenuTree(),
+            'homeInfo' => $menuService->getHomeInfo(),
+            'menuInfo' => $menuService->getMenuTree(),
         ];
         Cache::tag('initAdmin')->set('initAdmin_' . session('admin.id'), $data);
         return json($data);
@@ -84,7 +84,48 @@ class Ajax extends AdminController
             $this->error($e->getMessage());
         }
         if ($upload['save'] == true) {
-            $this->success($upload['msg'], ['url' => $upload['url'],]);
+            $this->success($upload['msg'], ['url' => $upload['url']]);
+        } else {
+            $this->error($upload['msg']);
+        }
+    }
+
+    /**
+     * 上传图片至编辑器
+     * @return \think\response\Json
+     */
+    public function uploadEditor()
+    {
+        $data = [
+            'upload_type' => $this->request->post('upload_type'),
+            'file'        => $this->request->file('upload'),
+        ];
+        $uploadConfig = sysconfig('upload');
+        empty($data['upload_type']) && $data['upload_type'] = $uploadConfig['upload_type'];
+        $rule = [
+            'upload_type|指定上传类型有误' => "in:{$uploadConfig['upload_allow_type']}",
+            'file|文件'              => "require|file|fileExt:{$uploadConfig['upload_allow_ext']}|fileSize:{$uploadConfig['upload_allow_size']}",
+        ];
+        $this->validate($data, $rule);
+        try {
+            $upload = Uploadfile::instance()
+                ->setUploadType($data['upload_type'])
+                ->setUploadConfig($uploadConfig)
+                ->setFile($data['file'])
+                ->save();
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
+        }
+        if ($upload['save'] == true) {
+            return json([
+                'error'    => [
+                    'message' => '上传成功',
+                    'number'  => 201,
+                ],
+                'fileName' => '',
+                'uploaded' => 1,
+                'url'      => $upload['url'],
+            ]);
         } else {
             $this->error($upload['msg']);
         }
@@ -97,7 +138,8 @@ class Ajax extends AdminController
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      */
-    public function getUploadFiles(){
+    public function getUploadFiles()
+    {
         $get = $this->request->get();
         $page = isset($get['page']) && !empty($get['page']) ? $get['page'] : 1;
         $limit = isset($get['limit']) && !empty($get['limit']) ? $get['limit'] : 10;

@@ -191,7 +191,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 }];
 
                 // 判断元素对象是否有嵌套的
-                options.cols = admin.table.formatCols(options.cols,options.init);
+                options.cols = admin.table.formatCols(options.cols, options.init);
 
                 // 初始化表格lay-filter
                 $(options.elem).attr('lay-filter', options.layFilter);
@@ -1161,7 +1161,8 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         CKEDITOR.replace(
                             $(this).attr("name"),
                             {
-                                height: $(this).height()
+                                height: $(this).height(),
+                                filebrowserImageUploadUrl: admin.url('ajax/uploadEditor'),
                             });
                     });
                 }
