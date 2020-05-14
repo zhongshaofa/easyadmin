@@ -48,6 +48,9 @@ class Menu extends AdminController
     public function index()
     {
         if ($this->request->isAjax()) {
+            if (input('selectFieds')) {
+                return $this->selectList();
+            }
             $count = $this->model->count();
             $list = $this->model->order($this->sort)->select();
             $data = [

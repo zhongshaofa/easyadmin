@@ -20,33 +20,4 @@ class Cate extends AdminController
         $this->model = new MallCate();
     }
 
-    /**
-     * @NodeAnotation(title="列表")
-     */
-    public function index()
-    {
-        if ($this->request->isAjax()) {
-            if (input('selectFieds')) {
-                return $this->selectList();
-            }
-            list($page, $limit, $where) = $this->buildTableParames();
-            $count = $this->model
-                ->where($where)
-                ->count();
-            $list = $this->model
-                ->where($where)
-                ->page($page, $limit)
-                ->order($this->sort)
-                ->select();
-            $data = [
-                'code'  => 0,
-                'msg'   => '',
-                'count' => $count,
-                'data'  => $list,
-            ];
-            return json($data);
-        }
-        return $this->fetch();
-    }
-
 }
