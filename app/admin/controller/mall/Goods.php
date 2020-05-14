@@ -26,4 +26,35 @@ class Goods extends AdminController
         $this->model = new MallGoods();
     }
 
+    /**
+     * @NodeAnotation(title="列表")
+     */
+    public function index()
+    {
+        if ($this->request->isAjax()) {
+            if (input('selectFieds')) {
+                return $this->selectList();
+            }
+            list($page, $limit, $where) = $this->buildTableParames();
+            $count = $this->model
+                ->with('cate')
+                ->where($where)
+                ->count();
+            $list = $this->model
+                ->with('cate')
+                ->where($where)
+                ->page($page, $limit)
+                ->order($this->sort)
+                ->select();
+            $data = [
+                'code'  => 0,
+                'msg'   => '',
+                'count' => $count,
+                'data'  => $list,
+            ];
+            return json($data);
+        }
+        return $this->fetch();
+    }
+
 }

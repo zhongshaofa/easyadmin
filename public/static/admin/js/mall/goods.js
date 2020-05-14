@@ -24,6 +24,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                     {type: "checkbox"},
                     {field: 'id', width: 80, title: 'ID', sort: true, align: "center"},
                     {field: 'sort', width: 80, title: '排序', edit: 'text', sort: true, align: "center"},
+                    {field: 'cate.title', minWidth: 80, title: '商品分类', align: "center"},
                     {field: 'title', minWidth: 80, title: '商品名称', align: "center"},
                     {field: 'logo', minWidth: 80, title: '分类图片', search: false, imageHeight: 40, align: "center", templet: ea.table.image},
                     {field: 'market_price', width: 100, title: '市场价', align: "center", templet: ea.table.price},

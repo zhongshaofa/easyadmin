@@ -6,6 +6,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         laydate = layui.laydate,
         upload = layui.upload,
         element = layui.element,
+        laytpl  = layui.laytpl,
         tableSelect = layui.tableSelect;
 
     layer.config({
@@ -181,12 +182,16 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 options.skin = options.skin || 'line';
                 options.limit = options.limit || 15;
                 options.limits = options.limits || [10, 15, 20, 25, 50, 100];
+                options.cols = options.cols || [];
                 options.defaultToolbar = (options.defaultToolbar === undefined && !options.search) ? ['filter', 'print', 'exports'] : ['filter', 'print', 'exports', {
                     title: '搜索',
                     layEvent: 'TABLE_SEARCH',
                     icon: 'layui-icon-search',
                     extend: 'data-table-id="' + options.id + '"'
                 }];
+
+                // 判断元素对象是否有嵌套的
+                options.cols = admin.table.formatCols(options.cols);
 
 
                 // 初始化表格lay-filter
@@ -424,6 +429,23 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 url = url.indexOf("?") !== -1 ? url + '&' + field + '=' + data[field] : url + '?' + field + '=' + data[field];
                 return url;
             },
+            formatCols: function (cols) {
+                for (i in cols) {
+                    var col = cols[i];
+                    for (index in col) {
+                        var val = col[index];
+                        if (val.field !== undefined && val.field.split(".").length > 1) {
+                            if (val.templet === undefined) {
+                                cols[i][index]['templet'] = function (data, option) {
+                                    var field = option.field;
+                                    return laytpl('<span>{{d.' + field + '}}</span>').render(data);
+                                };
+                            }
+                        }
+                    }
+                }
+                return cols;
+            },
             tool: function (data, option) {
                 option.operat = option.operat || ['edit', 'delete'];
                 var elem = option.init.table_elem || init.table_elem;
@@ -491,9 +513,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 option.imageWidth = option.imageWidth || 200;
                 option.imageHeight = option.imageHeight || 40;
                 option.title = option.title || option.field;
-                var src = data[option.field],
+                var field = option.field,
                     title = data[option.title];
-                return '<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + src + '" data-image="' + title + '"  src="' + title + '">';
+                return laytpl('<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="{{d.' + field + '}}" data-image="' + title + '">').render(data);
             },
             list: function (data, option) {
                 option.selectList = option.selectList || {};
@@ -505,23 +527,24 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 }
             },
             url: function (data, option) {
-                var src = data[option.field];
-                return '<a class="layuimini-table-url" href="' + src + '" target="_blank" class="label bg-green">' + src + '</a>';
+                var field = option.field;
+                return laytpl('<a class="layuimini-table-url" href="{{d.' + field + '}}" target="_blank" class="label bg-green">{{d.' + field + '}}</a>').render(data);
             },
             switch: function (data, option) {
+                var field = option.field;
                 option.filter = option.filter || option.field || null;
                 option.checked = option.checked || 1;
                 option.tips = option.tips || '开|关';
                 var checked = data[option.field] === option.checked ? 'checked' : '';
-                return '<input type="checkbox" name="' + option.field + '" value="' + data.id + '" lay-skin="switch" lay-text="' + option.tips + '" lay-filter="' + option.filter + '" ' + checked + ' >';
+                return laytpl('<input type="checkbox" name="' + option.field + '" value="' + data.id + '" lay-skin="switch" lay-text="' + option.tips + '" lay-filter="' + option.filter + '" ' + checked + ' >').render(data);
             },
             price: function (data, option) {
-                var value = data[option.field];
-                return "￥" + value;
+                var field = option.field;
+                return laytpl('<span>￥{{d.' + field + '}}</span>').render(data);
             },
             percent: function (data, option) {
-                var value = data[option.field];
-                return value + "%";
+                var field = option.field;
+                return laytpl('<span>{{d.' + field + '}}%</span>').render(data);
             },
             listenTableSearch: function (tableId) {
                 form.on('submit(' + tableId + '_filter)', function (data) {
