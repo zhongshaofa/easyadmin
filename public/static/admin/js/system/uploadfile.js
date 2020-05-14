@@ -29,9 +29,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                     {field: 'mime_type', minWidth: 80, title: 'mime类型', align: "center"},
                     {field: 'file_ext', minWidth: 80, title: '文件后缀', align: "center"},
                     {field: 'create_time', minWidth: 80, title: '创建时间', align: "center", search: 'range'},
-                    {
-                        width: 250, align: 'center', title: '操作', init: init, templet: ea.table.tool, operat: ['delete']
-                    }
+                    {width: 250, align: 'center', title: '操作', templet: ea.table.tool, operat: ['delete']}
                 ]],
             });
 

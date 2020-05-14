@@ -191,7 +191,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 }];
 
                 // 判断元素对象是否有嵌套的
-                options.cols = admin.table.formatCols(options.cols);
+                options.cols = admin.table.formatCols(options.cols,options.init);
 
 
                 // 初始化表格lay-filter
@@ -429,11 +429,16 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 url = url.indexOf("?") !== -1 ? url + '&' + field + '=' + data[field] : url + '?' + field + '=' + data[field];
                 return url;
             },
-            formatCols: function (cols) {
+            formatCols: function (cols, init) {
                 for (i in cols) {
                     var col = cols[i];
                     for (index in col) {
                         var val = col[index];
+
+                        // 判断是否包含初始化数据
+                        if (val.init === undefined) {
+                            cols[i][index]['init'] = init;
+                        }
 
                         // 判断是否多层对象
                         if (val.field !== undefined && val.field.split(".").length > 1) {
