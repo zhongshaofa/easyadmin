@@ -62,6 +62,12 @@ class AdminController extends BaseController
     protected $noExportFileds = ['delete_time', 'update_time'];
 
     /**
+     * 下拉选择条件
+     * @var array
+     */
+    protected $selectWhere=[];
+
+    /**
      * 模板布局, false取消
      * @var string|bool
      */
@@ -164,6 +170,19 @@ class AdminController extends BaseController
             }
         }
         return [$page, $limit, $where];
+    }
+
+    /**
+     * 下拉选择列表
+     * @return \think\response\Json
+     */
+    public function selectList(){
+        $fields = input('selectFieds');
+        $data = $this->model
+            ->where($this->selectWhere)
+            ->field($fields)
+            ->select();
+        $this->success(null,$data);
     }
 
 }

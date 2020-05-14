@@ -693,6 +693,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
             // 监听富文本初始化
             admin.api.editor();
 
+            // 监听下拉选择生成
+            admin.api.select();
+
             // 初始化layui表单
             form.render();
 
@@ -1118,6 +1121,40 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             });
                     });
                 }
+            },
+            select: function () {
+                var selectList = document.querySelectorAll("[data-select]");
+                $.each(selectList, function (i, v) {
+                    var url = $(this).attr('data-select'),
+                        selectFields = $(this).attr('data-fields'),
+                        value = $(this).attr('data-value'),
+                        that = this,
+                        html = '<option value=""></option>';
+                    var fields = selectFields.replace(/\s/g, "").split(',');
+                    if (fields.length !== 2) {
+                        return admin.msg.error('下拉选择字段有误');
+                    }
+                    admin.request.get(
+                        {
+                            url: url,
+                            data: {
+                                selectFieds: selectFields
+                            },
+                        }, function (res) {
+                            var list = res.data;
+                            list.forEach(val => {
+                                var key = val[fields[0]];
+                                if (value !== undefined && key.toString() === value) {
+                                    html += '<option value="' + key + '" selected="">' + val[fields[1]] + '</option>';
+                                } else {
+                                    html += '<option value="' + key + '">' + val[fields[1]] + '</option>';
+                                }
+                            });
+                            $(that).html(html);
+                            form.render();
+                        }
+                    );
+                });
             },
         },
     };
