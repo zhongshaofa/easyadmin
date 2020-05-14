@@ -8,6 +8,7 @@ use app\admin\model\MallGoods;
 use app\admin\traits\Curd;
 use app\common\controller\AdminController;
 use EasyAdmin\annotation\ControllerAnnotation;
+use EasyAdmin\annotation\NodeAnotation;
 use think\App;
 
 /**
@@ -55,6 +56,30 @@ class Goods extends AdminController
             ];
             return json($data);
         }
+        return $this->fetch();
+    }
+
+    /**
+     * @NodeAnotation(title="入库")
+     */
+    public function stock($id)
+    {
+        $row = $this->model->find($id);
+        empty($row) && $this->error('数据不存在');
+        if ($this->request->isAjax()) {
+            $post = $this->request->post();
+            $rule = [];
+            $this->validate($post, $rule);
+            try {
+                $post['total_stock'] = $row->total_stock + $post['stock'];
+                $post['stock'] = $row->stock + $post['stock'];
+                $save = $row->save($post);
+            } catch (\Exception $e) {
+                $this->error('保存失败');
+            }
+            $save ? $this->success('保存成功') : $this->error('保存失败');
+        }
+        $this->assign('row', $row);
         return $this->fetch();
     }
 

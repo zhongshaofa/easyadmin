@@ -9,6 +9,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
         del_url: 'mall.goods/del',
         export_url: 'mall.goods/export',
         modify_url: 'mall.goods/modify',
+        stock_url: 'mall.goods/stock',
     };
 
     var Controller = {
@@ -37,8 +38,8 @@ define(["jquery", "easy-admin"], function ($, ea) {
                     {field: 'logo', minWidth: 80, title: '分类图片', search: false, imageHeight: 40, align: "center", templet: ea.table.image},
                     {field: 'market_price', width: 100, title: '市场价', align: "center", templet: ea.table.price},
                     {field: 'discount_price', width: 100, title: '折扣价', align: "center", templet: ea.table.price},
-                    {field: 'total_stock', width: 80, title: '总库存', align: "center"},
-                    {field: 'stock', width: 80, title: '库存', align: "center"},
+                    {field: 'total_stock', width: 100, title: '库存统计', align: "center"},
+                    {field: 'stock', width: 100, title: '剩余库存', align: "center"},
                     {field: 'virtual_sales', width: 100, title: '虚拟销量', align: "center"},
                     {field: 'sales', width: 80, title: '销量', align: "center"},
                     {field: 'status', title: '状态', width: 85, align: "center", search: 'select', selectList: {0: '禁用', 1: '启用'}, filter: 'status', templet: ea.table.switch},
@@ -56,6 +57,13 @@ define(["jquery", "easy-admin"], function ($, ea) {
                                 auth: 'edit',
                                 url: init.edit_url,
                                 extend: 'data-full="true"',
+                            }, {
+                                class: 'layui-btn layui-btn-xs layui-btn-normal',
+                                method: 'open',
+                                text: '入库',
+                                auth: 'stock',
+                                url: init.stock_url,
+                                extend: '',
                             }],
                             'delete']
                     }
@@ -68,6 +76,9 @@ define(["jquery", "easy-admin"], function ($, ea) {
             ea.listen();
         },
         edit: function () {
+            ea.listen();
+        },
+        stock: function () {
             ea.listen();
         },
     };
