@@ -22,7 +22,7 @@ class MallGoods extends TimeModel
 
     public function cate()
     {
-        return $this->belongsTo('app\admin\model\MallCate', 'cate_id', 'id', [], 'LEFT');
+        return $this->belongsTo('app\admin\model\MallCate', 'cate_id', 'id');
     }
 
 }
