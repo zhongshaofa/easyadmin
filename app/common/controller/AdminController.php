@@ -68,6 +68,12 @@ class AdminController extends BaseController
     protected $selectWhere=[];
 
     /**
+     * 是否关联查询
+     * @var bool
+     */
+    protected $relationSerach = false;
+
+    /**
      * 模板布局, false取消
      * @var string|bool
      */
