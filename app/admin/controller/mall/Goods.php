@@ -4,7 +4,6 @@
 namespace app\admin\controller\mall;
 
 
-use app\admin\model\MallCate;
 use app\admin\model\MallGoods;
 use app\admin\traits\Curd;
 use app\common\controller\AdminController;
