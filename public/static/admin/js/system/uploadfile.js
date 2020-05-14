@@ -22,7 +22,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                 cols: [[
                     {type: "checkbox"},
                     {field: 'id', width: 80, title: 'ID', sort: true, align: "center"},
-                    {field: 'upload_type', minWidth: 80, title: '存储位置', align: "center", search: 'select', selectList: {'local': '本地', 'alioss': '阿里云', 'qnoss': '七牛云', ',txcos': '腾讯云'}, templet: ea.table.list},
+                    {field: 'upload_type', minWidth: 80, title: '存储位置', align: "center", search: 'select', selectList: {'local': '本地', 'alioss': '阿里云', 'qnoss': '七牛云', ',txcos': '腾讯云'}},
                     {field: 'url', minWidth: 80, search: false, title: '图片信息', imageHeight: 40, align: "center", templet: ea.table.image},
                     {field: 'url', minWidth: 120, title: '保存地址', align: "center", templet: ea.table.url},
                     {field: 'original_name', minWidth: 80, title: '文件原名', align: "center"},

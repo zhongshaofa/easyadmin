@@ -6,7 +6,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         laydate = layui.laydate,
         upload = layui.upload,
         element = layui.element,
-        laytpl  = layui.laytpl,
+        laytpl = layui.laytpl,
         tableSelect = layui.tableSelect;
 
     layer.config({
@@ -434,14 +434,19 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     var col = cols[i];
                     for (index in col) {
                         var val = col[index];
+
+                        // 判断是否多层对象
                         if (val.field !== undefined && val.field.split(".").length > 1) {
                             if (val.templet === undefined) {
-                                cols[i][index]['templet'] = function (data, option) {
-                                    var field = option.field;
-                                    return laytpl('<span>{{d.' + field + '}}</span>').render(data);
-                                };
+                                cols[i][index]['templet'] = admin.table.value;
                             }
                         }
+
+                        // 判断是否列表数据转换
+                        if (val.selectList !== undefined && val.templet === undefined) {
+                            cols[i][index]['templet'] = admin.table.list;
+                        }
+
                     }
                 }
                 return cols;
@@ -509,14 +514,6 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 });
                 return html;
             },
-            image: function (data, option) {
-                option.imageWidth = option.imageWidth || 200;
-                option.imageHeight = option.imageHeight || 40;
-                option.title = option.title || option.field;
-                var field = option.field,
-                    title = data[option.title];
-                return laytpl('<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="{{d.' + field + '}}" data-image="' + title + '">').render(data);
-            },
             list: function (data, option) {
                 option.selectList = option.selectList || {};
                 var value = data[option.field];
@@ -525,6 +522,14 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 } else {
                     return option.selectList[value];
                 }
+            },
+            image: function (data, option) {
+                option.imageWidth = option.imageWidth || 200;
+                option.imageHeight = option.imageHeight || 40;
+                option.title = option.title || option.field;
+                var field = option.field,
+                    title = data[option.title];
+                return laytpl('<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="{{d.' + field + '}}" data-image="' + title + '">').render(data);
             },
             url: function (data, option) {
                 var field = option.field;
@@ -545,6 +550,10 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
             percent: function (data, option) {
                 var field = option.field;
                 return laytpl('<span>{{d.' + field + '}}%</span>').render(data);
+            },
+            value: function (data, option) {
+                var field = option.field;
+                return laytpl('<span>{{d.' + field + '}}</span>').render(data);
             },
             listenTableSearch: function (tableId) {
                 form.on('submit(' + tableId + '_filter)', function (data) {
