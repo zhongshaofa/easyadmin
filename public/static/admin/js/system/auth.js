@@ -34,19 +34,16 @@ define(["jquery", "easy-admin"], function ($, ea) {
                         width: 250,
                         align: 'center',
                         title: '操作',
-                        init: init,
                         templet: ea.table.tool,
                         operat: [
                             'edit',
-                            [
-                                {
-                                    class: 'layui-btn layui-btn-normal layui-btn-xs',
-                                    method: 'open',
-                                    text: '授权',
-                                    auth: 'authorize',
-                                    url: init.authorize_url,
-                                },
-                            ],
+                            [{
+                                class: 'layui-btn layui-btn-normal layui-btn-xs',
+                                method: 'open',
+                                text: '授权',
+                                auth: 'authorize',
+                                url: init.authorize_url,
+                            }],
                             'delete'
                         ]
                     }

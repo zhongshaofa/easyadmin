@@ -55,9 +55,14 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                             }
                         },
                         {field: 'status', title: '状态', width: 85, align: "center", filter: 'status', templet: ea.table.switch},
-                        {field: 'sort', width: 80, align: 'center', title: '排序',edit:'text'},
+                        {field: 'sort', width: 80, align: 'center', title: '排序', edit: 'text'},
                         {
-                            width: 200, align: 'center', title: '操作', init: init, templet: ea.table.tool, operat: [
+                            width: 200,
+                            align: 'center',
+                            title: '操作',
+                            init: init,
+                            templet: ea.table.tool,
+                            operat: [
                                 [{
                                     class: 'layui-btn layui-btn-xs layui-btn-normal',
                                     method: 'open',

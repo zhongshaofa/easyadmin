@@ -33,7 +33,6 @@ define(["jquery", "easy-admin"], function ($, ea) {
                         width: 250,
                         align: 'center',
                         title: '操作',
-                        init: init,
                         templet: ea.table.tool,
                         operat: ['edit', 'delete']
                     }

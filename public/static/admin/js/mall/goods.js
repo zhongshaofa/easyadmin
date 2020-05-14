@@ -20,6 +20,17 @@ define(["jquery", "easy-admin"], function ($, ea) {
             ea.table.render({
                 init: init,
                 modifyReload: true,
+                toolbar: ['refresh',
+                    [{
+                        text: ' 添加',
+                        open: init.add_url,
+                        class: 'layui-btn layui-btn-normal layui-btn-sm',
+                        icon: 'fa fa-plus ',
+                        title: '确定更新新节点？',
+                        auth: 'add',
+                        extend: ' data-full="true"',
+                    }],
+                    'delete', 'export'],
                 cols: [[
                     {type: "checkbox"},
                     {field: 'id', width: 80, title: 'ID', sort: true, align: "center"},
@@ -39,9 +50,17 @@ define(["jquery", "easy-admin"], function ($, ea) {
                         width: 250,
                         align: 'center',
                         title: '操作',
-                        init: init,
                         templet: ea.table.tool,
-                        operat: ['edit', 'delete']
+                        operat: [
+                            [{
+                                class: 'layui-btn layui-btn-xs layui-btn-success',
+                                method: 'open',
+                                text: '编辑',
+                                auth: 'edit',
+                                url: init.edit_url,
+                                extend: 'data-full="true"',
+                            }],
+                            'delete']
                     }
                 ]],
             });

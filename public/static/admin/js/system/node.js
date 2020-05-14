@@ -21,31 +21,30 @@ define(["jquery", "easy-admin"], function ($, ea) {
                 modifyReload: true,
                 search: false,
                 page: false,
-                toolbar: ['refresh', [
-                    {
+                toolbar: ['refresh',
+                    [{
                         text: ' 更新节点',
                         class: 'layui-btn layui-btn-success layui-btn-sm',
                         icon: 'fa fa-hourglass ',
                         title: '确定更新新节点？',
-                        auth:'refresh',
+                        auth: 'refresh',
                         extend: ' data-request="system.node/refreshNode?force=0" data-table="' + init.table_render_id + '"',
-                    },
-                    {
+                    }, {
                         text: ' 强制更新节点',
                         class: 'layui-btn layui-btn-sm layui-btn-normal',
                         icon: 'fa fa-hourglass ',
                         title: '该操作会覆盖已存在的节点信息。<br>确定强制更新节点？',
-                        auth:'refresh',
+                        auth: 'refresh',
                         extend: ' data-request="system.node/refreshNode?force=1" data-table="' + init.table_render_id + '"',
-                    },{
+                    }, {
                         text: ' 清除失效节点',
                         class: 'layui-btn layui-btn-sm layui-btn-danger',
                         icon: 'fa fa-trash-o ',
                         title: '确定清除失效节点？',
-                        auth:'clear',
+                        auth: 'clear',
                         extend: ' data-request="system.node/clearNode" data-table="' + init.table_render_id + '"',
                     }
-                ]],
+                    ]],
                 cols: [[
                     {field: 'node', minWidth: 200, align: 'left', title: '系统节点'},
                     {field: 'title', minWidth: 80, title: '节点名称 <i class="table-edit-tips color-red">*</i>', edit: 'text', align: "center"},

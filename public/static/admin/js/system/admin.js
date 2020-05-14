@@ -8,7 +8,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
         edit_url: 'system.admin/edit',
         del_url: 'system.admin/del',
         modify_url: 'system.admin/modify',
-        export_url:'system.admin/export',
+        export_url: 'system.admin/export',
         password_url: 'system.admin/password',
     };
 
@@ -31,16 +31,20 @@ define(["jquery", "easy-admin"], function ($, ea) {
                     {field: 'status', title: '状态', width: 85, align: "center", search: 'select', selectList: {0: '禁用', 1: '启用'}, filter: 'status', templet: ea.table.switch},
                     {field: 'create_time', minWidth: 80, title: '创建时间', align: "center", search: 'range'},
                     {
-                        width: 250, align: 'center', title: '操作', init: init, templet: ea.table.tool, operat: ['edit',
-                            [
-                                {
-                                    class: 'layui-btn layui-btn-normal layui-btn-xs',
-                                    method: 'open',
-                                    text: '设置密码',
-                                    auth: 'password',
-                                    url: init.password_url,
-                                }
-                            ], 'delete'
+                        width: 250,
+                        align: 'center',
+                        title: '操作',
+                        templet: ea.table.tool,
+                        operat: [
+                            'edit',
+                            [{
+                                class: 'layui-btn layui-btn-normal layui-btn-xs',
+                                method: 'open',
+                                text: '设置密码',
+                                auth: 'password',
+                                url: init.password_url,
+                            }],
+                            'delete'
                         ]
                     }
                 ]],
