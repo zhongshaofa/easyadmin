@@ -10,10 +10,63 @@ Target Server Type    : MYSQL
 Target Server Version : 50729
 File Encoding         : 65001
 
-Date: 2020-05-07 15:12:11
+Date: 2020-05-14 15:08:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for ea_mall_cate
+-- ----------------------------
+DROP TABLE IF EXISTS `ea_mall_cate`;
+CREATE TABLE `ea_mall_cate` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(20) NOT NULL COMMENT '分类名',
+  `image` varchar(500) DEFAULT NULL COMMENT '分类图片',
+  `sort` int(11) DEFAULT '0' COMMENT '排序',
+  `status` tinyint(1) unsigned DEFAULT '1' COMMENT '状态(1:禁用,2:启用)',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注说明',
+  `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
+  `update_time` int(11) DEFAULT NULL COMMENT '更新时间',
+  `delete_time` int(11) DEFAULT NULL COMMENT '删除时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `title` (`title`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='商品分类';
+
+-- ----------------------------
+-- Records of ea_mall_cate
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for ea_mall_goods
+-- ----------------------------
+DROP TABLE IF EXISTS `ea_mall_goods`;
+CREATE TABLE `ea_mall_goods` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `cate_id` int(11) DEFAULT NULL COMMENT '分类ID',
+  `title` varchar(20) NOT NULL COMMENT '商品名称',
+  `logo` varchar(500) DEFAULT NULL COMMENT '商品logo',
+  `images` text COMMENT '商品图片 以 | 做分割符号',
+  `describe` text COMMENT '商品描述',
+  `market_price` decimal(10,2) DEFAULT '0.00' COMMENT '市场价',
+  `discount_price` decimal(10,2) DEFAULT '0.00' COMMENT '折扣价',
+  `sales` int(11) DEFAULT '0' COMMENT '销量',
+  `virtual_sales` int(11) DEFAULT '0' COMMENT '虚拟销量',
+  `stock` int(11) DEFAULT '0' COMMENT '库存',
+  `total_stock` int(11) DEFAULT '0' COMMENT '总库存',
+  `sort` int(11) DEFAULT '0' COMMENT '排序',
+  `status` tinyint(1) unsigned DEFAULT '1' COMMENT '状态(1:禁用,2:启用)',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注说明',
+  `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
+  `update_time` int(11) DEFAULT NULL COMMENT '更新时间',
+  `delete_time` int(11) DEFAULT NULL COMMENT '删除时间',
+  PRIMARY KEY (`id`),
+  KEY `cate_id` (`cate_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='商品列表';
+
+-- ----------------------------
+-- Records of ea_mall_goods
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for ea_system_admin
@@ -36,12 +89,12 @@ CREATE TABLE `ea_system_admin` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`) USING BTREE,
   KEY `phone` (`phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统用户表';
 
 -- ----------------------------
 -- Records of ea_system_admin
 -- ----------------------------
-INSERT INTO `ea_system_admin` VALUES ('1', null, '/static/admin/images/head.jpg', 'admin', 'a33b679d5581a8692988ec9f92ad2d6a2259eaa7', null, '', '0', '0', '1', '1588835281', null, null);
+INSERT INTO `ea_system_admin` VALUES ('1', null, '/static/admin/images/head.jpg', 'admin', 'a33b679d5581a8692988ec9f92ad2d6a2259eaa7', 'admin', 'admin', '0', '0', '1', '1588835281', '1589019520', null);
 
 -- ----------------------------
 -- Table structure for ea_system_auth
@@ -58,13 +111,13 @@ CREATE TABLE `ea_system_auth` (
   `delete_time` int(11) DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统权限表';
 
 -- ----------------------------
 -- Records of ea_system_auth
 -- ----------------------------
-INSERT INTO `ea_system_auth` VALUES ('1', '管理员', '1', '1', '测试管理员', null, '1588227411', null);
-INSERT INTO `ea_system_auth` VALUES ('6', '游客权限', '0', '1', '', null, '1588227513', null);
+INSERT INTO `ea_system_auth` VALUES ('1', '管理员', '1', '1', '测试管理员', '1588921753', '1588921753', null);
+INSERT INTO `ea_system_auth` VALUES ('6', '游客权限', '0', '1', '', '1588227513', '1588227513', null);
 
 -- ----------------------------
 -- Table structure for ea_system_auth_node
@@ -77,27 +130,33 @@ CREATE TABLE `ea_system_auth_node` (
   PRIMARY KEY (`id`),
   KEY `index_system_auth_auth` (`auth_id`) USING BTREE,
   KEY `index_system_auth_node` (`node_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=167 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色与节点关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色与节点关系表';
 
 -- ----------------------------
 -- Records of ea_system_auth_node
 -- ----------------------------
-INSERT INTO `ea_system_auth_node` VALUES ('129', '6', '1');
-INSERT INTO `ea_system_auth_node` VALUES ('130', '6', '2');
-INSERT INTO `ea_system_auth_node` VALUES ('131', '6', '4');
-INSERT INTO `ea_system_auth_node` VALUES ('132', '6', '7');
-INSERT INTO `ea_system_auth_node` VALUES ('133', '6', '8');
-INSERT INTO `ea_system_auth_node` VALUES ('134', '6', '15');
-INSERT INTO `ea_system_auth_node` VALUES ('135', '6', '16');
-INSERT INTO `ea_system_auth_node` VALUES ('136', '6', '21');
-INSERT INTO `ea_system_auth_node` VALUES ('137', '6', '22');
-INSERT INTO `ea_system_auth_node` VALUES ('138', '6', '23');
-INSERT INTO `ea_system_auth_node` VALUES ('139', '6', '24');
-INSERT INTO `ea_system_auth_node` VALUES ('140', '6', '25');
-INSERT INTO `ea_system_auth_node` VALUES ('141', '6', '27');
-INSERT INTO `ea_system_auth_node` VALUES ('142', '6', '28');
-INSERT INTO `ea_system_auth_node` VALUES ('143', '6', '70');
-INSERT INTO `ea_system_auth_node` VALUES ('144', '6', '71');
+INSERT INTO `ea_system_auth_node` VALUES ('179', '6', '1');
+INSERT INTO `ea_system_auth_node` VALUES ('180', '6', '2');
+INSERT INTO `ea_system_auth_node` VALUES ('181', '6', '7');
+INSERT INTO `ea_system_auth_node` VALUES ('182', '6', '8');
+INSERT INTO `ea_system_auth_node` VALUES ('183', '6', '11');
+INSERT INTO `ea_system_auth_node` VALUES ('184', '6', '15');
+INSERT INTO `ea_system_auth_node` VALUES ('185', '6', '16');
+INSERT INTO `ea_system_auth_node` VALUES ('186', '6', '17');
+INSERT INTO `ea_system_auth_node` VALUES ('187', '6', '19');
+INSERT INTO `ea_system_auth_node` VALUES ('188', '6', '21');
+INSERT INTO `ea_system_auth_node` VALUES ('189', '6', '22');
+INSERT INTO `ea_system_auth_node` VALUES ('190', '6', '23');
+INSERT INTO `ea_system_auth_node` VALUES ('191', '6', '24');
+INSERT INTO `ea_system_auth_node` VALUES ('192', '6', '25');
+INSERT INTO `ea_system_auth_node` VALUES ('193', '6', '26');
+INSERT INTO `ea_system_auth_node` VALUES ('194', '6', '27');
+INSERT INTO `ea_system_auth_node` VALUES ('195', '6', '28');
+INSERT INTO `ea_system_auth_node` VALUES ('196', '6', '29');
+INSERT INTO `ea_system_auth_node` VALUES ('197', '6', '34');
+INSERT INTO `ea_system_auth_node` VALUES ('198', '6', '35');
+INSERT INTO `ea_system_auth_node` VALUES ('199', '6', '36');
+INSERT INTO `ea_system_auth_node` VALUES ('200', '6', '37');
 
 -- ----------------------------
 -- Table structure for ea_system_config
@@ -174,19 +233,22 @@ CREATE TABLE `ea_system_menu` (
   PRIMARY KEY (`id`),
   KEY `title` (`title`),
   KEY `href` (`href`)
-) ENGINE=InnoDB AUTO_INCREMENT=250 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统菜单表';
+) ENGINE=InnoDB AUTO_INCREMENT=252 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统菜单表';
 
 -- ----------------------------
 -- Records of ea_system_menu
 -- ----------------------------
 INSERT INTO `ea_system_menu` VALUES ('227', '99999999', '后台首页', 'fa fa-home', 'index/welcome', '', '_self', '0', '1', null, null, '1573120497', null);
-INSERT INTO `ea_system_menu` VALUES ('228', '0', '系统管理', 'fa fa-cog', '', '', '_self', '0', '1', '', null, '1573441927', null);
+INSERT INTO `ea_system_menu` VALUES ('228', '0', '系统管理', 'fa fa-cog', '', '', '_self', '0', '1', '', null, '1588999529', null);
 INSERT INTO `ea_system_menu` VALUES ('234', '228', '菜单管理', 'fa fa-tree', 'system.menu/index', '', '_self', '10', '1', '', null, '1588228555', null);
 INSERT INTO `ea_system_menu` VALUES ('244', '228', '管理员管理', 'fa fa-user', 'system.admin/index', '', '_self', '12', '1', '', '1573185011', '1588228573', null);
 INSERT INTO `ea_system_menu` VALUES ('245', '228', '角色管理', 'fa fa-bitbucket-square', 'system.auth/index', '', '_self', '11', '1', '', '1573435877', '1588228634', null);
 INSERT INTO `ea_system_menu` VALUES ('246', '228', '节点管理', 'fa fa-list', 'system.node/index', '', '_self', '9', '1', '', '1573435919', '1588228648', null);
 INSERT INTO `ea_system_menu` VALUES ('247', '228', '配置管理', 'fa fa-asterisk', 'system.config/index', '', '_self', '8', '1', '', '1573457448', '1588228566', null);
 INSERT INTO `ea_system_menu` VALUES ('248', '228', '上传管理', 'fa fa-arrow-up', 'system.uploadfile/index', '', '_self', '0', '1', '', '1573542953', '1588228043', null);
+INSERT INTO `ea_system_menu` VALUES ('249', '0', '商城管理', 'fa fa-list', '', '', '_self', '0', '1', '', '1589439884', '1589439884', null);
+INSERT INTO `ea_system_menu` VALUES ('250', '249', '商品分类', 'fa fa-calendar-check-o', 'mall.cate/index', '', '_self', '0', '1', '', '1589439910', '1589439966', null);
+INSERT INTO `ea_system_menu` VALUES ('251', '249', '商品管理', 'fa fa-list', 'mall.goods/index', '', '_self', '0', '1', '', '1589439931', '1589439942', null);
 
 -- ----------------------------
 -- Table structure for ea_system_node
@@ -202,12 +264,12 @@ CREATE TABLE `ea_system_node` (
   `update_time` int(10) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `node` (`node`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统节点表';
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统节点表';
 
 -- ----------------------------
 -- Records of ea_system_node
 -- ----------------------------
-INSERT INTO `ea_system_node` VALUES ('1', 'system.admin', '管理员管理', '1', '1', '1588988748', '1588988748');
+INSERT INTO `ea_system_node` VALUES ('1', 'system.admin', '管理员管理', '1', '1', '1588988748', '1588989580');
 INSERT INTO `ea_system_node` VALUES ('2', 'system.admin/index', '列表', '2', '1', '1588988748', '1588988748');
 INSERT INTO `ea_system_node` VALUES ('3', 'system.admin/add', '添加', '2', '1', '1588988748', '1588988748');
 INSERT INTO `ea_system_node` VALUES ('4', 'system.admin/edit', '编辑', '2', '1', '1588988748', '1588988748');
@@ -246,7 +308,25 @@ INSERT INTO `ea_system_node` VALUES ('36', 'system.uploadfile/add', '添加', '2
 INSERT INTO `ea_system_node` VALUES ('37', 'system.uploadfile/edit', '编辑', '2', '1', '1588988748', '1588988748');
 INSERT INTO `ea_system_node` VALUES ('38', 'system.uploadfile/del', '删除', '2', '1', '1588988749', '1588988749');
 INSERT INTO `ea_system_node` VALUES ('39', 'system.uploadfile/modify', '属性修改', '2', '1', '1588988749', '1588988749');
-
+INSERT INTO `ea_system_node` VALUES ('40', 'system.admin/export', '导出', '2', '1', '1589016772', '1589016772');
+INSERT INTO `ea_system_node` VALUES ('41', 'system.auth/export', '导出', '2', '1', '1589016772', '1589016772');
+INSERT INTO `ea_system_node` VALUES ('42', 'system.menu/export', '导出', '2', '1', '1589016772', '1589016772');
+INSERT INTO `ea_system_node` VALUES ('43', 'system.node/export', '导出', '2', '1', '1589016772', '1589016772');
+INSERT INTO `ea_system_node` VALUES ('44', 'system.uploadfile/export', '导出', '2', '1', '1589016772', '1589016772');
+INSERT INTO `ea_system_node` VALUES ('45', 'mall.cate', '商品分类管理', '1', '1', '1589439772', '1589439772');
+INSERT INTO `ea_system_node` VALUES ('46', 'mall.cate/index', '列表', '2', '1', '1589439772', '1589439772');
+INSERT INTO `ea_system_node` VALUES ('47', 'mall.cate/add', '添加', '2', '1', '1589439772', '1589439772');
+INSERT INTO `ea_system_node` VALUES ('48', 'mall.cate/edit', '编辑', '2', '1', '1589439772', '1589439772');
+INSERT INTO `ea_system_node` VALUES ('49', 'mall.cate/del', '删除', '2', '1', '1589439772', '1589439772');
+INSERT INTO `ea_system_node` VALUES ('50', 'mall.cate/export', '导出', '2', '1', '1589439772', '1589439772');
+INSERT INTO `ea_system_node` VALUES ('51', 'mall.cate/modify', '属性修改', '2', '1', '1589439772', '1589439772');
+INSERT INTO `ea_system_node` VALUES ('52', 'mall.goods', '商城商品管理', '1', '1', '1589439772', '1589439772');
+INSERT INTO `ea_system_node` VALUES ('53', 'mall.goods/index', '列表', '2', '1', '1589439772', '1589439772');
+INSERT INTO `ea_system_node` VALUES ('54', 'mall.goods/add', '添加', '2', '1', '1589439772', '1589439772');
+INSERT INTO `ea_system_node` VALUES ('55', 'mall.goods/edit', '编辑', '2', '1', '1589439772', '1589439772');
+INSERT INTO `ea_system_node` VALUES ('56', 'mall.goods/del', '删除', '2', '1', '1589439772', '1589439772');
+INSERT INTO `ea_system_node` VALUES ('57', 'mall.goods/export', '导出', '2', '1', '1589439772', '1589439772');
+INSERT INTO `ea_system_node` VALUES ('58', 'mall.goods/modify', '属性修改', '2', '1', '1589439772', '1589439772');
 
 -- ----------------------------
 -- Table structure for ea_system_uploadfile
@@ -271,7 +351,7 @@ CREATE TABLE `ea_system_uploadfile` (
   PRIMARY KEY (`id`),
   KEY `upload_type` (`upload_type`),
   KEY `original_name` (`original_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=299 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='上传文件表';
+) ENGINE=InnoDB AUTO_INCREMENT=303 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='上传文件表';
 
 -- ----------------------------
 -- Records of ea_system_uploadfile
@@ -285,3 +365,7 @@ INSERT INTO `ea_system_uploadfile` VALUES ('291', 'alioss', 'timg (1).jpg', 'htt
 INSERT INTO `ea_system_uploadfile` VALUES ('296', 'txcos', '22243.jpg', 'https://easyadmin-1251997243.cos.ap-guangzhou.myqcloud.com/upload/20191114/2381eaf81208ac188fa994b6f2579953.jpg', '', '', '', '0', 'image/jpeg', '0', 'jpg', '', '1573712153', null, null);
 INSERT INTO `ea_system_uploadfile` VALUES ('297', 'local', 'timg.jpg', 'http://admin.host/upload/20200423/5055a273cf8e3f393d699d622b74f247.jpg', '', '', '', '0', 'image/jpeg', '0', 'jpg', '', '1587614155', null, null);
 INSERT INTO `ea_system_uploadfile` VALUES ('298', 'local', 'timg.jpg', 'http://admin.host/upload/20200423/243f4e59f1b929951ef79c5f8be7468a.jpg', '', '', '', '0', 'image/jpeg', '0', 'jpg', '', '1587614269', null, null);
+INSERT INTO `ea_system_uploadfile` VALUES ('299', 'local', 'head.jpg', 'http://admin.host/upload/20200512/a5ce9883379727324f5686ef61205ce2.jpg', '', '', '', '0', 'image/jpeg', '0', 'jpg', '', '1589255649', null, null);
+INSERT INTO `ea_system_uploadfile` VALUES ('300', 'local', '896e5b87c9ca70e4.jpg', 'http://admin.host/upload/20200514/577c65f101639f53dbbc9e7aa346f81c.jpg', '', '', '', '0', 'image/jpeg', '0', 'jpg', '', '1589427798', null, null);
+INSERT INTO `ea_system_uploadfile` VALUES ('301', 'local', '896e5b87c9ca70e4.jpg', 'http://admin.host/upload/20200514/98fc09b0c4ad4d793a6f04bef79a0edc.jpg', '', '', '', '0', 'image/jpeg', '0', 'jpg', '', '1589427840', null, null);
+INSERT INTO `ea_system_uploadfile` VALUES ('302', 'local', '18811e7611c8f292.jpg', 'http://admin.host/upload/20200514/e1c6c9ef6a4b98b8f7d95a1a0191a2df.jpg', '', '', '', '0', 'image/jpeg', '0', 'jpg', '', '1589438645', null, null);
