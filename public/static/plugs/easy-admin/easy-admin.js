@@ -753,13 +753,13 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 })
             }
         },
-        listen: function (formCallback, ok, no, ex) {
+        listen: function (PreposeCallback, ok, no, ex) {
 
             // 监听表单是否为必填项
             admin.api.formRequired();
 
             // 监听表单提交事件
-            admin.api.formSubmit(formCallback, ok, no, ex);
+            admin.api.formSubmit(PreposeCallback, ok, no, ex);
 
             // 初始化图片显示以及监听上传事件
             admin.api.upload();
@@ -993,7 +993,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     });
                 }
             },
-            formSubmit: function (formCallback, ok, no, ex) {
+            formSubmit: function (PreposeCallback, ok, no, ex) {
                 var formList = document.querySelectorAll("[lay-submit]");
 
                 // 表单提交自动处理
@@ -1035,8 +1035,8 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                                 });
                             }
 
-                            if (typeof formCallback === 'function') {
-                                dataField = formCallback(dataField);
+                            if (typeof PreposeCallback === 'function') {
+                                dataField = PreposeCallback(dataField);
                             }
                             admin.api.form(url, dataField, ok, no, ex, refresh);
 
