@@ -1036,10 +1036,10 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             }
 
                             if (typeof formCallback === 'function') {
-                                formCallback(url, dataField);
-                            } else {
-                                admin.api.form(url, dataField, ok, no, ex, refresh);
+                                dataField = formCallback(dataField);
                             }
+                            admin.api.form(url, dataField, ok, no, ex, refresh);
+
                             return false;
                         });
                     });

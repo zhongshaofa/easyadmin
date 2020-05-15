@@ -10,7 +10,6 @@ define(["jquery", "easy-admin"], function ($, ea) {
         export_url: 'system.auth/export',
         modify_url: 'system.auth/modify',
         authorize_url: 'system.auth/authorize',
-        save_authorize: 'system.auth/saveAuthorize',
     };
 
     var Controller = {
@@ -71,7 +70,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                 }
             );
 
-            ea.listen(function (url, data) {
+            ea.listen(function (data) {
                 var checkedData = tree.getChecked('nodeDataId');
                 var ids = [];
                 $.each(checkedData, function (i, v) {
@@ -83,13 +82,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                     }
                 });
                 data.node = JSON.stringify(ids);
-                url = ea.url(init.save_authorize);
-                ea.api.form(url, data, function (res) {
-                    ea.msg.success(res.msg, function () {
-                        ea.api.closeCurrentOpen({refreshTable: init.table_render_id});
-                    });
-                });
-                return false;
+                return data;
             });
 
         }
