@@ -21,6 +21,8 @@ class Goods extends AdminController
 
     use Curd;
 
+    protected $relationSerach = true;
+
     public function __construct(App $app)
     {
         parent::__construct($app);
@@ -36,7 +38,6 @@ class Goods extends AdminController
             if (input('selectFieds')) {
                 return $this->selectList();
             }
-            $this->relationSerach = true;
             list($page, $limit, $where) = $this->buildTableParames();
             $count = $this->model
                 ->withJoin('cate', 'LEFT')
