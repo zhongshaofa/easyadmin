@@ -308,7 +308,9 @@ return [
     'deny_app_list'    => ['common'],
     // 异常页面的模板文件
     'exception_tmpl'   => Env::get('app_debug') == 1 ? app()->getThinkPath() . 'tpl/think_exception.tpl' : app()->getBasePath() . 'common' . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR . 'think_exception.tpl',
-    // 跳转页面的模板文件
+    // 跳转页面的成功模板文件
+    'dispatch_success_tmpl'   => app()->getBasePath() . 'common' . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR . 'dispatch_jump.tpl',
+    // 跳转页面的失败模板文件
     'dispatch_error_tmpl'   => app()->getBasePath() . 'common' . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR . 'dispatch_jump.tpl',
     // 错误显示信息,非调试模式有效
     'error_message'    => '页面错误！请稍后再试～',
@@ -531,7 +533,7 @@ EOT;
                 timeout: 60000,
                 success: function (data) {
                     layer.close(loading);
-                    if (data.code == 1) {
+                    if (data.code === 1) {
                         layer.msg(data.msg, {icon: 1}, function () {
                             window.location.href = location.protocol + '//' + location.host + '/' + data.url;
                         });
