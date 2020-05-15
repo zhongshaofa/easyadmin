@@ -439,6 +439,26 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             cols[i][index]['init'] = init;
                         }
 
+                        // 判断是否包含开关组件
+                        if (val.templet === admin.table.switch && val.filter === undefined) {
+                            cols[i][index]['filter'] = val.field;
+                        }
+
+                        // 判断是否含有搜索下拉列表
+                        if (val.selectList !== undefined && val.search === undefined) {
+                            cols[i][index]['search'] = 'select';
+                        }
+
+                        // 判断是否初始化对齐方式
+                        if (val.align === undefined) {
+                            cols[i][index]['align'] = 'center';
+                        }
+
+                        // 初始化图片高度
+                        if (val.templet === ea.table.image && val.filter === imageHeight) {
+                            cols[i][index]['imageHeight'] = 40;
+                        }
+
                         // 判断是否多层对象
                         if (val.field !== undefined && val.field.split(".").length > 1) {
                             if (val.templet === undefined) {

@@ -53,7 +53,7 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                                 }
                             }
                         },
-                        {field: 'status', title: '状态', width: 85, align: "center", filter: 'status', templet: ea.table.switch},
+                        {field: 'status', title: '状态', width: 85, filter: 'status', templet: ea.table.switch},
                         {field: 'sort', width: 80, align: 'center', title: '排序', edit: 'text'},
                         {
                             width: 200,
