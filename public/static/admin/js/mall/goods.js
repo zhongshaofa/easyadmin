@@ -31,8 +31,8 @@ define(["jquery", "easy-admin"], function ($, ea) {
                     'delete', 'export'],
                 cols: [[
                     {type: "checkbox"},
-                    {field: 'id', width: 80, title: 'ID', sort: true},
-                    {field: 'sort', width: 80, title: '排序', edit: 'text', sort: true},
+                    {field: 'id', width: 80, title: 'ID'},
+                    {field: 'sort', width: 80, title: '排序', edit: 'text'},
                     {field: 'cate.title', minWidth: 80, title: '商品分类'},
                     {field: 'title', minWidth: 80, title: '商品名称'},
                     {field: 'logo', minWidth: 80, title: '分类图片', search: false, templet: ea.table.image},
@@ -46,7 +46,6 @@ define(["jquery", "easy-admin"], function ($, ea) {
                     {field: 'create_time', minWidth: 80, title: '创建时间', search: 'range'},
                     {
                         width: 250,
-                        align: 'center',
                         title: '操作',
                         templet: ea.table.tool,
                         operat: [

@@ -21,8 +21,8 @@ define(["jquery", "easy-admin"], function ($, ea) {
                 modifyReload: true,
                 cols: [[
                     {type: "checkbox"},
-                    {field: 'id', width: 80, title: 'ID', sort: true},
-                    {field: 'sort', width: 80, title: '排序', edit: 'text', sort: true},
+                    {field: 'id', width: 80, title: 'ID'},
+                    {field: 'sort', width: 80, title: '排序', edit: 'text'},
                     {field: 'username', minWidth: 80, title: '登录账户'},
                     {field: 'head_img', minWidth: 80, title: '头像', search: false, templet: ea.table.image},
                     {field: 'phone', minWidth: 80, title: '手机'},
@@ -32,7 +32,6 @@ define(["jquery", "easy-admin"], function ($, ea) {
                     {field: 'create_time', minWidth: 80, title: '创建时间', search: 'range'},
                     {
                         width: 250,
-                        align: 'center',
                         title: '操作',
                         templet: ea.table.tool,
                         operat: [

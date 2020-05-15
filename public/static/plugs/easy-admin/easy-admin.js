@@ -454,8 +454,14 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             cols[i][index]['align'] = 'center';
                         }
 
+                        // 部分字段开启排序
+                        var sortDefaultFields = ['id', 'sort'];
+                        if (val.sort === undefined && sortDefaultFields.indexOf(val.field) >= 0) {
+                            cols[i][index]['sort'] = true;
+                        }
+
                         // 初始化图片高度
-                        if (val.templet === ea.table.image && val.filter === imageHeight) {
+                        if (val.templet === admin.table.image && val.filter === imageHeight) {
                             cols[i][index]['imageHeight'] = 40;
                         }
 
@@ -574,6 +580,10 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
             percent: function (data, option) {
                 var field = option.field;
                 return laytpl('<span>{{d.' + field + '}}%</span>').render(data);
+            },
+            icon: function (data, option) {
+                var field = option.field;
+                return laytpl('<i class="{{d.' + field + '}}"></i>').render(data);
             },
             value: function (data, option) {
                 var field = option.field;

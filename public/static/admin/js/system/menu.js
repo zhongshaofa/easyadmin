@@ -32,34 +32,33 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                     toolbar: '#toolbar',
                     page: false,
                     skin: 'line',
-                    cols: [[
+
+                    // @todo 不直接使用ea.table.render(); 进行表格初始化, 需要使用 ea.table.formatCols(); 方法格式化`cols`列数据
+                    cols: ea.table.formatCols([[
                         {type: 'checkbox'},
                         {field: 'title', width: 250, title: '菜单名称'},
-                        {
-                            field: 'icon', width: 80, align: 'center', title: '图标', templet: function (d) {
-                                return '<i class="' + d.icon + '"></i>';
-                            }
-                        },
+                        {field: 'icon', width: 80, title: '图标', templet: ea.table.icon},
                         {field: 'href', minWidth: 120, title: '菜单链接'},
                         {
-                            field: 'is_home', width: 80, align: 'center', title: '类型', templet: function (d) {
-                                if (d.pid == 99999999) {
+                            field: 'is_home',
+                            width: 80,
+                            title: '类型',
+                            templet: function (d) {
+                                if (d.pid === 99999999) {
                                     return '<span class="layui-badge layui-bg-blue">首页</span>';
                                 }
-                                if (d.pid == 0) {
+                                if (d.pid === 0) {
                                     return '<span class="layui-badge layui-bg-gray">模块</span>';
                                 } else {
                                     return '<span class="layui-badge-rim">菜单</span>';
                                 }
                             }
                         },
-                        {field: 'status', title: '状态', width: 85, filter: 'status', templet: ea.table.switch},
-                        {field: 'sort', width: 80, align: 'center', title: '排序', edit: 'text'},
+                        {field: 'status', title: '状态', width: 85, templet: ea.table.switch},
+                        {field: 'sort', width: 80, title: '排序', edit: 'text'},
                         {
                             width: 200,
-                            align: 'center',
                             title: '操作',
-                            init: init,
                             templet: ea.table.tool,
                             operat: [
                                 [{
@@ -80,7 +79,7 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                                 'delete'
                             ]
                         }
-                    ]],
+                    ]], init),
                     done: function () {
                         layer.closeAll('loading');
                     }

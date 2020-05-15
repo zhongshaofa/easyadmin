@@ -18,7 +18,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                 init: init,
                 cols: [[
                     {type: "checkbox"},
-                    {field: 'id', width: 80, title: 'ID', sort: true},
+                    {field: 'id', width: 80, title: 'ID'},
                     {field: 'upload_type', minWidth: 80, title: '存储位置', search: 'select', selectList: {'local': '本地', 'alioss': '阿里云', 'qnoss': '七牛云', ',txcos': '腾讯云'}},
                     {field: 'url', minWidth: 80, search: false, title: '图片信息', templet: ea.table.image},
                     {field: 'url', minWidth: 120, title: '保存地址', templet: ea.table.url},
@@ -26,7 +26,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                     {field: 'mime_type', minWidth: 80, title: 'mime类型'},
                     {field: 'file_ext', minWidth: 80, title: '文件后缀'},
                     {field: 'create_time', minWidth: 80, title: '创建时间', search: 'range'},
-                    {width: 250, align: 'center', title: '操作', templet: ea.table.tool, operat: ['delete']}
+                    {width: 250, title: '操作', templet: ea.table.tool, operat: ['delete']}
                 ]],
             });
 
