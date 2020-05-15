@@ -461,7 +461,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         }
 
                         // 初始化图片高度
-                        if (val.templet === admin.table.image && val.filter === imageHeight) {
+                        if (val.templet === admin.table.image && val.imageHeight === undefined) {
                             cols[i][index]['imageHeight'] = 40;
                         }
 
