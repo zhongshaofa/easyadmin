@@ -14,7 +14,7 @@ define('ROOT_PATH', __DIR__ . DS . '..' . DS);
 define('INSTALL_PATH', ROOT_PATH . 'config' . DS . 'install' . DS);
 define('CONFIG_PATH', ROOT_PATH . 'config' . DS);
 
-$currentHost = ($_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'].'/';
+$currentHost = ($_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . '/';
 
 function isReadWrite($file)
 {
@@ -40,8 +40,8 @@ if (is_file(INSTALL_PATH . 'lock' . DS . 'install.lock')) {
     $errorInfo = ROOT_PATH . 'runtime' . DS . '：读写权限不足';
 } elseif (!isReadWrite(ROOT_PATH . 'public' . DS)) {
     $errorInfo = ROOT_PATH . 'public' . DS . '：读写权限不足';
-} elseif (PHP_VERSION < 7.1) {
-    $errorInfo = 'PHP版本不能小于7.1';
+} elseif (!checkPhpVersion('7.1.0')) {
+    $errorInfo = 'PHP版本不能小于7.1.0';
 } elseif (!extension_loaded("PDO")) {
     $errorInfo = '当前未开启PDO，无法进行安装';
 }
@@ -66,8 +66,8 @@ if (isAjax()) {
 
     // 判断是否有特殊字符
     $check = preg_match('/[0-9a-zA-Z]+$/', $adminUrl, $matches);
-    if(!$check){
-        $validateError='后台地址不能含有特殊字符, 只能包含字母或数字。';
+    if (!$check) {
+        $validateError = '后台地址不能含有特殊字符, 只能包含字母或数字。';
         $data = [
             'code' => 0,
             'msg'  => $validateError,
@@ -158,6 +158,13 @@ function isPost()
 {
     return ($_SERVER['REQUEST_METHOD'] == 'POST' && checkurlHash($GLOBALS['verify'])
         && (empty($_SERVER['HTTP_REFERER']) || preg_replace("~https?:\/\/([^\:\/]+).*~i", "\\1", $_SERVER['HTTP_REFERER']) == preg_replace("~([^\:]+).*~", "\\1", $_SERVER['HTTP_HOST']))) ? 1 : 0;
+}
+
+function checkPhpVersion($version)
+{
+    $php_version = explode('-', phpversion());
+    $check = strnatcasecmp($php_version[0], $version) >= 0 ? true : false;
+    return $check;
 }
 
 function checkConnect()
@@ -509,7 +516,7 @@ EOT;
             form = layui.form,
             layer = layui.layer;
 
-        $("#admin_url").bind("input propertychange", function() {
+        $("#admin_url").bind("input propertychange", function () {
             var val = $(this).val();
             $("#admin_name").text(val);
         });
