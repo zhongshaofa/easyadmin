@@ -5,8 +5,7 @@
 return [
     // 指令定义
     'commands' => [
-        'node'      => 'app\admin\command\Node',
-        'OssStatic' => 'app\admin\command\OssStatic',
-//        'alioss'    => 'addons\alioss\command\Alioss',
+        'node'      => 'app\common\command\Node',
+        'OssStatic' => 'app\common\command\OssStatic',
     ],
 ];
