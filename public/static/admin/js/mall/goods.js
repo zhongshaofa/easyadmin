@@ -24,7 +24,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                         open: init.add_url,
                         class: 'layui-btn layui-btn-normal layui-btn-sm',
                         icon: 'fa fa-plus ',
-                        title: '确定更新新节点？',
+                        title: '添加',
                         auth: 'add',
                         extend: ' data-full="true"',
                     }],
