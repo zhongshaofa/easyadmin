@@ -12,7 +12,7 @@ EasyAdmin后台管理系统
 
 文档地址：[http://easyadmin.99php.cn/docs](http://easyadmin.99php.cn/docs)
 
-演示地址：[http://easyadmin.99php.cn/admindemo](http://easyadmin.99php.cn/admindemo)（账号：guest，密码：123456。备注：只有查看信息的权限）
+演示地址：[http://easyadmin.99php.cn/admindemo](http://easyadmin.99php.cn/admindemo)（账号：admin，密码：123456。备注：只有查看信息的权限）
  
  ## 捐赠支持
  

@@ -9,3 +9,5 @@ runtime/admin
 runtime/log
 runtime/session
 runtime/temp
+public/conf
+public/WowOss.exe

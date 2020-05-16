@@ -358,3 +358,10 @@ table样式
         line-height: 24px;
     }
 }
+
+/**
+资源加载锁
+ */
+.easy-load-lock{
+    cursor: not-allowed;
+}
