@@ -19,13 +19,13 @@ define(["jquery", "easy-admin"], function ($, ea) {
                 init: init,
                 toolbar: ['refresh',
                     [{
-                        text: ' 添加',
-                        open: init.add_url,
+                        text: '添加',
+                        url: init.add_url,
+                        method: 'open',
+                        auth: 'add',
                         class: 'layui-btn layui-btn-normal layui-btn-sm',
                         icon: 'fa fa-plus ',
-                        title: '添加',
-                        auth: 'add',
-                        extend: ' data-full="true"',
+                        extend: 'data-full="true"',
                     }],
                     'delete', 'export'],
                 cols: [[
@@ -49,19 +49,19 @@ define(["jquery", "easy-admin"], function ($, ea) {
                         templet: ea.table.tool,
                         operat: [
                             [{
-                                class: 'layui-btn layui-btn-xs layui-btn-success',
-                                method: 'open',
                                 text: '编辑',
-                                auth: 'edit',
                                 url: init.edit_url,
+                                method: 'open',
+                                auth: 'edit',
+                                class: 'layui-btn layui-btn-xs layui-btn-success',
+                                icon: 'fa fa-plus ',
                                 extend: 'data-full="true"',
                             }, {
-                                class: 'layui-btn layui-btn-xs layui-btn-normal',
-                                method: 'open',
                                 text: '入库',
-                                auth: 'stock',
                                 url: init.stock_url,
-                                extend: '',
+                                method: 'open',
+                                auth: 'stock',
+                                class: 'layui-btn layui-btn-xs layui-btn-normal',
                             }],
                             'delete']
                     }

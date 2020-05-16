@@ -32,11 +32,11 @@ define(["jquery", "easy-admin"], function ($, ea) {
                         operat: [
                             'edit',
                             [{
-                                class: 'layui-btn layui-btn-normal layui-btn-xs',
-                                method: 'open',
                                 text: '授权',
-                                auth: 'authorize',
                                 url: init.authorize_url,
+                                method: 'open',
+                                auth: 'authorize',
+                                class: 'layui-btn layui-btn-normal layui-btn-xs',
                             }],
                             'delete'
                         ]

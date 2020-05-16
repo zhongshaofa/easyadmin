@@ -36,11 +36,11 @@ define(["jquery", "easy-admin"], function ($, ea) {
                         operat: [
                             'edit',
                             [{
-                                class: 'layui-btn layui-btn-normal layui-btn-xs',
-                                method: 'open',
                                 text: '设置密码',
-                                auth: 'password',
                                 url: init.password_url,
+                                method: 'open',
+                                auth: 'password',
+                                class: 'layui-btn layui-btn-normal layui-btn-xs',
                             }],
                             'delete'
                         ]

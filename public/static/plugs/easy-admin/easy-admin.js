@@ -243,20 +243,15 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     } else if (typeof v === "object") {
                         $.each(v, function (ii, vv) {
                             vv.class = vv.class || '';
-                            vv.text = vv.text || '';
                             vv.icon = vv.icon || '';
-                            vv.open = vv.open || '';
-                            vv.title = vv.title || vv.text || '';
-                            vv.extend = vv.extend || '';
                             vv.auth = vv.auth || '';
-                            // 组合数据
-                            vv.icon = vv.icon !== '' ? '<i class="' + vv.icon + '"></i>' : '';
-                            vv.class = vv.class !== '' ? 'class="' + vv.class + '" ' : '';
-                            vv.open = vv.open !== '' ? 'data-open="' + vv.open + '" ' : '';
-                            vv.title = vv.title !== '' ? 'data-title="' + vv.title + '" ' : '';
-
+                            vv.url = vv.url || '';
+                            vv.method = vv.method || 'open';
+                            vv.title = vv.title || vv.text;
+                            vv.text = vv.text || vv.title;
+                            vv.extend = vv.extend || '';
                             if (admin.checkAuth(vv.auth, elem)) {
-                                toolbarHtml += '<button ' + vv.class + vv.open + vv.title + vv.extend + '>' + vv.icon + vv.text + '</button>\n';
+                                toolbarHtml += admin.table.buildToolbarHtml(vv);
                             }
                         });
                     }
@@ -400,6 +395,30 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 }
                 return data;
             },
+            buildToolbarHtml: function (toolbar) {
+                var html = '';
+                toolbar.class = toolbar.class || '';
+                toolbar.icon = toolbar.icon || '';
+                toolbar.auth = toolbar.auth || '';
+                toolbar.url = toolbar.url || '';
+                toolbar.extend = toolbar.extend || '';
+                toolbar.method = toolbar.method || 'open';
+                toolbar.field = toolbar.field || 'id';
+                toolbar.title = toolbar.title || toolbar.text;
+                toolbar.text = toolbar.text || toolbar.title;
+
+                var formatToolbar = toolbar;
+                formatToolbar.icon = formatToolbar.icon !== '' ? '<i class="' + formatToolbar.icon + '"></i> ' : '';
+                formatToolbar.class = formatToolbar.class !== '' ? 'class="' + formatToolbar.class + '" ' : '';
+                if (toolbar.method === 'open') {
+                    formatToolbar.method = formatToolbar.method !== '' ? 'data-open="' + formatToolbar.url + '" data-title="' + formatToolbar.title + '" ' : '';
+                } else {
+                    formatToolbar.method = formatToolbar.method !== '' ? 'data-request="' + formatToolbar.url + '" data-title="' + formatToolbar.title + '" ' : '';
+                }
+                html = '<button ' + formatToolbar.class + formatToolbar.method + formatToolbar.extend + '>' + formatToolbar.icon + formatToolbar.text + '</button>';
+
+                return html;
+            },
             buildOperatHtml: function (operat) {
                 var html = '';
                 operat.class = operat.class || '';
@@ -413,7 +432,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 operat.text = operat.text || operat.title;
 
                 var formatOperat = operat;
-                formatOperat.icon = formatOperat.icon !== '' ? '<i class="' + formatOperat.icon + '"></i>' : '';
+                formatOperat.icon = formatOperat.icon !== '' ? '<i class="' + formatOperat.icon + '"></i> ' : '';
                 formatOperat.class = formatOperat.class !== '' ? 'class="' + formatOperat.class + '" ' : '';
                 if (operat.method === 'open') {
                     formatOperat.method = formatOperat.method !== '' ? 'data-open="' + formatOperat.url + '" data-title="' + formatOperat.title + '" ' : '';

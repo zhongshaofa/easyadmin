@@ -62,18 +62,18 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                             templet: ea.table.tool,
                             operat: [
                                 [{
-                                    class: 'layui-btn layui-btn-xs layui-btn-normal',
-                                    method: 'open',
                                     text: '添加下级',
-                                    auth: 'add',
                                     url: init.add_url,
+                                    method: 'open',
+                                    auth: 'add',
+                                    class: 'layui-btn layui-btn-xs layui-btn-normal',
                                     extend: 'data-full="true"',
                                 }, {
-                                    class: 'layui-btn layui-btn-xs layui-btn-success',
-                                    method: 'open',
                                     text: '编辑',
-                                    auth: 'edit',
                                     url: init.edit_url,
+                                    method: 'open',
+                                    auth: 'edit',
+                                    class: 'layui-btn layui-btn-xs layui-btn-success',
                                     extend: 'data-full="true"',
                                 }],
                                 'delete'
