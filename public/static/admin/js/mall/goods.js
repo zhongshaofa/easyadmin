@@ -54,7 +54,6 @@ define(["jquery", "easy-admin"], function ($, ea) {
                                 method: 'open',
                                 auth: 'edit',
                                 class: 'layui-btn layui-btn-xs layui-btn-success',
-                                icon: 'fa fa-plus ',
                                 extend: 'data-full="true"',
                             }, {
                                 text: '入库',

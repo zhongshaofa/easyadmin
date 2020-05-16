@@ -458,6 +458,11 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             cols[i][index]['init'] = init;
                         }
 
+                        // 格式化列操作栏
+                        if (val.templet === admin.table.tool && val.operat === undefined) {
+                            cols[i][index]['operat'] = ['edit', 'delete'];
+                        }
+
                         // 判断是否包含开关组件
                         if (val.templet === admin.table.switch && val.filter === undefined) {
                             cols[i][index]['filter'] = val.field;

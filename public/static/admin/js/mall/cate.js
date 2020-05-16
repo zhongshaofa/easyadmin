@@ -25,12 +25,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                     {field: 'remark', minWidth: 80, title: '备注信息'},
                     {field: 'status', title: '状态', width: 85, search: 'select', selectList: {0: '禁用', 1: '启用'}, templet: ea.table.switch},
                     {field: 'create_time', minWidth: 80, title: '创建时间', search: 'range'},
-                    {
-                        width: 250,
-                        title: '操作',
-                        templet: ea.table.tool,
-                        operat: ['edit', 'delete']
-                    }
+                    {width: 250, title: '操作', templet: ea.table.tool}
                 ]],
             });
 
