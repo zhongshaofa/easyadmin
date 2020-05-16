@@ -1,10 +1,13 @@
 <link rel="stylesheet" href="__STATIC__/admin/css/login.css?v={:time()}" media="all">
 <div class="layui-container">
     <div class="admin-login-background">
+
+
         <div class="layui-form login-form">
             <form class="layui-form" action="">
                 <div class="layui-form-item logo-title">
                     <h1>{:sysconfig('site','site_name')}</h1>
+                    <div class="demo {if !$demo}layui-hide{/if}">用户名:admin 密码:123456</div>
                 </div>
 
                 <div class="layui-form-item">

@@ -70,6 +70,7 @@ class Login extends AdminController
             $this->success('登录成功');
         }
         $this->assign('captcha', $captcha);
+        $this->assign('demo', $this->isDemo);
         return $this->fetch();
     }
 
