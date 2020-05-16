@@ -6,7 +6,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
         index_url: 'mall.cate/index',
         add_url: 'mall.cate/add',
         edit_url: 'mall.cate/edit',
-        del_url: 'mall.cate/del',
+        delete_url: 'mall.cate/delete',
         export_url: 'mall.cate/export',
         modify_url: 'mall.cate/modify',
     };

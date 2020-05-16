@@ -6,7 +6,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
         index_url: 'system.node/index',
         add_url: 'system.node/add',
         edit_url: 'system.node/edit',
-        del_url: 'system.node/del',
+        delete_url: 'system.node/delete',
         modify_url: 'system.node/modify',
     };
 

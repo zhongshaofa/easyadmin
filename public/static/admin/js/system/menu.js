@@ -10,7 +10,7 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
         table_render_id: 'currentTableRenderId',
         index_url: 'system.menu/index',
         add_url: 'system.menu/add',
-        del_url: 'system.menu/del',
+        delete_url: 'system.menu/delete',
         edit_url: 'system.menu/edit',
         modify_url: 'system.menu/modify',
     };

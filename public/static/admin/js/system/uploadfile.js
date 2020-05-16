@@ -6,7 +6,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
         index_url: 'system.uploadfile/index',
         add_url: 'system.uploadfile/add',
         edit_url: 'system.uploadfile/edit',
-        del_url: 'system.uploadfile/del',
+        delete_url: 'system.uploadfile/delete',
         modify_url: 'system.uploadfile/modify',
         export_url:'system.uploadfile/export',
     };

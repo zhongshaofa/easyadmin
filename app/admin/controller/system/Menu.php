@@ -142,7 +142,7 @@ class Menu extends AdminController
     /**
      * @NodeAnotation(title="删除")
      */
-    public function del($id)
+    public function delete($id)
     {
         $row = $this->model->whereIn('id', $id)->select();
         empty($row) && $this->error('数据不存在');

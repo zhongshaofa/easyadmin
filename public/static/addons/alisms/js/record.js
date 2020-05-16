@@ -4,7 +4,7 @@ define(["jquery", "admin",], function ($, admin) {
         table_elem: 'currentTable',
         table_render_id: 'currentTableRenderId',
         index_url: '/addons/alisms/record/index',
-        del_url: '/addons/alisms/record/del',
+        delete_url: '/addons/alisms/record/del',
     };
 
     var Controller = {

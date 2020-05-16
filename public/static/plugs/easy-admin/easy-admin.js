@@ -234,7 +234,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         }
                     } else if (v === 'delete') {
                         if (admin.checkAuth('delete', elem)) {
-                            toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-danger" data-url="' + init.del_url + '" data-table-delete="' + tableId + '"><i class="fa fa-trash-o"></i> 删除</button>\n';
+                            toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-danger" data-url="' + init.delete_url + '" data-table-delete="' + tableId + '"><i class="fa fa-trash-o"></i> 删除</button>\n';
                         }
                     } else if (v === 'export') {
                         if (admin.checkAuth('export', elem)) {
@@ -533,7 +533,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                                     text: '删除',
                                     title: '确定删除？',
                                     auth: 'delete',
-                                    url: option.init.del_url,
+                                    url: option.init.delete_url,
                                     extend: ""
                                 };
                                 operat.url = admin.table.toolSpliceUrl(operat.url, operat.field, data);
