@@ -45,6 +45,12 @@ class CheckAdmin
             !in_array($currentNode, $adminConfig['no_auth_node'])) {
             $check = $authService->checkNode($currentNode);
             !$check && $this->error('无权限访问');
+
+            // 判断是否为演示环境
+            if(Env::get('easyadmin.is_demo', false) && $request->isPost()){
+                $this->error('演示环境下不允许修改');
+            }
+
         }
 
         return $next($request);

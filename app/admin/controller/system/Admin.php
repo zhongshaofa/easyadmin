@@ -107,6 +107,9 @@ class Admin extends AdminController
             $post['auth_ids'] = implode(',', array_keys($authIds));
             $rule = [];
             $this->validate($post, $rule);
+            if (isset($row['password'])) {
+                unset($row['password']);
+            }
             try {
                 $save = $row->save($post);
                 TriggerService::updateMenu($id);

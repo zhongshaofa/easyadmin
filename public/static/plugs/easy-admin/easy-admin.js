@@ -896,7 +896,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 title = title || '确定进行该操作？';
                 tableId = tableId || init.table_render_id;
                 admin.msg.confirm(title, function () {
-                    admin.request.get({
+                    admin.request.post({
                         url: url,
                     }, function (res) {
                         admin.msg.success(res.msg, function () {
