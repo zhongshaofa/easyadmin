@@ -15,7 +15,6 @@ define(["jquery", "easy-admin"], function ($, ea) {
         index: function () {
             ea.table.render({
                 init: init,
-                modifyReload: true,
                 search: false,
                 page: false,
                 toolbar: ['refresh',

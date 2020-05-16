@@ -17,7 +17,6 @@ define(["jquery", "easy-admin"], function ($, ea) {
         index: function () {
             ea.table.render({
                 init: init,
-                modifyReload: true,
                 toolbar: ['refresh',
                     [{
                         text: ' 添加',

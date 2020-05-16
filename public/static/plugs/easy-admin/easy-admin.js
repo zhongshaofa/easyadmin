@@ -172,7 +172,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         table: {
             render: function (options) {
                 options.init = options.init || init;
-                options.modifyReload = options.modifyReload || false;
+                options.modifyReload = admin.parame(options.modifyReload, true);
                 options.elem = options.elem || options.init.table_elem;
                 options.id = options.id || options.init.table_render_id;
                 options.layFilter = options.id + '_LayFilter';
