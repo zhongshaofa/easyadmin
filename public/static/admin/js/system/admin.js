@@ -27,7 +27,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                     {field: 'phone', minWidth: 80, title: '手机'},
                     {field: 'login_num', minWidth: 80, title: '登录次数'},
                     {field: 'remark', minWidth: 80, title: '备注信息'},
-                    {field: 'status', title: '状态', width: 85, search: 'select', selectList: {0: '禁用', 1: '启用'}, filter: 'status', templet: ea.table.switch},
+                    {field: 'status', title: '状态', width: 85, search: 'select', selectList: {0: '禁用', 1: '启用'}, templet: ea.table.switch},
                     {field: 'create_time', minWidth: 80, title: '创建时间', search: 'range'},
                     {
                         width: 250,
