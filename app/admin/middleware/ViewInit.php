@@ -13,11 +13,9 @@
 namespace app\admin\middleware;
 
 
+use app\admin\service\ConfigService;
 use app\common\constants\AdminConstant;
-use app\common\service\AuthService;
 use think\App;
-use think\facade\Cache;
-use think\facade\Env;
 use think\facade\Request;
 use think\facade\View;
 
@@ -43,7 +41,9 @@ class ViewInit
             'thisControllerJsPath' => "{$thisControllerJsPath}",
             'autoloadJs'           => $autoloadJs,
             'isSuperAdmin'         => $isSuperAdmin,
+            'version'              => env('app_debug') ? time() : ConfigService::getVersion(),
         ];
+
         View::assign($data);
         $request->adminModuleName = $adminModuleName;
         return $next($request);

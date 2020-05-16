@@ -13,7 +13,6 @@
 namespace app\admin\middleware;
 
 use app\common\service\AuthService;
-use think\facade\Env;
 use think\Request;
 
 /**
@@ -47,7 +46,7 @@ class CheckAdmin
             !$check && $this->error('无权限访问');
 
             // 判断是否为演示环境
-            if(Env::get('easyadmin.is_demo', false) && $request->isPost()){
+            if(env('easyadmin.is_demo', false) && $request->isPost()){
                 $this->error('演示环境下不允许修改');
             }
 

@@ -1,3 +1,5 @@
+@import url("../../plugs/layui-v2.5.5/css/layui.css");
+@import url("../../plugs/font-awesome-4.7.0/css/font-awesome.min.css");
 @import url("../css/iconfont.css");
 
 html, body {

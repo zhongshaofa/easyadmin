@@ -1,7 +1,7 @@
 var BASE_URL = document.scripts[document.scripts.length - 1].src.substring(0, document.scripts[document.scripts.length - 1].src.lastIndexOf("/") + 1);
 window.BASE_URL = BASE_URL;
 require.config({
-    urlArgs: "v=" + (new Date().getTime()),
+    urlArgs: "v=" + CONFIG.VERSION,
     baseUrl: BASE_URL,
     paths: {
         "jquery": ["plugs/jquery-3.4.1/jquery-3.4.1.min"],

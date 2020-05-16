@@ -26,23 +26,25 @@ class SystemLog
     public function handle($request, \Closure $next)
     {
         if ($request->isAjax()) {
-            $url = $request->url();
-            $method = $request->method();
-            $ip = CommonTool::getRealIp();
-            $params = $request->param();
-            if (isset($params['s'])) {
-                unset($params['s']);
+            $method = strtolower($request->method());
+            if (in_array($method, ['post', 'put', 'delete'])) {
+                $url = $request->url();
+                $ip = CommonTool::getRealIp();
+                $params = $request->param();
+                if (isset($params['s'])) {
+                    unset($params['s']);
+                }
+                $data = [
+                    'admin_id'    => session('admin.id'),
+                    'url'         => $url,
+                    'method'      => $method,
+                    'ip'          => $ip,
+                    'content'     => json_encode($params, JSON_UNESCAPED_UNICODE),
+                    'useragent'   => $_SERVER['HTTP_USER_AGENT'],
+                    'create_time' => time(),
+                ];
+                SystemLogService::instance()->save($data);
             }
-            $data = [
-                'admin_id'    => session('admin.id'),
-                'url'         => $url,
-                'method'      => strtolower($method),
-                'ip'          => $ip,
-                'content'     => json_encode($params, JSON_UNESCAPED_UNICODE),
-                'useragent'   => $_SERVER['HTTP_USER_AGENT'],
-                'create_time' => time(),
-            ];
-            SystemLogService::instance()->save($data);
         }
         return $next($request);
     }
