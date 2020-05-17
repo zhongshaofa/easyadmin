@@ -77,54 +77,16 @@
                             <div class="layui-card-body">
                                 <div class="welcome-module">
                                     <div class="layui-row layui-col-space10 layuimini-qiuck">
+
+                                        {foreach $quicks as $vo}
                                         <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a layuimini-content-href="page/menu.html" data-title="菜单管理">
-                                                <i class="fa fa-window-maximize"></i>
-                                                <cite>菜单管理</cite>
+                                            <a layuimini-content-href="{:url($vo['href'])}" data-title="{$vo['title']}">
+                                                <i class="{$vo['icon']|raw}"></i>
+                                                <cite>{$vo['title']}</cite>
                                             </a>
                                         </div>
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a layuimini-content-href="page/setting.html" data-title="系统设置">
-                                                <i class="fa fa-gears"></i>
-                                                <cite>系统设置</cite>
-                                            </a>
-                                        </div>
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a layuimini-content-href="page/table.html" data-title="表格示例">
-                                                <i class="fa fa-file-text"></i>
-                                                <cite>表格示例</cite>
-                                            </a>
-                                        </div>
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a layuimini-content-href="page/icon.html" data-title="图标列表">
-                                                <i class="fa fa-dot-circle-o"></i>
-                                                <cite>图标列表</cite>
-                                            </a>
-                                        </div>
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a layuimini-content-href="page/form.html" data-title="表单示例">
-                                                <i class="fa fa-calendar"></i>
-                                                <cite>表单示例</cite>
-                                            </a>
-                                        </div>
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a layuimini-content-href="page/404.html" data-title="404页面">
-                                                <i class="fa fa-hourglass-end"></i>
-                                                <cite>404页面</cite>
-                                            </a>
-                                        </div>
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a layuimini-content-href="page/button.html" data-title="按钮示例">
-                                                <i class="fa fa-snowflake-o"></i>
-                                                <cite>按钮示例</cite>
-                                            </a>
-                                        </div>
-                                        <div class="layui-col-xs3 layuimini-qiuck-module">
-                                            <a layuimini-content-href="page/layer.html" data-title="弹出层">
-                                                <i class="fa fa-shield"></i>
-                                                <cite>弹出层</cite>
-                                            </a>
-                                        </div>
+                                        {/foreach}
+
                                     </div>
                                 </div>
                             </div>

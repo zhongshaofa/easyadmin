@@ -13,10 +13,7 @@
 namespace app\admin\controller\system;
 
 
-use app\admin\model\SystemAuth;
-use app\admin\model\SystemAuthNode;
 use app\admin\model\SystemQuick;
-use app\admin\service\TriggerService;
 use app\common\controller\AdminController;
 use EasyAdmin\annotation\ControllerAnnotation;
 use EasyAdmin\annotation\NodeAnotation;
@@ -24,7 +21,7 @@ use think\App;
 
 /**
  * @ControllerAnnotation(title="快捷入口管理")
- * Class Auth
+ * Class Quick
  * @package app\admin\controller\system
  */
 class Quick extends AdminController
