@@ -36,7 +36,7 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                     // @todo 不直接使用ea.table.render(); 进行表格初始化, 需要使用 ea.table.formatCols(); 方法格式化`cols`列数据
                     cols: ea.table.formatCols([[
                         {type: 'checkbox'},
-                        {field: 'title', width: 250, title: '菜单名称'},
+                        {field: 'title', width: 250, title: '菜单名称', align: 'left'},
                         {field: 'icon', width: 80, title: '图标', templet: ea.table.icon},
                         {field: 'href', minWidth: 120, title: '菜单链接'},
                         {
@@ -148,17 +148,8 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                 onselect: function (resp) {
                 }
             });
-            ea.listen(function (url, data) {
-                ea.api.form(url, data, function (res) {
-                    ea.msg.success(res.msg, function () {
-                        ea.api.closeCurrentOpen({
-                            refreshTable: true,
-                            refreshFrame: true
-                        });
-                    });
-                });
-                return false;
-            });
+
+            ea.listen();
         },
         edit: function () {
             iconPickerFa.render({
@@ -180,17 +171,8 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                 onselect: function (resp) {
                 }
             });
-            ea.listen(function (url, data) {
-                ea.api.form(url, data, function (res) {
-                    ea.msg.success(res.msg, function () {
-                        ea.api.closeCurrentOpen({
-                            refreshTable: true,
-                            refreshFrame: true
-                        });
-                    });
-                });
-                return false;
-            });
+
+            ea.listen();
         }
     };
     return Controller;
