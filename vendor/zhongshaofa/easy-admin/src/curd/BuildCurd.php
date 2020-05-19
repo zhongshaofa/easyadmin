@@ -203,7 +203,7 @@ class BuildCurd
                 $colum = [
                     'type'    => $vo['Type'],
                     'comment' => $vo['Comment'],
-                    'default' => $vo['Default'],
+                    'default' => !empty($vo['Default']) ? $vo['Default'] : $vo['Field'],
                 ];
                 $this->tableColumns[$vo['Field']] = $colum;
             }
@@ -326,7 +326,7 @@ class BuildCurd
 
     protected function renderController()
     {
-        $controllerFile = "{$this->rootDir}admin{$this->DS}controller{$this->DS}{$this->controllerFilename}.php";
+        $controllerFile = "{$this->rootDir}app{$this->DS}admin{$this->DS}controller{$this->DS}{$this->controllerFilename}.php";
         if (empty($this->relationArray)) {
             $controllerIndexMethod = '';
         } else {
@@ -356,7 +356,7 @@ class BuildCurd
     protected function renderModel()
     {
         // 主表模型
-        $modelFile = "{$this->rootDir}admin{$this->DS}model{$this->DS}{$this->modelFilename}.php";
+        $modelFile = "{$this->rootDir}app{$this->DS}admin{$this->DS}model{$this->DS}{$this->modelFilename}.php";
         if (empty($this->relationArray)) {
             $relationList = '';
         } else {
@@ -387,7 +387,7 @@ class BuildCurd
 
         // 关联模型
         foreach ($this->relationArray as $key => $val) {
-            $relationModelFile = "{$this->rootDir}admin{$this->DS}model{$this->DS}{$val['modelFilename']}.php";
+            $relationModelFile = "{$this->rootDir}app{$this->DS}admin{$this->DS}model{$this->DS}{$val['modelFilename']}.php";
             $relationModelValue = CommonTool::replaceTemplate(
                 $this->getTemplate("model{$this->DS}model"),
                 [
@@ -404,7 +404,7 @@ class BuildCurd
     protected function renderView()
     {
         // 列表页面
-        $viewIndexFile = "{$this->rootDir}admin{$this->DS}view{$this->DS}{$this->viewFilename}{$this->DS}index.html";
+        $viewIndexFile = "{$this->rootDir}app{$this->DS}admin{$this->DS}view{$this->DS}{$this->viewFilename}{$this->DS}index.html";
         $viewIndexValue = CommonTool::replaceTemplate(
             $this->getTemplate("view{$this->DS}index"),
             [
@@ -422,6 +422,22 @@ class BuildCurd
 
     protected function renderJs()
     {
+        $jsFile = "{$this->rootDir}public{$this->DS}static{$this->DS}admin{$this->DS}js{$this->DS}{$this->jsFilename}.js";
+
+        $indexCols = '';
+
+        // 主表字段
+        foreach ($this->tableColumns as $field => $val) {
+            $indexCols .= "/r";
+        }
+
+        $jsValue = CommonTool::replaceTemplate(
+            $this->getTemplate("static{$this->DS}js"),
+            [
+                'controllerUrl' => $this->controllerUrl,
+                'indexCols'     => $indexCols,
+            ]);
+        $this->fileList[$jsFile] = $jsValue;
         return $this;
     }
 
