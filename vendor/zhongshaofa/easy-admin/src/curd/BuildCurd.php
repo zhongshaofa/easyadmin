@@ -16,6 +16,24 @@ class BuildCurd
 {
 
     /**
+     * 当前目录
+     * @var string
+     */
+    protected $dir;
+
+    /**
+     * 应用目录
+     * @var string
+     */
+    protected $rootDir;
+
+    /**
+     * 分隔符
+     * @var string
+     */
+    protected $DS = DS;
+
+    /**
      *  表前缀
      * @var string
      */
@@ -138,6 +156,8 @@ class BuildCurd
     public function __construct()
     {
         $this->tablePrefix = config('database.connections.mysql.prefix');
+        $this->dir = __DIR__;
+        $this->rootDir = root_path();
         return $this;
     }
 
@@ -231,6 +251,16 @@ class BuildCurd
 
     public function render()
     {
+        // 控制器
+
+        $this->fileList["{$this->rootDir}admin{$this->DS}controller{$this->DS}{$this->controllerFilename}.php"] = '42';
+
+        // 模型
+
+        // 视图
+
+        // JS
+
         return $this;
     }
 
