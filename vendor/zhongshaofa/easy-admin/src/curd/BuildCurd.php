@@ -322,7 +322,6 @@ class BuildCurd
 
     protected function renderModel()
     {
-
         // 主表模型
         $modelFile = "{$this->rootDir}admin{$this->DS}model{$this->DS}{$this->modelFilename}.php";
         if (empty($this->relationArray)) {
@@ -354,7 +353,18 @@ class BuildCurd
         $this->fileList[$modelFile] = $modelValue;
 
         // 关联模型
-
+        foreach ($this->relationArray as $key => $val) {
+            $relationModelFile = "{$this->rootDir}admin{$this->DS}model{$this->DS}{$val['modelFilename']}.php";
+            $relationModelValue = CommonTool::replaceTemplate(
+                $this->getTemplate("model{$this->DS}model"),
+                [
+                    'modelNamespace' => "app/admin/model/{$this->modelFilename}",
+                    'table'          => $key,
+                    'deleteTime'     => isset($val['tableColumns']['delete_time']) ? 'delete_time' : false,
+                    'relationList'   => '',
+                ]);
+            $this->fileList[$relationModelFile] = $relationModelValue;
+        }
         return $this;
     }
 
