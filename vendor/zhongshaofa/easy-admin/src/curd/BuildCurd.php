@@ -118,40 +118,52 @@ class BuildCurd
     protected $modelFilename;
 
     /**
-     * 复选框字段
+     * 复选框字段后缀
      * @var array
      */
-    protected $checkboxFields;
+    protected $checkboxFieldSuffix = [];
 
     /**
-     * 单选框字段
+     * 单选框字段后缀
      * @var array
      */
-    protected $radioFields;
+    protected $radioFieldSuffix = [];
 
     /**
-     * 图片字段
+     * 单图片字段后缀
      * @var array
      */
-    protected $imageFields;
+    protected $imageFieldSuffix = ['image', 'photo', 'icon'];
 
     /**
-     * 文件字段
+     * 多图片字段后缀
      * @var array
      */
-    protected $fileFields;
+    protected $imagesFieldSuffix = ['images', 'photos', 'icons'];
 
     /**
-     * 时间字段
+     * 单文件字段后缀
      * @var array
      */
-    protected $dateFields;
+    protected $fileFieldSuffix = ['file'];
+
+    /**
+     * 多文件字段后缀
+     * @var array
+     */
+    protected $filesFieldSuffix = ['files'];
+
+    /**
+     * 时间字段后缀
+     * @var array
+     */
+    protected $dateFieldSuffix = ['time', 'date'];
 
     /**
      * 开关组件字段
      * @var array
      */
-    protected $switchFields;
+    protected $switchFields = ['status'];
 
     /**
      * 下拉选择字段
@@ -163,19 +175,25 @@ class BuildCurd
      * 富文本字段
      * @var array
      */
-    protected $editorFields;
+    protected $editorFields = [];
 
     /**
      * 排序字段
      * @var array
      */
-    protected $sortFields;
+    protected $sortFields = [];
 
     /**
      * 忽略字段
      * @var array
      */
-    protected $ignorefields;
+    protected $ignoreFields = ['update_time', 'delete_time'];
+
+    /**
+     * 外键字段
+     * @var array
+     */
+    protected $foreignKeyFields = [];
 
     /**
      * 相关生成文件
@@ -234,6 +252,9 @@ class BuildCurd
         // 初始化默认模型名
         $this->modelFilename = ucfirst(CommonTool::lineToHump($this->table));
 
+        // 构建数据
+        $this->buildStructure();
+
         return $this;
     }
 
@@ -263,6 +284,7 @@ class BuildCurd
                 'tableColumns'  => $formatColums,
             ];
             $this->relationArray[$relationTable] = $relation;
+            $this->selectFileds[] = $foreignKey;
         } catch (\Exception $e) {
             throw new TableException($e->getMessage());
         }
@@ -307,8 +329,30 @@ class BuildCurd
         return $this;
     }
 
+    protected function buildStructure()
+    {
+        foreach ($this->tableColumns as $key => $val) {
+
+            // 排序
+            if (in_array($key, ['sort'])) {
+                $this->sortFields[] = $key;
+            }
+
+            // 富文本
+            if (in_array($key, ['describe', 'content', 'details'])) {
+                $this->editorFields[] = $key;
+            }
+
+        }
+        return $this;
+    }
+
     public function render()
     {
+
+        // 初始化数据
+        $this->renderData();
+
         // 控制器
         $this->renderController();
 
@@ -322,6 +366,70 @@ class BuildCurd
         $this->renderJs();
 
         return $this;
+    }
+
+    protected function renderData()
+    {
+        foreach ($this->tableColumns as $field => $val) {
+
+            // 过滤字段
+            if (in_array($field, $this->ignoreFields)) {
+                unset($this->tableColumns[$field]);
+                continue;
+            }
+
+            // 判断图片
+            if ($this->checkContain($field, $this->imageFieldSuffix)) {
+                $this->tableColumns[$field]['formType'] = 'image';
+                continue;
+            }
+            if ($this->checkContain($field, $this->imagesFieldSuffix)) {
+                $this->tableColumns[$field]['formType'] = 'images';
+                continue;
+            }
+
+            // 判断文件
+            if ($this->checkContain($field, $this->fileFieldSuffix)) {
+                $this->tableColumns[$field]['formType'] = 'file';
+                continue;
+            }
+            if ($this->checkContain($field, $this->filesFieldSuffix)) {
+                $this->tableColumns[$field]['formType'] = 'files';
+                continue;
+            }
+
+            // 判断时间
+            if ($this->checkContain($field, $this->dateFieldSuffix)) {
+                $this->tableColumns[$field]['formType'] = 'date';
+                continue;
+            }
+
+            // 判断开关
+            if (in_array($field, $this->switchFields)) {
+                $this->tableColumns[$field]['formType'] = 'switch';
+                continue;
+            }
+
+            // 判断富文本
+            if (in_array($field, $this->editorFields)) {
+                $this->tableColumns[$field]['formType'] = 'editor';
+                continue;
+            }
+
+            // 判断排序
+            if (in_array($field, $this->sortFields)) {
+                $this->tableColumns[$field]['formType'] = 'sort';
+                continue;
+            }
+
+            // 判断下拉选择
+            if (in_array($field, $this->selectFileds)) {
+                $this->tableColumns[$field]['formType'] = 'select';
+                continue;
+            }
+
+            $this->tableColumns[$field]['formType'] = 'text';
+        }
     }
 
     protected function renderController()
@@ -424,14 +532,16 @@ class BuildCurd
     {
         $jsFile = "{$this->rootDir}public{$this->DS}static{$this->DS}admin{$this->DS}js{$this->DS}{$this->jsFilename}.js";
 
-        $indexCols = '{type: "checkbox"},\r';
+        $indexCols = "{type: 'checkbox'},\r";
 
         // 主表字段
         foreach ($this->tableColumns as $field => $val) {
-            $indexCols .= "{field: '{$field}', title: '{$val['comment']}'},\r";
+            $indexCols .= $this->formatColsRow("{field: '{$field}', title: '{$val['comment']}'},\r");
         }
 
-        $indexCols .= "{width: 250, title: '操作', templet: ea.table.tool}\r";
+        // 关联表
+
+        $indexCols .= $this->formatColsRow("{width: 250, title: '操作', templet: ea.table.tool},\r");
 
         $jsValue = CommonTool::replaceTemplate(
             $this->getTemplate("static{$this->DS}js"),
@@ -457,6 +567,21 @@ class BuildCurd
     public function delete()
     {
         return true;
+    }
+
+    protected function checkContain($string, $array)
+    {
+        foreach ($array as $vo) {
+            if (substr($string, 0, strlen($vo)) === $vo) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected function formatColsRow($value)
+    {
+        return "                {$value}";
     }
 
     protected function getTemplate($name)
