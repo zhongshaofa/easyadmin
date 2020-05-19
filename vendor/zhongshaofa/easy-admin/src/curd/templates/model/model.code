@@ -2,7 +2,6 @@
 
 namespace {{modelNamespace}};
 
-
 use app\common\model\TimeModel;
 
 class MallGoods extends TimeModel
@@ -12,9 +11,6 @@ class MallGoods extends TimeModel
 
     protected $deleteTime = '{{deleteTime}}';
 
-    public function cate()
-    {
-        return $this->belongsTo('app\admin\model\MallCate', 'cate_id', 'id');
-    }
+    {{relationList}}
 
 }

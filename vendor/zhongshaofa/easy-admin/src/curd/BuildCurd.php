@@ -34,6 +34,12 @@ class BuildCurd
     protected $DS = DS;
 
     /**
+     * 数据库名
+     * @var string
+     */
+    protected $dbName;
+
+    /**
      *  表前缀
      * @var string
      */
@@ -44,6 +50,12 @@ class BuildCurd
      * @var string
      */
     protected $table;
+
+    /**
+     * 表注释名
+     * @var string
+     */
+    protected $tableComment;
 
     /**
      * 主表列信息
@@ -156,6 +168,7 @@ class BuildCurd
     public function __construct()
     {
         $this->tablePrefix = config('database.connections.mysql.prefix');
+        $this->dbName = config('database.connections.mysql.database');
         $this->dir = __DIR__;
         $this->rootDir = root_path();
         return $this;
@@ -165,6 +178,8 @@ class BuildCurd
     {
         $this->table = $table;
         try {
+
+            // 获取表列注释
             $colums = Db::query("SHOW FULL COLUMNS FROM {$this->tablePrefix}{$this->table}");
             foreach ($colums as $vo) {
                 $colum = [
@@ -174,6 +189,10 @@ class BuildCurd
                 ];
                 $this->tableColumns[$vo['Field']] = $colum;
             }
+
+            // 获取表名注释
+            $tableSchema = Db::query("SELECT table_name,table_comment FROM information_schema.TABLES WHERE table_schema = 'easyadmin' AND table_name = '{$this->tablePrefix}{$this->table}'");
+            $this->tableComment = (isset($tableSchema[0]['table_comment']) && !empty($tableSchema[0]['table_comment'])) ? $tableSchema[0]['table_comment'] : $this->table;
         } catch (\Exception $e) {
             throw new TableException($e->getMessage());
         }
@@ -258,28 +277,94 @@ class BuildCurd
     public function render()
     {
         // 控制器
+        $this->renderController();
+
+        // 模型
+        $this->renderModel();
+
+        // 视图
+        $this->renderView();
+
+        // JS
+        $this->renderJs();
+
+        return $this;
+    }
+
+    protected function renderController()
+    {
         $controllerFile = "{$this->rootDir}admin{$this->DS}controller{$this->DS}{$this->controllerFilename}.php";
         if (empty($this->relationArray)) {
             $controllerIndexMethod = '';
         } else {
-            $controllerIndexMethod = '';
+            $relationCode = '';
+            foreach ($this->relationArray as $key => $val) {
+                $relation = CommonTool::lineToHump($key);
+                $relationCode = "->withJoin('{$relation}', 'LEFT')\r";
+            }
+            $controllerIndexMethod = CommonTool::replaceTemplate(
+                $this->getTemplate("controller{$this->DS}indexMethod"),
+                [
+                    'relationIndexMethod' => $relationCode,
+                ]);
         }
         $controllerValue = CommonTool::replaceTemplate(
             $this->getTemplate("controller{$this->DS}controller"),
             [
                 'controllerNamespace'  => "app/admin/controller/{$this->controllerFilename}",
-                'controllerAnnotation' => "获取表注释",
+                'controllerAnnotation' => $this->tableComment,
                 'modelFilename'        => "app/admin/model/{$this->modelFilename}",
                 'indexMethod'          => $controllerIndexMethod,
             ]);
         $this->fileList[$controllerFile] = $controllerValue;
+        return $this;
+    }
 
-        // 模型
+    protected function renderModel()
+    {
 
-        // 视图
+        // 主表模型
+        $modelFile = "{$this->rootDir}admin{$this->DS}model{$this->DS}{$this->modelFilename}.php";
+        if (empty($this->relationArray)) {
+            $relationList = '';
+        } else {
+            $relationList = '';
+            foreach ($this->relationArray as $key => $val) {
+                $relation = CommonTool::lineToHump($key);
+                $relationCode = CommonTool::replaceTemplate(
+                    $this->getTemplate("model{$this->DS}relation"),
+                    [
+                        'relationMethod' => $relation,
+                        'relationModel'  => "/app/admin/model/{$val['modelFilename']}",
+                        'foreignKey'     => $val['foreignKey'],
+                        'primaryKey'     => $val['primaryKey'],
+                    ]);
+                $relationList .= $relationCode;
+            }
 
-        // JS
+        }
+        $modelValue = CommonTool::replaceTemplate(
+            $this->getTemplate("model{$this->DS}model"),
+            [
+                'modelNamespace' => "app/admin/model/{$this->modelFilename}",
+                'table'          => $this->table,
+                'deleteTime'     => isset($this->tableColumns['delete_time']) ? 'delete_time' : false,
+                'relationList'   => $relationList,
+            ]);
+        $this->fileList[$modelFile] = $modelValue;
 
+        // 关联模型
+
+        return $this;
+    }
+
+    protected function renderView()
+    {
+        return $this;
+    }
+
+    protected function renderJs()
+    {
         return $this;
     }
 
