@@ -177,6 +177,8 @@ class BuildCurd
         } catch (\Exception $e) {
             throw new TableException($e->getMessage());
         }
+
+        // 初始化默认控制器名
         $nodeArray = explode('_', $this->table);
         if (count($nodeArray) == 1) {
             $this->controllerFilename = ucfirst($nodeArray[0]);
@@ -189,6 +191,10 @@ class BuildCurd
                 }
             }
         }
+
+        // 初始化默认模型名
+        $this->modelFilename = ucfirst(CommonTool::lineToHump($this->table));
+
         return $this;
     }
 
@@ -252,8 +258,21 @@ class BuildCurd
     public function render()
     {
         // 控制器
-
-        $this->fileList["{$this->rootDir}admin{$this->DS}controller{$this->DS}{$this->controllerFilename}.php"] = '42';
+        $controllerFile = "{$this->rootDir}admin{$this->DS}controller{$this->DS}{$this->controllerFilename}.php";
+        if (empty($this->relationArray)) {
+            $controllerIndexMethod = '';
+        } else {
+            $controllerIndexMethod = '';
+        }
+        $controllerValue = CommonTool::replaceTemplate(
+            $this->getTemplate("controller{$this->DS}controller"),
+            [
+                'controllerNamespace'  => "app/admin/controller/{$this->controllerFilename}",
+                'controllerAnnotation' => "获取表注释",
+                'modelFilename'        => "app/admin/model/{$this->modelFilename}",
+                'indexMethod'          => $controllerIndexMethod,
+            ]);
+        $this->fileList[$controllerFile] = $controllerValue;
 
         // 模型
 
@@ -278,6 +297,11 @@ class BuildCurd
     public function delete()
     {
         return true;
+    }
+
+    protected function getTemplate($name)
+    {
+        return file_get_contents("{$this->dir}{$this->DS}templates{$this->DS}{$name}.code");
     }
 
 }

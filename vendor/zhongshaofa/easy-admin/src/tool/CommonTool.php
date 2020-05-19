@@ -91,4 +91,18 @@ class CommonTool
         return $list;
     }
 
+    /**
+     * 模板值替换
+     * @param $string
+     * @param $array
+     * @return mixed
+     */
+    public static function replaceTemplate($string, $array)
+    {
+        foreach ($array as $key => $val) {
+            $string = str_replace("{{" . $key . "}}", $val, $string);
+        }
+        return $string;
+    }
+
 }
