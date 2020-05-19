@@ -88,10 +88,28 @@ class BuildCurd
     protected $relationArray = [];
 
     /**
+     * 控制器对应的URL
+     * @var string
+     */
+    protected $controllerUrl;
+
+    /**
      * 生成的控制器名
      * @var string
      */
     protected $controllerFilename;
+
+    /**
+     * 视图名
+     * @var string
+     */
+    protected $viewFilename;
+
+    /**
+     * js文件名
+     * @var string
+     */
+    protected $jsFilename;
 
     /**
      * 生成的模型文件名
@@ -204,12 +222,14 @@ class BuildCurd
         } else {
             foreach ($nodeArray as $k => $v) {
                 if ($k == 0) {
-                    $this->controllerFilename = "{$v}/";
+                    $this->controllerFilename = "{$v}{$this->DS}";
                 } else {
                     $this->controllerFilename .= ucfirst($v);
                 }
             }
         }
+
+        $this->buildViewJsUrl();
 
         // 初始化默认模型名
         $this->modelFilename = ucfirst(CommonTool::lineToHump($this->table));
@@ -252,6 +272,7 @@ class BuildCurd
     public function setControllerFilename($controllerFilename)
     {
         $this->controllerFilename = $controllerFilename;
+        $this->buildViewJsUrl();
         return $this;
     }
 
@@ -270,6 +291,19 @@ class BuildCurd
     public function setForce($force)
     {
         $this->force = $force;
+        return $this;
+    }
+
+    protected function buildViewJsUrl()
+    {
+        $nodeArray = explode($this->DS, $this->controllerFilename);
+        $formatArray = [];
+        foreach ($nodeArray as $vo) {
+            $formatArray[] = CommonTool::humpToLine(lcfirst($vo));
+        }
+        $this->controllerUrl = implode('.', $formatArray);
+        $this->viewFilename = implode($this->DS, $formatArray);
+        $this->jsFilename = $this->viewFilename;
         return $this;
     }
 
@@ -369,6 +403,20 @@ class BuildCurd
 
     protected function renderView()
     {
+        // 列表页面
+        $viewIndexFile = "{$this->rootDir}admin{$this->DS}view{$this->DS}{$this->viewFilename}{$this->DS}index.html";
+        $viewIndexValue = CommonTool::replaceTemplate(
+            $this->getTemplate("view{$this->DS}index"),
+            [
+                'controllerUrl' => $this->controllerUrl,
+            ]);
+        $this->fileList[$viewIndexFile] = $viewIndexValue;
+
+        // 添加页面
+
+
+        // 编辑页面
+
         return $this;
     }
 
