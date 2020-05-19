@@ -202,8 +202,8 @@ class BuildCurd
             foreach ($colums as $vo) {
                 $colum = [
                     'type'    => $vo['Type'],
-                    'comment' => $vo['Comment'],
-                    'default' => !empty($vo['Default']) ? $vo['Default'] : $vo['Field'],
+                    'comment' => !empty($vo['Comment']) ? $vo['Comment'] : $vo['Field'],
+                    'default' => $vo['Default'],
                 ];
                 $this->tableColumns[$vo['Field']] = $colum;
             }
@@ -424,12 +424,14 @@ class BuildCurd
     {
         $jsFile = "{$this->rootDir}public{$this->DS}static{$this->DS}admin{$this->DS}js{$this->DS}{$this->jsFilename}.js";
 
-        $indexCols = '';
+        $indexCols = '{type: "checkbox"},\r';
 
         // 主表字段
         foreach ($this->tableColumns as $field => $val) {
-            $indexCols .= "/r";
+            $indexCols .= "{field: '{$field}', title: '{$val['comment']}'},\r";
         }
+
+        $indexCols .= "{width: 250, title: '操作', templet: ea.table.tool}\r";
 
         $jsValue = CommonTool::replaceTemplate(
             $this->getTemplate("static{$this->DS}js"),

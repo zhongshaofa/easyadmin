@@ -17,9 +17,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
             ea.table.render({
                 init: init,
                 cols: [[
-                    {type: "checkbox"},
-                    {{indexCols}}
-                    {width: 250, title: '操作', templet: ea.table.tool}
+                {{indexCols}}
                 ]],
             });
 
