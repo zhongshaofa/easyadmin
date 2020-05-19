@@ -219,9 +219,10 @@ class BuildCurd
             $colums = Db::query("SHOW FULL COLUMNS FROM {$this->tablePrefix}{$this->table}");
             foreach ($colums as $vo) {
                 $colum = [
-                    'type'    => $vo['Type'],
-                    'comment' => !empty($vo['Comment']) ? $vo['Comment'] : $vo['Field'],
-                    'default' => $vo['Default'],
+                    'type'     => $vo['Type'],
+                    'comment'  => !empty($vo['Comment']) ? $vo['Comment'] : $vo['Field'],
+                    'required' => $vo['Null'] == "NO" ? true : false,
+                    'default'  => $vo['Default'],
                 ];
                 $this->tableColumns[$vo['Field']] = $colum;
             }
@@ -521,9 +522,36 @@ class BuildCurd
         $this->fileList[$viewIndexFile] = $viewIndexValue;
 
         // 添加页面
+        $viewAddFile = "{$this->rootDir}app{$this->DS}admin{$this->DS}view{$this->DS}{$this->viewFilename}{$this->DS}add.html";
+        $addFormList = '';
+        foreach ($this->tableColumns as $field => $val) {
+            if (in_array($field, ['id', 'create_time'])) {
+                continue;
+            }
+            if($val['formType'] == 'image'){
+                continue;
+            }
+        }
+        $viewAddValue = CommonTool::replaceTemplate(
+            $this->getTemplate("view{$this->DS}add"),
+            [
+                'formList' => $addFormList,
+            ]);
+        $this->fileList[$viewAddFile] = $viewAddValue;
 
 
         // 编辑页面
+        $viewEditFile = "{$this->rootDir}app{$this->DS}admin{$this->DS}view{$this->DS}{$this->viewFilename}{$this->DS}add.html";
+        $editFormList = '';
+        foreach ($this->tableColumns as $field => $val) {
+
+        }
+        $viewEditValue = CommonTool::replaceTemplate(
+            $this->getTemplate("view{$this->DS}add"),
+            [
+                'formList' => $editFormList,
+            ]);
+        $this->fileList[$viewEditFile] = $viewEditValue;
 
         return $this;
     }
