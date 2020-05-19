@@ -273,7 +273,6 @@ class BuildCurd
         return $this;
     }
 
-
     public function render()
     {
         // 控制器
