@@ -11,3 +11,4 @@ runtime/session
 runtime/temp
 public/conf
 public/WowOss.exe
+app/index/controller/Test.php
