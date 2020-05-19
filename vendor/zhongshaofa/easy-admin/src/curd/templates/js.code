@@ -1,0 +1,36 @@
+define(["jquery", "easy-admin"], function ($, ea) {
+
+    var init = {
+        table_elem: '#currentTable',
+        table_render_id: 'currentTableRenderId',
+        index_url: '{{controllerName}}/index',
+        add_url: '{{controllerName}}/add',
+        edit_url: '{{controllerName}}/edit',
+        delete_url: '{{controllerName}}/delete',
+        export_url: '{{controllerName}}/export',
+        modify_url: '{{controllerName}}/modify',
+    };
+
+    var Controller = {
+
+        index: function () {
+            ea.table.render({
+                init: init,
+                cols: [[
+                    {type: "checkbox"},
+                    {{indexCols}}
+                    {width: 250, title: '操作', templet: ea.table.tool}
+                ]],
+            });
+
+            ea.listen();
+        },
+        add: function () {
+            ea.listen();
+        },
+        edit: function () {
+            ea.listen();
+        },
+    };
+    return Controller;
+});

@@ -1,0 +1,10 @@
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <table id="currentTable" class="layui-table layui-hide"
+               data-auth-add="{:auth('{{controllerName}}/add')}"
+               data-auth-edit="{:auth('{{controllerName}}/edit')}"
+               data-auth-delete="{:auth('{{controllerName}}/del')}"
+               lay-filter="currentTable">
+        </table>
+    </div>
+</div>

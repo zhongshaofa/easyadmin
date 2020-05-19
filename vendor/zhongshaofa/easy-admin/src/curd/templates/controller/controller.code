@@ -1,0 +1,24 @@
+<?php
+
+namespace {{namespace}};
+
+use app\common\controller\AdminController;
+use EasyAdmin\annotation\ControllerAnnotation;
+use think\App;
+
+/**
+ * @ControllerAnnotation(title="{{controllerAnnotation}}")
+ */
+class Cate extends AdminController
+{
+
+    use \app\admin\traits\Curd;
+
+    public function __construct(App $app)
+    {
+        parent::__construct($app);
+        $this->model = new \app\admin\model\{{modelFilename}}();
+    }
+
+    {{indexMethod}}
+}
