@@ -528,9 +528,9 @@ class BuildCurd
         $controllerValue = CommonTool::replaceTemplate(
             $this->getTemplate("controller{$this->DS}controller"),
             [
-                'controllerNamespace'  => "app/admin/controller/{$this->controllerFilename}",
+                'controllerNamespace'  => "app\admin\controller\{$this->controllerFilename}",
                 'controllerAnnotation' => $this->tableComment,
-                'modelFilename'        => "app/admin/model/{$this->modelFilename}",
+                'modelFilename'        => "app\admin\model\{$this->modelFilename}",
                 'indexMethod'          => $controllerIndexMethod,
             ]);
         $this->fileList[$controllerFile] = $controllerValue;
@@ -551,7 +551,7 @@ class BuildCurd
                     $this->getTemplate("model{$this->DS}relation"),
                     [
                         'relationMethod' => $relation,
-                        'relationModel'  => "/app/admin/model/{$val['modelFilename']}",
+                        'relationModel'  => "\app\admin\model\\{$val['modelFilename']}",
                         'foreignKey'     => $val['foreignKey'],
                         'primaryKey'     => $val['primaryKey'],
                     ]);
@@ -562,7 +562,7 @@ class BuildCurd
         $modelValue = CommonTool::replaceTemplate(
             $this->getTemplate("model{$this->DS}model"),
             [
-                'modelNamespace' => "app/admin/model/{$this->modelFilename}",
+                'modelNamespace' => "app\admin\model\{$this->modelFilename}",
                 'table'          => $this->table,
                 'deleteTime'     => isset($this->tableColumns['delete_time']) ? 'delete_time' : false,
                 'relationList'   => $relationList,
@@ -732,14 +732,31 @@ class BuildCurd
     {
         $this->check();
         foreach ($this->fileList as $key => $val) {
+
+            // 判断文件夹是否存在,不存在就创建
+            $fileArray = explode($this->DS, $key);
+            array_pop($fileArray);
+            $fileDir = implode($this->DS, $fileArray);
+            if (!is_dir($fileDir)) {
+                mkdir($fileDir, 0775, true);
+            }
+
+            // 写入
             file_put_contents($key, $val);
         }
-        return true;
+        return array_keys($this->fileList);
     }
 
     public function delete()
     {
-        return true;
+        $deleteFile = [];
+        foreach ($this->fileList as $key => $val) {
+            if (is_file($key)) {
+                unlink($key);
+                $deleteFile[] = $key;
+            }
+        }
+        return $deleteFile;
     }
 
     protected function checkContain($string, $array)
