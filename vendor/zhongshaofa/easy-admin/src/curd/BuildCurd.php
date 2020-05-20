@@ -5,6 +5,7 @@ namespace EasyAdmin\curd;
 
 use EasyAdmin\curd\exceptions\TableException;
 use EasyAdmin\tool\CommonTool;
+use think\exception\FileException;
 use think\facade\Db;
 
 /**
@@ -376,6 +377,8 @@ class BuildCurd
 
     protected function renderData()
     {
+
+        // 主表
         foreach ($this->tableColumns as $field => $val) {
 
             // 过滤字段
@@ -436,6 +439,73 @@ class BuildCurd
 
             $this->tableColumns[$field]['formType'] = 'text';
         }
+
+        // 关联表
+        foreach ($this->relationArray as $table => $tableVal) {
+            foreach ($tableVal['tableColumns'] as $field => $val) {
+
+                // 过滤字段
+                if (in_array($field, $this->ignoreFields)) {
+                    unset($this->relationArray[$table]['tableColumns'][$field]);
+                    continue;
+                }
+
+                // 判断图片
+                if ($this->checkContain($field, $this->imageFieldSuffix)) {
+                    $this->relationArray[$table]['tableColumns'][$field]['formType'] = 'image';
+                    continue;
+                }
+                if ($this->checkContain($field, $this->imagesFieldSuffix)) {
+                    $this->relationArray[$table]['tableColumns'][$field]['formType'] = 'images';
+                    continue;
+                }
+
+                // 判断文件
+                if ($this->checkContain($field, $this->fileFieldSuffix)) {
+                    $this->relationArray[$table]['tableColumns'][$field]['formType'] = 'file';
+                    continue;
+                }
+                if ($this->checkContain($field, $this->filesFieldSuffix)) {
+                    $this->relationArray[$table]['tableColumns'][$field]['formType'] = 'files';
+                    continue;
+                }
+
+                // 判断时间
+                if ($this->checkContain($field, $this->dateFieldSuffix)) {
+                    $this->relationArray[$table]['tableColumns'][$field]['formType'] = 'date';
+                    continue;
+                }
+
+                // 判断开关
+                if (in_array($field, $this->switchFields)) {
+                    $this->relationArray[$table]['tableColumns'][$field]['formType'] = 'switch';
+                    continue;
+                }
+
+                // 判断富文本
+                if (in_array($field, $this->editorFields)) {
+                    $this->relationArray[$table]['tableColumns'][$field]['formType'] = 'editor';
+                    continue;
+                }
+
+                // 判断排序
+                if (in_array($field, $this->sortFields)) {
+                    $this->relationArray[$table]['tableColumns'][$field]['formType'] = 'sort';
+                    continue;
+                }
+
+                // 判断下拉选择
+                if (in_array($field, $this->selectFileds)) {
+                    $this->relationArray[$table]['tableColumns'][$field]['formType'] = 'select';
+                    continue;
+                }
+
+                $this->relationArray[$table]['tableColumns'][$field]['formType'] = 'text';
+            }
+        }
+
+        return $this;
+
     }
 
     protected function renderController()
@@ -535,96 +605,27 @@ class BuildCurd
                 continue;
             }
 
-            // 单图片
+            $templateFile = "view{$this->DS}module{$this->DS}input";
+
+            // 根据formType去获取具体模板
             if ($val['formType'] == 'image') {
-                $addFormList .= CommonTool::replaceTemplate(
-                    $this->getTemplate("view{$this->DS}module{$this->DS}image"),
-                    [
-                        'comment'  => $val['comment'],
-                        'field'    => $field,
-                        'required' => $this->buildRequiredHtml($val['required']),
-                        'value'    => $val['default'],
-                    ]);
-                continue;
-            }
-
-            // 多图片
-            if ($val['formType'] == 'images') {
-                $addFormList .= CommonTool::replaceTemplate(
-                    $this->getTemplate("view{$this->DS}module{$this->DS}images"),
-                    [
-                        'comment'  => $val['comment'],
-                        'field'    => $field,
-                        'required' => $this->buildRequiredHtml($val['required']),
-                        'value'    => $val['default'],
-                    ]);
-                continue;
-            }
-
-            if ($val['formType'] == 'file') {
-                $addFormList .= CommonTool::replaceTemplate(
-                    $this->getTemplate("view{$this->DS}module{$this->DS}file"),
-                    [
-                        'comment'  => $val['comment'],
-                        'field'    => $field,
-                        'required' => $this->buildRequiredHtml($val['required']),
-                        'value'    => $val['default'],
-                    ]);
-                continue;
-            }
-
-            // 多图片
-            if ($val['formType'] == 'files') {
-                $addFormList .= CommonTool::replaceTemplate(
-                    $this->getTemplate("view{$this->DS}module{$this->DS}files"),
-                    [
-                        'comment'  => $val['comment'],
-                        'field'    => $field,
-                        'required' => $this->buildRequiredHtml($val['required']),
-                        'value'    => $val['default'],
-                    ]);
-                continue;
-            }
-
-            // 富文本
-            if ($val['formType'] == 'editor') {
-                $addFormList .= CommonTool::replaceTemplate(
-                    $this->getTemplate("view{$this->DS}module{$this->DS}editor"),
-                    [
-                        'comment'  => $val['comment'],
-                        'field'    => $field,
-                        'required' => $this->buildRequiredHtml($val['required']),
-                        'value'    => $val['default'],
-                    ]);
-                continue;
-            }
-
-            if ($val['formType'] == 'select') {
-                $addFormList .= CommonTool::replaceTemplate(
-                    $this->getTemplate("view{$this->DS}module{$this->DS}select"),
-                    [
-                        'comment'  => $val['comment'],
-                        'field'    => $field,
-                        'required' => $this->buildRequiredHtml($val['required']),
-                        'value'    => $val['default'],
-                    ]);
-                continue;
-            }
-
-            if (in_array($field, ['remark'])) {
-                $addFormList .= CommonTool::replaceTemplate(
-                    $this->getTemplate("view{$this->DS}module{$this->DS}textarea"),
-                    [
-                        'comment'  => $val['comment'],
-                        'field'    => $field,
-                        'required' => $this->buildRequiredHtml($val['required']),
-                        'value'    => $val['default'],
-                    ]);
-                continue;
+                $templateFile = "view{$this->DS}module{$this->DS}image";
+            } elseif ($val['formType'] == 'images') {
+                $templateFile = "view{$this->DS}module{$this->DS}images";
+            } elseif ($val['formType'] == 'file') {
+                $templateFile = "view{$this->DS}module{$this->DS}file";
+            } elseif ($val['formType'] == 'files') {
+                $templateFile = "view{$this->DS}module{$this->DS}files";
+            } elseif ($val['formType'] == 'editor') {
+                $templateFile = "view{$this->DS}module{$this->DS}editor";
+            } elseif ($val['formType'] == 'select') {
+                $templateFile = "view{$this->DS}module{$this->DS}select";
+            } elseif (in_array($field, ['remark'])) {
+                $templateFile = "view{$this->DS}module{$this->DS}textarea";
             }
 
             $addFormList .= CommonTool::replaceTemplate(
-                $this->getTemplate("view{$this->DS}module{$this->DS}input"),
+                $this->getTemplate($templateFile),
                 [
                     'comment'  => $val['comment'],
                     'field'    => $field,
@@ -649,96 +650,27 @@ class BuildCurd
                 continue;
             }
 
-            // 单图片
+            $templateFile = "view{$this->DS}module{$this->DS}input";
+
+            // 根据formType去获取具体模板
             if ($val['formType'] == 'image') {
-                $editFormList .= CommonTool::replaceTemplate(
-                    $this->getTemplate("view{$this->DS}module{$this->DS}image"),
-                    [
-                        'comment'  => $val['comment'],
-                        'field'    => $field,
-                        'required' => $this->buildRequiredHtml($val['required']),
-                        'value'    => '{$row.' . $field . '|default=\'\'}',
-                    ]);
-                continue;
-            }
-
-            // 多图片
-            if ($val['formType'] == 'images') {
-                $editFormList .= CommonTool::replaceTemplate(
-                    $this->getTemplate("view{$this->DS}module{$this->DS}images"),
-                    [
-                        'comment'  => $val['comment'],
-                        'field'    => $field,
-                        'required' => $this->buildRequiredHtml($val['required']),
-                        'value'    => '{$row.' . $field . '|default=\'\'}',
-                    ]);
-                continue;
-            }
-
-            if ($val['formType'] == 'file') {
-                $editFormList .= CommonTool::replaceTemplate(
-                    $this->getTemplate("view{$this->DS}module{$this->DS}file"),
-                    [
-                        'comment'  => $val['comment'],
-                        'field'    => $field,
-                        'required' => $this->buildRequiredHtml($val['required']),
-                        'value'    => '{$row.' . $field . '|default=\'\'}',
-                    ]);
-                continue;
-            }
-
-            // 多图片
-            if ($val['formType'] == 'files') {
-                $editFormList .= CommonTool::replaceTemplate(
-                    $this->getTemplate("view{$this->DS}module{$this->DS}files"),
-                    [
-                        'comment'  => $val['comment'],
-                        'field'    => $field,
-                        'required' => $this->buildRequiredHtml($val['required']),
-                        'value'    => '{$row.' . $field . '|default=\'\'}',
-                    ]);
-                continue;
-            }
-
-            // 富文本
-            if ($val['formType'] == 'editor') {
-                $editFormList .= CommonTool::replaceTemplate(
-                    $this->getTemplate("view{$this->DS}module{$this->DS}editor"),
-                    [
-                        'comment'  => $val['comment'],
-                        'field'    => $field,
-                        'required' => $this->buildRequiredHtml($val['required']),
-                        'value'    => '{$row.' . $field . '|default=\'\'}',
-                    ]);
-                continue;
-            }
-
-            if ($val['formType'] == 'select') {
-                $editFormList .= CommonTool::replaceTemplate(
-                    $this->getTemplate("view{$this->DS}module{$this->DS}select"),
-                    [
-                        'comment'  => $val['comment'],
-                        'field'    => $field,
-                        'required' => $this->buildRequiredHtml($val['required']),
-                        'value'    => '{$row.' . $field . '|default=\'\'}',
-                    ]);
-                continue;
-            }
-
-            if (in_array($field, ['remark'])) {
-                $editFormList .= CommonTool::replaceTemplate(
-                    $this->getTemplate("view{$this->DS}module{$this->DS}textarea"),
-                    [
-                        'comment'  => $val['comment'],
-                        'field'    => $field,
-                        'required' => $this->buildRequiredHtml($val['required']),
-                        'value'    => '{$row.' . $field . '|default=\'\'}',
-                    ]);
-                continue;
+                $templateFile = "view{$this->DS}module{$this->DS}image";
+            } elseif ($val['formType'] == 'images') {
+                $templateFile = "view{$this->DS}module{$this->DS}images";
+            } elseif ($val['formType'] == 'file') {
+                $templateFile = "view{$this->DS}module{$this->DS}file";
+            } elseif ($val['formType'] == 'files') {
+                $templateFile = "view{$this->DS}module{$this->DS}files";
+            } elseif ($val['formType'] == 'editor') {
+                $templateFile = "view{$this->DS}module{$this->DS}editor";
+            } elseif ($val['formType'] == 'select') {
+                $templateFile = "view{$this->DS}module{$this->DS}select";
+            } elseif (in_array($field, ['remark'])) {
+                $templateFile = "view{$this->DS}module{$this->DS}textarea";
             }
 
             $editFormList .= CommonTool::replaceTemplate(
-                $this->getTemplate("view{$this->DS}module{$this->DS}input"),
+                $this->getTemplate($templateFile),
                 [
                     'comment'  => $val['comment'],
                     'field'    => $field,
@@ -768,6 +700,11 @@ class BuildCurd
         }
 
         // 关联表
+        foreach ($this->relationArray as $table => $tableVal) {
+            foreach ($tableVal['tableColumns'] as $field => $val) {
+                $indexCols .= $this->formatColsRow("{field: '{$field}', title: '{$val['comment']}'},\r");
+            }
+        }
 
         $indexCols .= $this->formatColsRow("{width: 250, title: '操作', templet: ea.table.tool},\r");
 
@@ -783,12 +720,20 @@ class BuildCurd
 
     protected function check()
     {
+        foreach ($this->fileList as $key => $val) {
+            if (is_file($key)) {
+                throw new FileException("文件已存在：{$key}");
+            }
+        }
         return $this;
     }
 
     public function create()
     {
         $this->check();
+        foreach ($this->fileList as $key => $val) {
+            file_put_contents($key, $val);
+        }
         return true;
     }
 
