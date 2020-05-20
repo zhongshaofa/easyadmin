@@ -101,6 +101,12 @@ class BuildCurd
     protected $controllerFilename;
 
     /**
+     * 控制器命名空间
+     * @var string
+     */
+    protected $controllerNamespace;
+
+    /**
      * 视图名
      * @var string
      */
@@ -328,6 +334,13 @@ class BuildCurd
         $this->controllerUrl = implode('.', $formatArray);
         $this->viewFilename = implode($this->DS, $formatArray);
         $this->jsFilename = $this->viewFilename;
+
+        // 控制器命名空间
+        $namespaceArray = $nodeArray;
+        array_pop($namespaceArray);
+        $namespaceSuffix = implode('\\', $namespaceArray);
+        $this->controllerNamespace = "app\admin\controller\\{$namespaceSuffix}";
+
         return $this;
     }
 
@@ -528,9 +541,9 @@ class BuildCurd
         $controllerValue = CommonTool::replaceTemplate(
             $this->getTemplate("controller{$this->DS}controller"),
             [
-                'controllerNamespace'  => "app\admin\controller\{$this->controllerFilename}",
+                'controllerNamespace'  => $this->controllerNamespace,
                 'controllerAnnotation' => $this->tableComment,
-                'modelFilename'        => "app\admin\model\{$this->modelFilename}",
+                'modelFilename'        => "\app\admin\model\\{$this->modelFilename}",
                 'indexMethod'          => $controllerIndexMethod,
             ]);
         $this->fileList[$controllerFile] = $controllerValue;
@@ -562,7 +575,7 @@ class BuildCurd
         $modelValue = CommonTool::replaceTemplate(
             $this->getTemplate("model{$this->DS}model"),
             [
-                'modelNamespace' => "app\admin\model\{$this->modelFilename}",
+                'modelNamespace' => "app\admin\model",
                 'table'          => $this->table,
                 'deleteTime'     => isset($this->tableColumns['delete_time']) ? 'delete_time' : false,
                 'relationList'   => $relationList,
@@ -575,7 +588,7 @@ class BuildCurd
             $relationModelValue = CommonTool::replaceTemplate(
                 $this->getTemplate("model{$this->DS}model"),
                 [
-                    'modelNamespace' => "app/admin/model/{$this->modelFilename}",
+                    'modelNamespace' => "app\admin\model",
                     'table'          => $key,
                     'deleteTime'     => isset($val['tableColumns']['delete_time']) ? 'delete_time' : false,
                     'relationList'   => '',
