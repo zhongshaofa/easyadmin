@@ -740,17 +740,62 @@ class BuildCurd
     {
         $jsFile = "{$this->rootDir}public{$this->DS}static{$this->DS}admin{$this->DS}js{$this->DS}{$this->jsFilename}.js";
 
-        $indexCols = "{type: 'checkbox'},\r";
+        $indexCols = "    {type: 'checkbox'},\r";
 
         // 主表字段
         foreach ($this->tableColumns as $field => $val) {
-            $indexCols .= $this->formatColsRow("{field: '{$field}', title: '{$val['comment']}'},\r");
+
+            if ($val['formType'] == 'image') {
+                $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.image}";
+            } elseif ($val['formType'] == 'images') {
+                continue;
+            } elseif ($val['formType'] == 'file') {
+                $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.url}";
+            } elseif ($val['formType'] == 'files') {
+                continue;
+            } elseif ($val['formType'] == 'editor') {
+                continue;
+            } elseif ($val['formType'] == 'select') {
+                $templateValue = "{field: '{$field}', title: '{$val['comment']}'}";
+            } elseif (in_array($field, ['remark'])) {
+                $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.text}";
+            } elseif (in_array($field, $this->switchFields)) {
+                $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.switch}";
+            }elseif (in_array($field, $this->sortFields)) {
+                $templateValue = "{field: '{$field}', title: '{$val['comment']}', edit: 'text'}";
+            }else{
+                $templateValue = "{field: '{$field}', title: '{$val['comment']}'}";
+            }
+
+            $indexCols .= $this->formatColsRow("{$templateValue},\r");
         }
 
         // 关联表
         foreach ($this->relationArray as $table => $tableVal) {
             foreach ($tableVal['tableColumns'] as $field => $val) {
-                $indexCols .= $this->formatColsRow("{field: '{$field}', title: '{$val['comment']}'},\r");
+                if ($val['formType'] == 'image') {
+                    $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.image}";
+                } elseif ($val['formType'] == 'images') {
+                    continue;
+                } elseif ($val['formType'] == 'file') {
+                    $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.url}";
+                } elseif ($val['formType'] == 'files') {
+                    continue;
+                } elseif ($val['formType'] == 'editor') {
+                    continue;
+                } elseif ($val['formType'] == 'select') {
+                    $templateValue = "{field: '{$field}', title: '{$val['comment']}'}";
+                } elseif (in_array($field, ['remark'])) {
+                    $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.text}";
+                } elseif (in_array($field, $this->switchFields)) {
+                    $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.switch}";
+                }elseif (in_array($field, $this->sortFields)) {
+                    $templateValue = "{field: '{$field}', title: '{$val['comment']}', edit: 'text'}";
+                }else{
+                    $templateValue = "{field: '{$field}', title: '{$val['comment']}'}";
+                }
+
+                $indexCols .= $this->formatColsRow("{$templateValue},\r");
             }
         }
 
@@ -819,7 +864,7 @@ class BuildCurd
 
     protected function formatColsRow($value)
     {
-        return "                {$value}";
+        return "                    {$value}";
     }
 
     protected function getTemplate($name)
