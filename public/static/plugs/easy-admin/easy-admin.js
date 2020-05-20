@@ -609,6 +609,10 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 var field = option.field;
                 return laytpl('<i class="{{d.' + field + '}}"></i>').render(data);
             },
+            text: function (data, option) {
+                var field = option.field;
+                return laytpl('<span class="line-limit-length">{{d.' + field + '}}</span>').render(data);
+            },
             value: function (data, option) {
                 var field = option.field;
                 return laytpl('<span>{{d.' + field + '}}</span>').render(data);

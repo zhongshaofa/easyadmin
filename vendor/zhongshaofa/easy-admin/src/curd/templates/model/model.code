@@ -4,10 +4,10 @@ namespace {{modelNamespace}};
 
 use app\common\model\TimeModel;
 
-class MallGoods extends TimeModel
+class {{modelName}} extends TimeModel
 {
 
-    protected $table = "{{table}}";
+    protected $name = "{{table}}";
 
     protected $deleteTime = '{{deleteTime}}';
 

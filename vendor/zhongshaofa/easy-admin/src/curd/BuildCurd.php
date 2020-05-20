@@ -71,7 +71,7 @@ class BuildCurd
     protected $fields;
 
     /**
-     * 是否删除模式
+     * 是否软删除模式
      * @var bool
      */
     protected $delete = false;
@@ -100,6 +100,13 @@ class BuildCurd
      */
     protected $controllerFilename;
 
+
+    /**
+     * 控制器命名
+     * @var string
+     */
+    protected $controllerName;
+
     /**
      * 控制器命名空间
      * @var string
@@ -125,6 +132,12 @@ class BuildCurd
     protected $modelFilename;
 
     /**
+     * 主表模型命名
+     * @var string
+     */
+    protected $modelName;
+
+    /**
      * 复选框字段后缀
      * @var array
      */
@@ -140,7 +153,7 @@ class BuildCurd
      * 单图片字段后缀
      * @var array
      */
-    protected $imageFieldSuffix = ['image', 'photo', 'icon'];
+    protected $imageFieldSuffix = ['image', 'logo', 'photo', 'icon'];
 
     /**
      * 多图片字段后缀
@@ -232,6 +245,9 @@ class BuildCurd
                     'default'  => $vo['Default'],
                 ];
                 $this->tableColumns[$vo['Field']] = $colum;
+                if ($vo['Field'] == 'delete_time') {
+                    $this->delete = true;
+                }
             }
 
             // 获取表名注释
@@ -255,10 +271,10 @@ class BuildCurd
             }
         }
 
-        $this->buildViewJsUrl();
-
         // 初始化默认模型名
         $this->modelFilename = ucfirst(CommonTool::lineToHump($this->table));
+
+        $this->buildViewJsUrl();
 
         // 构建数据
         $this->buildStructure();
@@ -274,6 +290,7 @@ class BuildCurd
         try {
             $colums = Db::query("SHOW FULL COLUMNS FROM {$this->tablePrefix}{$relationTable}");
             $formatColums = [];
+            $delete = false;
             foreach ($colums as $vo) {
                 if (empty($primaryKey) && $vo['Key'] == 'PRI') {
                     $primaryKey = $vo['Field'];
@@ -284,11 +301,21 @@ class BuildCurd
                     'default' => $vo['Default'],
                 ];
                 $formatColums[$vo['Field']] = $colum;
+                if ($vo['Field'] == 'delete_time') {
+                    $delete = true;
+                }
             }
+
+            $modelFilename = empty($modelFilename) ? ucfirst(CommonTool::lineToHump($relationTable)) : $modelFilename;
+            $modelArray = explode($this->DS, $modelFilename);
+            $modelName = array_pop($modelArray);
+
             $relation = [
-                'modelFilename' => empty($modelFilename) ? ucfirst(CommonTool::lineToHump($relationTable)) : $modelFilename,
+                'modelFilename' => $modelFilename,
+                'modelName'     => $modelName,
                 'foreignKey'    => $foreignKey,
                 'primaryKey'    => $primaryKey,
+                'delete'        => $delete,
                 'tableColumns'  => $formatColums,
             ];
             $this->relationArray[$relationTable] = $relation;
@@ -337,9 +364,14 @@ class BuildCurd
 
         // 控制器命名空间
         $namespaceArray = $nodeArray;
-        array_pop($namespaceArray);
+        $this->controllerName = array_pop($namespaceArray);
         $namespaceSuffix = implode('\\', $namespaceArray);
         $this->controllerNamespace = "app\admin\controller\\{$namespaceSuffix}";
+
+        // 主表模型命名
+        $modelArray = explode($this->DS, $this->modelFilename);
+
+        $this->modelName = array_pop($modelArray);
 
         return $this;
     }
@@ -541,6 +573,7 @@ class BuildCurd
         $controllerValue = CommonTool::replaceTemplate(
             $this->getTemplate("controller{$this->DS}controller"),
             [
+                'controllerName'       => $this->controllerName,
                 'controllerNamespace'  => $this->controllerNamespace,
                 'controllerAnnotation' => $this->tableComment,
                 'modelFilename'        => "\app\admin\model\\{$this->modelFilename}",
@@ -575,9 +608,10 @@ class BuildCurd
         $modelValue = CommonTool::replaceTemplate(
             $this->getTemplate("model{$this->DS}model"),
             [
+                'modelName'      => $this->modelName,
                 'modelNamespace' => "app\admin\model",
                 'table'          => $this->table,
-                'deleteTime'     => isset($this->tableColumns['delete_time']) ? 'delete_time' : false,
+                'deleteTime'     => $this->delete ? 'delete_time' : 'false',
                 'relationList'   => $relationList,
             ]);
         $this->fileList[$modelFile] = $modelValue;
@@ -588,9 +622,10 @@ class BuildCurd
             $relationModelValue = CommonTool::replaceTemplate(
                 $this->getTemplate("model{$this->DS}model"),
                 [
+                    'modelName'      => $val['modelName'],
                     'modelNamespace' => "app\admin\model",
                     'table'          => $key,
-                    'deleteTime'     => isset($val['tableColumns']['delete_time']) ? 'delete_time' : false,
+                    'deleteTime'     => $val['delete'] ? 'delete_time' : 'false',
                     'relationList'   => '',
                 ]);
             $this->fileList[$relationModelFile] = $relationModelValue;

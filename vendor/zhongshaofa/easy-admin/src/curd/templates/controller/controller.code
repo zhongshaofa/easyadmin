@@ -4,12 +4,13 @@ namespace {{controllerNamespace}};
 
 use app\common\controller\AdminController;
 use EasyAdmin\annotation\ControllerAnnotation;
+use EasyAdmin\annotation\NodeAnotation;
 use think\App;
 
 /**
  * @ControllerAnnotation(title="{{controllerAnnotation}}")
  */
-class Cate extends AdminController
+class {{controllerName}} extends AdminController
 {
 
     use \app\admin\traits\Curd;
