@@ -504,6 +504,11 @@ class BuildCurd
                 continue;
             }
 
+            // 判断是否已初始化
+            if (isset($this->tableColumns[$field]['formType'])) {
+                continue;
+            }
+
             // 判断图片
             if ($this->checkContain($field, $this->imageFieldSuffix)) {
                 $this->tableColumns[$field]['formType'] = 'image';
@@ -564,6 +569,11 @@ class BuildCurd
                 // 过滤字段
                 if (in_array($field, $this->ignoreFields)) {
                     unset($this->relationArray[$table]['tableColumns'][$field]);
+                    continue;
+                }
+
+                // 判断是否已初始化
+                if (isset($this->relationArray[$table]['tableColumns'][$field]['formType'])) {
                     continue;
                 }
 
