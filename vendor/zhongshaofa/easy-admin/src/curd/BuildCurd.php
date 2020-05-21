@@ -221,6 +221,12 @@ class BuildCurd
      */
     protected $fileList;
 
+    /**
+     * 表单类型
+     * @var array
+     */
+    protected $formTypeArray = ['text', 'image', 'images', 'file', 'files', 'select', 'switch', 'date', 'editor'];
+
     public function __construct()
     {
         $this->tablePrefix = config('database.connections.mysql.prefix');
@@ -246,14 +252,14 @@ class BuildCurd
                     'default'  => $vo['Default'],
                 ];
 
+                // 格式化列数据
+                $this->buildColum($colum);
+
                 $this->tableColumns[$vo['Field']] = $colum;
 
                 if ($vo['Field'] == 'delete_time') {
                     $this->delete = true;
                 }
-
-                // 格式化列数据
-                $this->buildColum($colum);
 
             }
 
@@ -307,6 +313,9 @@ class BuildCurd
                     'comment' => $vo['Comment'],
                     'default' => $vo['Default'],
                 ];
+
+                $this->buildColum($colum);
+
                 $formatColums[$vo['Field']] = $colum;
                 if ($vo['Field'] == 'delete_time') {
                     $delete = true;
@@ -409,8 +418,51 @@ class BuildCurd
     protected function buildColum(&$colum)
     {
         // 处理注释
+        $string = $colum['comment'];
 
-        preg_match_all("@\"pic_url\":\"(.*).jpg\"@", $str, $match);
+        // 处理定义类型
+        preg_match('/{[\s\S]*?}/i', $string, $formTypeMatch);
+        if (!empty($formTypeMatch) && isset($formTypeMatch[0])) {
+            $formType = trim(str_replace('}', '', str_replace('{', '', $formTypeMatch[0])));
+            if (in_array($formType, $this->formTypeArray)) {
+                $colum['formType'] = $formType;
+            }
+        }
+
+        // 处理默认定义
+        if (isset($colum['formType']) && in_array($colum['formType'], ['images', 'files', 'select', 'switch'])) {
+            preg_match('/\([\s\S]*?\)/i', $string, $defineMatch);
+            if (!empty($formTypeMatch) && isset($defineMatch[0])) {
+                $define = str_replace(')', '', str_replace('(', '', $defineMatch[0]));
+                switch ($colum['formType']) {
+                    case 'select':
+                        $formatDefine = [];
+                        $explodeArray = explode(',', $define);
+                        foreach ($explodeArray as $vo) {
+                            $voExplodeArray = explode(':', $vo);
+                            if (count($voExplodeArray) == 2) {
+                                $formatDefine[trim($voExplodeArray[0])] = trim($voExplodeArray[1]);
+                            }
+                        }
+                        !empty($formatDefine) && $colum['define'] = $formatDefine;
+                        break;
+                    case 'switch':
+                        $formatDefine = [];
+                        $explodeArray = explode(',', $define);
+                        foreach ($explodeArray as $vo) {
+                            $voExplodeArray = explode(':', $vo);
+                            if (count($voExplodeArray) == 2) {
+                                $formatDefine[trim($voExplodeArray[0])] = trim($voExplodeArray[1]);
+                            }
+                        }
+                        !empty($formatDefine) && $colum['define'] = $formatDefine;
+                        break;
+                    default:
+                        $colum['define'] = $define;
+                        break;
+                }
+            }
+        }
 
         return $colum;
     }
