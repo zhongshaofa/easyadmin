@@ -225,7 +225,7 @@ class BuildCurd
      * 表单类型
      * @var array
      */
-    protected $formTypeArray = ['text', 'image', 'images', 'file', 'files', 'select', 'switch', 'date', 'editor'];
+    protected $formTypeArray = ['text', 'image', 'images', 'file', 'files', 'select', 'switch', 'date', 'editor', 'textarea', 'url'];
 
     public function __construct()
     {
@@ -736,21 +736,30 @@ class BuildCurd
             }
 
             $templateFile = "view{$this->DS}module{$this->DS}input";
+            $define = '';
 
             // 根据formType去获取具体模板
             if ($val['formType'] == 'image') {
                 $templateFile = "view{$this->DS}module{$this->DS}image";
             } elseif ($val['formType'] == 'images') {
                 $templateFile = "view{$this->DS}module{$this->DS}images";
+                $define = isset($val['define']) ? $val['define'] : '|';
             } elseif ($val['formType'] == 'file') {
                 $templateFile = "view{$this->DS}module{$this->DS}file";
             } elseif ($val['formType'] == 'files') {
                 $templateFile = "view{$this->DS}module{$this->DS}files";
+                $define = isset($val['define']) ? $val['define'] : '|';
             } elseif ($val['formType'] == 'editor') {
                 $templateFile = "view{$this->DS}module{$this->DS}editor";
             } elseif ($val['formType'] == 'select') {
                 $templateFile = "view{$this->DS}module{$this->DS}select";
-            } elseif (in_array($field, ['remark'])) {
+                if (isset($val['define'])) {
+                    $define = "<option value=''></option>\r";
+                    foreach ($val['define'] as $k => $v) {
+                        $define .= "                    <option value='{$k}'>{$v}</option>\r";
+                    }
+                }
+            } elseif (in_array($field, ['remark']) || $val['formType'] == 'textarea') {
                 $templateFile = "view{$this->DS}module{$this->DS}textarea";
             }
 
@@ -761,6 +770,7 @@ class BuildCurd
                     'field'    => $field,
                     'required' => $this->buildRequiredHtml($val['required']),
                     'value'    => $val['default'],
+                    'define'   => $define,
                 ]);
         }
         $viewAddValue = CommonTool::replaceTemplate(
