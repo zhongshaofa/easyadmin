@@ -417,12 +417,13 @@ class BuildCurd
 
     protected function buildColum(&$colum)
     {
-        // 处理注释
+
         $string = $colum['comment'];
 
         // 处理定义类型
         preg_match('/{[\s\S]*?}/i', $string, $formTypeMatch);
         if (!empty($formTypeMatch) && isset($formTypeMatch[0])) {
+            $colum['comment'] = str_replace($formTypeMatch[0], '', $colum['comment']);
             $formType = trim(str_replace('}', '', str_replace('{', '', $formTypeMatch[0])));
             if (in_array($formType, $this->formTypeArray)) {
                 $colum['formType'] = $formType;
@@ -430,9 +431,10 @@ class BuildCurd
         }
 
         // 处理默认定义
-        if (isset($colum['formType']) && in_array($colum['formType'], ['images', 'files', 'select', 'switch'])) {
-            preg_match('/\([\s\S]*?\)/i', $string, $defineMatch);
-            if (!empty($formTypeMatch) && isset($defineMatch[0])) {
+        preg_match('/\([\s\S]*?\)/i', $string, $defineMatch);
+        if (!empty($formTypeMatch) && isset($defineMatch[0])) {
+            $colum['comment'] = str_replace($defineMatch[0], '', $colum['comment']);
+            if (isset($colum['formType']) && in_array($colum['formType'], ['images', 'files', 'select', 'switch'])) {
                 $define = str_replace(')', '', str_replace('(', '', $defineMatch[0]));
                 switch ($colum['formType']) {
                     case 'select':
@@ -463,6 +465,8 @@ class BuildCurd
                 }
             }
         }
+
+        $colum['comment'] = trim($colum['comment']);
 
         return $colum;
     }
