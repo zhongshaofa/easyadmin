@@ -238,16 +238,23 @@ class BuildCurd
             // 获取表列注释
             $colums = Db::query("SHOW FULL COLUMNS FROM {$this->tablePrefix}{$this->table}");
             foreach ($colums as $vo) {
+
                 $colum = [
                     'type'     => $vo['Type'],
                     'comment'  => !empty($vo['Comment']) ? $vo['Comment'] : $vo['Field'],
                     'required' => $vo['Null'] == "NO" ? true : false,
                     'default'  => $vo['Default'],
                 ];
+
                 $this->tableColumns[$vo['Field']] = $colum;
+
                 if ($vo['Field'] == 'delete_time') {
                     $this->delete = true;
                 }
+
+                // 格式化列数据
+                $this->buildColum($colum);
+
             }
 
             // 获取表名注释
@@ -397,6 +404,15 @@ class BuildCurd
     protected function buildRequiredHtml($require)
     {
         return $require ? 'lay-verify="required"' : "";
+    }
+
+    protected function buildColum(&$colum)
+    {
+        // 处理注释
+
+        preg_match_all("@\"pic_url\":\"(.*).jpg\"@", $str, $match);
+
+        return $colum;
     }
 
     public function render()
@@ -761,9 +777,9 @@ class BuildCurd
                 $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.text}";
             } elseif (in_array($field, $this->switchFields)) {
                 $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.switch}";
-            }elseif (in_array($field, $this->sortFields)) {
+            } elseif (in_array($field, $this->sortFields)) {
                 $templateValue = "{field: '{$field}', title: '{$val['comment']}', edit: 'text'}";
-            }else{
+            } else {
                 $templateValue = "{field: '{$field}', title: '{$val['comment']}'}";
             }
 
@@ -789,9 +805,9 @@ class BuildCurd
                     $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.text}";
                 } elseif (in_array($field, $this->switchFields)) {
                     $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.switch}";
-                }elseif (in_array($field, $this->sortFields)) {
+                } elseif (in_array($field, $this->sortFields)) {
                     $templateValue = "{field: '{$field}', title: '{$val['comment']}', edit: 'text'}";
-                }else{
+                } else {
                     $templateValue = "{field: '{$field}', title: '{$val['comment']}'}";
                 }
 
