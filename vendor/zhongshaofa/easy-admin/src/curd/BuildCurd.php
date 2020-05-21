@@ -227,6 +227,10 @@ class BuildCurd
      */
     protected $formTypeArray = ['text', 'image', 'images', 'file', 'files', 'select', 'switch', 'date', 'editor', 'textarea', 'url'];
 
+    /**
+     * 初始化
+     * BuildCurd constructor.
+     */
     public function __construct()
     {
         $this->tablePrefix = config('database.connections.mysql.prefix');
@@ -236,6 +240,12 @@ class BuildCurd
         return $this;
     }
 
+    /**
+     * 设置主表
+     * @param $table
+     * @return $this
+     * @throws TableException
+     */
     public function setTable($table)
     {
         $this->table = $table;
@@ -295,6 +305,15 @@ class BuildCurd
         return $this;
     }
 
+    /**
+     * 设置关联表
+     * @param $relationTable
+     * @param $foreignKey
+     * @param null $primaryKey
+     * @param null $modelFilename
+     * @return $this
+     * @throws TableException
+     */
     public function setRelation($relationTable, $foreignKey, $primaryKey = null, $modelFilename = null)
     {
         if (!isset($this->tableColumns[$foreignKey])) {
@@ -342,6 +361,11 @@ class BuildCurd
         return $this;
     }
 
+    /**
+     * 设置控制器名
+     * @param $controllerFilename
+     * @return $this
+     */
     public function setControllerFilename($controllerFilename)
     {
         $this->controllerFilename = $controllerFilename;
@@ -349,24 +373,43 @@ class BuildCurd
         return $this;
     }
 
+    /**
+     * 设置显示字段
+     * @param $fields
+     * @return $this
+     */
     public function setFields($fields)
     {
         $this->fields = $fields;
         return $this;
     }
 
+    /**
+     * 设置删除模式
+     * @param $delete
+     * @return $this
+     */
     public function setDelete($delete)
     {
         $this->delete = $delete;
         return $this;
     }
 
+    /**
+     * 设置是否强制替换
+     * @param $force
+     * @return $this
+     */
     public function setForce($force)
     {
         $this->force = $force;
         return $this;
     }
 
+    /**
+     * 构建基础视图、JS、URL
+     * @return $this
+     */
     protected function buildViewJsUrl()
     {
         $nodeArray = explode($this->DS, $this->controllerFilename);
@@ -392,6 +435,10 @@ class BuildCurd
         return $this;
     }
 
+    /**
+     * 构建字段
+     * @return $this
+     */
     protected function buildStructure()
     {
         foreach ($this->tableColumns as $key => $val) {
@@ -410,11 +457,21 @@ class BuildCurd
         return $this;
     }
 
+    /**
+     * 构建必填
+     * @param $require
+     * @return string
+     */
     protected function buildRequiredHtml($require)
     {
         return $require ? 'lay-verify="required"' : "";
     }
 
+    /**
+     * 构建初始化字段信息
+     * @param $colum
+     * @return mixed
+     */
     protected function buildColum(&$colum)
     {
 
@@ -471,6 +528,10 @@ class BuildCurd
         return $colum;
     }
 
+    /**
+     * 初始化
+     * @return $this
+     */
     public function render()
     {
 
@@ -492,6 +553,10 @@ class BuildCurd
         return $this;
     }
 
+    /**
+     * 初始化数据
+     * @return $this
+     */
     protected function renderData()
     {
 
@@ -635,6 +700,10 @@ class BuildCurd
 
     }
 
+    /**
+     * 初始化控制器
+     * @return $this
+     */
     protected function renderController()
     {
         $controllerFile = "{$this->rootDir}app{$this->DS}admin{$this->DS}controller{$this->DS}{$this->controllerFilename}.php";
@@ -665,6 +734,10 @@ class BuildCurd
         return $this;
     }
 
+    /**
+     * 初始化模型
+     * @return $this
+     */
     protected function renderModel()
     {
         // 主表模型
@@ -715,6 +788,10 @@ class BuildCurd
         return $this;
     }
 
+    /**
+     * 初始化视图
+     * @return $this
+     */
     protected function renderView()
     {
         // 列表页面
@@ -828,6 +905,10 @@ class BuildCurd
         return $this;
     }
 
+    /**
+     * 初始化JS
+     * @return $this
+     */
     protected function renderJs()
     {
         $jsFile = "{$this->rootDir}public{$this->DS}static{$this->DS}admin{$this->DS}js{$this->DS}{$this->jsFilename}.js";
@@ -903,6 +984,10 @@ class BuildCurd
         return $this;
     }
 
+    /**
+     * 检测文件
+     * @return $this
+     */
     protected function check()
     {
         foreach ($this->fileList as $key => $val) {
@@ -913,6 +998,10 @@ class BuildCurd
         return $this;
     }
 
+    /**
+     * 开始生成
+     * @return array
+     */
     public function create()
     {
         $this->check();
@@ -932,6 +1021,10 @@ class BuildCurd
         return array_keys($this->fileList);
     }
 
+    /**
+     * 开始删除
+     * @return array
+     */
     public function delete()
     {
         $deleteFile = [];
@@ -944,6 +1037,12 @@ class BuildCurd
         return $deleteFile;
     }
 
+    /**
+     * 检测字段后缀
+     * @param $string
+     * @param $array
+     * @return bool
+     */
     protected function checkContain($string, $array)
     {
         foreach ($array as $vo) {
@@ -954,11 +1053,21 @@ class BuildCurd
         return false;
     }
 
+    /**
+     * 格式化表单行
+     * @param $value
+     * @return string
+     */
     protected function formatColsRow($value)
     {
         return "                    {$value}";
     }
 
+    /**
+     * 获取对应的模板信息
+     * @param $name
+     * @return false|string
+     */
     protected function getTemplate($name)
     {
         return file_get_contents("{$this->dir}{$this->DS}templates{$this->DS}{$name}.code");
