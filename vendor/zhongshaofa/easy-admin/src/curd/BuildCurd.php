@@ -571,6 +571,20 @@ class BuildCurd
         return $optionCode;
     }
 
+    protected function buildCheckboxView($field, $select = '')
+    {
+        $formatField = CommonTool::lineToHump(ucfirst($field));
+        $name = "get{$formatField}List";
+        $optionCode = CommonTool::replaceTemplate(
+            $this->getTemplate("view{$this->DS}module{$this->DS}checkboxInput"),
+            [
+                'field'  => $field,
+                'name'   => $name,
+                'select' => $select,
+            ]);
+        return $optionCode;
+    }
+
     /**
      * 初始化
      * @return $this
@@ -890,7 +904,12 @@ class BuildCurd
             } elseif ($val['formType'] == 'radio') {
                 $templateFile = "view{$this->DS}module{$this->DS}radio";
                 if (isset($val['define']) && !empty($val['define'])) {
-                    $define = $this->buildRadioView($field,'{in name="k" value="' . $val['default'] . '"}checked=""{/in}');
+                    $define = $this->buildRadioView($field, '{in name="k" value="' . $val['default'] . '"}checked=""{/in}');
+                }
+            } elseif ($val['formType'] == 'checkbox') {
+                $templateFile = "view{$this->DS}module{$this->DS}checkbox";
+                if (isset($val['define']) && !empty($val['define'])) {
+                    $define = $this->buildCheckboxView($field, '{in name="k" value="' . $val['default'] . '"}checked=""{/in}');
                 }
             } elseif ($val['formType'] == 'select') {
                 $templateFile = "view{$this->DS}module{$this->DS}select";
@@ -946,6 +965,11 @@ class BuildCurd
                 $templateFile = "view{$this->DS}module{$this->DS}radio";
                 if (isset($val['define']) && !empty($val['define'])) {
                     $define = $this->buildRadioView($field, '{in name="k" value="$row.' . $field . '"}checked=""{/in}');
+                }
+            } elseif ($val['formType'] == 'checkbox') {
+                $templateFile = "view{$this->DS}module{$this->DS}checkbox";
+                if (isset($val['define']) && !empty($val['define'])) {
+                    $define = $this->buildCheckboxView($field, '{in name="k" value="$row.' . $field . '"}checked=""{/in}');
                 }
             } elseif ($val['formType'] == 'select') {
                 $templateFile = "view{$this->DS}module{$this->DS}select";
