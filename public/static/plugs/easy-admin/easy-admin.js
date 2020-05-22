@@ -583,40 +583,79 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 option.title = option.title || option.field;
                 var field = option.field,
                     title = data[option.title];
-                return laytpl('<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="{{d.' + field + '}}" data-image="' + title + '">').render(data);
+                try {
+                    var value = eval("data." + field);
+                } catch (e) {
+                    var value = undefined;
+                }
+                return '<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + value + '" data-image="' + title + '">';
             },
             url: function (data, option) {
                 var field = option.field;
-                return laytpl('<a class="layuimini-table-url" href="{{d.' + field + '}}" target="_blank" class="label bg-green">{{d.' + field + '}}</a>').render(data);
+                try {
+                    var value = eval("data." + field);
+                } catch (e) {
+                    var value = undefined;
+                }
+                return '<a class="layuimini-table-url" href="' + value + '" target="_blank" class="label bg-green">' + value + '</a>';
             },
             switch: function (data, option) {
                 var field = option.field;
                 option.filter = option.filter || option.field || null;
                 option.checked = option.checked || 1;
                 option.tips = option.tips || '开|关';
-                var value = eval("data." + option.field);
+                try {
+                    var value = eval("data." + field);
+                } catch (e) {
+                    var value = undefined;
+                }
                 var checked = value === option.checked ? 'checked' : '';
                 return laytpl('<input type="checkbox" name="' + option.field + '" value="' + data.id + '" lay-skin="switch" lay-text="' + option.tips + '" lay-filter="' + option.filter + '" ' + checked + ' >').render(data);
             },
             price: function (data, option) {
                 var field = option.field;
-                return laytpl('<span>￥{{d.' + field + '}}</span>').render(data);
+                try {
+                    var value = eval("data." + field);
+                } catch (e) {
+                    var value = undefined;
+                }
+                return '<span>￥' + value + '%</span>';
             },
             percent: function (data, option) {
                 var field = option.field;
-                return laytpl('<span>{{d.' + field + '}}%</span>').render(data);
+                try {
+                    var value = eval("data." + field);
+                } catch (e) {
+                    var value = undefined;
+                }
+                return '<span>' + value + '%</span>';
             },
             icon: function (data, option) {
                 var field = option.field;
-                return laytpl('<i class="{{d.' + field + '}}"></i>').render(data);
+                try {
+                    var value = eval("data." + field);
+                } catch (e) {
+                    var value = undefined;
+                }
+                return '<i class="' + value + '"></i>';
             },
             text: function (data, option) {
                 var field = option.field;
-                return laytpl('<span class="line-limit-length">{{d.' + field + '}}</span>').render(data);
+                try {
+                    var value = eval("data." + field);status
+                } catch (e) {
+                    var value = undefined;
+                }
+                return '<span class="line-limit-length">' + value + '</span>';
             },
             value: function (data, option) {
                 var field = option.field;
-                return laytpl('<span>{{d.' + field + '}}</span>').render(data);
+                try {
+                    var value = eval("data." + field);
+                } catch (e) {
+                    var value = undefined;
+                }
+                return '<span>' + value + '</span>';
             },
             listenTableSearch: function (tableId) {
                 form.on('submit(' + tableId + '_filter)', function (data) {
