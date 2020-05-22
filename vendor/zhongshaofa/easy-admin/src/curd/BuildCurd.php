@@ -1052,12 +1052,22 @@ class BuildCurd
                 continue;
             } elseif ($val['formType'] == 'editor') {
                 continue;
-            } elseif ($val['formType'] == 'select') {
-                $templateValue = "{field: '{$field}', title: '{$val['comment']}'}";
+            } elseif (in_array($field, $this->switchFields)) {
+                if (isset($val['define']) && !empty($val['define'])) {
+                    $values = json_encode($val['define'], JSON_UNESCAPED_UNICODE);
+                    $templateValue = "{field: '{$field}', search: 'select', selectList: {$values}, title: '{$val['comment']}', templet: ea.table.switch}";
+                } else {
+                    $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.switch}";
+                }
+            } elseif (in_array($val['formType'], ['select', 'checkbox', 'radio', 'switch'])) {
+                if (isset($val['define']) && !empty($val['define'])) {
+                    $values = json_encode($val['define'], JSON_UNESCAPED_UNICODE);
+                    $templateValue = "{field: '{$field}', search: 'select', selectList: {$values}, title: '{$val['comment']}'}";
+                } else {
+                    $templateValue = "{field: '{$field}', title: '{$val['comment']}'}";
+                }
             } elseif (in_array($field, ['remark'])) {
                 $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.text}";
-            } elseif (in_array($field, $this->switchFields)) {
-                $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.switch}";
             } elseif (in_array($field, $this->sortFields)) {
                 $templateValue = "{field: '{$field}', title: '{$val['comment']}', edit: 'text'}";
             } else {
