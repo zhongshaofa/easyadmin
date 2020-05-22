@@ -189,7 +189,7 @@ class BuildCurd
      * 下拉选择字段
      * @var array
      */
-    protected $selectFileds;
+    protected $selectFileds = [];
 
     /**
      * 富文本字段
@@ -219,7 +219,7 @@ class BuildCurd
      * 相关生成文件
      * @var array
      */
-    protected $fileList;
+    protected $fileList = [];
 
     /**
      * 表单类型
@@ -514,6 +514,11 @@ class BuildCurd
         return $colum;
     }
 
+    /**
+     * 构建下拉控制器
+     * @param $field
+     * @return mixed
+     */
     protected function buildSelectController($field)
     {
         $field = CommonTool::lineToHump(ucfirst($field));
@@ -526,6 +531,12 @@ class BuildCurd
         return $selectCode;
     }
 
+    /**
+     * 构架下拉模型
+     * @param $field
+     * @param $array
+     * @return mixed
+     */
     protected function buildSelectModel($field, $array)
     {
         $field = CommonTool::lineToHump(ucfirst($field));
@@ -544,6 +555,12 @@ class BuildCurd
         return $selectCode;
     }
 
+    /**
+     * 构建下拉框视图
+     * @param $field
+     * @param string $select
+     * @return mixed
+     */
     protected function buildOptionView($field, $select = '')
     {
         $field = CommonTool::lineToHump(ucfirst($field));
@@ -557,6 +574,12 @@ class BuildCurd
         return $optionCode;
     }
 
+    /**
+     * 构建单选框视图
+     * @param $field
+     * @param string $select
+     * @return mixed
+     */
     protected function buildRadioView($field, $select = '')
     {
         $formatField = CommonTool::lineToHump(ucfirst($field));
@@ -571,6 +594,12 @@ class BuildCurd
         return $optionCode;
     }
 
+    /**
+     * 构建多选框视图
+     * @param $field
+     * @param string $select
+     * @return mixed
+     */
     protected function buildCheckboxView($field, $select = '')
     {
         $formatField = CommonTool::lineToHump(ucfirst($field));
