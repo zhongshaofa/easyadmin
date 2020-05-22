@@ -1006,27 +1006,28 @@ class BuildCurd
 
         // 关联表
         foreach ($this->relationArray as $table => $tableVal) {
+            $table = CommonTool::lineToHump($table);
             foreach ($tableVal['tableColumns'] as $field => $val) {
                 if ($val['formType'] == 'image') {
-                    $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.image}";
+                    $templateValue = "{field: '{$table}.{$field}', title: '{$val['comment']}', templet: ea.table.image}";
                 } elseif ($val['formType'] == 'images') {
                     continue;
                 } elseif ($val['formType'] == 'file') {
-                    $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.url}";
+                    $templateValue = "{field: '{$table}.{$field}', title: '{$val['comment']}', templet: ea.table.url}";
                 } elseif ($val['formType'] == 'files') {
                     continue;
                 } elseif ($val['formType'] == 'editor') {
                     continue;
                 } elseif ($val['formType'] == 'select') {
-                    $templateValue = "{field: '{$field}', title: '{$val['comment']}'}";
+                    $templateValue = "{field: '{$table}.{$field}', title: '{$val['comment']}'}";
                 } elseif (in_array($field, ['remark'])) {
-                    $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.text}";
+                    $templateValue = "{field: '{$table}.{$field}', title: '{$val['comment']}', templet: ea.table.text}";
                 } elseif (in_array($field, $this->switchFields)) {
-                    $templateValue = "{field: '{$field}', title: '{$val['comment']}', templet: ea.table.switch}";
+                    $templateValue = "{field: '{$table}.{$field}', title: '{$val['comment']}', templet: ea.table.switch}";
                 } elseif (in_array($field, $this->sortFields)) {
-                    $templateValue = "{field: '{$field}', title: '{$val['comment']}', edit: 'text'}";
+                    $templateValue = "{field: '{$table}.{$field}', title: '{$val['comment']}', edit: 'text'}";
                 } else {
-                    $templateValue = "{field: '{$field}', title: '{$val['comment']}'}";
+                    $templateValue = "{field: '{$table}.{$field}', title: '{$val['comment']}'}";
                 }
 
                 $indexCols .= $this->formatColsRow("{$templateValue},\r");
@@ -1051,6 +1052,10 @@ class BuildCurd
      */
     protected function check()
     {
+        // 是否强制性
+        if ($this->force) {
+            return $this;
+        }
         foreach ($this->fileList as $key => $val) {
             if (is_file($key)) {
                 throw new FileException("文件已存在：{$key}");
