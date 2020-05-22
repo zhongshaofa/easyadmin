@@ -925,6 +925,7 @@ class BuildCurd
 
             $templateFile = "view{$this->DS}module{$this->DS}input";
 
+            $define = '';
             // 根据formType去获取具体模板
             if ($val['formType'] == 'image') {
                 $templateFile = "view{$this->DS}module{$this->DS}image";
@@ -938,6 +939,9 @@ class BuildCurd
                 $templateFile = "view{$this->DS}module{$this->DS}editor";
             } elseif ($val['formType'] == 'select') {
                 $templateFile = "view{$this->DS}module{$this->DS}select";
+                if (isset($val['define']) && !empty($val['define'])) {
+                    $define = $this->buildOptionView($field, '{in name="k" value="$row.' . $field . '"}selected=""{/in}');
+                }
             } elseif (in_array($field, ['remark'])) {
                 $templateFile = "view{$this->DS}module{$this->DS}textarea";
             }
@@ -949,6 +953,7 @@ class BuildCurd
                     'field'    => $field,
                     'required' => $this->buildRequiredHtml($val['required']),
                     'value'    => '{$row.' . $field . '|default=\'\'}',
+                    'define'   => $define,
                 ]);
         }
         $viewEditValue = CommonTool::replaceTemplate(
