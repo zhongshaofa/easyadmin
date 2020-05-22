@@ -3,7 +3,7 @@
             <label class="layui-form-label">{{comment}}</label>
             <div class="layui-input-block">
                 <select name="{{field}}" {{required}}>
-                    {{define}}
+{{define}}
                 </select>
             </div>
         </div>

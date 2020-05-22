@@ -558,6 +558,19 @@ class BuildCurd
         return $selectCode;
     }
 
+    protected function buildOptionView($field, $select = '')
+    {
+        $field = CommonTool::lineToHump(ucfirst($field));
+        $name = "get{$field}List";
+        $optionCode = CommonTool::replaceTemplate(
+            $this->getTemplate("view{$this->DS}module{$this->DS}option"),
+            [
+                'name'   => $name,
+                'select' => $select,
+            ]);
+        return $optionCode;
+    }
+
     /**
      * 初始化
      * @return $this
@@ -876,11 +889,8 @@ class BuildCurd
                 $templateFile = "view{$this->DS}module{$this->DS}editor";
             } elseif ($val['formType'] == 'select') {
                 $templateFile = "view{$this->DS}module{$this->DS}select";
-                if (isset($val['define'])) {
-                    $define = "<option value=''></option>\r";
-                    foreach ($val['define'] as $k => $v) {
-                        $define .= "                    <option value='{$k}'>{$v}</option>\r";
-                    }
+                if (isset($val['define']) && !empty($val['define'])) {
+                    $define = $this->buildOptionView($field);
                 }
             } elseif (in_array($field, ['remark']) || $val['formType'] == 'textarea') {
                 $templateFile = "view{$this->DS}module{$this->DS}textarea";
