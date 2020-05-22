@@ -528,6 +528,36 @@ class BuildCurd
         return $colum;
     }
 
+    protected function buildSelectController($field)
+    {
+        $field = CommonTool::lineToHump(ucfirst($field));
+        $name = "get{$field}List";
+        $selectCode = CommonTool::replaceTemplate(
+            $this->getTemplate("controller{$this->DS}select"),
+            [
+                'name' => $name,
+            ]);
+        return $selectCode;
+    }
+
+    protected function buildSelectModel($field, $array)
+    {
+        $field = CommonTool::lineToHump(ucfirst($field));
+        $name = "get{$field}List";
+        $values = '[';
+        foreach ($array as $k => $v) {
+            $values .= "'{$k}'=>'{$v}',";
+        }
+        $values .= ']';
+        $selectCode = CommonTool::replaceTemplate(
+            $this->getTemplate("model{$this->DS}select"),
+            [
+                'name'   => $name,
+                'values' => $values,
+            ]);
+        return $selectCode;
+    }
+
     /**
      * 初始化
      * @return $this
@@ -721,6 +751,12 @@ class BuildCurd
                     'relationIndexMethod' => $relationCode,
                 ]);
         }
+        $selectList = '';
+        foreach ($this->tableColumns as $field => $val) {
+            if (isset($val['formType']) && in_array($val['formType'], ['select', 'switch']) && isset($val['define'])) {
+                $selectList .= $this->buildSelectController($field);
+            }
+        }
         $controllerValue = CommonTool::replaceTemplate(
             $this->getTemplate("controller{$this->DS}controller"),
             [
@@ -729,6 +765,7 @@ class BuildCurd
                 'controllerAnnotation' => $this->tableComment,
                 'modelFilename'        => "\app\admin\model\\{$this->modelFilename}",
                 'indexMethod'          => $controllerIndexMethod,
+                'selectList'           => $selectList,
             ]);
         $this->fileList[$controllerFile] = $controllerValue;
         return $this;
@@ -758,8 +795,15 @@ class BuildCurd
                     ]);
                 $relationList .= $relationCode;
             }
-
         }
+
+        $selectList = '';
+        foreach ($this->tableColumns as $field => $val) {
+            if (isset($val['formType']) && in_array($val['formType'], ['select', 'switch']) && isset($val['define'])) {
+                $selectList .= $this->buildSelectModel($field, $val['define']);
+            }
+        }
+
         $modelValue = CommonTool::replaceTemplate(
             $this->getTemplate("model{$this->DS}model"),
             [
@@ -768,6 +812,7 @@ class BuildCurd
                 'table'          => $this->table,
                 'deleteTime'     => $this->delete ? 'delete_time' : 'false',
                 'relationList'   => $relationList,
+                'selectList'     => $selectList,
             ]);
         $this->fileList[$modelFile] = $modelValue;
 
@@ -782,6 +827,7 @@ class BuildCurd
                     'table'          => $key,
                     'deleteTime'     => $val['delete'] ? 'delete_time' : 'false',
                     'relationList'   => '',
+                    'selectList'     => '',
                 ]);
             $this->fileList[$relationModelFile] = $relationModelValue;
         }

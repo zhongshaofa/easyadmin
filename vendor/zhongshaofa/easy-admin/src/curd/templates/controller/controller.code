@@ -18,7 +18,9 @@ class {{controllerName}} extends AdminController
     public function __construct(App $app)
     {
         parent::__construct($app);
+
         $this->model = new {{modelFilename}}();
+        {{selectList}}
     }
 
     {{indexMethod}}
