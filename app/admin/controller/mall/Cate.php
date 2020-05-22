@@ -8,6 +8,7 @@ use app\admin\model\MallCate;
 use app\admin\traits\Curd;
 use app\common\controller\AdminController;
 use EasyAdmin\annotation\ControllerAnnotation;
+use EasyAdmin\annotation\NodeAnotation;
 use think\App;
 
 /**

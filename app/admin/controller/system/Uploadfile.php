@@ -16,6 +16,7 @@ namespace app\admin\controller\system;
 use app\admin\model\SystemUploadfile;
 use app\common\controller\AdminController;
 use EasyAdmin\annotation\ControllerAnnotation;
+use EasyAdmin\annotation\NodeAnotation;
 use think\App;
 
 /**
