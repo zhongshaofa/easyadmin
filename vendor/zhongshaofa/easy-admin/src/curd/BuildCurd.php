@@ -225,7 +225,7 @@ class BuildCurd
      * 表单类型
      * @var array
      */
-    protected $formTypeArray = ['text', 'image', 'images', 'file', 'files', 'select', 'switch', 'date', 'editor', 'textarea', 'url'];
+    protected $formTypeArray = ['text', 'image', 'images', 'file', 'files', 'select', 'switch', 'date', 'editor', 'textarea', 'checkbox', 'radio'];
 
     /**
      * 初始化
@@ -491,34 +491,20 @@ class BuildCurd
         preg_match('/\([\s\S]*?\)/i', $string, $defineMatch);
         if (!empty($formTypeMatch) && isset($defineMatch[0])) {
             $colum['comment'] = str_replace($defineMatch[0], '', $colum['comment']);
-            if (isset($colum['formType']) && in_array($colum['formType'], ['images', 'files', 'select', 'switch'])) {
+            if (isset($colum['formType']) && in_array($colum['formType'], ['images', 'files', 'select', 'switch', 'radio', 'checkbox'])) {
                 $define = str_replace(')', '', str_replace('(', '', $defineMatch[0]));
-                switch ($colum['formType']) {
-                    case 'select':
-                        $formatDefine = [];
-                        $explodeArray = explode(',', $define);
-                        foreach ($explodeArray as $vo) {
-                            $voExplodeArray = explode(':', $vo);
-                            if (count($voExplodeArray) == 2) {
-                                $formatDefine[trim($voExplodeArray[0])] = trim($voExplodeArray[1]);
-                            }
+                if (in_array($colum['formType'], ['select', 'switch', 'radio', 'checkbox'])) {
+                    $formatDefine = [];
+                    $explodeArray = explode(',', $define);
+                    foreach ($explodeArray as $vo) {
+                        $voExplodeArray = explode(':', $vo);
+                        if (count($voExplodeArray) == 2) {
+                            $formatDefine[trim($voExplodeArray[0])] = trim($voExplodeArray[1]);
                         }
-                        !empty($formatDefine) && $colum['define'] = $formatDefine;
-                        break;
-                    case 'switch':
-                        $formatDefine = [];
-                        $explodeArray = explode(',', $define);
-                        foreach ($explodeArray as $vo) {
-                            $voExplodeArray = explode(':', $vo);
-                            if (count($voExplodeArray) == 2) {
-                                $formatDefine[trim($voExplodeArray[0])] = trim($voExplodeArray[1]);
-                            }
-                        }
-                        !empty($formatDefine) && $colum['define'] = $formatDefine;
-                        break;
-                    default:
-                        $colum['define'] = $define;
-                        break;
+                    }
+                    !empty($formatDefine) && $colum['define'] = $formatDefine;
+                } else {
+                    $colum['define'] = $define;
                 }
             }
         }
@@ -565,6 +551,20 @@ class BuildCurd
         $optionCode = CommonTool::replaceTemplate(
             $this->getTemplate("view{$this->DS}module{$this->DS}option"),
             [
+                'name'   => $name,
+                'select' => $select,
+            ]);
+        return $optionCode;
+    }
+
+    protected function buildRadioView($field, $select = '')
+    {
+        $formatField = CommonTool::lineToHump(ucfirst($field));
+        $name = "get{$formatField}List";
+        $optionCode = CommonTool::replaceTemplate(
+            $this->getTemplate("view{$this->DS}module{$this->DS}radioInput"),
+            [
+                'field'  => $field,
                 'name'   => $name,
                 'select' => $select,
             ]);
@@ -766,7 +766,7 @@ class BuildCurd
         }
         $selectList = '';
         foreach ($this->tableColumns as $field => $val) {
-            if (isset($val['formType']) && in_array($val['formType'], ['select', 'switch']) && isset($val['define'])) {
+            if (isset($val['formType']) && in_array($val['formType'], ['select', 'switch', 'radio', 'checkbox']) && isset($val['define'])) {
                 $selectList .= $this->buildSelectController($field);
             }
         }
@@ -812,7 +812,7 @@ class BuildCurd
 
         $selectList = '';
         foreach ($this->tableColumns as $field => $val) {
-            if (isset($val['formType']) && in_array($val['formType'], ['select', 'switch']) && isset($val['define'])) {
+            if (isset($val['formType']) && in_array($val['formType'], ['select', 'switch', 'radio', 'checkbox']) && isset($val['define'])) {
                 $selectList .= $this->buildSelectModel($field, $val['define']);
             }
         }
@@ -887,6 +887,11 @@ class BuildCurd
                 $define = isset($val['define']) ? $val['define'] : '|';
             } elseif ($val['formType'] == 'editor') {
                 $templateFile = "view{$this->DS}module{$this->DS}editor";
+            } elseif ($val['formType'] == 'radio') {
+                $templateFile = "view{$this->DS}module{$this->DS}radio";
+                if (isset($val['define']) && !empty($val['define'])) {
+                    $define = $this->buildRadioView($field,'{in name="k" value="' . $val['default'] . '"}checked=""{/in}');
+                }
             } elseif ($val['formType'] == 'select') {
                 $templateFile = "view{$this->DS}module{$this->DS}select";
                 if (isset($val['define']) && !empty($val['define'])) {
@@ -937,6 +942,11 @@ class BuildCurd
                 $templateFile = "view{$this->DS}module{$this->DS}files";
             } elseif ($val['formType'] == 'editor') {
                 $templateFile = "view{$this->DS}module{$this->DS}editor";
+            } elseif ($val['formType'] == 'radio') {
+                $templateFile = "view{$this->DS}module{$this->DS}radio";
+                if (isset($val['define']) && !empty($val['define'])) {
+                    $define = $this->buildRadioView($field, '{in name="k" value="$row.' . $field . '"}checked=""{/in}');
+                }
             } elseif ($val['formType'] == 'select') {
                 $templateFile = "view{$this->DS}module{$this->DS}select";
                 if (isset($val['define']) && !empty($val['define'])) {

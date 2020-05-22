@@ -21,6 +21,8 @@ class Goods extends AdminController
 
         $this->model = new \app\admin\model\TestGoods();
         
+        $this->assign('getSexList', $this->model->getSexList());
+
         $this->assign('getModeList', $this->model->getModeList());
 
         $this->assign('getStatusList', $this->model->getStatusList());

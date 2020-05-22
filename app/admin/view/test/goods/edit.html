@@ -2,10 +2,19 @@
     <form id="app-form" class="layui-form layuimini-form">
         
         <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+                {foreach $getSexList as $k=>$v}
+                <input type="radio" name="sex" value="{$k}" title="{$v}" {in name="k" value="$row.sex"}checked=""{/in}>
+                {/foreach}
+            </div>
+        </div>
+
+        <div class="layui-form-item">
             <label class="layui-form-label">购买模式</label>
             <div class="layui-input-block">
                 <select name="mode" >
-                    <option value=''}></option>
+                    <option value=''></option>
                     {foreach $getModeList as $k=>$v}
                     <option value='{$k}' {in name="k" value="$row.mode"}selected=""{/in}>{$v}</option>
                     {/foreach}

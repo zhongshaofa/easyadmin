@@ -18,6 +18,11 @@ class TestGoods extends TimeModel
     }
 
     
+    public function getSexList()
+    {
+        return ['1'=>'男','2'=>'女','0'=>'未知',];
+    }
+
     public function getModeList()
     {
         return ['1'=>'正常购买','2'=>'秒杀活动',];

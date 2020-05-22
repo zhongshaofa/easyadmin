@@ -1,0 +1,3 @@
+                {foreach ${{name}} as $k=>$v}
+                <input type="radio" name="{{field}}" value="{$k}" title="{$v}" {{select}}>
+                {/foreach}
