@@ -34,7 +34,7 @@ class ViewInit
         $adminModuleName = config('app.admin_alias_name');
         $isSuperAdmin = session('admin.id') == AdminConstant::SUPER_ADMIN_ID ? true : false;
         $data = [
-            'admin_module_name'    => $adminModuleName,
+            'adminModuleName'      => $adminModuleName,
             'thisController'       => parse_name($thisController),
             'thisAction'           => $thisAction,
             'thisRequest'          => parse_name("{$thisModule}/{$thisController}/{$thisAction}"),
