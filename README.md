@@ -9,17 +9,18 @@ EasyAdmin后台管理系统
 
 ## 站点地址
 
-官方网站：[http://easyadmin.99php.cn](http://easyadmin.99php.cn)
+* 官方网站：[http://easyadmin.99php.cn](http://easyadmin.99php.cn)
 
-文档地址：[http://easyadmin.99php.cn/docs](http://easyadmin.99php.cn/docs)
+* 文档地址：[http://easyadmin.99php.cn/docs](http://easyadmin.99php.cn/docs)
 
-演示地址：[http://easyadmin.99php.cn/admindemo](http://easyadmin.99php.cn/admindemo)（账号：admin，密码：123456。备注：只有查看信息的权限）
+* 演示地址：[http://easyadmin.99php.cn/admindemo](http://easyadmin.99php.cn/admindemo)（账号：admin，密码：123456。备注：只有查看信息的权限）
  
 ## 代码仓库
 
 * GitHub地址：[https://github.com/zhongshaofa/easyadmin](https://github.com/zhongshaofa/easyadmin)
 
 * Gitee地址：[https://gitee.com/zhongshaofa/easyadmin](https://gitee.com/zhongshaofa/easyadmin)
+
 
 ## 项目特性
 * 完善的菜单管理
@@ -53,23 +54,24 @@ EasyAdmin后台管理系统
 * 后台路径自定义，防止别人找到对应的后台地址
 
 ## 特别感谢
+
 以下项目排名不分先后
 
-ThinkPHP：[https://github.com/top-think/framework](https://github.com/top-think/framework)
+* ThinkPHP：[https://github.com/top-think/framework](https://github.com/top-think/framework)
 
-Layuimini：[https://github.com/zhongshaofa/layuimini](https://github.com/zhongshaofa/layuimini)
+* Layuimini：[https://github.com/zhongshaofa/layuimini](https://github.com/zhongshaofa/layuimini)
 
-Annotations：[https://github.com/doctrine/annotations](https://github.com/doctrine/annotations)
+* Annotations：[https://github.com/doctrine/annotations](https://github.com/doctrine/annotations)
 
-Layui：[https://github.com/sentsin/layui](https://github.com/sentsin/layui)
+* Layui：[https://github.com/sentsin/layui](https://github.com/sentsin/layui)
 
-Jquery：[https://github.com/jquery/jquery](https://github.com/jquery/jquery)
+* Jquery：[https://github.com/jquery/jquery](https://github.com/jquery/jquery)
 
-RequireJs：[https://github.com/requirejs/requirejs](https://github.com/requirejs/requirejs)
+* RequireJs：[https://github.com/requirejs/requirejs](https://github.com/requirejs/requirejs)
 
-CKEditor：[https://github.com/ckeditor/ckeditor4](https://github.com/ckeditor/ckeditor4)
+* CKEditor：[https://github.com/ckeditor/ckeditor4](https://github.com/ckeditor/ckeditor4)
 
-Echarts：[https://github.com/apache/incubator-echarts](https://github.com/apache/incubator-echarts)
+* Echarts：[https://github.com/apache/incubator-echarts](https://github.com/apache/incubator-echarts)
   
  ## 捐赠支持
  
