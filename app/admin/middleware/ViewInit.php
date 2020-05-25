@@ -36,7 +36,7 @@ class ViewInit
         $data = [
             'admin_module_name'    => $adminModuleName,
             'thisController'       => parse_name($thisController),
-            'thisAction'           => parse_name($thisAction),
+            'thisAction'           => $thisAction,
             'thisRequest'          => parse_name("{$thisModule}/{$thisController}/{$thisAction}"),
             'thisControllerJsPath' => "{$thisControllerJsPath}",
             'autoloadJs'           => $autoloadJs,
