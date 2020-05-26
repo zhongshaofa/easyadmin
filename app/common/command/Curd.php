@@ -90,6 +90,7 @@ class Curd extends Command
 
         } catch (\Exception $e) {
             CliEcho::error($e->getMessage());
+            return false;
         }
         var_dump($result);
     }

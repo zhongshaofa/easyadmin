@@ -32,7 +32,7 @@ class BuildCurd
      * 分隔符
      * @var string
      */
-    protected $DS = DS;
+    protected $DS = DIRECTORY_SEPARATOR;
 
     /**
      * 数据库名
