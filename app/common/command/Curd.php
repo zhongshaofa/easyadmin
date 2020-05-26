@@ -29,12 +29,10 @@ class Curd extends Command
         $this->setName('curd')
             ->addOption('table', 't', Option::VALUE_REQUIRED, '主表名', null)
             ->addOption('controllerFilename', 'c', Option::VALUE_REQUIRED, '控制器文件名', null)
-            #
             ->addOption('relationTable', 'r', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联表名', null)
             ->addOption('foreignKey', 'rf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联外键', null)
             ->addOption('primaryKey', 'rp', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联主键', null)
             ->addOption('relationModelFilename', 'rmf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联模型文件名', null)
-            #
             ->addOption('force', 'f', Option::VALUE_REQUIRED, '强制覆盖模式', 0)
             ->addOption('delete', 'd', Option::VALUE_REQUIRED, '删除模式', 0)
             ->setDescription('一键curd命令服务');
@@ -64,7 +62,7 @@ class Curd extends Command
             ];
         }
 
-        if(empty($table)){
+        if (empty($table)) {
             CliEcho::error('请设置主表');
             return false;
         }
@@ -80,6 +78,8 @@ class Curd extends Command
                 $build = $build->setRelation($relation['table'], $relation['foreignKey'], $relation['primaryKey'], $relation['modelFilename']);
             }
 
+            $build = $build->render();
+
             if (!$delete) {
                 $result = $build->create();
                 CliEcho::success('自动生成CURD成功');
@@ -88,11 +88,15 @@ class Curd extends Command
                 CliEcho::success('删除自动生成CURD文件成功');
             }
 
+            CliEcho::success('>>>>>>>>>>>>>>>');
+            foreach ($result as $vo) {
+                CliEcho::success($vo);
+            }
+
         } catch (\Exception $e) {
             CliEcho::error($e->getMessage());
             return false;
         }
-        var_dump($result);
     }
 
 
