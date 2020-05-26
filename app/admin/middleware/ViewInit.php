@@ -29,7 +29,7 @@ class ViewInit
         foreach ($thisControllerArr as $vo) {
             empty($jsPath) ? $jsPath = parse_name($vo) : $jsPath .= '/' . parse_name($vo);
         }
-        $autoloadJs = file_exists("static/{$thisModule}/js/{$jsPath}.js") ? true : false;
+        $autoloadJs = file_exists(root_path('public')."static/{$thisModule}/js/{$jsPath}.js") ? true : false;
         $thisControllerJsPath = "{$thisModule}/js/{$jsPath}.js";
         $adminModuleName = config('app.admin_alias_name');
         $isSuperAdmin = session('admin.id') == AdminConstant::SUPER_ADMIN_ID ? true : false;
