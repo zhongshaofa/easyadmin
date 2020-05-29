@@ -55,7 +55,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
         authorize: function () {
             var tree = layui.tree;
 
-            ea.request.post(
+            ea.request.get(
                 {
                     url: window.location.href,
                 }, function (res) {
