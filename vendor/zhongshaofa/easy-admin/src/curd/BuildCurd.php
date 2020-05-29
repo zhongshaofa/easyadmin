@@ -424,18 +424,18 @@ class BuildCurd
      */
     public function setCheckboxFieldSuffix($array)
     {
-        $this->checkboxFieldSuffix = $array;
+        $this->checkboxFieldSuffix = array_merge($this->checkboxFieldSuffix,$array);
         return $this;
     }
 
     /**
      * 设置单选框字段后缀
-     * @param $value
+     * @param $array
      * @return $this
      */
     public function setRadioFieldSuffix($array)
     {
-        $this->radioFieldSuffix = $array;
+        $this->radioFieldSuffix = array_merge($this->radioFieldSuffix,$array);
         return $this;
     }
 
@@ -446,7 +446,7 @@ class BuildCurd
      */
     public function setImageFieldSuffix($array)
     {
-        $this->imageFieldSuffix = $array;
+        $this->imageFieldSuffix = array_merge($this->imageFieldSuffix,$array);
         return $this;
     }
 
@@ -457,7 +457,7 @@ class BuildCurd
      */
     public function setImagesFieldSuffix($array)
     {
-        $this->imagesFieldSuffix = $array;
+        $this->imagesFieldSuffix = array_merge($this->imagesFieldSuffix,$array);
         return $this;
     }
 
@@ -468,7 +468,7 @@ class BuildCurd
      */
     public function setFileFieldSuffix($array)
     {
-        $this->fileFieldSuffix = $array;
+        $this->fileFieldSuffix = array_merge($this->fileFieldSuffix,$array);
         return $this;
     }
 
@@ -479,7 +479,7 @@ class BuildCurd
      */
     public function setFilesFieldSuffix($array)
     {
-        $this->filesFieldSuffix = $array;
+        $this->filesFieldSuffix = array_merge($this->filesFieldSuffix,$array);
         return $this;
     }
 
@@ -490,7 +490,7 @@ class BuildCurd
      */
     public function setDateFieldSuffix($array)
     {
-        $this->dateFieldSuffix = $array;
+        $this->dateFieldSuffix = array_merge($this->dateFieldSuffix,$array);
         return $this;
     }
 
@@ -501,7 +501,7 @@ class BuildCurd
      */
     public function setSwitchFields($array)
     {
-        $this->switchFields = $array;
+        $this->switchFields = array_merge($this->switchFields,$array);
         return $this;
     }
 
@@ -512,7 +512,7 @@ class BuildCurd
      */
     public function setSelectFileds($array)
     {
-        $this->selectFileds = $array;
+        $this->selectFileds = array_merge($this->selectFileds,$array);
         return $this;
     }
 
@@ -523,7 +523,7 @@ class BuildCurd
      */
     public function setSortFields($array)
     {
-        $this->sortFields = $array;
+        $this->sortFields = array_merge($this->sortFields,$array);
         return $this;
     }
 
@@ -534,7 +534,7 @@ class BuildCurd
      */
     public function setIgnoreFields($array)
     {
-        $this->ignoreFields = $array;
+        $this->ignoreFields = array_merge($this->ignoreFields,$array);
         return $this;
     }
 
