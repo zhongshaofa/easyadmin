@@ -45,9 +45,9 @@ class Curd extends Command
             ->addOption('ignoreFields', 'igf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '忽略的字段', null)
             #
             ->addOption('relationTable', 'r', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联表名', null)
-            ->addOption('foreignKey', 'rf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联外键', null)
-            ->addOption('primaryKey', 'rp', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联主键', null)
-            ->addOption('relationModelFilename', 'rmf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联模型文件名', null)
+            ->addOption('foreignKey', 'fkey', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联外键', null)
+            ->addOption('primaryKey', 'pkey', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联主键', null)
+            ->addOption('relationModelFilename', 'remf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联模型文件名', null)
             #
             ->addOption('force', 'f', Option::VALUE_REQUIRED, '强制覆盖模式', 0)
             ->addOption('delete', 'd', Option::VALUE_REQUIRED, '删除模式', 0)
