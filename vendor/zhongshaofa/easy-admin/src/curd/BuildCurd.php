@@ -374,6 +374,17 @@ class BuildCurd
     }
 
     /**
+     * 设置模型名
+     * @param $modelFilename
+     * @return $this
+     */
+    public function setModelFilename($modelFilename)
+    {
+        $this->modelFilename = $modelFilename;
+        return $this;
+    }
+
+    /**
      * 设置显示字段
      * @param $fields
      * @return $this
@@ -403,6 +414,127 @@ class BuildCurd
     public function setForce($force)
     {
         $this->force = $force;
+        return $this;
+    }
+
+    /**
+     * 设置复选框字段后缀
+     * @param $array
+     * @return $this
+     */
+    public function setCheckboxFieldSuffix($array)
+    {
+        $this->checkboxFieldSuffix = $array;
+        return $this;
+    }
+
+    /**
+     * 设置单选框字段后缀
+     * @param $value
+     * @return $this
+     */
+    public function setRadioFieldSuffix($array)
+    {
+        $this->radioFieldSuffix = $array;
+        return $this;
+    }
+
+    /**
+     * 设置单图片字段后缀
+     * @param $array
+     * @return $this
+     */
+    public function setImageFieldSuffix($array)
+    {
+        $this->imageFieldSuffix = $array;
+        return $this;
+    }
+
+    /**
+     * 设置多图片字段后缀
+     * @param $array
+     * @return $this
+     */
+    public function setImagesFieldSuffix($array)
+    {
+        $this->imagesFieldSuffix = $array;
+        return $this;
+    }
+
+    /**
+     * 设置单文件字段后缀
+     * @param $array
+     * @return $this
+     */
+    public function setFileFieldSuffix($array)
+    {
+        $this->fileFieldSuffix = $array;
+        return $this;
+    }
+
+    /**
+     * 设置多文件字段后缀
+     * @param $array
+     * @return $this
+     */
+    public function setFilesFieldSuffix($array)
+    {
+        $this->filesFieldSuffix = $array;
+        return $this;
+    }
+
+    /**
+     * 设置时间字段后缀
+     * @param $array
+     * @return $this
+     */
+    public function setDateFieldSuffix($array)
+    {
+        $this->dateFieldSuffix = $array;
+        return $this;
+    }
+
+    /**
+     * 设置开关字段
+     * @param $array
+     * @return $this
+     */
+    public function setSwitchFields($array)
+    {
+        $this->switchFields = $array;
+        return $this;
+    }
+
+    /**
+     * 设置下拉选择字段
+     * @param $array
+     * @return $this
+     */
+    public function setSelectFileds($array)
+    {
+        $this->selectFileds = $array;
+        return $this;
+    }
+
+    /**
+     * 设置排序字段
+     * @param $array
+     * @return $this
+     */
+    public function setSortFields($array)
+    {
+        $this->sortFields = $array;
+        return $this;
+    }
+
+    /**
+     * 设置忽略字段
+     * @param $array
+     * @return $this
+     */
+    public function setIgnoreFields($array)
+    {
+        $this->ignoreFields = $array;
         return $this;
     }
 

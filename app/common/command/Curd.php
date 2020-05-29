@@ -29,10 +29,26 @@ class Curd extends Command
         $this->setName('curd')
             ->addOption('table', 't', Option::VALUE_REQUIRED, '主表名', null)
             ->addOption('controllerFilename', 'c', Option::VALUE_REQUIRED, '控制器文件名', null)
+            ->addOption('modelFilename', 'm', Option::VALUE_REQUIRED, '主表模型文件名', null)
+            #
+            ->addOption('checkboxFieldSuffix', 'cfs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '复选框字段后缀', null)
+            ->addOption('radioFieldSuffix', 'rfs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '单选框字段后缀', null)
+            ->addOption('imageFieldSuffix', 'ifs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '单图片字段后缀', null)
+            ->addOption('imagesFieldSuffix', 'isfs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '多图片字段后缀', null)
+            ->addOption('fileFieldSuffix', 'ffs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '单文件字段后缀', null)
+            ->addOption('filesFieldSuffix', 'fsfs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '多文件字段后缀', null)
+            ->addOption('dateFieldSuffix', 'dfs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '时间字段后缀', null)
+            ->addOption('switchFields', 'swf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '开关的字段', null)
+            ->addOption('selectFileds', 'sef', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '下拉的字段', null)
+            ->addOption('editorFields', 'edf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '富文本的字段', null)
+            ->addOption('sortFields', 'sof', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '排序的字段', null)
+            ->addOption('ignoreFields', 'igf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '忽略的字段', null)
+            #
             ->addOption('relationTable', 'r', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联表名', null)
             ->addOption('foreignKey', 'rf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联外键', null)
             ->addOption('primaryKey', 'rp', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联主键', null)
             ->addOption('relationModelFilename', 'rmf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联模型文件名', null)
+            #
             ->addOption('force', 'f', Option::VALUE_REQUIRED, '强制覆盖模式', 0)
             ->addOption('delete', 'd', Option::VALUE_REQUIRED, '删除模式', 0)
             ->setDescription('一键curd命令服务');
@@ -43,6 +59,19 @@ class Curd extends Command
 
         $table = $input->getOption('table');
         $controllerFilename = $input->getOption('controllerFilename');
+        $modelFilename = $input->getOption('modelFilename');
+
+        $checkboxFieldSuffix = $input->getOption('checkboxFieldSuffix');
+        $radioFieldSuffix = $input->getOption('radioFieldSuffix');
+        $imageFieldSuffix = $input->getOption('imageFieldSuffix');
+        $imagesFieldSuffix = $input->getOption('imagesFieldSuffix');
+        $fileFieldSuffix = $input->getOption('fileFieldSuffix');
+        $filesFieldSuffix = $input->getOption('filesFieldSuffix');
+        $dateFieldSuffix = $input->getOption('dateFieldSuffix');
+        $switchFields = $input->getOption('switchFields');
+        $selectFileds = $input->getOption('selectFileds');
+        $sortFields = $input->getOption('sortFields');
+        $ignoreFields = $input->getOption('ignoreFields');
 
         $relationTable = $input->getOption('relationTable');
         $foreignKey = $input->getOption('foreignKey');
@@ -73,6 +102,19 @@ class Curd extends Command
                 ->setForce($force);
 
             !empty($controllerFilename) && $build = $build->setControllerFilename($controllerFilename);
+            !empty($modelFilename) && $build = $build->setModelFilename($modelFilename);
+
+            !empty($checkboxFieldSuffix) && $build = $build->setCheckboxFieldSuffix($checkboxFieldSuffix);
+            !empty($radioFieldSuffix) && $build = $build->setRadioFieldSuffix($radioFieldSuffix);
+            !empty($imageFieldSuffix) && $build = $build->setImageFieldSuffix($imageFieldSuffix);
+            !empty($imagesFieldSuffix) && $build = $build->setImagesFieldSuffix($imagesFieldSuffix);
+            !empty($fileFieldSuffix) && $build = $build->setFileFieldSuffix($fileFieldSuffix);
+            !empty($filesFieldSuffix) && $build = $build->setFilesFieldSuffix($filesFieldSuffix);
+            !empty($dateFieldSuffix) && $build = $build->setDateFieldSuffix($dateFieldSuffix);
+            !empty($switchFields) && $build = $build->setSwitchFields($switchFields);
+            !empty($selectFileds) && $build = $build->setSelectFileds($selectFileds);
+            !empty($sortFields) && $build = $build->setSortFields($sortFields);
+            !empty($ignoreFields) && $build = $build->setIgnoreFields($ignoreFields);
 
             foreach ($relations as $relation) {
                 $build = $build->setRelation($relation['table'], $relation['foreignKey'], $relation['primaryKey'], $relation['modelFilename']);
