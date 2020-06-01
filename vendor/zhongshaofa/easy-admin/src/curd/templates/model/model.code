@@ -9,7 +9,7 @@ class {{modelName}} extends TimeModel
 
     protected $name = "{{table}}";
 
-    protected $deleteTime = '{{deleteTime}}';
+    protected $deleteTime = {{deleteTime}};
 
     {{relationList}}
     {{selectList}}
