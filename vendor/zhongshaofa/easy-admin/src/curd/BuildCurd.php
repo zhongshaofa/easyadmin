@@ -998,7 +998,7 @@ class BuildCurd
                 'modelName'      => $this->modelName,
                 'modelNamespace' => "app\admin\model",
                 'table'          => $this->table,
-                'deleteTime'     => $this->delete ? 'delete_time' : 'false',
+                'deleteTime'     => $this->delete ? '"delete_time"' : 'false',
                 'relationList'   => $relationList,
                 'selectList'     => $selectList,
             ]);
