@@ -32,7 +32,6 @@
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
-        "topthink/think-trace":"^1.0",
         "eaglewu/swoole-ide-helper": "dev-master"
     },
     "autoload": {
@@ -57,5 +56,9 @@
         ]
     },
     "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer/"
+        }
     }
 }

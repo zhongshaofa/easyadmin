@@ -2442,61 +2442,6 @@
         "description": "the php template engine"
     },
     {
-        "name": "topthink/think-trace",
-        "version": "v1.2",
-        "version_normalized": "1.2.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/top-think/think-trace.git",
-            "reference": "4589d06a07945d57478cc2236f4b23d51ff919cc"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/top-think/think-trace/zipball/4589d06a07945d57478cc2236f4b23d51ff919cc",
-            "reference": "4589d06a07945d57478cc2236f4b23d51ff919cc",
-            "shasum": "",
-            "mirrors": [
-                {
-                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                    "preferred": true
-                }
-            ]
-        },
-        "require": {
-            "php": ">=7.1.0",
-            "topthink/framework": "^6.0.0"
-        },
-        "time": "2019-10-17T02:14:09+00:00",
-        "type": "library",
-        "extra": {
-            "think": {
-                "services": [
-                    "think\\trace\\Service"
-                ],
-                "config": {
-                    "trace": "src/config.php"
-                }
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "think\\trace\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "liu21st",
-                "email": "liu21st@gmail.com"
-            }
-        ],
-        "description": "thinkphp debug trace"
-    },
-    {
         "name": "topthink/think-view",
         "version": "v1.0.13",
         "version_normalized": "1.0.13.0",
