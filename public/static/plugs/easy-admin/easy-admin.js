@@ -1325,7 +1325,6 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             }
                             options['range'] = range;
                         }
-                        console.log(options)
                         laydate.render(options);
                     });
                 }

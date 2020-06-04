@@ -627,7 +627,7 @@ class BuildCurd
         preg_match('/\([\s\S]*?\)/i', $string, $defineMatch);
         if (!empty($formTypeMatch) && isset($defineMatch[0])) {
             $colum['comment'] = str_replace($defineMatch[0], '', $colum['comment']);
-            if (isset($colum['formType']) && in_array($colum['formType'], ['images', 'files', 'select', 'switch', 'radio', 'checkbox'])) {
+            if (isset($colum['formType']) && in_array($colum['formType'], ['images', 'files', 'select', 'switch', 'radio', 'checkbox', 'date'])) {
                 $define = str_replace(')', '', str_replace('(', '', $defineMatch[0]));
                 if (in_array($colum['formType'], ['select', 'switch', 'radio', 'checkbox'])) {
                     $formatDefine = [];
@@ -1066,7 +1066,17 @@ class BuildCurd
                 $define = isset($val['define']) ? $val['define'] : '|';
             } elseif ($val['formType'] == 'editor') {
                 $templateFile = "view{$this->DS}module{$this->DS}editor";
-            } elseif ($val['formType'] == 'radio') {
+            } elseif ($val['formType'] == 'date') {
+                $templateFile = "view{$this->DS}module{$this->DS}date";
+                if (isset($val['define']) && !empty($val['define'])) {
+                    $define = $val['define'];
+                }else{
+                    $define ='datetime';
+                }
+                if (!in_array($define, ['year', 'month', 'date', 'time', 'datetime'])) {
+                    $define = 'datetime';
+                }
+            }  elseif ($val['formType'] == 'radio') {
                 $templateFile = "view{$this->DS}module{$this->DS}radio";
                 if (isset($val['define']) && !empty($val['define'])) {
                     $define = $this->buildRadioView($field, '{in name="k" value="' . $val['default'] . '"}checked=""{/in}');
@@ -1126,7 +1136,17 @@ class BuildCurd
                 $templateFile = "view{$this->DS}module{$this->DS}files";
             } elseif ($val['formType'] == 'editor') {
                 $templateFile = "view{$this->DS}module{$this->DS}editor";
-            } elseif ($val['formType'] == 'radio') {
+            } elseif ($val['formType'] == 'date') {
+                $templateFile = "view{$this->DS}module{$this->DS}date";
+                if (isset($val['define']) && !empty($val['define'])) {
+                    $define = $val['define'];
+                }else{
+                    $define ='datetime';
+                }
+                if (!in_array($define, ['year', 'month', 'date', 'time', 'datetime'])) {
+                    $define = 'datetime';
+                }
+            }  elseif ($val['formType'] == 'radio') {
                 $templateFile = "view{$this->DS}module{$this->DS}radio";
                 if (isset($val['define']) && !empty($val['define'])) {
                     $define = $this->buildRadioView($field, '{in name="k" value="$row.' . $field . '"}checked=""{/in}');
