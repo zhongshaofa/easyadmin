@@ -838,6 +838,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
             // 监听下拉选择生成
             admin.api.select();
 
+            // 监听时间控件生成
+            admin.api.date();
+
             // 初始化layui表单
             form.render();
 
@@ -1298,6 +1301,14 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         }
                     );
                 });
+            },
+            date: function () {
+                var dateList = document.querySelectorAll("[data-date]");
+                if (dateList.length > 0) {
+                    $.each(dateList, function (i, v) {
+
+                    });
+                }
             },
         },
     };

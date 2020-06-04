@@ -31,24 +31,24 @@ class Curd extends Command
             ->addOption('controllerFilename', 'c', Option::VALUE_REQUIRED, '控制器文件名', null)
             ->addOption('modelFilename', 'm', Option::VALUE_REQUIRED, '主表模型文件名', null)
             #
-            ->addOption('checkboxFieldSuffix', 'chfs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '复选框字段后缀', null)
-            ->addOption('radioFieldSuffix', 'rafs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '单选框字段后缀', null)
-            ->addOption('imageFieldSuffix', 'imfs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '单图片字段后缀', null)
-            ->addOption('imagesFieldSuffix', 'imsfs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '多图片字段后缀', null)
-            ->addOption('fileFieldSuffix', 'fifs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '单文件字段后缀', null)
-            ->addOption('filesFieldSuffix', 'fisfs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '多文件字段后缀', null)
-            ->addOption('dateFieldSuffix', 'dafs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '时间字段后缀', null)
-            ->addOption('switchFields', 'swf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '开关的字段', null)
-            ->addOption('selectFileds', 'sef', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '下拉的字段', null)
-            ->addOption('editorFields', 'edf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '富文本的字段', null)
-            ->addOption('sortFields', 'sof', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '排序的字段', null)
-            ->addOption('ignoreFields', 'igf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '忽略的字段', null)
+            ->addOption('checkboxFieldSuffix', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '复选框字段后缀', null)
+            ->addOption('radioFieldSuffix', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '单选框字段后缀', null)
+            ->addOption('imageFieldSuffix', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '单图片字段后缀', null)
+            ->addOption('imagesFieldSuffix', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '多图片字段后缀', null)
+            ->addOption('fileFieldSuffix', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '单文件字段后缀', null)
+            ->addOption('filesFieldSuffix', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '多文件字段后缀', null)
+            ->addOption('dateFieldSuffix', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '时间字段后缀', null)
+            ->addOption('switchFields', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '开关的字段', null)
+            ->addOption('selectFileds', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '下拉的字段', null)
+            ->addOption('editorFields', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '富文本的字段', null)
+            ->addOption('sortFields', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '排序的字段', null)
+            ->addOption('ignoreFields', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '忽略的字段', null)
             #
             ->addOption('relationTable', 'r', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联表名', null)
-            ->addOption('foreignKey', 'fkey', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联外键', null)
-            ->addOption('primaryKey', 'pkey', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联主键', null)
-            ->addOption('relationModelFilename', 'remf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联模型文件名', null)
-            ->addOption('relationOnlyFileds', 'rofs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联模型中只显示的字段', null)
+            ->addOption('foreignKey', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联外键', null)
+            ->addOption('primaryKey', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联主键', null)
+            ->addOption('relationModelFilename', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联模型文件名', null)
+            ->addOption('relationOnlyFileds', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联模型中只显示的字段', null)
             #
             ->addOption('force', 'f', Option::VALUE_REQUIRED, '强制覆盖模式', 0)
             ->addOption('delete', 'd', Option::VALUE_REQUIRED, '删除模式', 0)
@@ -90,7 +90,7 @@ class Curd extends Command
                 'foreignKey'    => isset($foreignKey[$key]) ? $foreignKey[$key] : null,
                 'primaryKey'    => isset($primaryKey[$key]) ? $primaryKey[$key] : null,
                 'modelFilename' => isset($relationModelFilename[$key]) ? $relationModelFilename[$key] : null,
-                'onlyFileds' => isset($relationOnlyFileds[$key]) ? explode(",", $relationOnlyFileds[$key]) : [],
+                'onlyFileds'    => isset($relationOnlyFileds[$key]) ? explode(",", $relationOnlyFileds[$key]) : [],
             ];
         }
 
@@ -120,7 +120,7 @@ class Curd extends Command
             !empty($ignoreFields) && $build = $build->setIgnoreFields($ignoreFields);
 
             foreach ($relations as $relation) {
-                $build = $build->setRelation($relation['table'], $relation['foreignKey'], $relation['primaryKey'], $relation['modelFilename'],$relation['onlyFileds']);
+                $build = $build->setRelation($relation['table'], $relation['foreignKey'], $relation['primaryKey'], $relation['modelFilename'], $relation['onlyFileds']);
             }
 
             $build = $build->render();
