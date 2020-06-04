@@ -1306,7 +1306,27 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 var dateList = document.querySelectorAll("[data-date]");
                 if (dateList.length > 0) {
                     $.each(dateList, function (i, v) {
-
+                        var format = $(this).attr('data-date'),
+                            type = $(this).attr('data-date-type'),
+                            range = $(this).attr('data-date-range');
+                        if(type === undefined || type === '' || type ===null){
+                            type = 'datetime';
+                        }
+                        var options = {
+                            elem: this,
+                            type: type,
+                        };
+                        if (format !== undefined && format !== '' && format !== null) {
+                            options['format'] = format;
+                        }
+                        if (range !== undefined) {
+                            if(range === null || range === ''){
+                                range = '-';
+                            }
+                            options['range'] = range;
+                        }
+                        console.log(options)
+                        laydate.render(options);
                     });
                 }
             },
