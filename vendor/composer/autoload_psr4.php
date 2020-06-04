@@ -38,7 +38,6 @@ return array(
     'GuzzleHttp\\Command\\' => array($vendorDir . '/guzzlehttp/command/src'),
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'EasyAdmin\\' => array($vendorDir . '/zhongshaofa/easy-admin/src'),
-    'EasyAddons\\' => array($vendorDir . '/zhongshaofa/easy-addons/src'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib/Doctrine/Common/Lexer'),
     'Doctrine\\Common\\Annotations\\' => array($vendorDir . '/doctrine/annotations/lib/Doctrine/Common/Annotations'),
     'Complex\\' => array($vendorDir . '/markbaker/complex/classes/src'),

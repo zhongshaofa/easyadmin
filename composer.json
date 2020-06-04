@@ -26,7 +26,6 @@
         "aliyuncs/oss-sdk-php": "^2.3",
         "qcloud/cos-sdk-v5": "^2.0",
         "qiniu/php-sdk": "^7.2",
-        "zhongshaofa/easy-addons": "dev-master",
         "alibabacloud/client": "^1.5",
         "jianyan74/php-excel": "^1.0"
     },

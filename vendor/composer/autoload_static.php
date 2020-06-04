@@ -10,10 +10,10 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
-        '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
+        '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
         'abede361264e2ae69ec1eee813a101af' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/abs.php',
         '21a5860fbef5be28db5ddfbc3cca67c4' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/acos.php',
         '1546e3f9d127f2a9bb2d1b6c31c26ef1' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/acosh.php',
@@ -80,7 +80,6 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         '66453932bc1be9fb2f910a27947d11b6' => __DIR__ . '/..' . '/alibabacloud/client/src/Functions.php',
         '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
         '1cfd2761b63b0a29ed23657ea394cb2d' => __DIR__ . '/..' . '/topthink/think-captcha/src/helper.php',
-        'c68f1eaa23f35d54e5aac155d3bbd807' => __DIR__ . '/..' . '/zhongshaofa/easy-addons/src/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -154,7 +153,6 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'E' => 
         array (
             'EasyAdmin\\' => 10,
-            'EasyAddons\\' => 11,
         ),
         'D' => 
         array (
@@ -303,10 +301,6 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'EasyAdmin\\' => 
         array (
             0 => __DIR__ . '/..' . '/zhongshaofa/easy-admin/src',
-        ),
-        'EasyAddons\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zhongshaofa/easy-addons/src',
         ),
         'Doctrine\\Common\\Lexer\\' => 
         array (
