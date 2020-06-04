@@ -311,10 +311,11 @@ class BuildCurd
      * @param $foreignKey
      * @param null $primaryKey
      * @param null $modelFilename
+     * @param array $onlyShowFileds
      * @return $this
      * @throws TableException
      */
-    public function setRelation($relationTable, $foreignKey, $primaryKey = null, $modelFilename = null)
+    public function setRelation($relationTable, $foreignKey, $primaryKey = null, $modelFilename = null, $onlyShowFileds = [])
     {
         if (!isset($this->tableColumns[$foreignKey])) {
             throw new TableException("主表不存在外键字段：{$foreignKey}");
@@ -326,6 +327,9 @@ class BuildCurd
             foreach ($colums as $vo) {
                 if (empty($primaryKey) && $vo['Key'] == 'PRI') {
                     $primaryKey = $vo['Field'];
+                }
+                if (!empty($onlyShowFileds) && !in_array($vo['Field'], $onlyShowFileds)) {
+                    continue;
                 }
                 $colum = [
                     'type'    => $vo['Type'],

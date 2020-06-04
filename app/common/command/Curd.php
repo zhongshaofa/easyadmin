@@ -48,6 +48,7 @@ class Curd extends Command
             ->addOption('foreignKey', 'fkey', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联外键', null)
             ->addOption('primaryKey', 'pkey', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联主键', null)
             ->addOption('relationModelFilename', 'remf', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联模型文件名', null)
+            ->addOption('relationOnlyFileds', 'rofs', Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联模型中只显示的字段', null)
             #
             ->addOption('force', 'f', Option::VALUE_REQUIRED, '强制覆盖模式', 0)
             ->addOption('delete', 'd', Option::VALUE_REQUIRED, '删除模式', 0)
@@ -77,6 +78,7 @@ class Curd extends Command
         $foreignKey = $input->getOption('foreignKey');
         $primaryKey = $input->getOption('primaryKey');
         $relationModelFilename = $input->getOption('relationModelFilename');
+        $relationOnlyFileds = $input->getOption('relationOnlyFileds');
 
         $force = $input->getOption('force');
         $delete = $input->getOption('delete');
@@ -88,6 +90,7 @@ class Curd extends Command
                 'foreignKey'    => isset($foreignKey[$key]) ? $foreignKey[$key] : null,
                 'primaryKey'    => isset($primaryKey[$key]) ? $primaryKey[$key] : null,
                 'modelFilename' => isset($relationModelFilename[$key]) ? $relationModelFilename[$key] : null,
+                'onlyFileds' => isset($relationOnlyFileds[$key]) ? explode(",", $relationOnlyFileds[$key]) : [],
             ];
         }
 
@@ -117,7 +120,7 @@ class Curd extends Command
             !empty($ignoreFields) && $build = $build->setIgnoreFields($ignoreFields);
 
             foreach ($relations as $relation) {
-                $build = $build->setRelation($relation['table'], $relation['foreignKey'], $relation['primaryKey'], $relation['modelFilename']);
+                $build = $build->setRelation($relation['table'], $relation['foreignKey'], $relation['primaryKey'], $relation['modelFilename'],$relation['onlyFileds']);
             }
 
             $build = $build->render();
