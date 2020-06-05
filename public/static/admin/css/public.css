@@ -498,6 +498,12 @@ table样式
     }
 }
 
+@media screen and (max-width: 768px) {
+    .easyadmin-export-btn{
+        display: none;
+    }
+}
+
 /**
 资源加载锁
  */

@@ -190,6 +190,16 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     extend: 'data-table-id="' + options.id + '"'
                 }];
 
+                // 判断是否为移动端
+                if (admin.checkMobile()) {
+                    options.defaultToolbar = !options.search ? ['filter'] : ['filter', {
+                        title: '搜索',
+                        layEvent: 'TABLE_SEARCH',
+                        icon: 'layui-icon-search',
+                        extend: 'data-table-id="' + options.id + '"'
+                    }];
+                }
+
                 // 判断元素对象是否有嵌套的
                 options.cols = admin.table.formatCols(options.cols, options.init);
 
@@ -238,7 +248,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         }
                     } else if (v === 'export') {
                         if (admin.checkAuth('export', elem)) {
-                            toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-success" data-url="' + init.export_url + '" data-table-export="' + tableId + '"><i class="fa fa-file-excel-o"></i> 导出</button>\n';
+                            toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-success easyadmin-export-btn" data-url="' + init.export_url + '" data-table-export="' + tableId + '"><i class="fa fa-file-excel-o"></i> 导出</button>\n';
                         }
                     } else if (typeof v === "object") {
                         $.each(v, function (ii, vv) {
