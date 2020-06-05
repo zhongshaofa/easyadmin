@@ -570,7 +570,12 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
             },
             list: function (data, option) {
                 option.selectList = option.selectList || {};
-                var value = data[option.field];
+                var field = option.field;
+                try {
+                    var value = eval("data." + field);
+                } catch (e) {
+                    var value = undefined;
+                }
                 if (option.selectList[value] === undefined || option.selectList[value] === '' || option.selectList[value] === null) {
                     return value;
                 } else {
