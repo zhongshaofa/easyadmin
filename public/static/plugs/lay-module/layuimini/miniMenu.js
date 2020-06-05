@@ -102,7 +102,8 @@ define(["jquery"], function ($) {
                     childOpenClass:options.childOpenClass,
                     icon:leftMenu.icon,
                     title:leftMenu.title,
-                    children:children
+                    children:children,
+                    className: '',
                 });
                 return leftMenuHtml ;
             }).join("");

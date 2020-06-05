@@ -198,9 +198,7 @@ define(["jquery", "miniMenu", "miniTheme", "miniTab"], function ($, miniMenu, mi
          * @param loadingTime
          */
         deleteLoader: function (loadingTime) {
-            setTimeout(function () {
-                $('.layuimini-loader').fadeOut();
-            }, loadingTime * 1000)
+            $('.layuimini-loader').fadeOut();
         },
 
         /**
