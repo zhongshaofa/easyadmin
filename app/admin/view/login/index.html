@@ -1,44 +1,83 @@
-<link rel="stylesheet" href="__STATIC__/admin/css/login.css?v={:time()}" media="all">
-<div class="layui-container">
-    <div class="admin-login-background">
 
+<link href="https://oem.faisys.com/css/oem/sys.min.css?v=202005251741" rel="stylesheet" type="text/css"/>
+<link href="https://fe.faisys.com/faitest_1_4/css/faitest.min.css?v=202004271101" type="text/css" rel="stylesheet">
+<style>
+    body{
+        height: 684px;
+        background: url(//oem.faisys.com/image/demo2.png) 0% 0% / cover no-repeat;
+        position: static;
+        font-size: 12px;
+    }
+    input::-webkit-input-placeholder {
+        color: #a6aebf;
+    }
 
-        <div class="layui-form login-form">
-            <form class="layui-form" action="">
-                <div class="layui-form-item logo-title">
-                    <h1>{:sysconfig('site','site_name')}</h1>
-                    <div class="demo {if !$demo}layui-hide{/if}">用户名:admin 密码:123456</div>
+    input::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color: #a6aebf;
+    }
+
+    input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color: #a6aebf;
+    }
+
+    input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: #a6aebf;
+    }
+
+    input:-webkit-autofill { /* 取消Chrome记住密码的背景颜色 */
+        -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    }
+    html {
+        height: 100%;
+    }
+</style>
+
+<div class="main-body">
+    <!-- 登录界面 -->
+    <div class="new-login">
+        <div class="top">
+            后台管理平台
+            <span class="bg1"></span>
+            <span class="bg2"></span>
+        </div>
+        <div class="bottom">
+            <div class="center">
+                <div class="item">
+                    <span class="icon icon-1"></span>
+                    <input type="text" id="loginCacct" placeholder="请输入企业帐号"
+                           maxlength="54">
                 </div>
-
-                <div class="layui-form-item">
-                    <label class="layui-icon layui-icon-username"></label>
-                    <input type="text" name="username" lay-verify="required" lay-reqtext="请输入登录账号" placeholder="请输入登录账号" autocomplete="off" class="layui-input">
+                <div class="item">
+                    <span class="icon icon-2"></span>
+                    <input type="text" id="loginSacct" placeholder="请输入员工帐号"
+                           maxlength="24">
                 </div>
-
-                <div class="layui-form-item">
-                    <label class="layui-icon layui-icon-password"></label>
-                    <input type="password" name="password" lay-verify="required" lay-reqtext="请输入登录密码" placeholder="请输入登录密码" autocomplete="off" class="layui-input">
+                <div class="item">
+                    <span class="icon icon-3"></span>
+                    <input type="password" id="loginPwd" placeholder="请输入密码" maxlength="20">
+                    <input type="text" id="loginPwdText" placeholder="请输入密码" maxlength="20"
+                           class="hide">
+                    <span class="icon icon-4"></span>
                 </div>
-
-                {if $captcha == 1}
-                <div class="layui-form-item">
-                    <label class="layui-icon layui-icon-vercode"></label>
-                    <input type="text" name="captcha" lay-verify="required" lay-reqtext="请输入验证码" placeholder="请输入验证码" autocomplete="off" class="layui-input verification captcha">
-                    <div class="captcha-img">
-                        <img id="refreshCaptcha" src="{:url('login/captcha')}" alt="captcha" onclick="this.src='{:url(\'login/captcha\')}?seed='+Math.random()">
-                    </div>
+                <div id="validatePanel" class="item hide" style="width: 137px;">
+                    <input type="text" id="validateCode" placeholder="请输入验证码" maxlength="4">
+                    <img id="validateImg" class="validateImg" src="">
+                    <span id="validateRefresh" class="icon icon-6"></span>
                 </div>
-                {/if}
-
-                <div class="layui-form-item" style="margin-top: 35px">
-                    <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="login">登 入</button>
-                </div>
-            </form>
-
+                <div class="error">密码错误，请重新输入或找回密码</div>
+            </div>
+            <div class="tip">
+                <span class="icon-nocheck" id="autoLogin"></span>
+                <span class="login-tip">两周内自动登录</span>
+                <a href="javascript:" onClick="openPassword()" class="no-pwd">忘记密码？</a>
+            </div>
+            <div id="loginBtn" class="deal" onclick="login()">
+                立即登录
+            </div>
         </div>
     </div>
-    <div class="footer notselect">
-        {:sysconfig('site','site_copyright')}<span class="padding-5">|</span><a target="_blank" href="http://www.miitbeian.gov.cn">{:sysconfig('site','site_beian')}</a>
-    </div>
+
 </div>
-<script src="__STATIC__/plugs/jquery-3.4.1/jquery-3.4.1.min.js?v={:time()}" charset="utf-8"></script>
+<div class="foot">
+    <a id='beian' href='//www.beian.miit.gov.cn' target='_blank' rel='nofollow' style='margin-right: 15px;'>粤ICP备15113226号</a><a id='beianInfoHref' href='//www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010502000335' target='_blank'>粤公网安备 44010502000335号</a><a id='beianCopyright' href='#'>| Copyright © 广州华可科技有限公司</a>
+</div>
