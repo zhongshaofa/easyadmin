@@ -1,50 +1,46 @@
 <link rel="stylesheet" href="__STATIC__/admin/css/login.css?v={:time()}" media="all">
 <div class="main-body">
-    <!-- 登录界面 -->
-    <div class="new-login">
-        <div class="top">
-            后台管理平台
+    <div class="login-main">
+        <div class="login-top">
+            <span>{:sysconfig('site','site_name')}</span>
             <span class="bg1"></span>
             <span class="bg2"></span>
         </div>
-        <div class="bottom">
+        <form class="layui-form login-bottom">
+            <div class="demo {if !$demo}layui-hide{/if}">用户名:admin 密码:123456</div>
             <div class="center">
-                <div class="item">
-                    <span class="icon icon-1"></span>
-                    <input type="text" id="loginCacct" placeholder="请输入企业帐号"
-                           maxlength="54">
-                </div>
+
                 <div class="item">
                     <span class="icon icon-2"></span>
-                    <input type="text" id="loginSacct" placeholder="请输入员工帐号"
-                           maxlength="24">
+                    <input type="text" name="username" lay-verify="required"  placeholder="请输入登录账号" maxlength="24"/>
                 </div>
+
                 <div class="item">
                     <span class="icon icon-3"></span>
-                    <input type="password" id="loginPwd" placeholder="请输入密码" maxlength="20">
-                    <input type="text" id="loginPwdText" placeholder="请输入密码" maxlength="20"
-                           class="hide">
+                    <input type="password" name="password" lay-verify="required"  placeholder="请输入密码" maxlength="20">
                     <span class="icon icon-4"></span>
                 </div>
-                <div id="validatePanel" class="item hide" style="width: 137px;">
+
+                {if $captcha == 1}
+                <div id="validatePanel" class="item" style="width: 137px;">
                     <input type="text" id="validateCode" placeholder="请输入验证码" maxlength="4">
-                    <img id="validateImg" class="validateImg" src="">
-                    <span id="validateRefresh" class="icon icon-6"></span>
+                    <img id="refreshCaptcha" class="validateImg"  src="{:url('login/captcha')}" onclick="this.src='{:url(\'login/captcha\')}?seed='+Math.random()">
                 </div>
-                <div class="error">密码错误，请重新输入或找回密码</div>
+                {/if}
+
             </div>
             <div class="tip">
-                <span class="icon-nocheck" id="autoLogin"></span>
+                <span class="icon-nocheck"></span>
                 <span class="login-tip">两周内自动登录</span>
-                <a href="javascript:" onClick="openPassword()" class="no-pwd">忘记密码？</a>
+                <a href="javascript:" class="forget-password">忘记密码？</a>
             </div>
-            <div id="loginBtn" class="deal" onclick="login()">
-                立即登录
+            <div class="layui-form-item" style="text-align:center; width:100%;height:100%;margin:0px;">
+                <button class="login-btn" lay-submit>立即登录</button>
             </div>
-        </div>
+        </form>
     </div>
-
 </div>
-<div class="foot">
-    <a id='beian' href='//www.beian.miit.gov.cn' target='_blank' rel='nofollow' style='margin-right: 15px;'>粤ICP备15113226号</a><a id='beianInfoHref' href='//www.beian.gov.cn/portal/registerSystemInfo?recordcode=44010502000335' target='_blank'>粤公网安备 44010502000335号</a><a id='beianCopyright' href='#'>| Copyright © 广州华可科技有限公司</a>
+
+<div class="footer notselect">
+    {:sysconfig('site','site_copyright')}<span class="padding-5">|</span><a target="_blank" href="http://www.miitbeian.gov.cn">{:sysconfig('site','site_beian')}</a>
 </div>
