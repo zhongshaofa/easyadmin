@@ -130,10 +130,10 @@ define(["jquery", "easy-admin", "echarts", "echarts-theme", "miniAdmin", "miniTa
             echartsRecords.setOption(optionRecords);
 
         },
-        edit_admin: function () {
+        editAdmin: function () {
             ea.listen();
         },
-        edit_password: function () {
+        editPassword: function () {
             ea.listen();
         }
     };
