@@ -49,8 +49,9 @@ class Login extends AdminController
         if ($this->request->isPost()) {
             $post = $this->request->post();
             $rule = [
-                'username|用户名' => 'require',
-                'password|密码'  => 'require',
+                'username|用户名'      => 'require',
+                'password|密码'       => 'require',
+                'keep_login|是否保持登录' => 'require',
             ];
             $captcha == 1 && $rule['captcha|验证码'] = 'require|captcha';
             $this->validate($post, $rule);
@@ -66,6 +67,7 @@ class Login extends AdminController
             }
             $admin = $admin->toArray();
             unset($admin['password']);
+            $admin['expire_time'] = $post['keep_login'] == 1 ? true : time() + 7200;
             session('admin', $admin);
             $this->success('登录成功');
         }
