@@ -561,7 +561,7 @@ class BuildCurd
         $namespaceArray = $nodeArray;
         $this->controllerName = array_pop($namespaceArray);
         $namespaceSuffix = implode('\\', $namespaceArray);
-        $this->controllerNamespace = "app\admin\controller\\{$namespaceSuffix}";
+        $this->controllerNamespace = empty($namespaceSuffix) ? "app\admin\controller" : "app\admin\controller\\{$namespaceSuffix}";
 
         // 主表模型命名
         $modelArray = explode($this->DS, $this->modelFilename);

@@ -182,21 +182,24 @@ class Node
         $middleDir = isset($dirExplode[1]) && !empty($dirExplode[1]) ? str_replace('/', '\\', substr($dirExplode[1], 1)) . "\\" : null;
 
         foreach ($temp_list as $file) {
-
             // 排除根目录和没有开启注解的模块
-            if ($file != ".." && $file != ".") {
-                if (is_dir($path . DIRECTORY_SEPARATOR . $file)) {
-
-                    // 子文件夹，进行递归
-                    $childFiles = $this->readControllerFiles($path . DIRECTORY_SEPARATOR . $file);
-                    $list       = array_merge($childFiles, $list);
-                } else {
-
-                    // 根目录下的文件
-                    $className               = str_replace('.php', '', $file);
-                    $controllerFormat        = str_replace('\\', '.', $middleDir) . CommonTool::humpToLine(lcfirst($className));
-                    $list[$controllerFormat] = "{$this->namespacePrefix}\\{$middleDir}" . $className;
+            if ($file == ".." || $file == ".") {
+                continue;
+            }
+            if (is_dir($path . DIRECTORY_SEPARATOR . $file)) {
+                // 子文件夹，进行递归
+                $childFiles = $this->readControllerFiles($path . DIRECTORY_SEPARATOR . $file);
+                $list = array_merge($childFiles, $list);
+            } else {
+                // 判断是不是控制器
+                $fileExplodeArray = explode('.', $file);
+                if (count($fileExplodeArray) != 2 || end($fileExplodeArray) != 'php') {
+                    continue;
                 }
+                // 根目录下的文件
+                $className = str_replace('.php', '', $file);
+                $controllerFormat = str_replace('\\', '.', $middleDir) . CommonTool::humpToLine(lcfirst($className));
+                $list[$controllerFormat] = "{$this->namespacePrefix}\\{$middleDir}" . $className;
             }
         }
         return $list;
