@@ -241,7 +241,7 @@ html {
     border: none;
 }
 
-.login-main .login-bottom .center .item .refreshCaptcha {
+.login-main .login-bottom .center .item .validateImg {
     position: absolute;
     right: 1px;
     cursor: pointer;
@@ -269,6 +269,8 @@ html {
 .footer a, .footer span {
     color: #fff;
 }
+
+
 
 @media screen and (max-width: 428px) {
     .login-main {
