@@ -74,7 +74,9 @@ class MenuService
                 if (!empty($child)) {
                     $node['child'] = $child;
                 }
-                $treeList[] = $node;
+                if (!empty($v['href']) || !empty($child)) {
+                    $treeList[] = $node;
+                }
             }
         }
         return $treeList;

@@ -634,7 +634,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 } catch (e) {
                     var value = undefined;
                 }
-                return '<span>￥' + value + '%</span>';
+                return '<span>￥' + value + '</span>';
             },
             percent: function (data, option) {
                 var field = option.field;
