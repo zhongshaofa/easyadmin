@@ -33,7 +33,7 @@ function isReadWrite($file)
 
 $errorInfo = null;
 if (is_file(INSTALL_PATH . 'lock' . DS . 'install.lock')) {
-    $errorInfo = '已安装系统，如需重新安装请删除文件：/install/lock/install.lock';
+    $errorInfo = '已安装系统，如需重新安装请删除文件：/config/install/lock/install.lock';
 } elseif (!isReadWrite(ROOT_PATH . 'config' . DS)) {
     $errorInfo = ROOT_PATH . 'config' . DS . '：读写权限不足';
 } elseif (!isReadWrite(ROOT_PATH . 'runtime' . DS)) {
