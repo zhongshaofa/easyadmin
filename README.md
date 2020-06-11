@@ -8,7 +8,7 @@
 [![Layui Version](https://img.shields.io/badge/layui-=2.5.5-brightgreen.svg?maxAge=2592000&color=critical)](https://github.com/sentsin/layui)
 [![Layuimini Version](https://img.shields.io/badge/layuimini-%3E=2.0.4.2-brightgreen.svg?maxAge=2592000&color=ff69b4)](https://github.com/zhongshaofa/layuimini)
 [![EasyAdmin Doc](https://img.shields.io/badge/docs-passing-green.svg?maxAge=2592000)](http://easyadmin.99php.cn/docs)
-[![EasyAdmin License](https://img.shields.io/hexpm/l/plug.svg?maxAge=2592000)](https://github.com/zhongshaofa/easyadmin/blob/master/LICENSE)
+[![EasyAdmin License](https://img.shields.io/hexpm/l/plug.svg?maxAge=2592000)](https://github.com/zhongshaofa/easyadmin/blob/v2/LICENSE)
 
 ## 项目介绍
 
