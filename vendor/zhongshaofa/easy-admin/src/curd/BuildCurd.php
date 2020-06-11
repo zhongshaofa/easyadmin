@@ -543,6 +543,15 @@ class BuildCurd
     }
 
     /**
+     * 获取相关的文件
+     * @return array
+     */
+    public function getFileList()
+    {
+        return $this->fileList;
+    }
+
+    /**
      * 构建基础视图、JS、URL
      * @return $this
      */

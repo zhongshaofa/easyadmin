@@ -21,6 +21,7 @@ use think\console\Input;
 use think\console\input\Option;
 use think\console\Output;
 use EasyAdmin\auth\Node as NodeService;
+use think\Exception;
 
 class Curd extends Command
 {
@@ -124,20 +125,42 @@ class Curd extends Command
             }
 
             $build = $build->render();
+            $fileList = $build->getFileList();
 
             if (!$delete) {
                 $result = $build->create();
+                if($force){
+                    $output->info(">>>>>>>>>>>>>>>");
+                    foreach ($fileList as $key => $val) {
+                        $output->info($key);
+                    }
+                    $output->info(">>>>>>>>>>>>>>>");
+                    $output->info("确定强制生成上方所有文件? 如果文件存在会直接覆盖。 请输入 'yes' 按回车键继续操作: ");
+                    $line = fgets(defined('STDIN') ? STDIN : fopen('php://stdin', 'r'));
+                    if (trim($line) != 'yes') {
+                        throw new Exception("取消文件CURD生成操作");
+                    }
+                }
                 CliEcho::success('自动生成CURD成功');
             } else {
+                $output->info(">>>>>>>>>>>>>>>");
+                foreach ($fileList as $key => $val) {
+                    $output->info($key);
+                }
+                $output->info(">>>>>>>>>>>>>>>");
+                $output->info("确定删除上方所有文件?  请输入 'yes' 按回车键继续操作: ");
+                $line = fgets(defined('STDIN') ? STDIN : fopen('php://stdin', 'r'));
+                if (trim($line) != 'yes') {
+                    throw new Exception("取消删除文件操作");
+                }
                 $result = $build->delete();
+                CliEcho::success('>>>>>>>>>>>>>>>');
                 CliEcho::success('删除自动生成CURD文件成功');
             }
-
             CliEcho::success('>>>>>>>>>>>>>>>');
             foreach ($result as $vo) {
                 CliEcho::success($vo);
             }
-
         } catch (\Exception $e) {
             CliEcho::error($e->getMessage());
             return false;

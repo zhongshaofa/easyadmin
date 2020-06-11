@@ -657,7 +657,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
             text: function (data, option) {
                 var field = option.field;
                 try {
-                    var value = eval("data." + field);status
+                    var value = eval("data." + field);
                 } catch (e) {
                     var value = undefined;
                 }
