@@ -50,6 +50,7 @@ class Curd extends Command
             ->addOption('primaryKey', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联主键', null)
             ->addOption('relationModelFilename', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联模型文件名', null)
             ->addOption('relationOnlyFileds', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联模型中只显示的字段', null)
+            ->addOption('relationBindSelect', null, Option::VALUE_REQUIRED | Option::VALUE_IS_ARRAY, '关联模型中的字段用于主表外键的表单下拉选择', null)
             #
             ->addOption('force', 'f', Option::VALUE_REQUIRED, '强制覆盖模式', 0)
             ->addOption('delete', 'd', Option::VALUE_REQUIRED, '删除模式', 0)
@@ -80,6 +81,7 @@ class Curd extends Command
         $primaryKey = $input->getOption('primaryKey');
         $relationModelFilename = $input->getOption('relationModelFilename');
         $relationOnlyFileds = $input->getOption('relationOnlyFileds');
+        $relationBindSelect = $input->getOption('relationBindSelect');
 
         $force = $input->getOption('force');
         $delete = $input->getOption('delete');
@@ -92,6 +94,7 @@ class Curd extends Command
                 'primaryKey'    => isset($primaryKey[$key]) ? $primaryKey[$key] : null,
                 'modelFilename' => isset($relationModelFilename[$key]) ? $relationModelFilename[$key] : null,
                 'onlyFileds'    => isset($relationOnlyFileds[$key]) ? explode(",", $relationOnlyFileds[$key]) : [],
+                'relationBindSelect' => isset($relationBindSelect[$key]) ? $relationBindSelect[$key] : null,
             ];
         }
 
@@ -121,7 +124,7 @@ class Curd extends Command
             !empty($ignoreFields) && $build = $build->setIgnoreFields($ignoreFields);
 
             foreach ($relations as $relation) {
-                $build = $build->setRelation($relation['table'], $relation['foreignKey'], $relation['primaryKey'], $relation['modelFilename'], $relation['onlyFileds']);
+                $build = $build->setRelation($relation['table'], $relation['foreignKey'], $relation['primaryKey'], $relation['modelFilename'], $relation['onlyFileds'],$relation['relationBindSelect']);
             }
 
             $build = $build->render();

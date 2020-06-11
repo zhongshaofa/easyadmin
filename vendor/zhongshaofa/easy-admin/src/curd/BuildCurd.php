@@ -312,10 +312,11 @@ class BuildCurd
      * @param null $primaryKey
      * @param null $modelFilename
      * @param array $onlyShowFileds
+     * @param null $bindSelectField
      * @return $this
      * @throws TableException
      */
-    public function setRelation($relationTable, $foreignKey, $primaryKey = null, $modelFilename = null, $onlyShowFileds = [])
+    public function setRelation($relationTable, $foreignKey, $primaryKey = null, $modelFilename = null, $onlyShowFileds = [], $bindSelectField = null)
     {
         if (!isset($this->tableColumns[$foreignKey])) {
             throw new TableException("主表不存在外键字段：{$foreignKey}");
@@ -324,6 +325,9 @@ class BuildCurd
             $colums = Db::query("SHOW FULL COLUMNS FROM {$this->tablePrefix}{$relationTable}");
             $formatColums = [];
             $delete = false;
+            if (!empty($bindSelectField) && !in_array($bindSelectField, array_column($colums, 'Field'))) {
+                throw new TableException("关联表{$relationTable}不存在该字段: {$bindSelectField}");
+            }
             foreach ($colums as $vo) {
                 if (empty($primaryKey) && $vo['Key'] == 'PRI') {
                     $primaryKey = $vo['Field'];
@@ -350,13 +354,19 @@ class BuildCurd
             $modelName = array_pop($modelArray);
 
             $relation = [
-                'modelFilename' => $modelFilename,
-                'modelName'     => $modelName,
-                'foreignKey'    => $foreignKey,
-                'primaryKey'    => $primaryKey,
-                'delete'        => $delete,
-                'tableColumns'  => $formatColums,
+                'modelFilename'   => $modelFilename,
+                'modelName'       => $modelName,
+                'foreignKey'      => $foreignKey,
+                'primaryKey'      => $primaryKey,
+                'bindSelectField' => $bindSelectField,
+                'delete'          => $delete,
+                'tableColumns'    => $formatColums,
             ];
+            if(!empty($bindSelectField)){
+                $relationArray = explode('\\',$modelFilename);
+                $this->tableColumns[$foreignKey]['bindSelectField'] = $bindSelectField;
+                $this->tableColumns[$foreignKey]['bindRelation'] = end($relationArray);
+            }
             $this->relationArray[$relationTable] = $relation;
             $this->selectFileds[] = $foreignKey;
         } catch (\Exception $e) {
@@ -701,6 +711,27 @@ class BuildCurd
     }
 
     /**
+     * 构架关联下拉模型
+     * @param $relation
+     * @param $filed
+     * @return mixed
+     */
+    protected function buildRelationSelectModel($relation, $filed)
+    {
+        $relationArray = explode('\\', $relation);
+        $name = end($relationArray);
+        $name = "get{$name}List";
+        $selectCode = CommonTool::replaceTemplate(
+            $this->getTemplate("model{$this->DS}relationSelect"),
+            [
+                'name'     => $name,
+                'relation' => $relation,
+                'values'   => $filed,
+            ]);
+        return $selectCode;
+    }
+
+    /**
      * 构建下拉框视图
      * @param $field
      * @param string $select
@@ -953,6 +984,12 @@ class BuildCurd
                 ]);
         }
         $selectList = '';
+        foreach ($this->relationArray as $relation){
+            if(!empty($relation['bindSelectField'])){
+                $relationArray  = explode('\\',$relation['modelFilename']);
+                $selectList .= $this->buildSelectController(end($relationArray));
+            }
+        }
         foreach ($this->tableColumns as $field => $val) {
             if (isset($val['formType']) && in_array($val['formType'], ['select', 'switch', 'radio', 'checkbox']) && isset($val['define'])) {
                 $selectList .= $this->buildSelectController($field);
@@ -999,6 +1036,11 @@ class BuildCurd
         }
 
         $selectList = '';
+        foreach ($this->relationArray as $relation){
+            if(!empty($relation['bindSelectField'])){
+                $selectList .= $this->buildRelationSelectModel($relation['modelFilename'], $relation['bindSelectField']);
+            }
+        }
         foreach ($this->tableColumns as $field => $val) {
             if (isset($val['formType']) && in_array($val['formType'], ['select', 'switch', 'radio', 'checkbox']) && isset($val['define'])) {
                 $selectList .= $this->buildSelectModel($field, $val['define']);
@@ -1026,7 +1068,7 @@ class BuildCurd
                     'modelName'      => $val['modelName'],
                     'modelNamespace' => "app\admin\model",
                     'table'          => $key,
-                    'deleteTime'     => $val['delete'] ? 'delete_time' : 'false',
+                    'deleteTime'     => $val['delete'] ? '"delete_time"' : 'false',
                     'relationList'   => '',
                     'selectList'     => '',
                 ]);
@@ -1097,7 +1139,9 @@ class BuildCurd
                 }
             } elseif ($val['formType'] == 'select') {
                 $templateFile = "view{$this->DS}module{$this->DS}select";
-                if (isset($val['define']) && !empty($val['define'])) {
+                if (isset($val['bindRelation'])) {
+                    $define = $this->buildOptionView($val['bindRelation']);
+                } elseif (isset($val['define']) && !empty($val['define'])) {
                     $define = $this->buildOptionView($field);
                 }
             } elseif (in_array($field, ['remark']) || $val['formType'] == 'textarea') {
@@ -1170,7 +1214,9 @@ class BuildCurd
                 }
             } elseif ($val['formType'] == 'select') {
                 $templateFile = "view{$this->DS}module{$this->DS}select";
-                if (isset($val['define']) && !empty($val['define'])) {
+                if (isset($val['bindRelation'])) {
+                    $define = $this->buildOptionView($val['bindRelation'], '{in name="k" value="$row.' . $field . '"}selected=""{/in}');
+                } elseif (isset($val['define']) && !empty($val['define'])) {
                     $define = $this->buildOptionView($field, '{in name="k" value="$row.' . $field . '"}selected=""{/in}');
                 }
             } elseif (in_array($field, ['remark'])) {

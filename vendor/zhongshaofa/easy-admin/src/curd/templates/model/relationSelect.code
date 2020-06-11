@@ -1,0 +1,5 @@
+
+    public function {{name}}()
+    {
+        return \app\admin\model\{{relation}}::column('{{values}}', 'id');
+    }
