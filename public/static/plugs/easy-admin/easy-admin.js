@@ -913,10 +913,6 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     clientHeight = '100%';
                 }
 
-                // 判断是不是表格多选提交
-
-
-
                 admin.open(
                     $(this).attr('data-title'),
                     admin.url(url),
