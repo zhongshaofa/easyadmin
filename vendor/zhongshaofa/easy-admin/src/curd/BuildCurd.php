@@ -1125,6 +1125,8 @@ class BuildCurd
             $templateFile = "view{$this->DS}module{$this->DS}input";
 
             $define = '';
+            $value = '{$row.' . $field . '|default=\'\'}';
+
             // 根据formType去获取具体模板
             if ($val['formType'] == 'image') {
                 $templateFile = "view{$this->DS}module{$this->DS}image";
@@ -1136,6 +1138,7 @@ class BuildCurd
                 $templateFile = "view{$this->DS}module{$this->DS}files";
             } elseif ($val['formType'] == 'editor') {
                 $templateFile = "view{$this->DS}module{$this->DS}editor";
+                $value = '{$row.' . $field . '|raw|default=\'\'}';
             } elseif ($val['formType'] == 'date') {
                 $templateFile = "view{$this->DS}module{$this->DS}date";
                 if (isset($val['define']) && !empty($val['define'])) {
@@ -1163,6 +1166,7 @@ class BuildCurd
                 }
             } elseif (in_array($field, ['remark'])) {
                 $templateFile = "view{$this->DS}module{$this->DS}textarea";
+                $value = '{$row.' . $field . '|raw|default=\'\'}';
             }
 
             $editFormList .= CommonTool::replaceTemplate(
@@ -1171,7 +1175,7 @@ class BuildCurd
                     'comment'  => $val['comment'],
                     'field'    => $field,
                     'required' => $this->buildRequiredHtml($val['required']),
-                    'value'    => '{$row.' . $field . '|default=\'\'}',
+                    'value'    => $value,
                     'define'   => $define,
                 ]);
         }

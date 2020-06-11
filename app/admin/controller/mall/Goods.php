@@ -61,49 +61,6 @@ class Goods extends AdminController
     }
 
     /**
-     * @NodeAnotation(title="添加")
-     */
-    public function add()
-    {
-        if ($this->request->isAjax()) {
-            $post = $this->request->post();
-            $post['describe'] = $this->request->post('describe','',null);
-            $rule = [];
-            $this->validate($post, $rule);
-            try {
-                $save = $this->model->save($post);
-            } catch (\Exception $e) {
-                $this->error('保存失败:'.$e->getMessage());
-            }
-            $save ? $this->success('保存成功') : $this->error('保存失败');
-        }
-        return $this->fetch();
-    }
-
-    /**
-     * @NodeAnotation(title="编辑")
-     */
-    public function edit($id)
-    {
-        $row = $this->model->find($id);
-        empty($row) && $this->error('数据不存在');
-        if ($this->request->isAjax()) {
-            $post = $this->request->post();
-            $post['describe'] = $this->request->post('describe','',null);
-            $rule = [];
-            $this->validate($post, $rule);
-            try {
-                $save = $row->save($post);
-            } catch (\Exception $e) {
-                $this->error('保存失败');
-            }
-            $save ? $this->success('保存成功') : $this->error('保存失败');
-        }
-        $this->assign('row', $row);
-        return $this->fetch();
-    }
-
-    /**
      * @NodeAnotation(title="入库")
      */
     public function stock($id)

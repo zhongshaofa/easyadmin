@@ -62,7 +62,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">商品描述</label>
             <div class="layui-input-block">
-                <textarea name="describe" rows="20" class="layui-textarea editor" placeholder="请输入商品描述">{$row.describe|default=''}</textarea>
+                <textarea name="describe" rows="20" class="layui-textarea editor" placeholder="请输入商品描述">{$row.describe|raw|default=''}</textarea>
             </div>
         </div>
 
