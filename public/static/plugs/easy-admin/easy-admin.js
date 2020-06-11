@@ -260,8 +260,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             vv.title = vv.title || vv.text;
                             vv.text = vv.text || vv.title;
                             vv.extend = vv.extend || '';
+                            vv.checkbox = vv.checkbox || false;
                             if (admin.checkAuth(vv.auth, elem)) {
-                                toolbarHtml += admin.table.buildToolbarHtml(vv);
+                                toolbarHtml += admin.table.buildToolbarHtml(vv, tableId);
                             }
                         });
                     }
@@ -405,7 +406,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 }
                 return data;
             },
-            buildToolbarHtml: function (toolbar) {
+            buildToolbarHtml: function (toolbar, tableId) {
                 var html = '';
                 toolbar.class = toolbar.class || '';
                 toolbar.icon = toolbar.icon || '';
@@ -416,6 +417,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 toolbar.field = toolbar.field || 'id';
                 toolbar.title = toolbar.title || toolbar.text;
                 toolbar.text = toolbar.text || toolbar.title;
+                toolbar.checkbox = toolbar.checkbox || false;
 
                 var formatToolbar = toolbar;
                 formatToolbar.icon = formatToolbar.icon !== '' ? '<i class="' + formatToolbar.icon + '"></i> ' : '';
@@ -425,7 +427,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 } else {
                     formatToolbar.method = formatToolbar.method !== '' ? 'data-request="' + formatToolbar.url + '" data-title="' + formatToolbar.title + '" ' : '';
                 }
-                html = '<button ' + formatToolbar.class + formatToolbar.method + formatToolbar.extend + '>' + formatToolbar.icon + formatToolbar.text + '</button>';
+                formatToolbar.checkbox = toolbar.checkbox ? ' data-checkbox="true" ' : '';
+                formatToolbar.tableId = tableId !== undefined ? ' data-table="' + tableId + '" ' : '';
+                html = '<button ' + formatToolbar.class + formatToolbar.method + formatToolbar.extend + formatToolbar.checkbox +  formatToolbar.tableId + '>' + formatToolbar.icon + formatToolbar.text + '</button>';
 
                 return html;
             },
@@ -869,7 +873,29 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
 
                 var clienWidth = $(this).attr('data-width'),
                     clientHeight = $(this).attr('data-height'),
-                    dataFull = $(this).attr('data-full');
+                    dataFull = $(this).attr('data-full'),
+                    checkbox = $(this).attr('data-checkbox'),
+                    url = $(this).attr('data-open'),
+                    tableId = $(this).attr('data-table');
+
+                if(checkbox === 'true'){
+                    tableId = tableId || init.table_render_id;
+                    var checkStatus = table.checkStatus(tableId),
+                        data = checkStatus.data;
+                    if (data.length <= 0) {
+                        admin.msg.error('请勾选需要操作的数据');
+                        return false;
+                    }
+                    var ids = [];
+                    $.each(data, function (i, v) {
+                        ids.push(v.id);
+                    });
+                    if (url.indexOf("?") === -1) {
+                        url += '?id=' + ids.join(',');
+                    } else {
+                        url += '&id=' + ids.join(',');
+                    }
+                }
 
                 if (clienWidth === undefined || clientHeight === undefined) {
                     var width = document.body.clientWidth,
@@ -887,9 +913,13 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     clientHeight = '100%';
                 }
 
+                // 判断是不是表格多选提交
+
+
+
                 admin.open(
                     $(this).attr('data-title'),
-                    admin.url($(this).attr('data-open')),
+                    admin.url(url),
                     clienWidth,
                     clientHeight,
                 );
@@ -951,7 +981,25 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 var title = $(this).attr('data-title'),
                     url = $(this).attr('data-request'),
                     tableId = $(this).attr('data-table'),
-                    addons = $(this).attr('data-addons');
+                    addons = $(this).attr('data-addons'),
+                    checkbox = $(this).attr('data-checkbox');
+
+                var postData = {};
+                if(checkbox === 'true'){
+                    tableId = tableId || init.table_render_id;
+                    var checkStatus = table.checkStatus(tableId),
+                        data = checkStatus.data;
+                    if (data.length <= 0) {
+                        admin.msg.error('请勾选需要操作的数据');
+                        return false;
+                    }
+                    var ids = [];
+                    $.each(data, function (i, v) {
+                        ids.push(v.id);
+                    });
+                    postData.id = ids;
+                }
+
                 if (addons !== true && addons !== 'true') {
                     url = admin.url(url);
                 }
@@ -960,6 +1008,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 admin.msg.confirm(title, function () {
                     admin.request.post({
                         url: url,
+                        data: postData,
                     }, function (res) {
                         admin.msg.success(res.msg, function () {
                             table.reload(tableId);
