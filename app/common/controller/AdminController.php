@@ -143,7 +143,7 @@ class AdminController extends BaseController
      */
     protected function buildTableParames()
     {
-        $get = $this->request->get();
+        $get = $this->request->get('', null, null);
         $page = isset($get['page']) && !empty($get['page']) ? $get['page'] : 1;
         $limit = isset($get['limit']) && !empty($get['limit']) ? $get['limit'] : 15;
         $filters = isset($get['filter']) && !empty($get['filter']) ? $get['filter'] : '{}';
