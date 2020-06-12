@@ -380,8 +380,8 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 for (dk in data) {
                     var col = data[dk];
                     var operat = col[col.length - 1].operat;
-                    var check = false;
                     if (operat !== undefined) {
+                        var check = false;
                         for (key in operat) {
                             var item = operat[key];
                             if (typeof item === 'string') {
@@ -399,9 +399,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                                 }
                             }
                         }
-                    }
-                    if (!check) {
-                        data[dk].pop()
+                        if (!check) {
+                            data[dk].pop()
+                        }
                     }
                 }
                 return data;
