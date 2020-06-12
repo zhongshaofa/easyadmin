@@ -139,9 +139,10 @@ class AdminController extends BaseController
 
     /**
      * 构建请求参数
+     * @param array $excludeFields 忽略构建搜索的字段
      * @return array
      */
-    protected function buildTableParames()
+    protected function buildTableParames($excludeFields = [])
     {
         $get = $this->request->get('', null, null);
         $page = isset($get['page']) && !empty($get['page']) ? $get['page'] : 1;
@@ -152,11 +153,16 @@ class AdminController extends BaseController
         $filters = json_decode($filters, true);
         $ops = json_decode($ops, true);
         $where = [];
+        $excludes = [];
 
         // 判断是否关联查询
         $tableName = CommonTool::humpToLine(lcfirst($this->model->getName()));
 
         foreach ($filters as $key => $val) {
+            if (in_array($key, $excludeFields)) {
+                $excludes[$key] = $val;
+                continue;
+            }
             if ($this->relationSerach && count(explode('.', $key)) == 1) {
                 $key = "{$tableName}.{$key}";
             }
@@ -183,7 +189,7 @@ class AdminController extends BaseController
                     $where[] = [$key, $op, "%{$val}"];
             }
         }
-        return [$page, $limit, $where];
+        return [$page, $limit, $where, $excludes];
     }
 
     /**
