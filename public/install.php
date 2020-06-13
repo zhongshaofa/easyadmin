@@ -411,7 +411,7 @@ EOT;
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="static/plugs/layui-v2.5.5/css/layui.css?v=<?php echo time() ?>" media="all">
+    <link rel="stylesheet" href="static/plugs/layui-v2.5.6/css/layui.css?v=<?php echo time() ?>" media="all">
     <link rel="stylesheet" href="static/common/css/insatll.css?v=<?php echo time() ?>" media="all">
 </head>
 <body>
@@ -509,7 +509,7 @@ EOT;
         </div>
     </form>
 </div>
-<script src="static/plugs/layui-v2.5.5/layui.js?v=<?php echo time() ?>" charset="utf-8"></script>
+<script src="static/plugs/layui-v2.5.6/layui.js?v=<?php echo time() ?>" charset="utf-8"></script>
 <script>
     layui.use(['form', 'layer'], function () {
         var $ = layui.jquery,
