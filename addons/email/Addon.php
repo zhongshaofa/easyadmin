@@ -10,19 +10,22 @@ class Addon
     /**
      * 安装方法
      */
-    public function install(){
+    public function install()
+    {
 
     }
 
     /**
      * 卸载方法
      */
-    public function uninstall(){
+    public function uninstall()
+    {
 
     }
 
-    public function send(){
-
+    public function send($email, $msg)
+    {
+        return true;
     }
 
 }

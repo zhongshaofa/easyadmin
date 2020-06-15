@@ -114,3 +114,17 @@ if (!function_exists('auth')) {
     }
 
 }
+
+
+if (!function_exists('addon')) {
+
+
+    function addon($addonName, $method, ...$parame)
+    {
+
+        // todo 插件逻辑
+
+        return true;
+    }
+
+}
