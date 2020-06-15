@@ -599,6 +599,8 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
             image: function (data, option) {
                 option.imageWidth = option.imageWidth || 200;
                 option.imageHeight = option.imageHeight || 40;
+                option.imageSplit = option.imageSplit || '|';
+                option.imageJoin = option.imageJoin || '<br>';
                 option.title = option.title || option.field;
                 var field = option.field,
                     title = data[option.title];
@@ -607,7 +609,16 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 } catch (e) {
                     var value = undefined;
                 }
-                return '<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + value + '" data-image="' + title + '">';
+                if (value === undefined) {
+                    return '<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + value + '" data-image="' + title + '">';
+                } else {
+                    var values = value.split(option.imageSplit),
+                        valuesHtml = [];
+                    values.forEach((value, index) => {
+                        valuesHtml.push('<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + value + '" data-image="' + title + '">');
+                    });
+                    return valuesHtml.join(option.imageJoin);
+                }
             },
             url: function (data, option) {
                 var field = option.field;
