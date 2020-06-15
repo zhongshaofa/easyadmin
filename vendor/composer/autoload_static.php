@@ -109,7 +109,6 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\VarDumper\\' => 28,
             'Stringy\\' => 8,
-            'ServiceSwoole\\' => 14,
         ),
         'Q' => 
         array (
@@ -153,6 +152,7 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'E' => 
         array (
             'EasyAdmin\\' => 10,
+            'EasyAddons\\' => 11,
         ),
         'D' => 
         array (
@@ -221,10 +221,6 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'Stringy\\' => 
         array (
             0 => __DIR__ . '/..' . '/danielstjules/stringy/src',
-        ),
-        'ServiceSwoole\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zhongshaofa/service-swoole/src',
         ),
         'Qiniu\\' => 
         array (
@@ -301,6 +297,10 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'EasyAdmin\\' => 
         array (
             0 => __DIR__ . '/..' . '/zhongshaofa/easy-admin/src',
+        ),
+        'EasyAddons\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zhongshaofa/easy-addons/src',
         ),
         'Doctrine\\Common\\Lexer\\' => 
         array (
