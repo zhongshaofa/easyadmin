@@ -16,6 +16,6 @@ class Service extends BaseService
 {
     public function register()
     {
-
+        die;
     }
 }
