@@ -57,6 +57,7 @@ class Config extends AdminController
                     ]);
             }
             TriggerService::updateMenu();
+            TriggerService::updateSysconfig();
         } catch (\Exception $e) {
             $this->error('保存失败');
         }

@@ -2,6 +2,7 @@
 // 应用公共文件
 
 use app\common\service\AuthService;
+use think\facade\Cache;
 
 if (!function_exists('__url')) {
 
@@ -67,13 +68,19 @@ if (!function_exists('sysconfig')) {
      */
     function sysconfig($group, $name = null)
     {
-        $where = ['group' => $group,];
-        if (!empty($name)) {
-            $where['name'] = $name;
-            return \app\admin\model\SystemConfig::where($where)->value('value');
-        } else {
-            return \app\admin\model\SystemConfig::where($where)->column('value', 'name');
+        $where = ['group' => $group];
+        $value = empty($name) ? Cache::get("sysconfig_{$group}") : Cache::get("sysconfig_{$group}_{$name}");
+        if (empty($value)) {
+            if (!empty($name)) {
+                $where['name'] = $name;
+                $value = \app\admin\model\SystemConfig::where($where)->value('value');
+                Cache::tag('sysconfig')->set("sysconfig_{$group}_{$name}", $value, 3600);
+            } else {
+                $value = \app\admin\model\SystemConfig::where($where)->column('value', 'name');
+                Cache::tag('sysconfig')->set("sysconfig_{$group}", $value, 3600);
+            }
         }
+        return $value;
     }
 }
 

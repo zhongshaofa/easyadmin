@@ -28,13 +28,15 @@ return [
             // 独立日志级别
             'apart_level'    => [],
             // 最大日志文件数量
-            'max_files'      => 0,
+            'max_files'      => 30,
             // 使用JSON格式记录
             'json'           => false,
             // 日志处理
             'processor'      => null,
             // 关闭通道日志写入
             'close'          => false,
+            // 格式化时间
+            'time_format'    =>    'Y-m-d H:i:s',
             // 日志输出格式化
             'format'         => '[%s][%s] %s',
             // 是否实时写入
