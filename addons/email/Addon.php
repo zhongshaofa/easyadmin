@@ -1,7 +1,7 @@
 <?php
 
 
-namespace addons\sms;
+namespace addons\email;
 
 
 class Addon
@@ -12,7 +12,7 @@ class Addon
      */
     public function install()
     {
-
+        return true;
     }
 
     /**
@@ -20,12 +20,18 @@ class Addon
      */
     public function uninstall()
     {
-
+        return true;
     }
 
+    /**
+     * 发送邮箱
+     * @param $email
+     * @param $msg
+     * @return string
+     */
     public function send($email, $msg)
     {
-        return true;
+        return "发送邮箱成功, 邮箱号：{$email}, 发送信息：{$msg}";
     }
 
 }

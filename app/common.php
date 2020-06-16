@@ -125,13 +125,26 @@ if (!function_exists('auth')) {
 
 if (!function_exists('addon')) {
 
-
-    function addon($addonName, $method, ...$parame)
+    /**
+     * 调取插件功能
+     * @param $addonName
+     * @param $method
+     * @param mixed $parames
+     * @return bool
+     * @throws \app\common\exception\AddonException
+     */
+    function addon($addonName, $method, $parames = [])
     {
-
-        // todo 插件逻辑
-
-        return true;
+        $addon = "\\addons\\{$addonName}\\Addon";
+        if (!class_exists($addon)) {
+            throw new \app\common\exception\AddonException("插件：{$addonName}不存在");
+        }
+        $addonInstance = new $addon;
+        if (!method_exists($addonInstance, $method)) {
+            throw new \app\common\exception\AddonException("插件{$addonName}的方法：{$method}不存在");
+        }
+        $result = call_user_func_array([$addonInstance, $method], $parames);
+        return $result;
     }
 
 }
