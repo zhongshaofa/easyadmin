@@ -17,6 +17,7 @@ require __DIR__ . '/../vendor/autoload.php';
 // 声明全局变量
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_PATH', __DIR__ . DS . '..' . DS);
+define('ADDONS_PATH', ROOT_PATH . 'addons' . DS);
 
 // 判断是否安装程序
 if (!is_file(ROOT_PATH . 'config' . DS . 'install' . DS . 'lock' . DS . 'install.lock')) {

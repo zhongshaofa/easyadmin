@@ -148,3 +148,55 @@ if (!function_exists('addon')) {
     }
 
 }
+
+if (!function_exists('get_addon_config')) {
+
+    /**
+     * 读取配置文件
+     * @param $addonName
+     * @param null $name
+     * @return mixed|null
+     * @throws \app\common\exception\AddonException
+     */
+    function get_addon_config($addonName, $name = null)
+    {
+        $addon = "\\addons\\{$addonName}\\Addon";
+        if (!class_exists($addon)) {
+            throw new \app\common\exception\AddonException("插件：{$addonName}不存在");
+        }
+        $filepath = ADDONS_PATH . $addonName . DS . "config.php";
+        if (!file_exists($filepath)) {
+            throw new \app\common\exception\AddonException("插件{$addonName}无法读取配置信息, 配置文件不存在");
+        }
+        $config = include($filepath);
+        if (empty($name)) {
+            return $config;
+        } else {
+            return isset($config[$name]) ? $config[$name] : null;
+        }
+    }
+}
+
+if (!function_exists('set_addon_config')) {
+
+    function set_addon_config($addonName, $data = [])
+    {
+        $addon = "\\addons\\{$addonName}\\Addon";
+        if (!class_exists($addon)) {
+            throw new \app\common\exception\AddonException("插件：{$addonName}不存在");
+        }
+        $filepath = ADDONS_PATH . $addonName . DS . "config.php";
+    }
+}
+
+if (!function_exists('addons_path')) {
+
+    /**
+     * 获取插件地址
+     * @return string
+     */
+    function addons_path()
+    {
+        return ADDONS_PATH;
+    }
+}

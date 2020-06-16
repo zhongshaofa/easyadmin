@@ -3,7 +3,11 @@
 
 namespace addons\email;
 
-
+/**
+ * 插件公共方法
+ * Class Addon
+ * @package addons\email
+ */
 class Addon
 {
 
