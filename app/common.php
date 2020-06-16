@@ -180,6 +180,13 @@ if (!function_exists('get_addon_config')) {
 
 if (!function_exists('set_addon_config')) {
 
+    /**
+     * 插件配置的写入
+     * @param $addonName
+     * @param array $data
+     * @return bool
+     * @throws \app\common\exception\AddonException
+     */
     function set_addon_config($addonName, $data = [])
     {
         $addon = "\\addons\\{$addonName}\\Addon";
@@ -187,6 +194,14 @@ if (!function_exists('set_addon_config')) {
             throw new \app\common\exception\AddonException("插件：{$addonName}不存在");
         }
         $filepath = ADDONS_PATH . $addonName . DS . "config.php";
+        $data = var_export($data,true);
+        $code = <<<EOT
+<?php
+
+return {$data};
+EOT;
+        file_put_contents($filepath, $code);
+        return true;
     }
 }
 
