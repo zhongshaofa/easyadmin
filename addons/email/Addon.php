@@ -3,6 +3,8 @@
 
 namespace addons\email;
 
+use addons\email\service\EmailService;
+
 /**
  * 插件公共方法
  * Class Addon
@@ -29,13 +31,16 @@ class Addon
 
     /**
      * 发送邮箱
-     * @param $email
-     * @param $msg
-     * @return string
+     * @param $toemail
+     * @param $title
+     * @param $info
+     * @return array
+     * @throws library\PHPMailer\Exception
      */
-    public function send($email, $msg)
+    public function send($toemail, $title, $info)
     {
-        return "发送邮箱成功, 邮箱号：{$email}, 发送信息：{$msg}";
+        $result = (new EmailService())->send($toemail, $title, $info);
+        return $result;
     }
 
 }
