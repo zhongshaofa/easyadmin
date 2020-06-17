@@ -136,7 +136,7 @@ if (!function_exists('addon')) {
      */
     function addon($addonName, $method, $parames = [])
     {
-        $addon = "\\addons\\{$addonName}\\Addon";
+        $addon = "\\addons\\{$addonName}\\Plugin";
         if (!class_exists($addon)) {
             throw new \app\common\exception\AddonException("插件：{$addonName}不存在");
         }
@@ -161,7 +161,7 @@ if (!function_exists('get_addon_config')) {
      */
     function get_addon_config($addonName, $name = null)
     {
-        $addon = "\\addons\\{$addonName}\\Addon";
+        $addon = "\\addons\\{$addonName}\\Plugin";
         if (!class_exists($addon)) {
             throw new \app\common\exception\AddonException("插件：{$addonName}不存在");
         }
@@ -193,7 +193,7 @@ if (!function_exists('set_addon_config')) {
      */
     function set_addon_config($addonName, $data = [])
     {
-        $addon = "\\addons\\{$addonName}\\Addon";
+        $addon = "\\addons\\{$addonName}\\Plugin";
         if (!class_exists($addon)) {
             throw new \app\common\exception\AddonException("插件：{$addonName}不存在");
         }

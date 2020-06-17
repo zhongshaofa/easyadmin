@@ -10,7 +10,7 @@ use addons\email\service\EmailService;
  * Class Addon
  * @package addons\email
  */
-class Addon
+class Plugin
 {
 
     /**
