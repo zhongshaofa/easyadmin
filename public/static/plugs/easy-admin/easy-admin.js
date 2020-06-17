@@ -212,7 +212,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 }
 
                 // 初始化表格左上方工具栏
-                options.toolbar = options.toolbar || ['refresh', 'add', 'delete', 'export'];
+                options.toolbar = options.toolbar || ['refresh', 'add', 'delete'];
                 options.toolbar = admin.table.renderToolbar(options.toolbar, options.elem, options.id, options.init);
 
                 // 判断是否有操作列表权限
