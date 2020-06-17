@@ -1062,6 +1062,16 @@ class BuildCurd
         // 关联模型
         foreach ($this->relationArray as $key => $val) {
             $relationModelFile = "{$this->rootDir}app{$this->DS}admin{$this->DS}model{$this->DS}{$val['modelFilename']}.php";
+
+            // todo 判断关联模型文件是否存在, 存在就不重新生成文件, 防止关联模型文件被覆盖
+            $relationModelClass = "\\app\\admin\\model\\{$val['modelFilename']}";
+            if (class_exists($relationModelClass) && method_exists(new $relationModelClass, 'getName')) {
+                $tableName = (new $relationModelClass)->getName();
+                if (CommonTool::humpToLine(lcfirst($tableName)) == CommonTool::humpToLine(lcfirst($key))) {
+                    continue;
+                }
+            }
+
             $relationModelValue = CommonTool::replaceTemplate(
                 $this->getTemplate("model{$this->DS}model"),
                 [
