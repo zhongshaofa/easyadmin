@@ -170,10 +170,14 @@ if (!function_exists('get_addon_config')) {
             throw new \app\common\exception\AddonException("插件{$addonName}无法读取配置信息, 配置文件不存在");
         }
         $config = include($filepath);
+        $formatConfig = [];
+        foreach ($config as $key => $val) {
+            $formatConfig[$key] = isset($val['value']) ? $val['value'] : null;
+        }
         if (empty($name)) {
-            return $config;
+            return $formatConfig;
         } else {
-            return isset($config[$name]) ? $config[$name] : null;
+            return isset($formatConfig[$name]) ? $formatConfig[$name] : null;
         }
     }
 }
