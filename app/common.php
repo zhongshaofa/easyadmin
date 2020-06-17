@@ -198,11 +198,15 @@ if (!function_exists('set_addon_config')) {
             throw new \app\common\exception\AddonException("插件：{$addonName}不存在");
         }
         $filepath = ADDONS_PATH . $addonName . DS . "config.php";
-        $data = var_export($data,true);
+        $config = include($filepath);
+        foreach ($data as $key => $val) {
+            isset($config[$key]) &&  $config[$key]['value'] = $val;
+        }
+        $config = var_export($config,true);
         $code = <<<EOT
 <?php
 
-return {$data};
+return {$config};
 EOT;
         file_put_contents($filepath, $code);
         return true;
