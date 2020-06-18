@@ -44,8 +44,6 @@ class Service extends \think\Service
     {
         $this->registerRoutes(function (Route $route) {
 
-//            $this->app->event->withEvent($this->app->config->get('app.with_event', true));
-
             // 路由脚本
             $execute = '\\EasyAddons\\Route::execute';
 
