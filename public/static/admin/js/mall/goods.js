@@ -34,7 +34,7 @@ define(["jquery", "easy-admin"], function ($, ea) {
                     {field: 'sort', width: 80, title: '排序', edit: 'text'},
                     {field: 'cate.title', minWidth: 80, title: '商品分类'},
                     {field: 'title', minWidth: 80, title: '商品名称'},
-                    {field: 'logo', minWidth: 80, title: '分类图片', search: false, templet: ea.table.image},
+                    {field: 'logo', minWidth: 80, title: '商品logo', search: false, templet: ea.table.image},
                     {field: 'market_price', width: 100, title: '市场价', templet: ea.table.price},
                     {field: 'discount_price', width: 100, title: '折扣价', templet: ea.table.price},
                     {field: 'total_stock', width: 100, title: '库存统计'},
