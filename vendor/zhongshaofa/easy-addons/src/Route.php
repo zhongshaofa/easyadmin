@@ -14,13 +14,22 @@ class Route
         $app = app();
         $request = $app->request;
 
+        $addonsRouteConfig = [];
+        if (is_file($app->addons->getAddonsPath() . $addon . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'route.php')) {
+            $addonsRouteConfig = include($app->addons->getAddonsPath() . $addon . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'route.php');
+        }
+        if (isset($addonsRouteConfig['url_route_must']) && $addonsRouteConfig['url_route_must']) {
+            throw new HttpException(400, lang("插件{$addon}：路由规则有误, 已开启强制路由"));
+        }
+
         empty($action) && $action = $app->route->config('default_action');
 
         if (empty($addon) || empty($controller) || empty($action)) {
-            throw new HttpException(500, lang('插件模块：路由规则有误'));
+            throw new HttpException(400, lang("插件{$addon}：路由规则有误"));
         }
 
         $request->addon = $addon;
+        $request->action = $action;
 
         // 处理多层控制器
         $controllerArray = explode('.', $controller);
@@ -39,6 +48,11 @@ class Route
         $controllerName = implode('\\', $controllerArray);
         $class = "\\addons\\{$addon}\\controller\\{$controllerName}";
         $instance = new $class($app);
+
+        // TODO 目前中间件有问题,无法注册该插件的中间件, 未定位到原因
+        if (is_file($app->addons->getAddonsPath() . $addon . DIRECTORY_SEPARATOR . 'middleware.php')) {
+            $app->middleware->import(include $app->addons->getAddonsPath() . $addon . DIRECTORY_SEPARATOR . 'middleware.php','route');
+        }
 
         $vars = [];
         if (is_callable([$instance, $action])) {

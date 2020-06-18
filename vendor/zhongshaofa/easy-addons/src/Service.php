@@ -42,21 +42,17 @@ class Service extends \think\Service
 
     public function boot()
     {
+
         $this->registerRoutes(function (Route $route) {
 
             // 路由脚本
             $execute = '\\EasyAddons\\Route::execute';
 
-            // 注册插件公共中间件
-            if (is_file($this->app->addons->getAddonsPath() . 'middleware.php')) {
-                $this->app->middleware->import(include $this->app->addons->getAddonsPath() . 'middleware.php', 'route');
-            }
+            // 挂载插件的自定义路由
+            $this->loadRoutes();
 
             // 注册控制器路由
             $route->rule("addons/:addon/[:controller]/[:action]", $execute)->middleware(Middleware::class);
-
-            // 挂载插件的自定义路由
-            $this->loadRoutes();
 
         });
     }
@@ -92,19 +88,16 @@ class Service extends \think\Service
             if ($name === '.' or $name === '..') {
                 continue;
             }
-            if (is_file($this->addonsPath . $name)) {
-                continue;
-            }
             $addonDir = $this->addonsPath . $name . DIRECTORY_SEPARATOR;
             if (!is_dir($addonDir)) {
                 continue;
             }
 
-            if (!is_file($addonDir . ucfirst($name) . '.php')) {
+            if (!is_file($addonDir . 'Plugin.php')) {
                 continue;
             }
 
-            $service_file = $addonDir . 'service.ini';
+            $service_file = $addonDir . 'Plugin.ini';
             if (!is_file($service_file)) {
                 continue;
             }

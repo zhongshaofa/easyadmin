@@ -8,6 +8,7 @@ use think\App;
 
 class Middleware
 {
+
     protected $app;
 
     public function __construct(App $app)
@@ -25,4 +26,5 @@ class Middleware
     {
         return $next($request);
     }
+
 }
