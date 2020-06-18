@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "05757640ff48514d2389a882f1a0293b",
+    "content-hash": "968bfd5cb935bd6126de79817fd43b0b",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -1904,52 +1904,6 @@
     ],
     "packages-dev": [
         {
-            "name": "eaglewu/swoole-ide-helper",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wudi/swoole-ide-helper.git",
-                "reference": "a255daa05feffbf4b88d59897a9470696d2fe259"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wudi/swoole-ide-helper/zipball/a255daa05feffbf4b88d59897a9470696d2fe259",
-                "reference": "a255daa05feffbf4b88d59897a9470696d2fe259",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "eagle",
-                    "email": "eaglewudi@gmail.com",
-                    "role": "lead"
-                }
-            ],
-            "description": "Swoole IDE Helper, to improve auto-completion",
-            "keywords": [
-                "autocomplete",
-                "codeintel",
-                "helper",
-                "ide",
-                "netbeans",
-                "phpdoc",
-                "phpstorm",
-                "sublime",
-                "swoole"
-            ],
-            "time": "2019-11-02T07:18:22+00:00"
-        },
-        {
             "name": "symfony/polyfill-php72",
             "version": "v1.12.0",
             "source": {
@@ -2095,9 +2049,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "eaglewu/swoole-ide-helper": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

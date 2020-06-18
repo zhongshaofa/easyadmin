@@ -29,8 +29,7 @@
         "alibabacloud/client": "^1.5"
     },
     "require-dev": {
-        "symfony/var-dumper": "^4.2",
-        "eaglewu/swoole-ide-helper": "dev-master"
+        "symfony/var-dumper": "^4.2"
     },
     "autoload": {
         "psr-4": {

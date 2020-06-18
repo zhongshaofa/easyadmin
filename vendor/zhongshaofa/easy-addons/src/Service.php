@@ -48,7 +48,7 @@ class Service extends \think\Service
     {
 
         // 加载插件
-//        $this->loadApp();
+        $this->loadApp();
 
 //        dump($this->rou);
 
@@ -66,7 +66,7 @@ class Service extends \think\Service
      */
     protected function loadApp()
     {
-        return false;
+//        return false;
 
         // todo 此处要实现获取当前插件名称才行
         $addon = 'email';
