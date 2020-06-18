@@ -48,11 +48,11 @@ class Service extends \think\Service
 
         $this->registerRoutes(function (Route $route) {
 
-            // 路由脚本
-            $execute = '\\EasyAddons\\Route::execute';
-
             // 挂载插件的自定义路由
             $this->loadRoutes();
+
+            // 路由脚本
+            $execute = '\\EasyAddons\\Route::execute';
 
             // 注册控制器路由
             $route->rule("addons/:addon/[:controller]/[:action]", $execute)->middleware(Middleware::class);
