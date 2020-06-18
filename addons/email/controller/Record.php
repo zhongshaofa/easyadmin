@@ -11,8 +11,11 @@ class Record extends AdminController
 
     public function index()
     {
+        $dispatch = $this->app->route->check()->getDispatch();
+
+        dump($dispatch);
+
         dump(session('admin'));
-        echo '邮件发送记录';
     }
 
     public function list(){

@@ -10,12 +10,7 @@
 // +----------------------------------------------------------------------
 namespace EasyAddons;
 
-use think\event\RouteLoaded;
 use think\Route;
-use think\helper\Str;
-use think\facade\Config;
-use think\facade\Cache;
-use think\facade\Event;
 
 /**
  * 插件服务
@@ -32,20 +27,6 @@ class Service extends \think\Service
 
         $this->addonsPath = $this->getAddonsPath();
 
-        // 加载插件命令集
-        $this->loadCommands();
-
-        // 加载插件系统服务
-        $this->loadService();
-
-        // 绑定插件容器
-        $this->app->bind('addons', Service::class);
-
-    }
-
-    public function boot()
-    {
-
         $this->registerRoutes(function (Route $route) {
 
             // 挂载插件的自定义路由
@@ -58,7 +39,73 @@ class Service extends \think\Service
             $route->rule("addons/:addon/[:controller]/[:action]", $execute)->middleware(Middleware::class);
 
         });
+
+        // 绑定插件容器
+        $this->app->bind('addons', Service::class);
     }
+
+    public function boot()
+    {
+
+        // 加载插件
+//        $this->loadApp();
+
+//        dump($this->rou);
+
+
+        // 加载插件命令集
+        $this->loadCommands();
+
+        // 加载插件系统服务
+        $this->loadService();
+
+    }
+
+    /**
+     * 加载插件
+     */
+    protected function loadApp()
+    {
+        return false;
+
+        // todo 此处要实现获取当前插件名称才行
+        $addon = 'email';
+
+        $basePath = $this->addonsPath  . $addon . DIRECTORY_SEPARATOR;
+        if (is_file($basePath . 'common.php')) {
+            include_once $basePath . 'common.php';
+        }
+
+        $configPath = $this->app->getConfigPath();
+
+        $files = [];
+
+        if (is_dir($basePath . 'config')) {
+            $files = array_merge($files, glob($basePath . 'config' . DIRECTORY_SEPARATOR . '*' . $this->app->getConfigExt()));
+        } elseif (is_dir($configPath . $addon)) {
+            $files = array_merge($files, glob($configPath .$addon . DIRECTORY_SEPARATOR . '*' . $this->app->getConfigExt()));
+        }
+
+        foreach ($files as $file) {
+            $this->app->config->load($file, pathinfo($file, PATHINFO_FILENAME));
+        }
+
+        if (is_file($basePath . 'event.php')) {
+            $this->app->loadEvent(include $basePath . 'event.php');
+        }
+
+        if (is_file($basePath . 'middleware.php')) {
+            $this->app->middleware->import(include $basePath . 'middleware.php', 'app');
+        }
+
+        if (is_file($basePath . 'provider.php')) {
+            $this->app->bind(include $basePath . 'provider.php');
+        }
+
+        // 加载应用默认语言包
+        $this->app->loadLangPack($this->app->lang->defaultLangSet());
+    }
+
 
     /**
      * 加载插件自定义命令行

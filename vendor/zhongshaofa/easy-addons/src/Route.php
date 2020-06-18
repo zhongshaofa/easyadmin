@@ -49,11 +49,6 @@ class Route
         $class = "\\addons\\{$addon}\\controller\\{$controllerName}";
         $instance = new $class($app);
 
-        // TODO 目前中间件有问题,无法注册该插件的中间件, 未定位到原因
-//        if (is_file($app->addons->getAddonsPath() . $addon . DIRECTORY_SEPARATOR . 'middleware.php')) {
-//            $app->middleware->import(include $app->addons->getAddonsPath() . $addon . DIRECTORY_SEPARATOR . 'middleware.php','app');
-//        }
-
         $vars = [];
         if (is_callable([$instance, $action])) {
             // 执行操作方法
