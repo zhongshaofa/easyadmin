@@ -4,13 +4,14 @@
 namespace addons\email\controller;
 
 
-use app\BaseController;
+use app\common\controller\AdminController;
 
-class Record extends BaseController
+class Record extends AdminController
 {
 
     public function index()
     {
+        dump(session('admin'));
         echo '邮件发送记录';
     }
 

@@ -32,6 +32,9 @@ class Service extends \think\Service
 
         $this->addonsPath = $this->getAddonsPath();
 
+        // 加载插件命令集
+        $this->loadCommands();
+
         // 加载插件系统服务
         $this->loadService();
 
@@ -55,6 +58,25 @@ class Service extends \think\Service
             $route->rule("addons/:addon/[:controller]/[:action]", $execute)->middleware(Middleware::class);
 
         });
+    }
+
+    /**
+     * 加载插件自定义命令行
+     */
+    protected function loadCommands(){
+        $commands = [];
+        $addonsDirs = scandir($this->addonsPath);
+        foreach ($addonsDirs as $dir) {
+            if (in_array($dir, ['.', '..'])) {
+                continue;
+            }
+            $addonConsole = $this->addonsPath . $dir . DIRECTORY_SEPARATOR  . 'config' . DIRECTORY_SEPARATOR . 'console.php';
+            if (is_file($addonConsole)) {
+                $config = require $addonConsole;
+                isset($config['commands']) && $commands = array_merge($commands, $config['commands']);
+            }
+        }
+        !empty($commands) && $this->commands($commands);
     }
 
     /**
