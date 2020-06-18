@@ -24,12 +24,12 @@ use think\facade\Event;
 class Service extends \think\Service
 {
 
-    protected $addons_path;
+    protected $addonsPath;
 
     public function register()
     {
 
-        $this->addons_path = $this->getAddonsPath();
+        $this->addonsPath = $this->getAddonsPath();
 
         // 加载插件系统服务
         $this->loadService();
@@ -53,45 +53,8 @@ class Service extends \think\Service
             // 注册控制器路由
             $route->rule("addons/:addon/[:controller]/[:action]", $execute)->middleware(Middleware::class);
 
-            // 自定义路由
-            $routes = (array) Config::get('addons.route', []);
-            foreach ($routes as $key => $val) {
-                if (!$val) {
-                    continue;
-                }
-                if (is_array($val)) {
-                    $domain = $val['domain'];
-                    $rules = [];
-                    foreach ($val['rule'] as $k => $rule) {
-                        [$addon, $controller, $action] = explode('/', $rule);
-                        $rules[$k] = [
-                            'addons'        => $addon,
-                            'controller'    => $controller,
-                            'action'        => $action,
-                            'indomain'      => 1,
-                        ];
-                    }
-                    $route->domain($domain, function () use ($rules, $route, $execute) {
-                        // 动态注册域名的路由规则
-                        foreach ($rules as $k => $rule) {
-                            $route->rule($k, $execute)
-                                ->name($k)
-                                ->completeMatch(true)
-                                ->append($rule);
-                        }
-                    });
-                } else {
-                    list($addon, $controller, $action) = explode('/', $val);
-                    $route->rule($key, $execute)
-                        ->name($key)
-                        ->completeMatch(true)
-                        ->append([
-                            'addons' => $addon,
-                            'controller' => $controller,
-                            'action' => $action
-                        ]);
-                }
-            }
+            // 读取插件的自定义路由
+
         });
     }
 
@@ -100,16 +63,16 @@ class Service extends \think\Service
      */
     private function loadService()
     {
-        $results = scandir($this->addons_path);
+        $results = scandir($this->addonsPath);
         $bind = [];
         foreach ($results as $name) {
             if ($name === '.' or $name === '..') {
                 continue;
             }
-            if (is_file($this->addons_path . $name)) {
+            if (is_file($this->addonsPath . $name)) {
                 continue;
             }
-            $addonDir = $this->addons_path . $name . DIRECTORY_SEPARATOR;
+            $addonDir = $this->addonsPath . $name . DIRECTORY_SEPARATOR;
             if (!is_dir($addonDir)) {
                 continue;
             }
@@ -128,21 +91,17 @@ class Service extends \think\Service
         $this->app->bind($bind);
     }
 
-
     /**
      * 获取 addons 路径
      * @return string
      */
     public function getAddonsPath()
     {
-        // 初始化插件目录
-        $addons_path = $this->app->getRootPath() . 'addons' . DIRECTORY_SEPARATOR;
-        // 如果插件目录不存在则创建
-        if (!is_dir($addons_path)) {
-            @mkdir($addons_path, 0755, true);
+        $addonsPath = $this->app->getRootPath() . 'addons' . DIRECTORY_SEPARATOR;
+        if (!is_dir($addonsPath)) {
+            @mkdir($addonsPath, 0755, true);
         }
-
-        return $addons_path;
+        return $addonsPath;
     }
 
 }
