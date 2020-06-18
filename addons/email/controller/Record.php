@@ -14,4 +14,12 @@ class Record extends BaseController
         echo '邮件发送记录';
     }
 
+    public function list(){
+        echo 'email:list';
+    }
+
+    public function route(){
+        echo 'email:route';
+    }
+
 }

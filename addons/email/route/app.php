@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+
 use think\facade\Route;
 
-Route::rule('asfd/list','News/read');
+Route::rule('email/route','\\addons\\email\\controller\\Record@route');

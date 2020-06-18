@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace EasyAddons;
 
+use think\event\RouteLoaded;
 use think\Route;
 use think\helper\Str;
 use think\facade\Config;
@@ -42,6 +43,9 @@ class Service extends \think\Service
     public function boot()
     {
         $this->registerRoutes(function (Route $route) {
+
+//            $this->app->event->withEvent($this->app->config->get('app.with_event', true));
+
             // 路由脚本
             $execute = '\\EasyAddons\\Route::execute';
 
@@ -53,9 +57,30 @@ class Service extends \think\Service
             // 注册控制器路由
             $route->rule("addons/:addon/[:controller]/[:action]", $execute)->middleware(Middleware::class);
 
-            // 读取插件的自定义路由
+            // 挂载插件的自定义路由
+            $this->loadRoutes();
 
         });
+    }
+
+    /**
+     *  加载插件自定义路由文件
+     */
+    protected function loadRoutes()
+    {
+        $addonsDirs = scandir($this->addonsPath);
+        foreach ($addonsDirs as $dir) {
+            if (in_array($dir, ['.', '..'])) {
+                continue;
+            }
+            $addonRouteDir = $this->addonsPath . $dir . DIRECTORY_SEPARATOR . 'route' . DIRECTORY_SEPARATOR;
+            if (is_dir($addonRouteDir)) {
+                $files = glob($addonRouteDir . '*.php');
+                foreach ($files as $file) {
+                    include $file;
+                }
+            }
+        }
     }
 
     /**
