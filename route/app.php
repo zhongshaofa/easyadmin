@@ -10,4 +10,5 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::rule('demo/test','\\app\\admin\\controller\\mall\\Cate@index');
+Route::rule('test','\\app\\test\\controller\\Index@index');
+Route::rule('test/detail','\\app\\test\\controller\\Index@detail');

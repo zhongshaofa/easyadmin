@@ -11,11 +11,13 @@ class Record extends AdminController
 
     public function index()
     {
-        $dispatch = $this->app->route->check()->getDispatch();
-
-        dump($dispatch);
-
-        dump(session('admin'));
+        $data = [
+            'addon'=>$this->request->addons,
+            'controller'=>$this->request->controller(),
+            'action'=>$this->request->action(),
+        ];
+        halt($data);
+        return $this->fetch();
     }
 
     public function list(){

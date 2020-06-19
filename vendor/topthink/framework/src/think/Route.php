@@ -13,6 +13,7 @@ declare (strict_types = 1);
 namespace think;
 
 use Closure;
+use EasyAddons\TpRoute;
 use think\exception\RouteNotFoundException;
 use think\route\Dispatch;
 use think\route\dispatch\Url as UrlDispatch;
@@ -234,6 +235,17 @@ class Route
         $this->mergeRuleRegex = $merge;
         $this->group->mergeRuleRegex($merge);
 
+        return $this;
+    }
+
+    /**
+     * 设置request属性
+     * @param Request $request
+     * @return $this
+     */
+    public function setRequest(Request $request)
+    {
+        $this->request = $request;
         return $this;
     }
 

@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace EasyAddons;
 
+use think\facade\Config;
 use think\Route;
 
 /**
@@ -20,21 +21,26 @@ use think\Route;
 class Service extends \think\Service
 {
 
+    /**
+     * 插件名
+     * @var string
+     */
+    protected $addonName;
+
+    /**
+     * 插件地址
+     * @var string
+     */
     protected $addonsPath;
+
 
     public function register()
     {
-
         $this->addonsPath = $this->getAddonsPath();
 
         $this->registerRoutes(function (Route $route) {
-
-            // 挂载插件的自定义路由
-            $this->loadRoutes();
-
             // 路由脚本
             $execute = '\\EasyAddons\\Route::execute';
-
             // 注册控制器路由
             $route->rule("addons/:addon/[:controller]/[:action]", $execute)->middleware(Middleware::class);
 
@@ -46,12 +52,11 @@ class Service extends \think\Service
 
     public function boot()
     {
+        // 挂载插件的自定义路由
+        $this->loadRoutes();
 
         // 加载插件
         $this->loadApp();
-
-//        dump($this->rou);
-
 
         // 加载插件命令集
         $this->loadCommands();
@@ -66,12 +71,41 @@ class Service extends \think\Service
      */
     protected function loadApp()
     {
-//        return false;
 
-        // todo 此处要实现获取当前插件名称才行
-        $addon = 'email';
+        $route = $this->app->route
+            ->setRequest($this->app->request)
+            ->check()
+            ->getDispatch();
 
-        $basePath = $this->addonsPath  . $addon . DIRECTORY_SEPARATOR;
+        if (!is_array($route) || count($route) < 2) {
+            return false;
+        }
+
+        if($route[0] == 'addons'){
+            $this->addonName = $route[1];
+        }else{
+            // 自定义路由
+            $name = $this->stringCut('addons\\','\\controller\\',$route[0]);
+            if (empty($name)) {
+                return false;
+            }
+            $this->addonName = $name;
+
+            // 设置当前控制器和方法
+            $controllerArray = explode('\\controller\\', $route[0]);
+            if(count($controllerArray)!=2){
+                return false;
+            }
+            $controller = str_replace('\\','.',end($controllerArray));
+            $this->app->request->setController($controller)->setAction($route[1]);
+
+            // 重写视图地址
+            $viewConfig = Config::get('view');
+            $viewConfig['view_path'] = $this->addonsPath . $this->addonName . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR;
+            Config::set($viewConfig, 'view');
+        }
+
+        $basePath = $this->addonsPath  . $this->addonName . DIRECTORY_SEPARATOR;
         if (is_file($basePath . 'common.php')) {
             include_once $basePath . 'common.php';
         }
@@ -82,8 +116,8 @@ class Service extends \think\Service
 
         if (is_dir($basePath . 'config')) {
             $files = array_merge($files, glob($basePath . 'config' . DIRECTORY_SEPARATOR . '*' . $this->app->getConfigExt()));
-        } elseif (is_dir($configPath . $addon)) {
-            $files = array_merge($files, glob($configPath .$addon . DIRECTORY_SEPARATOR . '*' . $this->app->getConfigExt()));
+        } elseif (is_dir($configPath . $this->addonName)) {
+            $files = array_merge($files, glob($configPath .$this->addonName . DIRECTORY_SEPARATOR . '*' . $this->app->getConfigExt()));
         }
 
         foreach ($files as $file) {
@@ -187,6 +221,20 @@ class Service extends \think\Service
             @mkdir($addonsPath, 0755, true);
         }
         return $addonsPath;
+    }
+
+    /**
+     * 截取两字符串中间的值
+     * @param $begin
+     * @param $end
+     * @param $string
+     * @return string
+     */
+    protected function stringCut($begin, $end, $string)
+    {
+        $b = mb_strpos($string, $begin) + mb_strlen($begin);
+        $e = mb_strpos($string, $end) - $b;
+        return mb_substr($string, $b, $e);
     }
 
 }

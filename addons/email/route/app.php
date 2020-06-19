@@ -11,4 +11,6 @@
 
 use think\facade\Route;
 
-Route::rule('email/record','\\addons\\email\\controller\\Record@index');
+Route::rule('email/record','addons\\email\\controller\\Record@index');
+
+Route::rule('email/record/detail','addons\\email\\controller\\Record@list');
