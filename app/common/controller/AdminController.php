@@ -163,10 +163,10 @@ class AdminController extends BaseController
                 $excludes[$key] = $val;
                 continue;
             }
+            $op = isset($ops[$key]) && !empty($ops[$key]) ? $ops[$key] : '%*%';
             if ($this->relationSerach && count(explode('.', $key)) == 1) {
                 $key = "{$tableName}.{$key}";
             }
-            $op = isset($ops[$key]) && !empty($ops[$key]) ? $ops[$key] : '%*%';
             switch (strtolower($op)) {
                 case '=':
                     $where[] = [$key, '=', $val];
