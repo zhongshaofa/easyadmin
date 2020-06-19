@@ -33,16 +33,31 @@ class Service extends \think\Service
      */
     protected $addonsPath;
 
+    /**
+     * 后台别名
+     * @var string
+     */
+    protected $adminAliasName;
 
+    /**
+     * 服务注册
+     */
     public function register()
     {
         $this->addonsPath = $this->getAddonsPath();
 
+        $this->adminAliasName = $this->app->config->get('app.admin_alias_name');
+
         $this->registerRoutes(function (Route $route) {
-            // 路由脚本
-            $execute = '\\EasyAddons\\Route::execute';
-            // 注册控制器路由
-            $route->rule("addons/:addon/[:controller]/[:action]", $execute)->middleware(Middleware::class);
+
+            // 注册插件后台控制器
+            $route->rule("addons/{$this->adminAliasName}/:addon/[:controller]/[:action]", '\\EasyAddons\\Route::adminExecute')->middleware(Middleware::class);
+
+            // 注册插件API控制器
+            $route->rule("addons/api/:addon/[:controller]/[:action]", '\\EasyAddons\\Route::apiExecute')->middleware(Middleware::class);
+
+            // 注册插件前台控制器
+            $route->rule("addons/:addon/[:controller]/[:action]", '\\EasyAddons\\Route::homeExecute')->middleware(Middleware::class);
 
         });
 

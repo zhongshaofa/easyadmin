@@ -9,7 +9,22 @@ use think\exception\HttpException;
 class Route
 {
 
-    public static function execute($addon = null, $controller = null, $action = null)
+    public static function adminExecute($addon = null, $controller = null, $action = null)
+    {
+        return self::execute('admin',$addon,$controller,$action);
+    }
+
+    public static function homeExecute($addon = null, $controller = null, $action = null)
+    {
+        return self::execute('home',$addon,$controller,$action);
+    }
+
+    public static function apiExecute($addon = null, $controller = null, $action = null)
+    {
+        return self::execute('api',$addon,$controller,$action);
+    }
+
+    public static function execute($module, $addon = null, $controller = null, $action = null)
     {
         $app = app();
         $request = $app->request;
@@ -37,7 +52,7 @@ class Route
         $controller = implode('.', $controllerArray);
 
         // 设置当前请求的控制器、操作方法
-        $request->setController($controller)->setAction($action);
+        $request->setController("{$module}.{$controller}")->setAction($action);
 
         // 重写视图基础路径
         $viewConfig = Config::get('view');
@@ -46,7 +61,7 @@ class Route
 
         // 生成控制器对象
         $controllerName = implode('\\', $controllerArray);
-        $class = "\\addons\\{$addon}\\controller\\{$controllerName}";
+        $class = "\\addons\\{$addon}\\controller\\{$module}\\{$controllerName}";
         $instance = new $class($app);
 
         $vars = [];
@@ -64,5 +79,6 @@ class Route
 
         return call_user_func_array($call, $vars);
     }
+
 
 }
