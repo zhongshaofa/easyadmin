@@ -4,14 +4,14 @@
 namespace addons\answer\controller\admin;
 
 
-use app\common\controller\AdminController;
+use addons\answer\controller\AnswerAdminController;
 
-class Cate extends AdminController
+class Cate extends AnswerAdminController
 {
 
     public function index()
     {
-        echo 'admin : answer : index';
+        halt($this->app->addons);
         return $this->fetch();
     }
 
