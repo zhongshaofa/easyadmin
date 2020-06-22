@@ -350,7 +350,7 @@ class BuildCurd
             }
 
             $modelFilename = empty($modelFilename) ? ucfirst(CommonTool::lineToHump($relationTable)) : $modelFilename;
-            $modelArray = explode($this->DS, $modelFilename);
+            $modelArray = explode('/', $modelFilename);
             $modelName = array_pop($modelArray);
 
             $relation = [
@@ -567,7 +567,7 @@ class BuildCurd
      */
     protected function buildViewJsUrl()
     {
-        $nodeArray = explode($this->DS, $this->controllerFilename);
+        $nodeArray = explode('/', $this->controllerFilename);
         $formatArray = [];
         foreach ($nodeArray as $vo) {
             $formatArray[] = CommonTool::humpToLine(lcfirst($vo));
@@ -583,7 +583,7 @@ class BuildCurd
         $this->controllerNamespace = empty($namespaceSuffix) ? "app\admin\controller" : "app\admin\controller\\{$namespaceSuffix}";
 
         // 主表模型命名
-        $modelArray = explode($this->DS, $this->modelFilename);
+        $modelArray = explode('/', $this->modelFilename);
 
         $this->modelName = array_pop($modelArray);
 
