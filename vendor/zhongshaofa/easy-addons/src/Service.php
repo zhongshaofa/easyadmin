@@ -86,7 +86,6 @@ class Service extends \think\Service
      */
     protected function loadApp()
     {
-
         $route = $this->app->route
             ->setRequest($this->app->request)
             ->check()

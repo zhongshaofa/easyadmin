@@ -24,8 +24,6 @@ class ViewInit
 
     public function handle($request, \Closure $next)
     {
-//        $addons =$request->addons;
-//        halt($addons);
         list($thisModule, $thisController, $thisAction) = [app('http')->getName(),$request->controller(), $request->action()];
         list($thisControllerArr, $jsPath) = [explode('.', $thisController), null];
         foreach ($thisControllerArr as $vo) {

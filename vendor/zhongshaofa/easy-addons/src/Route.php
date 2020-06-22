@@ -3,6 +3,7 @@
 namespace EasyAddons;
 
 use EasyAdmin\tool\CommonTool;
+use think\App;
 use think\facade\Config;
 use think\exception\HttpException;
 
@@ -64,6 +65,9 @@ class Route
         $class = "\\addons\\{$addon}\\controller\\{$module}\\{$controllerName}";
         $instance = new $class($app);
 
+        // 判断是否有控制器中间件
+        self::registerControllerMiddleware($instance,$app);
+
         $vars = [];
         if (is_callable([$instance, $action])) {
             // 执行操作方法
@@ -78,6 +82,39 @@ class Route
         }
 
         return call_user_func_array($call, $vars);
+    }
+
+    protected static function registerControllerMiddleware($controller, App $app): void
+    {
+        $class = new \ReflectionClass($controller);
+
+        if ($class->hasProperty('middleware')) {
+            $reflectionProperty = $class->getProperty('middleware');
+            $reflectionProperty->setAccessible(true);
+
+            $middlewares = $reflectionProperty->getValue($controller);
+
+            foreach ($middlewares as $key => $val) {
+                if (!is_int($key)) {
+                    if (isset($val['only']) && !in_array($app->request->action(true), array_map(function ($item) {
+                            return strtolower($item);
+                        }, is_string($val['only']) ? explode(",", $val['only']) : $val['only']))) {
+                        continue;
+                    } elseif (isset($val['except']) && in_array($app->request->action(true), array_map(function ($item) {
+                            return strtolower($item);
+                        }, is_string($val['except']) ? explode(',', $val['except']) : $val['except']))) {
+                        continue;
+                    } else {
+                        $val = $key;
+                    }
+                }
+
+                if (is_string($val) && strpos($val, ':')) {
+                    $val = explode(':', $val, 2);
+                }
+                app()->middleware->controller($val);
+            }
+        }
     }
 
 

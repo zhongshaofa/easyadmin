@@ -15,4 +15,8 @@ class Cate extends AnswerAdminController
         return $this->fetch();
     }
 
+    public function rule(){
+        echo '自定义路由';
+    }
+
 }

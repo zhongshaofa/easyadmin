@@ -29,6 +29,20 @@ class AdminController extends BaseController
     use \app\common\traits\JumpTrait;
 
     /**
+     * 控制器中间件
+     * @var array
+     */
+    protected $middleware = [
+
+        // 后台视图初始化
+        \app\admin\middleware\ViewInit::class,
+
+        // 检测用户是否登录
+        \app\admin\middleware\CheckAdmin::class,
+
+    ];
+
+    /**
      * 当前模型
      * @Model
      * @var object
