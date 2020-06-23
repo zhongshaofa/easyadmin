@@ -26,6 +26,12 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         },
         url: function (url, addonName) {
             if (addonName === undefined) {
+                if (url.indexOf('/addons/') === 0) {
+                    return url;
+                }
+                if (url.indexOf('/' + CONFIG.ADMIN + '/') === 0) {
+                    return url;
+                }
                 return '/' + CONFIG.ADMIN + '/' + url;
             } else {
                 return '/addons/' + addonName + '/' + CONFIG.ADMIN + '/' + url;

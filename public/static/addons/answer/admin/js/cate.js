@@ -3,12 +3,12 @@ define(["jquery", "easy-admin"], function ($, ea) {
     var init = {
         table_elem: '#currentTable',
         table_render_id: 'currentTableRenderId',
-        index_url: 'cate/index',
-        add_url: 'cate/add',
-        edit_url: 'cate/edit',
-        delete_url: 'cate/delete',
-        export_url: 'cate/export',
-        modify_url: 'cate/modify',
+        index_url: ea.url('cate/index', 'answer'),
+        add_url: ea.url('cate/add', 'answer'),
+        edit_url: ea.url('cate/edit', 'answer'),
+        delete_url: ea.url('cate/delete', 'answer'),
+        export_url: ea.url('cate/export', 'answer'),
+        modify_url: ea.url('cate/modify', 'answer'),
     };
 
     var Controller = {
