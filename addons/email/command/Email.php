@@ -9,6 +9,7 @@ use think\console\Command;
 use think\console\Input;
 use think\console\Output;
 
+
 class Email extends Command
 {
     protected function configure()
