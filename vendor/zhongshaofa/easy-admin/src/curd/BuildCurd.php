@@ -321,6 +321,9 @@ class BuildCurd
         if (!isset($this->tableColumns[$foreignKey])) {
             throw new TableException("主表不存在外键字段：{$foreignKey}");
         }
+        if (!empty($modelFilename)) {
+            $modelFilename = str_replace('/', $this->DS, $modelFilename);
+        }
         try {
             $colums = Db::query("SHOW FULL COLUMNS FROM {$this->tablePrefix}{$relationTable}");
             $formatColums = [];
@@ -350,7 +353,7 @@ class BuildCurd
             }
 
             $modelFilename = empty($modelFilename) ? ucfirst(CommonTool::lineToHump($relationTable)) : $modelFilename;
-            $modelArray = explode('/', $modelFilename);
+            $modelArray = explode($this->DS, $modelFilename);
             $modelName = array_pop($modelArray);
 
             $relation = [
@@ -362,8 +365,8 @@ class BuildCurd
                 'delete'          => $delete,
                 'tableColumns'    => $formatColums,
             ];
-            if(!empty($bindSelectField)){
-                $relationArray = explode('\\',$modelFilename);
+            if (!empty($bindSelectField)) {
+                $relationArray = explode('\\', $modelFilename);
                 $this->tableColumns[$foreignKey]['bindSelectField'] = $bindSelectField;
                 $this->tableColumns[$foreignKey]['bindRelation'] = end($relationArray);
             }
@@ -382,7 +385,7 @@ class BuildCurd
      */
     public function setControllerFilename($controllerFilename)
     {
-        $this->controllerFilename = $controllerFilename;
+        $this->controllerFilename = str_replace('/', $this->DS, $controllerFilename);
         $this->buildViewJsUrl();
         return $this;
     }
@@ -394,7 +397,8 @@ class BuildCurd
      */
     public function setModelFilename($modelFilename)
     {
-        $this->modelFilename = $modelFilename;
+        $this->modelFilename = str_replace('/', $this->DS, $modelFilename);
+        $this->buildViewJsUrl();
         return $this;
     }
 
@@ -438,7 +442,7 @@ class BuildCurd
      */
     public function setCheckboxFieldSuffix($array)
     {
-        $this->checkboxFieldSuffix = array_merge($this->checkboxFieldSuffix,$array);
+        $this->checkboxFieldSuffix = array_merge($this->checkboxFieldSuffix, $array);
         return $this;
     }
 
@@ -449,7 +453,7 @@ class BuildCurd
      */
     public function setRadioFieldSuffix($array)
     {
-        $this->radioFieldSuffix = array_merge($this->radioFieldSuffix,$array);
+        $this->radioFieldSuffix = array_merge($this->radioFieldSuffix, $array);
         return $this;
     }
 
@@ -460,7 +464,7 @@ class BuildCurd
      */
     public function setImageFieldSuffix($array)
     {
-        $this->imageFieldSuffix = array_merge($this->imageFieldSuffix,$array);
+        $this->imageFieldSuffix = array_merge($this->imageFieldSuffix, $array);
         return $this;
     }
 
@@ -471,7 +475,7 @@ class BuildCurd
      */
     public function setImagesFieldSuffix($array)
     {
-        $this->imagesFieldSuffix = array_merge($this->imagesFieldSuffix,$array);
+        $this->imagesFieldSuffix = array_merge($this->imagesFieldSuffix, $array);
         return $this;
     }
 
@@ -482,7 +486,7 @@ class BuildCurd
      */
     public function setFileFieldSuffix($array)
     {
-        $this->fileFieldSuffix = array_merge($this->fileFieldSuffix,$array);
+        $this->fileFieldSuffix = array_merge($this->fileFieldSuffix, $array);
         return $this;
     }
 
@@ -493,7 +497,7 @@ class BuildCurd
      */
     public function setFilesFieldSuffix($array)
     {
-        $this->filesFieldSuffix = array_merge($this->filesFieldSuffix,$array);
+        $this->filesFieldSuffix = array_merge($this->filesFieldSuffix, $array);
         return $this;
     }
 
@@ -504,7 +508,7 @@ class BuildCurd
      */
     public function setDateFieldSuffix($array)
     {
-        $this->dateFieldSuffix = array_merge($this->dateFieldSuffix,$array);
+        $this->dateFieldSuffix = array_merge($this->dateFieldSuffix, $array);
         return $this;
     }
 
@@ -515,7 +519,7 @@ class BuildCurd
      */
     public function setSwitchFields($array)
     {
-        $this->switchFields = array_merge($this->switchFields,$array);
+        $this->switchFields = array_merge($this->switchFields, $array);
         return $this;
     }
 
@@ -526,7 +530,7 @@ class BuildCurd
      */
     public function setSelectFileds($array)
     {
-        $this->selectFileds = array_merge($this->selectFileds,$array);
+        $this->selectFileds = array_merge($this->selectFileds, $array);
         return $this;
     }
 
@@ -537,7 +541,7 @@ class BuildCurd
      */
     public function setSortFields($array)
     {
-        $this->sortFields = array_merge($this->sortFields,$array);
+        $this->sortFields = array_merge($this->sortFields, $array);
         return $this;
     }
 
@@ -548,7 +552,7 @@ class BuildCurd
      */
     public function setIgnoreFields($array)
     {
-        $this->ignoreFields = array_merge($this->ignoreFields,$array);
+        $this->ignoreFields = array_merge($this->ignoreFields, $array);
         return $this;
     }
 
@@ -567,7 +571,7 @@ class BuildCurd
      */
     protected function buildViewJsUrl()
     {
-        $nodeArray = explode('/', $this->controllerFilename);
+        $nodeArray = explode($this->DS, $this->controllerFilename);
         $formatArray = [];
         foreach ($nodeArray as $vo) {
             $formatArray[] = CommonTool::humpToLine(lcfirst($vo));
@@ -583,7 +587,7 @@ class BuildCurd
         $this->controllerNamespace = empty($namespaceSuffix) ? "app\admin\controller" : "app\admin\controller\\{$namespaceSuffix}";
 
         // 主表模型命名
-        $modelArray = explode('/', $this->modelFilename);
+        $modelArray = explode($this->DS, $this->modelFilename);
 
         $this->modelName = array_pop($modelArray);
 
@@ -984,9 +988,9 @@ class BuildCurd
                 ]);
         }
         $selectList = '';
-        foreach ($this->relationArray as $relation){
-            if(!empty($relation['bindSelectField'])){
-                $relationArray  = explode('\\',$relation['modelFilename']);
+        foreach ($this->relationArray as $relation) {
+            if (!empty($relation['bindSelectField'])) {
+                $relationArray = explode('\\', $relation['modelFilename']);
                 $selectList .= $this->buildSelectController(end($relationArray));
             }
         }
@@ -1036,8 +1040,8 @@ class BuildCurd
         }
 
         $selectList = '';
-        foreach ($this->relationArray as $relation){
-            if(!empty($relation['bindSelectField'])){
+        foreach ($this->relationArray as $relation) {
+            if (!empty($relation['bindSelectField'])) {
                 $selectList .= $this->buildRelationSelectModel($relation['modelFilename'], $relation['bindSelectField']);
             }
         }
@@ -1047,11 +1051,18 @@ class BuildCurd
             }
         }
 
+        $extendNamespaceArray = explode($this->DS, $this->modelFilename);
+        $extendNamespace = null;
+        if (count($extendNamespaceArray) > 1) {
+            array_pop($extendNamespaceArray);
+            $extendNamespace = '\\' . implode('\\', $extendNamespaceArray);
+        }
+
         $modelValue = CommonTool::replaceTemplate(
             $this->getTemplate("model{$this->DS}model"),
             [
                 'modelName'      => $this->modelName,
-                'modelNamespace' => "app\admin\model",
+                'modelNamespace' => "app\admin\model{$extendNamespace}",
                 'table'          => $this->table,
                 'deleteTime'     => $this->delete ? '"delete_time"' : 'false',
                 'relationList'   => $relationList,
@@ -1072,11 +1083,18 @@ class BuildCurd
                 }
             }
 
+            $extendNamespaceArray = explode($this->DS, $val['modelFilename']);
+            $extendNamespace = null;
+            if (count($extendNamespaceArray) > 1) {
+                array_pop($extendNamespaceArray);
+                $extendNamespace = '\\' . implode('\\', $extendNamespaceArray);
+            }
+
             $relationModelValue = CommonTool::replaceTemplate(
                 $this->getTemplate("model{$this->DS}model"),
                 [
                     'modelName'      => $val['modelName'],
-                    'modelNamespace' => "app\admin\model",
+                    'modelNamespace' => "app\admin\model{$extendNamespace}",
                     'table'          => $key,
                     'deleteTime'     => $val['delete'] ? '"delete_time"' : 'false',
                     'relationList'   => '',
@@ -1131,13 +1149,13 @@ class BuildCurd
                 $templateFile = "view{$this->DS}module{$this->DS}date";
                 if (isset($val['define']) && !empty($val['define'])) {
                     $define = $val['define'];
-                }else{
-                    $define ='datetime';
+                } else {
+                    $define = 'datetime';
                 }
                 if (!in_array($define, ['year', 'month', 'date', 'time', 'datetime'])) {
                     $define = 'datetime';
                 }
-            }  elseif ($val['formType'] == 'radio') {
+            } elseif ($val['formType'] == 'radio') {
                 $templateFile = "view{$this->DS}module{$this->DS}radio";
                 if (isset($val['define']) && !empty($val['define'])) {
                     $define = $this->buildRadioView($field, '{in name="k" value="' . $val['default'] . '"}checked=""{/in}');
@@ -1206,13 +1224,13 @@ class BuildCurd
                 $templateFile = "view{$this->DS}module{$this->DS}date";
                 if (isset($val['define']) && !empty($val['define'])) {
                     $define = $val['define'];
-                }else{
-                    $define ='datetime';
+                } else {
+                    $define = 'datetime';
                 }
                 if (!in_array($define, ['year', 'month', 'date', 'time', 'datetime'])) {
                     $define = 'datetime';
                 }
-            }  elseif ($val['formType'] == 'radio') {
+            } elseif ($val['formType'] == 'radio') {
                 $templateFile = "view{$this->DS}module{$this->DS}radio";
                 if (isset($val['define']) && !empty($val['define'])) {
                     $define = $this->buildRadioView($field, '{in name="k" value="$row.' . $field . '"}checked=""{/in}');
