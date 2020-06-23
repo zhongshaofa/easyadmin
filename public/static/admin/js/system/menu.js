@@ -41,16 +41,19 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                         {field: 'href', minWidth: 120, title: '菜单链接'},
                         {
                             field: 'is_home',
-                            width: 80,
+                            width: 200,
                             title: '类型',
                             templet: function (d) {
                                 if (d.pid === 99999999) {
                                     return '<span class="layui-badge layui-bg-blue">首页</span>';
                                 }
+                                if(d.addon !== null && d.addon !== ''){
+                                    return '<span class="layui-badge layui-btn-danger">插件：'+d.addon+'</span>';
+                                }
                                 if (d.pid === 0) {
-                                    return '<span class="layui-badge layui-bg-gray">模块</span>';
+                                    return '<span class="layui-badge layui-btn-success">模块</span>';
                                 } else {
-                                    return '<span class="layui-badge-rim">菜单</span>';
+                                    return '<span class="layui-badge layui-bg-gray">菜单</span>';
                                 }
                             }
                         },
