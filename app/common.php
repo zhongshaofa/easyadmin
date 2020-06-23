@@ -224,3 +224,20 @@ if (!function_exists('addons_path')) {
         return ADDONS_PATH;
     }
 }
+
+if (!function_exists('addon_admin_url')) {
+
+    /**
+     * 获取插件后台地址
+     * @param string $addonName
+     * @param string $url
+     * @param bool $suffix
+     * @return string
+     */
+    function addon_admin_url($addonName, $url, $suffix = true)
+    {
+        $admin = env('easyadmin.admin', 'admin');
+        $buildUrl = $suffix ? "/addons/{$addonName}/{$admin}/$url.html" : "/addons/{$addonName}/{$admin}/$url";
+        return $buildUrl;
+    }
+}

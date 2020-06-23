@@ -27,6 +27,14 @@
         </div>
 
         <div class="layui-form-item">
+            <label class="layui-form-label">插件名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="addon" class="layui-input" lay-reqtext="请输入插件名称" placeholder="请输入插件名称" value="{$row.addon|default=''}">
+                <tip>填写插件名称，如果是后台模块就为空</tip>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
             <label class="layui-form-label">菜单链接</label>
             <div class="layui-input-block">
                 <input type="text" name="href" id="href" class="layui-input" lay-reqtext="请输入菜单链接" placeholder="请输入菜单链接" value="{$row.href|default=''}">

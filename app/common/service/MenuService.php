@@ -24,6 +24,10 @@ class MenuService
      */
     protected $adminId;
 
+    /**
+     * MenuService constructor.
+     * @param $adminId
+     */
     public function __construct($adminId)
     {
         $this->adminId = $adminId;
@@ -61,13 +65,24 @@ class MenuService
         return $menuTreeList;
     }
 
+    /**
+     * 递归构建数据
+     * @param $pid
+     * @param $menuList
+     * @return array
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
     private function buildMenuChild($pid, $menuList)
     {
         $treeList = [];
         $authServer = (new AuthService($this->adminId));
         foreach ($menuList as &$v) {
             $check = empty($v['href']) ? true : $authServer->checkNode($v['href']);
-            !empty($v['href']) && $v['href'] = __url($v['href']);
+            if (!empty($v['href'])) {
+                $v['href'] = empty($v['addon']) ? __url($v['href']) : addon_admin_url($v['addon'], $v['href']);
+            }
             if ($pid == $v['pid'] && $check) {
                 $node = $v;
                 $child = $this->buildMenuChild($v['id'], $menuList);
@@ -92,7 +107,7 @@ class MenuService
     protected function getMenuData()
     {
         $menuData = Db::name('system_menu')
-            ->field('id,pid,title,icon,href,target')
+            ->field('id,pid,title,icon,addon,href,target')
             ->where("delete_time is null")
             ->where([
                 ['status', '=', '1'],
