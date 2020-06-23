@@ -103,6 +103,12 @@ class AnswerAdminController extends BaseController
         $this->checkAdmin();
     }
 
+    /**
+     * 后台权限检测
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
     protected function checkAdmin()
     {
         $adminConfig = config('admin');
@@ -137,31 +143,32 @@ class AnswerAdminController extends BaseController
         }
     }
 
-
+    /**
+     * 初始化模板变量
+     */
     protected function viewInit()
     {
-        list($thisModule, $thisController, $thisAction) = [app('http')->getName(), $this->request->controller(), $this->request->action()];
+        list($addonName, $thisController, $thisAction) = [$this->request->addon, $this->request->controller(), $this->request->action()];
+        $thisController = str_replace('admin.','',$thisController);
         list($thisControllerArr, $jsPath) = [explode('.', $thisController), null];
         foreach ($thisControllerArr as $vo) {
             empty($jsPath) ? $jsPath = parse_name($vo) : $jsPath .= '/' . parse_name($vo);
         }
-        $autoloadJs = file_exists(root_path('public') . "static/{$thisModule}/js/{$jsPath}.js") ? true : false;
-        $thisControllerJsPath = "{$thisModule}/js/{$jsPath}.js";
+        $autoloadJs = file_exists(root_path('public') . "static/addons/{$addonName}/admin/js/{$jsPath}.js") ? true : false;
+        $thisControllerJsPath = "addons/{$addonName}/admin/js/{$jsPath}.js";
         $adminModuleName = config('app.admin_alias_name');
         $isSuperAdmin = session('admin.id') == AdminConstant::SUPER_ADMIN_ID ? true : false;
         $data = [
             'adminModuleName'      => $adminModuleName,
             'thisController'       => parse_name($thisController),
             'thisAction'           => $thisAction,
-            'thisRequest'          => parse_name("{$thisModule}/{$thisController}/{$thisAction}"),
-            'thisControllerJsPath' => "{$thisControllerJsPath}",
+            'thisControllerJsPath' => $thisControllerJsPath,
             'autoloadJs'           => $autoloadJs,
             'isSuperAdmin'         => $isSuperAdmin,
             'version'              => env('app_debug') ? time() : ConfigService::getVersion(),
         ];
 
         View::assign($data);
-        $this->request->adminModuleName = $adminModuleName;
     }
 
     /**

@@ -24,8 +24,12 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         config: {
             shade: [0.02, '#000'],
         },
-        url: function (url) {
-            return '/' + CONFIG.ADMIN + '/' + url;
+        url: function (url, addonName) {
+            if (addonName === undefined) {
+                return '/' + CONFIG.ADMIN + '/' + url;
+            } else {
+                return '/addons/' + addonName + '/' + CONFIG.ADMIN + '/' + url;
+            }
         },
         checkAuth: function (node, elem) {
             if (CONFIG.IS_SUPER_ADMIN) {
