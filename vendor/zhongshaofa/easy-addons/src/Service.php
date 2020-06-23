@@ -51,7 +51,6 @@ class Service extends \think\Service
         $this->registerRoutes(function (Route $route) {
 
             // 注册插件后台控制器
-//            $route->rule("addons{$this->adminAliasName}/:addon/[:controller]/[:action]", '\\EasyAddons\\Route::adminExecute')->middleware(Middleware::class);
             $route->rule("addons/:addon/{$this->adminAliasName}/[:controller]/[:action]", '\\EasyAddons\\Route::adminExecute')->middleware(Middleware::class);
 
             // 注册插件API控制器
