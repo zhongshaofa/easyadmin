@@ -999,13 +999,16 @@ class BuildCurd
                 $selectList .= $this->buildSelectController($field);
             }
         }
+
+        $modelFilenameExtend = str_replace($this->DS,'\\',$this->modelFilename);
+
         $controllerValue = CommonTool::replaceTemplate(
             $this->getTemplate("controller{$this->DS}controller"),
             [
                 'controllerName'       => $this->controllerName,
                 'controllerNamespace'  => $this->controllerNamespace,
                 'controllerAnnotation' => $this->tableComment,
-                'modelFilename'        => "\app\admin\model\\{$this->modelFilename}",
+                'modelFilename'        => "\app\admin\model\\{$modelFilenameExtend}",
                 'indexMethod'          => $controllerIndexMethod,
                 'selectList'           => $selectList,
             ]);
