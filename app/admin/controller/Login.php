@@ -45,6 +45,8 @@ class Login extends AdminController
      */
     public function index()
     {
+        $adminModuleName = config('app.admin_alias_name');
+        $url = $this->request->get('url', __url("@{$adminModuleName}"));
         $captcha = Env::get('easyadmin.captcha', 1);
         if ($this->request->isPost()) {
             $post = $this->request->post();
@@ -69,7 +71,7 @@ class Login extends AdminController
             unset($admin['password']);
             $admin['expire_time'] = $post['keep_login'] == 1 ? true : time() + 7200;
             session('admin', $admin);
-            $this->success('登录成功');
+            $this->success('登录成功', [], $url);
         }
         $this->assign('captcha', $captcha);
         $this->assign('demo', $this->isDemo);

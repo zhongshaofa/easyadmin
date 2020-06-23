@@ -67,6 +67,7 @@ class Service extends \think\Service
 
     public function boot()
     {
+
         // 挂载插件的自定义路由
         $this->loadRoutes();
 

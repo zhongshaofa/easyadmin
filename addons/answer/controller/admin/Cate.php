@@ -11,7 +11,7 @@ class Cate extends AnswerAdminController
 
     public function index()
     {
-        halt($this->app->addons);
+        dump('addons:admin:answer');
         return $this->fetch();
     }
 

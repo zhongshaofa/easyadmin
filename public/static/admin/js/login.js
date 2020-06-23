@@ -30,7 +30,7 @@ define(["easy-admin"], function (ea) {
                 return data;
             }, function (res) {
                 ea.msg.success(res.msg, function () {
-                    window.location = ea.url('index');
+                    window.location = res.url;
                 })
             }, function (res) {
                 ea.msg.error(res.msg, function () {

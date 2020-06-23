@@ -3,10 +3,13 @@
 namespace addons\answer\controller;
 
 
-
+use app\admin\service\ConfigService;
 use app\BaseController;
+use app\common\constants\AdminConstant;
+use app\common\service\AuthService;
 use EasyAdmin\tool\CommonTool;
 use think\facade\Env;
+use think\facade\View;
 use think\Model;
 
 /**
@@ -17,14 +20,6 @@ class AnswerAdminController extends BaseController
 {
 
     use \app\common\traits\JumpTrait;
-
-    /**
-     * 控制器中间件
-     * @var array
-     */
-    protected $middleware = [
-        \addons\answer\middleware\ViewInit::class,
-    ];
 
     /**
      * 当前模型
@@ -104,14 +99,69 @@ class AnswerAdminController extends BaseController
         parent::initialize();
         $this->layout && $this->app->view->engine()->layout($this->layout);
         $this->isDemo = Env::get('easyadmin.is_demo', false);
+        $this->viewInit();
+        $this->checkAdmin();
     }
 
-    protected function checkLogin(){
+    protected function checkAdmin()
+    {
+        $adminConfig = config('admin');
+        $adminId = session('admin.id');
+        $expireTime = session('admin.expire_time');
+        $authService = new AuthService($adminId);
+        $currentNode = $authService->getCurrentNode();
+        $currentController = parse_name($this->request->controller());
 
+        // 验证登录
+        if (!in_array($currentController, $adminConfig['no_login_controller']) &&
+            !in_array($currentNode, $adminConfig['no_login_node'])) {
+            empty($adminId) && $this->error('请先登录后台', [], __url('admin/login/index', ['url' => $this->request->url()]));
+
+            // 判断是否登录过期
+            if ($expireTime !== true && time() > $expireTime) {
+                session('admin', null);
+                $this->error('登录已过期，请重新登录', [], __url('admin/login/index',['url' => $this->request->url()]));
+            }
+        }
+
+        // 验证权限
+        if (!in_array($currentController, $adminConfig['no_auth_controller']) &&
+            !in_array($currentNode, $adminConfig['no_auth_node'])) {
+            $check = $authService->checkNode($currentNode);
+            !$check && $this->error('无权限访问');
+
+            // 判断是否为演示环境
+            if (env('easyadmin.is_demo', false) && $this->request->isPost()) {
+                $this->error('演示环境下不允许修改');
+            }
+        }
     }
 
-    protected function checkAuth(){
 
+    protected function viewInit()
+    {
+        list($thisModule, $thisController, $thisAction) = [app('http')->getName(), $this->request->controller(), $this->request->action()];
+        list($thisControllerArr, $jsPath) = [explode('.', $thisController), null];
+        foreach ($thisControllerArr as $vo) {
+            empty($jsPath) ? $jsPath = parse_name($vo) : $jsPath .= '/' . parse_name($vo);
+        }
+        $autoloadJs = file_exists(root_path('public') . "static/{$thisModule}/js/{$jsPath}.js") ? true : false;
+        $thisControllerJsPath = "{$thisModule}/js/{$jsPath}.js";
+        $adminModuleName = config('app.admin_alias_name');
+        $isSuperAdmin = session('admin.id') == AdminConstant::SUPER_ADMIN_ID ? true : false;
+        $data = [
+            'adminModuleName'      => $adminModuleName,
+            'thisController'       => parse_name($thisController),
+            'thisAction'           => $thisAction,
+            'thisRequest'          => parse_name("{$thisModule}/{$thisController}/{$thisAction}"),
+            'thisControllerJsPath' => "{$thisControllerJsPath}",
+            'autoloadJs'           => $autoloadJs,
+            'isSuperAdmin'         => $isSuperAdmin,
+            'version'              => env('app_debug') ? time() : ConfigService::getVersion(),
+        ];
+
+        View::assign($data);
+        $this->request->adminModuleName = $adminModuleName;
     }
 
     /**
