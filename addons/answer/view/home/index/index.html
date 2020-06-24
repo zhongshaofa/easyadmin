@@ -5,11 +5,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="list">
-                        <li class="active"><a href="https://www.wecenter.com/explore/">全部</a></li>
-                        <li><a href="https://www.wecenter.com/explore/category-2">提问</a></li>
-                        <li><a href="https://www.wecenter.com/explore/category-2">分享</a></li>
-                        <li><a href="https://www.wecenter.com/explore/category-2">示例</a></li>
-                        <li><a href="https://www.wecenter.com/explore/category-2">公告</a></li>
+                        {foreach $cateList as $key=>$val}
+                        <li {if $checkCate==$key}class="active"{/if}><a href="{:home_url('cate/'.$key)}">{$val}</a></li>
+                        {/foreach}
                     </ul>
                 </div>
             </div>
