@@ -22,10 +22,22 @@
     <!--[if lte IE 8]>
     <script type="text/javascript" src="https://www.wecenter.com/static/js/respond.js"></script>
     <![endif]-->
+    <script>
+        window.CONFIG = {
+            VERSION: "{$version|default='1.0.0'}",
+        };
+    </script>
+    <script src="__STATIC__/plugs/require-2.3.6/require.js?v={$version}" charset="utf-8"></script>
+    <script src="__STATIC__/addons/answer/home/config-home.js?v={$version}" charset="utf-8"></script>
 </head>
 <body>
 {include file="home/public/navbar" /}
 {__CONTENT__}
 {include file="home/public/footer" /}
+<script>
+    require(["jquery"],function ($) {
+        console.log($);
+    })
+</script>
 </body>
 </html>

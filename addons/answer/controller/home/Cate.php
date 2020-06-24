@@ -23,7 +23,7 @@ class Cate extends AnswerHomeController
     {
         $h = $this->request->get('h', 'new');
         $data = [
-            'checkCate' => 'all',
+            'checkCate' => $id,
             'h'         => $h,
         ];
         return $this->fetch('home/index/index', $data);

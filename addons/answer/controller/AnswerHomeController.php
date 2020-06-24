@@ -59,48 +59,7 @@ class AnswerHomeController extends BaseController
     {
         parent::initialize();
         $this->layout && $this->app->view->engine()->layout($this->layout);
-        $this->isDemo = Env::get('easyadmin.is_demo', false);
         $this->viewInit();
-    }
-
-    /**
-     * 后台权限检测
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
-     */
-    protected function checkAdmin()
-    {
-        $adminConfig = config('admin');
-        $adminId = session('admin.id');
-        $expireTime = session('admin.expire_time');
-        $authService = new AuthService($adminId);
-        $currentNode = $authService->getCurrentNode();
-        $currentController = parse_name($this->request->controller());
-
-        // 验证登录
-        if (!in_array($currentController, $adminConfig['no_login_controller']) &&
-            !in_array($currentNode, $adminConfig['no_login_node'])) {
-            empty($adminId) && $this->error('请先登录后台', [], __url('admin/login/index', ['url' => $this->request->url()]));
-
-            // 判断是否登录过期
-            if ($expireTime !== true && time() > $expireTime) {
-                session('admin', null);
-                $this->error('登录已过期，请重新登录', [], __url('admin/login/index',['url' => $this->request->url()]));
-            }
-        }
-
-        // 验证权限
-        if (!in_array($currentController, $adminConfig['no_auth_controller']) &&
-            !in_array($currentNode, $adminConfig['no_auth_node'])) {
-            $check = $authService->checkNode($currentNode);
-            !$check && $this->error('无权限访问');
-
-            // 判断是否为演示环境
-            if (env('easyadmin.is_demo', false) && $this->request->isPost()) {
-                $this->error('演示环境下不允许修改');
-            }
-        }
     }
 
     /**
@@ -108,26 +67,9 @@ class AnswerHomeController extends BaseController
      */
     protected function viewInit()
     {
-        list($addonName, $thisController, $thisAction) = [$this->request->addon, $this->request->controller(), $this->request->action()];
-        $thisController = str_replace('admin.','',$thisController);
-        list($thisControllerArr, $jsPath) = [explode('.', $thisController), null];
-        foreach ($thisControllerArr as $vo) {
-            empty($jsPath) ? $jsPath = parse_name($vo) : $jsPath .= '/' . parse_name($vo);
-        }
-        $autoloadJs = file_exists(root_path('public') . "static/addons/{$addonName}/admin/js/{$jsPath}.js") ? true : false;
-        $thisControllerJsPath = "addons/{$addonName}/admin/js/{$jsPath}.js";
-        $adminModuleName = config('app.admin_alias_name');
-        $isSuperAdmin = session('admin.id') == AdminConstant::SUPER_ADMIN_ID ? true : false;
         $data = [
-            'adminModuleName'      => $adminModuleName,
-            'thisController'       => parse_name($thisController),
-            'thisAction'           => $thisAction,
-            'thisControllerJsPath' => $thisControllerJsPath,
-            'autoloadJs'           => $autoloadJs,
-            'isSuperAdmin'         => $isSuperAdmin,
-            'version'              => env('app_debug') ? time() : ConfigService::getVersion(),
+            'version' => env('app_debug') ? time() : ConfigService::getVersion(),
         ];
-
         View::assign($data);
     }
 
@@ -171,73 +113,5 @@ class AnswerHomeController extends BaseController
         return true;
     }
 
-    /**
-     * 构建请求参数
-     * @param array $excludeFields 忽略构建搜索的字段
-     * @return array
-     */
-    protected function buildTableParames($excludeFields = [])
-    {
-        $get = $this->request->get('', null, null);
-        $page = isset($get['page']) && !empty($get['page']) ? $get['page'] : 1;
-        $limit = isset($get['limit']) && !empty($get['limit']) ? $get['limit'] : 15;
-        $filters = isset($get['filter']) && !empty($get['filter']) ? $get['filter'] : '{}';
-        $ops = isset($get['op']) && !empty($get['op']) ? $get['op'] : '{}';
-        // json转数组
-        $filters = json_decode($filters, true);
-        $ops = json_decode($ops, true);
-        $where = [];
-        $excludes = [];
-
-        // 判断是否关联查询
-        $tableName = CommonTool::humpToLine(lcfirst($this->model->getName()));
-
-        foreach ($filters as $key => $val) {
-            if (in_array($key, $excludeFields)) {
-                $excludes[$key] = $val;
-                continue;
-            }
-            $op = isset($ops[$key]) && !empty($ops[$key]) ? $ops[$key] : '%*%';
-            if ($this->relationSerach && count(explode('.', $key)) == 1) {
-                $key = "{$tableName}.{$key}";
-            }
-            switch (strtolower($op)) {
-                case '=':
-                    $where[] = [$key, '=', $val];
-                    break;
-                case '%*%':
-                    $where[] = [$key, 'LIKE', "%{$val}%"];
-                    break;
-                case '*%':
-                    $where[] = [$key, 'LIKE', "{$val}%"];
-                    break;
-                case '%*':
-                    $where[] = [$key, 'LIKE', "%{$val}"];
-                    break;
-                case 'range':
-                    [$beginTime, $endTime] = explode(' - ', $val);
-                    $where[] = [$key, '>=', strtotime($beginTime)];
-                    $where[] = [$key, '<=', strtotime($endTime)];
-                    break;
-                default:
-                    $where[] = [$key, $op, "%{$val}"];
-            }
-        }
-        return [$page, $limit, $where, $excludes];
-    }
-
-    /**
-     * 下拉选择列表
-     * @return \think\response\Json
-     */
-    public function selectList()
-    {
-        $fields = input('selectFieds');
-        $data = $this->model
-            ->where($this->selectWhere)
-            ->field($fields)
-            ->select();
-        $this->success(null, $data);
-    }
 
 }
