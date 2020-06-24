@@ -17,3 +17,24 @@ if (!function_exists('home_url')) {
     }
 
 }
+
+if (!function_exists('home_build_url')) {
+
+    /**
+     * 构建参数URL
+     * @param null $url
+     * @param array $vars
+     * @return string
+     */
+    function home_build_url($url = null, $vars = [])
+    {
+        empty($url) && $url = app()->request->url();
+        $newVars = [];
+        foreach ($vars as $key => $val) {
+            $newVars[] = "{$key}={$val}";
+        }
+        $newVars = implode('&', $newVars);
+        return strpos($url, '?') !== false ? "{$url}&{$newVars}" : "{$url}?{$newVars}";
+    }
+
+}

@@ -23,13 +23,17 @@ class Index extends AnswerHomeController
     public function __construct(App $app)
     {
         parent::__construct($app);
-        $this->assign('cateList', (new HomeService())->getCateList());
+        $this->service = new HomeService();
+        $this->assign('cateList', $this->service->getCateList());
+        $this->assign('homeList', array_reverse($this->service->getHomeList()));
     }
 
     public function index()
     {
+        $h = $this->request->get('h', 'new');
         $data = [
             'checkCate' => 'all',
+            'h'         => $h,
         ];
         return $this->fetch('home/index/index', $data);
     }

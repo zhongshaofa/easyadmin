@@ -29,6 +29,12 @@ class AnswerHomeController extends BaseController
     protected $model;
 
     /**
+     * 服务类
+     * @var object
+     */
+    protected $service;
+
+    /**
      * 模板布局, false取消
      * @var string|bool
      */

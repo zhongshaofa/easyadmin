@@ -19,4 +19,15 @@ class HomeService
         ];
 
     }
+
+    public function getHomeList()
+    {
+        return [
+            'new'       => '最新',
+            'hot'       => '热门',
+            'recommend' => '推荐',
+            'wait'      => '等待回复',
+        ];
+    }
+
 }

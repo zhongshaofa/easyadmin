@@ -10,5 +10,4 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::rule('test','\\app\\test\\controller\\Index@index');
-Route::rule('test/detail','\\app\\test\\controller\\Index@detail');
+Route::get('demo','\\app\\test\\controller\\Index@index');

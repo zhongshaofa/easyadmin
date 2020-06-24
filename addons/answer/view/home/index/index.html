@@ -18,11 +18,9 @@
 
                     <!-- tab切换 -->
                     <ul class="nav nav-tabs aw-nav-tabs active hidden-xs">
-                        <li><a href="https://www.wecenter.com/sort_type-unresponsive">等待回复</a></li>
-                        <li><a href="https://www.wecenter.com/is_recommend-1">推荐</a></li>
-                        <li><a href="https://www.wecenter.com/sort_type-hot__day-7" id="sort_control_hot">热门</a></li>
-                        <li class="active"><a href="https://www.wecenter.com/">最新</a></li>
-                        <li><a href="https://www.wecenter.com/is_reward-1">悬赏</a></li>
+                        {foreach $homeList as $key=>$val}
+                        <li {if $h==$key}class="active"{/if}><a href="{:home_build_url(null,['h'=>$key])}">{$val}</a></li>
+                        {/foreach}
                         <h2 class="hidden-xs"><i class="icon icon-list"></i> 发现</h2>
                     </ul>
                     <!-- end tab切换 -->

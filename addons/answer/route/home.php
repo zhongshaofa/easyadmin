@@ -3,7 +3,7 @@
 use think\facade\Route;
 
 // 获取自定义入口目录
-$entranceAddress = get_addon_config('answer','entrance_address');
+$entranceAddress = get_addon_config('answer', 'entrance_address');
 
 Route::group($entranceAddress, function () {
     // 首页
@@ -11,7 +11,7 @@ Route::group($entranceAddress, function () {
     // 详情
     Route::get('/detail', 'addons\\answer\\controller\\home\\Index@detail');
     // 分类
-    Route::get('/cate/:id', 'addons\\answer\\controller\\home\\Cate@index');
+    Route::get('/cate/:id', 'addons\\answer\\controller\\home\\Cate@index')->pattern(['id' => '\d+', 's' => '\w+']);
     // 分类所有
     Route::get('/cate/all', 'addons\\answer\\controller\\home\\Cate@all');
 })->pattern(['id' => '\d+']);
