@@ -1,0 +1,82 @@
+.geetest_radar_tip_content {
+position: initial !important;
+}
+
+.rewards {
+color: #fff;
+border-radius: 2px;
+padding: 0 10px;
+margin-left: 10px;
+}
+
+.reward-over {
+background: #b8b1b1
+}
+
+.reward-aaaa {
+background: #dea32b
+}
+
+.reward-ings {
+background: #2b98de
+}
+
+.ad-banner-box {
+background: none;
+margin-top: 5px;
+position: relative;
+overflow: hidden
+}
+
+.ad-banner-box .ad-banner-close {
+z-index: 999;
+position: absolute;
+right: 0;
+top: 0;
+width: 18px;
+height: 18px;
+background-color: #666;
+line-height: 21px;
+text-align: center;
+color: #fff
+}
+
+.slides {
+position: relative;
+z-index: 1;
+padding: 0
+}
+
+.flex-control-nav {
+position: absolute;
+bottom: 10px;
+z-index: 2;;
+text-align: center;
+padding: 0 !important;
+}
+
+.flex-control-nav li {
+display: inline-block;
+width: 14px;
+height: 14px;
+margin: 0 5px;
+*display: inline;
+zoom: 1;
+padding: 2px
+}
+
+.flex-control-nav a {
+display: inline-block;
+width: 14px;
+height: 14px;
+overflow: hidden;
+background: #333;
+cursor: pointer;
+border-radius: 100px;
+line-height: 14px;
+color: #fff;
+}
+
+.flex-control-nav .flex-active {
+background-color: #499ef3
+}

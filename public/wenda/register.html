@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <title>注册 - workerman问答社区</title>
+    <meta name="keywords" content="workerman,php即时通讯,手游服务器,网游服务器,页游服务器,socket,php socket,移动互联,游戏服务器" />
+    <meta name="description" content="workerman问答社区"  />
+    <base href="https://wenda.workerman.net/" /><!--[if IE]></base><![endif]-->
+    <link href="https://wenda.workerman.net/static/css/default/img/favicon.ico?v=20160915" rel="shortcut icon" type="image/x-icon" />
+
+    <link rel="stylesheet" type="text/css" href="https://wenda.workerman.net/static/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="https://wenda.workerman.net/static/css/icon.css" />
+
+    <link href="https://wenda.workerman.net/static/css/default/common.css?v=20160915" rel="stylesheet" type="text/css" />
+    <link href="https://wenda.workerman.net/static/css/default/link.css?v=20160915" rel="stylesheet" type="text/css" />
+    <link href="https://wenda.workerman.net/static/js/plug_module/style.css?v=20160915" rel="stylesheet" type="text/css" />
+    <link href="https://wenda.workerman.net/static/css/default/register.css?v=20160915" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+        var _B9A5C40510F6BBF395D65D7C1BBF8447="";
+        var G_POST_HASH=_B9A5C40510F6BBF395D65D7C1BBF8447;
+        var G_INDEX_SCRIPT = "";
+        var G_SITE_NAME = "workerman问答社区";
+        var G_BASE_URL = "https://wenda.workerman.net";
+        var G_STATIC_URL = "https://wenda.workerman.net/static";
+        var G_UPLOAD_URL = "https://wenda.workerman.net/uploads";
+        var G_USER_ID = "";
+        var G_USER_NAME = "";
+        var G_UPLOAD_ENABLE = "N";
+        var G_UNREAD_NOTIFICATION = 0;
+        var G_NOTIFICATION_INTERVAL = 100000;
+        var G_CAN_CREATE_TOPIC = "";
+        var G_ADVANCED_EDITOR_ENABLE = "Y";
+        var FILE_TYPES = "jpg,jpeg,png,gif,zip,doc,docx,rar,pdf,psd";
+        var G_DRAFT_ENABLED = "";
+
+    </script>
+    <script src="https://wenda.workerman.net/static/js/jquery.2.js?v=20160915" type="text/javascript"></script>
+    <script src="https://wenda.workerman.net/static/js/jquery.form.js?v=20160915" type="text/javascript"></script>
+    <script src="https://wenda.workerman.net/static/js/plug_module/plug-in_module.js?v=20160915" type="text/javascript"></script>
+    <script src="https://wenda.workerman.net/static/js/aws.js?v=20160915" type="text/javascript"></script>
+    <script src="https://wenda.workerman.net/static/js/aw_template.js?v=20160915" type="text/javascript"></script>
+    <script src="https://wenda.workerman.net/static/js/app.js?v=20160915" type="text/javascript"></script>
+    <script type="text/javascript" src="https://wenda.workerman.net/static/js/compatibility.js"></script>
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="https://wenda.workerman.net/static/js/respond.js"></script>
+    <![endif]-->
+</head>
+<noscript unselectable="on" id="noscript">
+    <div class="aw-404 aw-404-wrap container">
+        <img src="https://wenda.workerman.net/static/common/no-js.jpg">
+        <p>你的浏览器禁用了JavaScript, 请开启后刷新浏览器获得更好的体验!</p>
+    </div>
+</noscript>
+<div class="aw-register-box">
+    <div class="mod-head">
+        <a href="https://wenda.workerman.net/"><img src="https://wenda.workerman.net/static/css/default/img/login_logo.png" alt="" /></a>
+        <h1>注册新用户</h1>
+    </div>
+    <div class="mod-body">
+        <form class="aw-register-form" action="https://wenda.workerman.net/account/ajax/register_process/" method="post" id="register_form">
+
+            <ul>
+                <li class="alert alert-danger collapse error_message text-left">
+                    <i class="icon icon-delete"></i> <em></em>
+                </li>
+                <li>
+                    <input class="aw-register-name form-control" type="text" name="user_name" placeholder="用户名" tips="请输入一个2-30 位的用户名" errortips="用户名长度不符合" value="" />
+                </li>
+                <li>
+                    <input class="aw-register-email form-control" type="text" placeholder="邮箱" name="email" tips="请输入你常用的电子邮箱作为你的账号" value="" errortips="邮箱格式不正确" />
+                </li>
+                <li>
+                    <input class="aw-register-pwd form-control" type="password" name="password" placeholder="密码" tips="请输入 6-16 个字符,区分大小写" errortips="密码不符合规则" />
+                </li>
+                <li class="more-information collapse">
+                    <ul>
+                        <li>
+                            性别:
+                            <label>
+                                <input name="sex" id="sex" value="1" type="radio" /> 男                            </label>&nbsp;
+                            <label>
+                                <input name="sex" id="sex" value="2" type="radio" /> 女 </label>&nbsp;
+                            <label>
+                                <input name="sex" id="sex" value="3" type="radio" checked="checked" /> 保密                            </label>
+                        </li>
+                        <li>
+                            职业:
+                            <select name="job_id">
+                                <option value="">--</option>
+                                <option value="1">销售</option><option value="2">市场/市场拓展/公关</option><option value="3">商务/采购/贸易</option><option value="4">计算机软、硬件/互联网/IT</option><option value="5">电子/半导体/仪表仪器</option><option value="6">通信技术</option><option value="7">客户服务/技术支持</option><option value="8">行政/后勤</option><option value="9">人力资源</option><option value="10">高级管理</option><option value="11">生产/加工/制造</option><option value="12">质控/安检</option><option value="13">工程机械</option><option value="14">技工</option><option value="15">财会/审计/统计</option><option value="16">金融/银行/保险/证券/投资</option><option value="17">建筑/房地产/装修/物业</option><option value="18">交通/仓储/物流</option><option value="19">普通劳动力/家政服务</option><option value="20">零售业</option><option value="21">教育/培训</option><option value="22">咨询/顾问</option><option value="23">学术/科研</option><option value="24">法律</option><option value="25">美术/设计/创意</option><option value="26">编辑/文案/传媒/影视/新闻</option><option value="27">酒店/餐饮/旅游/娱乐</option><option value="28">化工</option><option value="29">能源/矿产/地质勘查</option><option value="30">医疗/护理/保健/美容</option><option value="31">生物/制药/医疗器械</option><option value="32">翻译（口译与笔译）</option><option value="33">公务员</option><option value="34">环境科学/环保</option><option value="35">农/林/牧/渔业</option><option value="36">兼职/临时/培训生/储备干部</option><option value="37">在校学生</option><option value="38">其他</option>                            </select>
+                        </li>
+                        <li>
+                            所在城市:
+                            <select name="province" class="select_area" style="display:inline-block"></select>
+
+                            <select name="city" class="select_area"></select>
+                        </li>
+                        <li>
+                            <input type="text" class="form-control" placeholder="一句话介绍" id="welcome_signature" value="" name="signature" />
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <hr />
+                    <a class="more-information-btn">更多资料</a>
+                </li>
+                <li class="aw-register-verify">
+                    <img class="pull-right" id="captcha" onclick="this.src = G_BASE_URL + '/account/captcha/' + Math.floor(Math.random() * 10000);" src="">
+
+                    <input type="text" class="form-control" name="seccode_verify" placeholder="验证码" />
+                </li>
+                <li class="last">
+                    <label><input type="checkbox" checked="checked" value="agree" name="agreement_chk" /> 我同意</label> <a href="javascript:;" class="aw-agreement-btn">用户协议</a>
+                    <a href="https://wenda.workerman.net/account/login/" class="pull-right">已有账号?</a>
+                    <div class="aw-register-agreement collapse">
+                        <div class="aw-register-agreement-txt" id="register_agreement"></div>
+                    </div>
+
+                </li>
+                <li class="clearfix">
+                    <button class="btn btn-large btn-blue btn-block" onclick="AWS.ajax_post($('#register_form'), AWS.ajax_processer, 'error_message'); return false;">注册</button>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div class="mod-footer"></div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        $.get(G_BASE_URL + '/account/ajax/register_agreement/', function (result) { $('#register_agreement').html(result.err); }, 'json');
+
+        $('.aw-agreement-btn').click(function()
+        {
+            if ($('.aw-register-agreement').is(':visible'))
+            {
+                $('.aw-register-agreement').hide();
+            }
+            else
+            {
+                $('.aw-register-agreement').show();
+            }
+        });
+
+        $('.more-information-btn').click(function()
+        {
+            $('.more-information').fadeIn();
+            $(this).parent().hide();
+        });
+
+        verify_register_form('#register_form');
+
+        /* 注册页面验证 */
+        function verify_register_form(element)
+        {
+
+            $(element).find('[type=text], [type=password]').on({
+                focus : function()
+                {
+                    if (typeof $(this).attr('tips') != 'undefined' && $(this).attr('tips') != '')
+                    {
+                        $(this).parent().append('<span class="aw-reg-tips">' + $(this).attr('tips') + '</span>');
+                    }
+                },
+                blur : function()
+                {
+                    if ($(this).attr('tips') != '')
+                    {
+                        switch ($(this).attr('name'))
+                        {
+                            case 'user_name' :
+                                var _this = $(this);
+                                var min_length=2;
+                                var max_length=30;
+                                $(this).parent().find('.aw-reg-tips').detach();
+                                if (strlen($(this).val()) >= 0 && strlen($(this).val())< min_length)
+                                {
+                                    $(this).parent().find('.aw-reg-tips').detach();
+                                    $(this).parent().append('<span class="aw-reg-tips aw-reg-err"><i class="aw-icon i-err"></i>' + $(this).attr('errortips') + '</span>');
+                                    return;
+                                }
+                                if (strlen($(this).val()) > max_length)
+                                {
+                                    $(this).parent().find('.aw-reg-tips').detach();
+                                    $(this).parent().append('<span class="aw-reg-tips aw-reg-err"><i class="aw-icon i-err"></i>' + $(this).attr('errortips') + '</span>');
+                                    return;
+                                }
+                                else
+                                {
+                                    $.post(G_BASE_URL + '/account/ajax/check_username/',
+                                        {
+                                            username: $(this).val()
+                                        }, function (result)
+                                        {
+                                            if (result.errno == -1)
+                                            {
+                                                _this.parent().find('.aw-reg-tips').detach();
+                                                _this.parent().append('<span class="aw-reg-tips aw-reg-err"><i class="aw-icon i-err"></i>' + result.err + '</span>');
+                                            }
+                                            else
+                                            {
+                                                _this.parent().find('.aw-reg-tips').detach();
+                                                _this.parent().append('<span class="aw-reg-tips aw-reg-right"><i class="aw-icon i-followed"></i></span>');
+                                            }
+                                        }, 'json');
+                                }
+                                return;
+
+                            case 'email' :
+                                $(this).parent().find('.aw-reg-tips').detach();
+                                var emailreg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+                                if (!emailreg.test($(this).val()))
+                                {
+                                    $(this).parent().find('.aw-reg-tips').detach();
+                                    $(this).parent().append('<span class="aw-reg-tips aw-reg-err"><i class="aw-icon i-err"></i>' + $(this).attr('errortips') + '</span>');
+                                    return;
+                                }
+                                else
+                                {
+                                    $(this).parent().find('.aw-reg-tips').detach();
+                                    $(this).parent().append('<span class="aw-reg-tips aw-reg-right"><i class="aw-icon i-followed"></i></span>');
+                                }
+                                return;
+
+                            case 'password' :
+                                $(this).parent().find('.aw-reg-tips').detach();
+                                if ($(this).val().length >= 0 && $(this).val().length < 6)
+                                {
+                                    $(this).parent().find('.aw-reg-tips').detach();
+                                    $(this).parent().append('<span class="aw-reg-tips aw-reg-err"><i class="aw-icon i-err"></i>' + $(this).attr('errortips') + '</span>');
+                                    return;
+                                }
+                                if ($(this).val().length > 17)
+                                {
+                                    $(this).parent().find('.aw-reg-tips').detach();
+                                    $(this).parent().append('<span class="aw-reg-tips aw-reg-err"><i class="aw-icon i-err"></i>' + $(this).attr('errortips') + '</span>');
+                                    return;
+                                }
+                                else
+                                {
+                                    $(this).parent().find('.aw-reg-tips').detach();
+                                    $(this).parent().append('<span class="aw-reg-tips aw-reg-right"><i class="aw-icon i-followed"></i></span>');
+                                }
+                                return;
+
+                        }
+                    }
+
+                }
+            });
+        }
+        function strlen(str){
+            var len = 0;
+            for (var i=0; i<str.length; i++) {
+                var c = str.charCodeAt(i);
+                //单字节加1
+                if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)) {
+                    len++;
+                }
+                else {
+                    len+=2;
+                }
+            }
+            return len;
+        }
+        $('.select_area').LocationSelect({
+            labels: ["请选择省份或直辖市", "请选择城市"],
+            elements: document.getElementsByTagName("select"),
+            detector: function () {
+                this.select(["", ""]);
+            },
+            dataUrl: G_BASE_URL.replace('/?', '') + '/static/js/areas.js'
+        });
+    });
+</script>
+
+<div class="aw-footer-wrap">
+    <div class="aw-footer">
+        Copyright © 2020<span
+            class="hidden-xs"> - 蜀ICP备13029294号-2, All Rights Reserved</span>
+
+        <span class="hidden-xs">Powered By WeCenter 2.5.10</a></span>
+
+        <a href="https://www.popoim.cn">WebIM</a>&nbsp;&nbsp;<a href="https://www.wolive.cc">php在线客服系统</a>
+        <p><div class="gray" id="online_count"></div>Powered by <a href="http://www.workerman.net/web-sender" target="_blank"><strong>web-msg-sender!</strong></a></p>
+        <script src='//cdn.bootcss.com/socket.io/1.3.7/socket.io.js'></script>
+        <script>
+            var socket = io('https://laychat.workerman.net:3121');
+            socket.on('connect', function(){socket.emit('login', 'n5sbpvm39gsj5lv1v4hgqvd4r5');});
+            socket.on('update_online_count', function(count){$('#online_count').html(count);});
+        </script>
+
+    </div>
+</div>
+
+<a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});"><i
+        class="icon icon-up"></i></a>
+
+<script type="text/javascript">
+    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F6209e78d7955674b5c74b466073eb730' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<!-- DO NOT REMOVE -->
+<div id="aw-ajax-box" class="aw-ajax-box"></div>
+
+<div style="display:none;" id="__crond">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#__crond').html(unescape('%3Cimg%20src%3D%22' + G_BASE_URL + '/crond/run/1592965041%22%20width%3D%221%22%20height%3D%221%22%20/%3E'));
+        });
+    </script>
+</div>
+
+<!-- Escape time: 0.011947154998779 --><!-- / DO NOT REMOVE -->
+
+</body>
+</html>

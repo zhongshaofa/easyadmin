@@ -1,0 +1,1002 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <meta http-equiv="Expires" CONTENT="0">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <meta name="renderer" content="webkit" />
+    <title>3.5.0修复文件已发布，大家可在后台进行在线升级 - WeCenter</title>
+    <meta name="keywords" content="3.5.0,修复,文件,发布,大家,可在,后台,进行,在线升级" />
+    <meta name="description" content="3.5.0修复文件已发布，大家可在后台进行在线升级 - 修改内容：新增插件安装卸载前后方法新增后台多语言设置切换功能更换百度分享优化原有系统钩子并新增系统钩子优化编辑器复制word排版样式错乱问题修复文章或问题中的附件重复显示的bug修复话题讨论数统计错误bug修复插件未登录无法访问的bug&nbsp;&nbs..."  />
+    <base href="https://www.wecenter.com/" /><!--[if IE]></base><![endif]-->
+    <link href="https://www.wecenter.com/static/css/default/img/favicon.ico?v=20200420" rel="shortcut icon" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="https://www.wecenter.com/static/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.wecenter.com/static/css/icon.css" />
+    <link href="https://www.wecenter.com/static/css/default/common.css?v=20200420" rel="stylesheet" type="text/css" />
+    <link href="https://www.wecenter.com/static/css/default/link.css?v=20200420" rel="stylesheet" type="text/css" />
+    <link href="https://www.wecenter.com/static/js/plug_module/style.css?v=20200420" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://www.wecenter.com/static/js/highlight/styles/tomorrow.css">
+
+    <script type="text/javascript">
+        var _6CDB59333972533A2BC81876873CBAAE="";
+        var G_POST_HASH=_6CDB59333972533A2BC81876873CBAAE;
+        var G_INDEX_SCRIPT = "";
+        var G_SITE_NAME = "WeCenter 社交化知识问答社区程序";
+        var G_BASE_URL = "https://www.wecenter.com";
+        var G_STATIC_URL = "https://www.wecenter.com/static";
+        var G_UPLOAD_URL = "http://wenda.wecenter.com/uploads";
+        var G_USER_ID = "";
+        var G_USER_NAME = "";
+        var G_UPLOAD_ENABLE = "N";
+        var G_UNREAD_NOTIFICATION = 0;
+        var G_NOTIFICATION_INTERVAL = 100000;
+        var G_CAN_CREATE_TOPIC = "";
+        var G_ADVANCED_EDITOR_ENABLE = "Y";
+        var FILE_TYPES = "jpg,jpeg,png,zip,rar,7z,txt,doc,xls";
+        var G_DRAFT_ENABLED = "Y";
+        var G_PER_PAGE = "10";
+        var G_INDEX_PER_PAGE = "15";
+        var G_PRIVATEKEY = "pvjxzjmzvewfscft";
+        var G_IV = "qvibvaiwgouxwjeu";
+        var G_QUICK_PUBLISH_HUMAN_VALID = "0";
+    </script>
+    <script src="https://www.wecenter.com/static/js/jquery.2.js?v=20200420" type="text/javascript"></script>
+    <script src="https://www.wecenter.com/static/js/jquery.form.js?v=20200420" type="text/javascript"></script>
+    <script src="https://www.wecenter.com/static/js/plug_module/plug-in_module.js?v=20200420" type="text/javascript"></script>
+    <script src="https://www.wecenter.com/static/js/aws.js?v=20200420" type="text/javascript"></script>
+    <script src="https://www.wecenter.com/static/js/aw_template.js?v=20200420" type="text/javascript"></script>
+    <script src="https://www.wecenter.com/static/js/layer/layer.js?v=20200420" type="text/javascript"></script>
+    <script src="https://www.wecenter.com/static/js/app.js?v=20200420" type="text/javascript"></script>
+    <script type="text/javascript" src="https://www.wecenter.com/static/js/compatibility.js"></script>
+    <script type="text/javascript" src="https://www.wecenter.com/static/js/laydate/laydate.js"></script>
+    <script type="text/javascript" src="https://www.wecenter.com/static/js/slide_captcha/gt.js"></script>
+    <script src="https://www.wecenter.com/static/js/crypto-js.js"></script>
+    <script src="https://www.wecenter.com/static/js/highlight/highlight.pack.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('pre').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        });
+    </script>
+    <style type="text/css">
+        .geetest_radar_tip_content{
+            position: initial !important;
+        }
+    </style>
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="https://www.wecenter.com/static/js/respond.js"></script>
+    <![endif]-->
+</head>
+<noscript unselectable="on" id="noscript">
+    <div class="aw-404 aw-404-wrap container">
+        <img src="https://www.wecenter.com/static/common/no-js.jpg">
+        <p>你的浏览器禁用了JavaScript, 请开启后刷新浏览器获得更好的体验!</p>
+    </div>
+</noscript><body>
+<div class="aw-top-menu-wrap">
+    <div class="container">
+        <!-- logo -->
+        <div class="aw-logo hidden-xs">
+            <a href="https://www.wecenter.com"></a>
+        </div>
+        <!-- end logo -->
+        <!-- 搜索框 -->
+        <div class="aw-search-box  hidden-xs hidden-sm">
+            <form class="navbar-search" action="https://www.wecenter.com/search/" id="global_search_form" method="post">
+                <label class="oldPwdTip aw-search-query-label" onclick="$(this).hide();$('#aw-search-query').focus();">搜索问题、话题或人...</label> 					<input class="form-control search-query" type="text" value=""  autocomplete="off" name="q" id="aw-search-query" onfocus="hideOldPwdTip('aw-search-query');" onblur="toggleOldPwdTip('aw-search-query',this.value);" />
+                <span title="搜索" id="global_search_btns" onClick="$('#global_search_form').submit();"><i class="icon icon-search"></i></span>
+                <div class="aw-dropdown">
+                    <div class="mod-body">
+                        <p class="title">输入关键字进行搜索</p>
+                        <ul class="aw-dropdown-list collapse"></ul>
+                        <p class="search"><span>搜索:</span><a onClick="$('#global_search_form').submit();"></a></p>
+                    </div>
+                    <div class="mod-footer">
+                        <a href="https://www.wecenter.com/publish" onClick="$('#header_publish').click();" class="pull-right btn btn-mini btn-success publish">发起问题</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- end 搜索框 -->
+        <!-- 导航 -->
+        <div class="aw-top-nav navbar">
+            <div class="navbar-header">
+                <button  class="navbar-toggle pull-left">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="https://www.wecenter.com/column/"><i class="icon icon-column"></i> 专栏</a></li>
+                    <li><a href="https://www.wecenter.com/explore/"><i class="icon icon-list"></i> 发现</a></li>
+                    <li><a href="https://www.wecenter.com/topic/"><i class="icon icon-topic"></i> 话题</a></li>
+                    <!-- 															<li><a href="https://www.wecenter.com" class=""><i class="icon icon-list"></i> 发现</a></li>
+<li><a href="https://www.wecenter.com/topic/" ><i class="icon icon-topic"></i> 话题</a></li>
+-->
+                    <!-- <li><a href="https://www.wecenter.com/help/"><i class="icon icon-bulb"></i> 帮助</a></li> -->
+                    <li>
+                        <a style="font-weight:bold;">· · ·</a>
+                        <div class="dropdown-list pull-right">
+                            <ul id="extensions-nav-list">
+                                <li><a href="https://www.wecenter.com/project/"><i class="icon icon-activity"></i> 活动</a></li>
+                                <li><a href="http://market.wecenter.com//"><i class=""></i> 应用市场</a></li>
+
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!-- end 导航 -->
+        <!-- 用户栏 -->
+        <div class="aw-user-nav">
+            <!-- 登陆&注册栏 -->
+            <a class="login btn btn-normal btn-primary" href="https://www.wecenter.com/login/">登录</a>
+            <a class="register btn btn-normal btn-success" href="https://www.wecenter.com/account/register/">注册</a>								<!-- end 登陆&注册栏 -->
+        </div>
+        <!-- end 用户栏 -->
+        <!-- 发起 -->
+        <!-- end 发起 -->
+    </div>
+</div>
+
+<script>
+    $(function () {
+        var $changeSkin = $("#changeSkin"), $skinList = $("#skinList");
+        $changeSkin.mouseenter(function () {
+            $skinList.stop(true,true).show();
+        });
+        $changeSkin.mouseleave(function (e) {
+            $skinList.hide();
+        });
+        $skinList.mouseover(function () {
+            $(this).stop(true,true).show();
+        });
+        $skinList.mouseleave(function (e) {
+            $(this).hide();
+        })
+    })
+</script><style type="text/css">
+    .bdsharebuttonbox .aw-dropdown-list li{
+        padding: 0 0px !important;
+    }
+    .time-item strong{background:#D81E06;color:#fff;line-height:49px;font-size:17px;font-family:Arial;padding:0 10px;margin-right:10px;border-radius:5px;box-shadow:1px 1px 3px rgba(0,0,0,0.2);}
+    #day_show{float:left;line-height:49px;color:#D81E06;font-size:18px;margin:0 10px;font-family:Arial, Helvetica, sans-serif;}
+    .item-title .unit{background:none;line-height:49px;font-size:24px;padding:0 10px;float:left;}
+    .geetest_holder.geetest_wind {
+        min-width: 220px;
+        height: 36px;
+    }
+    .geetest_holder.geetest_wind .geetest_radar {
+        margin: 2px;
+    }
+    .geetest_holder.geetest_wind .geetest_radar_tip, .geetest_holder.geetest_wind .geetest_success_radar_tip {
+        top: -4px;
+    }
+    .geetest_holder.geetest_wind .geetest_logo, .geetest_holder.geetest_wind .geetest_success_logo {
+        top: 8px;
+    }
+    .ckeditor-html5-video video{
+        width: 100%;
+    }
+</style>
+<div class="aw-container-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="aw-content-wrap clearfix">
+                <div class="col-sm-12 col-md-9 aw-main-content">
+                    <!-- 话题推荐bar -->
+                    <!-- 话题推荐bar -->
+                    <!-- 话题bar -->
+                    <div class="aw-mod aw-topic-bar" id="question_topic_editor" data-type="question" data-id="32911">
+                        <div class="tag-bar clearfix">
+														<span class="topic-tag" data-id="5">
+								<a href="https://www.wecenter.com/topic/5" class="text">bug</a>
+							</span>
+                            <span class="topic-tag" data-id="3868">
+								<a href="https://www.wecenter.com/topic/3868" class="text">WeCenter3.5.0</a>
+							</span>
+
+                        </div>
+                    </div>
+                    <!-- end 话题bar -->
+                    <div class="aw-mod aw-question-detail aw-item">
+                        <div class="mod-head">
+
+                            <h1>
+                                <!-- 							 -->
+                                3.5.0修复文件已发布，大家可在后台进行在线升级							</h1>
+
+                            <input type="hidden" id="share_content" value=""/>
+                            <input type="hidden" id="share_url" value=""/>
+                            <input type="hidden" id="share_title" value=""/>
+                        </div>
+
+                        <div class="mod-body">
+                            <div class="content markitup-box">
+                                <p><span style="font-weight: bold;">修改内容：</span></p><p>新增插件安装卸载前后方法<br>新增后台多语言设置切换功能<br>更换百度分享<br>优化原有系统钩子并新增系统钩子<br>优化编辑器复制word排版样式错乱问题<br>修复文章或问题中的附件重复显示的bug<br>修复话题讨论数统计错误bug<br>修复插件未登录无法访问的bug&nbsp;&nbsp;<br></p><p>已升级至3.5.0的用户可直接在后台进行在线升级，升级中若遇到问题可及时向我反馈；</p><p><div class="aw-upload-img-list active">
+                                <a href="/uploads/question/20200516/1b530da2fe2399b6a4947781082cf5af.png" target="_blank" data-fancybox-group="thumb" rel="lightbox"><img src="/uploads/question/20200516/1b530da2fe2399b6a4947781082cf5af.png" class="img-polaroid" title="/uploads/question/20200516/1b530da2fe2399b6a4947781082cf5af.png" alt="/uploads/question/20200516/1b530da2fe2399b6a4947781082cf5af.png" /></a>
+                            </div>
+                                <br></p><p><div class="aw-upload-img-list active">
+                                <a href="/uploads/question/20200516/e2557de0c4d72b372f3837267a0cd5ca.png" target="_blank" data-fancybox-group="thumb" rel="lightbox"><img src="/uploads/question/20200516/e2557de0c4d72b372f3837267a0cd5ca.png" class="img-polaroid" title="/uploads/question/20200516/e2557de0c4d72b372f3837267a0cd5ca.png" alt="/uploads/question/20200516/e2557de0c4d72b372f3837267a0cd5ca.png" /></a>
+                            </div>
+                                <br></p><p><div class="aw-upload-img-list active">
+                                <a href="/uploads/question/20200516/1551d277446f2feb2c916d231c788757.png" target="_blank" data-fancybox-group="thumb" rel="lightbox"><img src="/uploads/question/20200516/1551d277446f2feb2c916d231c788757.png" class="img-polaroid" title="/uploads/question/20200516/1551d277446f2feb2c916d231c788757.png" alt="/uploads/question/20200516/1551d277446f2feb2c916d231c788757.png" /></a>
+                            </div>
+                                <br></p><p><br></p><p><span style="font-weight: bold; color: rgb(194, 79, 74);">TIPS:升级有风险，升级前请记得备份文件及数据</span></p>
+                            </div>
+                        </div>
+
+                        <div class="mod-footer">
+                            <div class="meta">
+                                <span class="text-color-999">2020-05-16</span>
+
+                                <a data-id="32911" data-type="question" class="aw-add-comment text-color-999 active" data-comment-count="1" data-first-click=""><i class="icon icon-comment"></i>1 条评论</a>
+
+
+
+                                <div class="pull-right more-operate">
+
+                                    <!-- <a class="text-color-999"  onclick="AWS.dialog('shareOut', {item_type:'question', item_id:32911});"> -->
+                                    <a class="text-color-999 dropdown-toggle" data-toggle="dropdown" id="question_share">
+                                        <i class="icon icon-share"></i>分享									</a>
+                                    <div class="aw-dropdown shareout pull-right bdsharebuttonbox">
+                                        <ul class="aw-dropdown-list">
+                                            <li><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"> 微信</a></li>
+                                            <li><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ"> QQ</a></li>
+                                            <li><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"> 微博</a></li>
+                                            <li><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间">空间</a></li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 站内邀请 -->
+                        <div class="aw-invite-box collapse">
+                            <div class="mod-head clearfix">
+                                <div class="search-box pull-left">
+                                    <input id="invite-input" class="form-control" type="text"  placeholder="搜索你想邀请的人..."/>
+                                    <div class="aw-dropdown">
+                                        <p class="title">没有找到相关结果</p>
+                                        <ul class="aw-dropdown-list"></ul>
+                                    </div>
+                                    <i class="icon icon-search"></i>
+                                </div>
+                                <div class="invite-list pull-left collapse">
+                                    已邀请:
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end 站内邀请 -->
+                        <!-- 相关链接 -->
+                        <div class="aw-question-related-box collapse">
+                            <form action="https://www.wecenter.com/publish/ajax/save_related_link/" method="post" onsubmit="return false" id="related_link_form">
+                                <div class="mod-head">
+                                    <h2>与内容相关的链接</h2>
+                                </div>
+                                <div class="mod-body clearfix">
+                                    <input type="hidden" name="item_id" value="32911" />
+                                    <input type="text" class="form-control pull-left " name="link" value="" />
+
+                                    <a onclick="AWS.ajax_post($('#related_link_form',function(){ window.location.reload();}));" class="pull-left btn btn-success">提交</a>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- end 相关链接 -->
+                    </div>
+
+                    <div class="aw-mod aw-question-comment">
+                        <div class="mod-head">
+                            <ul class="nav nav-tabs aw-nav-tabs active">
+
+                                <h2 class="hidden-xs">7 个回复</h2>
+                            </ul>
+                        </div>
+                        <div class="mod-body aw-feed-list">
+                            <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_50873">
+                                <div class="mod-head">
+                                    <a class="anchor" name="answer_50873"></a>
+                                    <!-- 用户头像 -->
+                                    <a class="aw-user-img aw-border-radius-5" href="https://www.wecenter.com/people/466" data-id="466"><img src="http://wenda.wecenter.com/uploads/avatar/000/00/04/66_avatar_mid.jpg" alt="" /></a>										<!-- end 用户头像 -->
+                                    <div class="title">
+                                        <p>
+                                            <a class="aw-user-name" href="https://www.wecenter.com/people/466" data-id="466">吴铭</a>
+                                            - <span class="text-color-999">做什么领域的社区比较好呢</span>																																			</p>
+                                        <p class="text-color-999 aw-agree-by">
+
+                                            赞同来自:
+                                            <a href="https://www.wecenter.com/people/52763" data-id="52763" class="aw-user-name">s783878501</a>																							</p>
+                                    </div>
+                                </div>
+                                <div class="mod-body clearfix">
+                                    <!-- 评论内容 -->
+                                    <div class="markitup-box">
+                                        <p>升级成功。</p><p>记得准备下数据库配置文件，升级会覆盖掉。升级完再同步一下就行了</p><p>新的问题：</p><p>- 话题编辑器没有了</p><p>- 分享组件失效</p><p>- 后台无法清理缓存</p>										</div>
+
+
+                                    <!-- end 评论内容 -->
+                                </div>
+                                <div class="mod-footer">
+                                    <!-- 社交操作 -->
+                                    <div class="meta clearfix">
+                                        <span class="text-color-999 pull-right">2020-05-16</span>
+                                        <span class="operate">
+			<a  style="color: red;cursor: pointer;" class="agree disabled "
+                onclick="gopay(50873,'吴铭','466');"><img style="margin-bottom: 5px;" src="/static/css/default/img/shang.png" width="23" title="打赏"></b></a>
+					
+											</span>
+                                        <!-- 投票栏 -->
+                                        <span class="operate">
+												<a class="agree  disabled" ><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-agree" data-original-title="赞同回复"></i> <b class="count">1</b></a>
+																							</span>
+                                        <!-- end 投票栏 -->
+                                        <span class="operate">
+												<a class="aw-add-comment" data-id="50873" data-type="answer" data-comment-count="0" data-first-click="collapse" href="javascript:;"><i class="icon icon-comment"></i> 0</a>
+											</span>
+                                        <!-- 可显示/隐藏的操作box -->
+                                        <div class="more-operate">
+
+                                            <div class="btn-group pull-left">
+                                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown" answer_id="50873" onclick="question_comment_share(this)">
+                                                    <i class="icon icon-share"></i> 分享													</a>
+                                                <div class="aw-dropdown shareout pull-right bdsharebuttonbox" style="width: 0;">
+                                                    <ul class="aw-dropdown-list">
+                                                        <li><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"> 微信</a></li>
+                                                        <li><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ"> QQ</a></li>
+                                                        <li><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"> 微博</a></li>
+                                                        <li><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"> 空间</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- end 可显示/隐藏的操作box -->
+
+                                    </div>
+                                    <!-- end 社交操作 -->
+                                </div>
+                            </div>
+                            <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_50872">
+                                <div class="mod-head">
+                                    <a class="anchor" name="answer_50872"></a>
+                                    <!-- 用户头像 -->
+                                    <a class="aw-user-img aw-border-radius-5" href="https://www.wecenter.com/people/49009" data-id="49009"><img src="http://wenda.wecenter.com/uploads/avatar/000/04/90/09_avatar_mid.jpg" alt="" /></a>										<!-- end 用户头像 -->
+                                    <div class="title">
+                                        <p>
+                                            <a class="aw-user-name" href="https://www.wecenter.com/people/49009" data-id="49009">一花一木</a>
+                                            - <span class="text-color-999">开发定制，联系QQ963115536</span>																																			</p>
+                                        <p class="text-color-999 aw-agree-by">
+
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mod-body clearfix">
+                                    <!-- 评论内容 -->
+                                    <div class="markitup-box">
+                                        <p>在线升级功能不错。</p><p>但是好像不能成功？</p><p>停留在这一步已经快半个小时了……????<div class="aw-upload-img-list active">
+                                        <a href="/uploads/answer/20200516/ccf5f267fe461892874c790f40327f35.png" target="_blank" data-fancybox-group="thumb" rel="lightbox"><img src="/uploads/answer/20200516/ccf5f267fe461892874c790f40327f35.png" class="img-polaroid" title="/uploads/answer/20200516/ccf5f267fe461892874c790f40327f35.png" alt="/uploads/answer/20200516/ccf5f267fe461892874c790f40327f35.png" /></a>
+                                    </div>
+                                        </p><p><br></p>										</div>
+
+
+                                    <!-- end 评论内容 -->
+                                </div>
+                                <div class="mod-footer">
+                                    <!-- 社交操作 -->
+                                    <div class="meta clearfix">
+                                        <span class="text-color-999 pull-right">2020-05-16</span>
+                                        <span class="operate">
+			<a  style="color: red;cursor: pointer;" class="agree disabled "
+                onclick="gopay(50872,'一花一木','49009');"><img style="margin-bottom: 5px;" src="/static/css/default/img/shang.png" width="23" title="打赏"></b></a>
+					
+											</span>
+                                        <!-- 投票栏 -->
+                                        <span class="operate">
+												<a class="agree  disabled" ><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-agree" data-original-title="赞同回复"></i> <b class="count">0</b></a>
+																							</span>
+                                        <!-- end 投票栏 -->
+                                        <span class="operate">
+												<a class="aw-add-comment" data-id="50872" data-type="answer" data-comment-count="2" data-first-click="" href="javascript:;"><i class="icon icon-comment"></i> 2</a>
+											</span>
+                                        <!-- 可显示/隐藏的操作box -->
+                                        <div class="more-operate">
+
+                                            <div class="btn-group pull-left">
+                                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown" answer_id="50872" onclick="question_comment_share(this)">
+                                                    <i class="icon icon-share"></i> 分享													</a>
+                                                <div class="aw-dropdown shareout pull-right bdsharebuttonbox" style="width: 0;">
+                                                    <ul class="aw-dropdown-list">
+                                                        <li><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"> 微信</a></li>
+                                                        <li><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ"> QQ</a></li>
+                                                        <li><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"> 微博</a></li>
+                                                        <li><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"> 空间</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- end 可显示/隐藏的操作box -->
+
+                                    </div>
+                                    <!-- end 社交操作 -->
+                                </div>
+                            </div>
+                            <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_50874">
+                                <div class="mod-head">
+                                    <a class="anchor" name="answer_50874"></a>
+                                    <!-- 用户头像 -->
+                                    <a class="aw-user-img aw-border-radius-5" href="https://www.wecenter.com/people/11199" data-id="11199"><img src="http://wenda.wecenter.com/uploads/avatar/000/01/11/99_avatar_mid.jpg" alt="" /></a>										<!-- end 用户头像 -->
+                                    <div class="title">
+                                        <p>
+                                            <a class="aw-user-name" href="https://www.wecenter.com/people/11199" data-id="11199">logclub</a>
+                                            - <span class="text-color-999">物流男</span>																																			</p>
+                                        <p class="text-color-999 aw-agree-by">
+
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mod-body clearfix">
+                                    <!-- 评论内容 -->
+                                    <div class="markitup-box">
+                                        <p>http://www.logsuper.com/article/381 更新后时这个样子的，图片没有了。附件也不见了。</p><p><div class="aw-upload-img-list active">
+                                        <a href="/uploads/answer/20200518/15bfdb733257fb95c52d32e385d44138.png" target="_blank" data-fancybox-group="thumb" rel="lightbox"><img src="/uploads/answer/20200518/15bfdb733257fb95c52d32e385d44138.png" class="img-polaroid" title="/uploads/answer/20200518/15bfdb733257fb95c52d32e385d44138.png" alt="/uploads/answer/20200518/15bfdb733257fb95c52d32e385d44138.png" /></a>
+                                    </div>
+                                        </p><p>这是3.1.9的时候发的文章，</p><p>还有这个http://www.logsuper.com/question/11682</p><p><div class="aw-upload-img-list active">
+                                        <a href="/uploads/answer/20200518/ef833bd78b80d5b0290744ef6d285704.png" target="_blank" data-fancybox-group="thumb" rel="lightbox"><img src="/uploads/answer/20200518/ef833bd78b80d5b0290744ef6d285704.png" class="img-polaroid" title="/uploads/answer/20200518/ef833bd78b80d5b0290744ef6d285704.png" alt="/uploads/answer/20200518/ef833bd78b80d5b0290744ef6d285704.png" /></a>
+                                    </div>
+                                        <br></p>										</div>
+
+
+                                    <!-- end 评论内容 -->
+                                </div>
+                                <div class="mod-footer">
+                                    <!-- 社交操作 -->
+                                    <div class="meta clearfix">
+                                        <span class="text-color-999 pull-right">2020-05-17</span>
+                                        <span class="operate">
+			<a  style="color: red;cursor: pointer;" class="agree disabled "
+                onclick="gopay(50874,'logclub','11199');"><img style="margin-bottom: 5px;" src="/static/css/default/img/shang.png" width="23" title="打赏"></b></a>
+					
+											</span>
+                                        <!-- 投票栏 -->
+                                        <span class="operate">
+												<a class="agree  disabled" ><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-agree" data-original-title="赞同回复"></i> <b class="count">0</b></a>
+																							</span>
+                                        <!-- end 投票栏 -->
+                                        <span class="operate">
+												<a class="aw-add-comment" data-id="50874" data-type="answer" data-comment-count="4" data-first-click="" href="javascript:;"><i class="icon icon-comment"></i> 4</a>
+											</span>
+                                        <!-- 可显示/隐藏的操作box -->
+                                        <div class="more-operate">
+
+                                            <div class="btn-group pull-left">
+                                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown" answer_id="50874" onclick="question_comment_share(this)">
+                                                    <i class="icon icon-share"></i> 分享													</a>
+                                                <div class="aw-dropdown shareout pull-right bdsharebuttonbox" style="width: 0;">
+                                                    <ul class="aw-dropdown-list">
+                                                        <li><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"> 微信</a></li>
+                                                        <li><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ"> QQ</a></li>
+                                                        <li><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"> 微博</a></li>
+                                                        <li><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"> 空间</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- end 可显示/隐藏的操作box -->
+
+                                    </div>
+                                    <!-- end 社交操作 -->
+                                </div>
+                            </div>
+                            <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_50876">
+                                <div class="mod-head">
+                                    <a class="anchor" name="answer_50876"></a>
+                                    <!-- 用户头像 -->
+                                    <a class="aw-user-img aw-border-radius-5" href="https://www.wecenter.com/people/52457" data-id="52457"><img src="https://www.wecenter.com/static/common/avatar-mid-img.png" alt="" /></a>										<!-- end 用户头像 -->
+                                    <div class="title">
+                                        <p>
+                                            <a class="aw-user-name" href="https://www.wecenter.com/people/52457" data-id="52457">180705ab</a>
+                                        </p>
+                                        <p class="text-color-999 aw-agree-by">
+
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mod-body clearfix">
+                                    <!-- 评论内容 -->
+                                    <div class="markitup-box">
+                                        <p>通过进入网站目录../tmp/upgrade解压升级文件 并进行覆盖&nbsp;</p><p>然后通过运行 http://您的域名/?/upgrade/ 进行升级&nbsp;</p><p>后台显示已经是最新产品 但是修改后台多语言设置无效&nbsp;</p>										</div>
+
+
+                                    <!-- end 评论内容 -->
+                                </div>
+                                <div class="mod-footer">
+                                    <!-- 社交操作 -->
+                                    <div class="meta clearfix">
+                                        <span class="text-color-999 pull-right">2020-05-20</span>
+                                        <span class="operate">
+			<a  style="color: red;cursor: pointer;" class="agree disabled "
+                onclick="gopay(50876,'180705ab','52457');"><img style="margin-bottom: 5px;" src="/static/css/default/img/shang.png" width="23" title="打赏"></b></a>
+					
+											</span>
+                                        <!-- 投票栏 -->
+                                        <span class="operate">
+												<a class="agree  disabled" ><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-agree" data-original-title="赞同回复"></i> <b class="count">0</b></a>
+																							</span>
+                                        <!-- end 投票栏 -->
+                                        <span class="operate">
+												<a class="aw-add-comment" data-id="50876" data-type="answer" data-comment-count="1" data-first-click="" href="javascript:;"><i class="icon icon-comment"></i> 1</a>
+											</span>
+                                        <!-- 可显示/隐藏的操作box -->
+                                        <div class="more-operate">
+
+                                            <div class="btn-group pull-left">
+                                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown" answer_id="50876" onclick="question_comment_share(this)">
+                                                    <i class="icon icon-share"></i> 分享													</a>
+                                                <div class="aw-dropdown shareout pull-right bdsharebuttonbox" style="width: 0;">
+                                                    <ul class="aw-dropdown-list">
+                                                        <li><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"> 微信</a></li>
+                                                        <li><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ"> QQ</a></li>
+                                                        <li><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"> 微博</a></li>
+                                                        <li><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"> 空间</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- end 可显示/隐藏的操作box -->
+
+                                    </div>
+                                    <!-- end 社交操作 -->
+                                </div>
+                            </div>
+                            <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_50882">
+                                <div class="mod-head">
+                                    <a class="anchor" name="answer_50882"></a>
+                                    <!-- 用户头像 -->
+                                    <a class="aw-user-img aw-border-radius-5" href="https://www.wecenter.com/people/23489" data-id="23489"><img src="https://www.wecenter.com/static/common/avatar-mid-img.png" alt="" /></a>										<!-- end 用户头像 -->
+                                    <div class="title">
+                                        <p>
+                                            <a class="aw-user-name" href="https://www.wecenter.com/people/23489" data-id="23489">marco_hsu</a>
+                                            <i class="icon-v" title="个人认证"></i>
+                                        </p>
+                                        <p class="text-color-999 aw-agree-by">
+
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mod-body clearfix">
+                                    <!-- 评论内容 -->
+                                    <div class="markitup-box">
+                                        <p>在线升级不成功，出来一个空白提示框，确定后又回到初始升级状态，只是进度条100%；</p><p>看了网站什么也没有改动。</p>										</div>
+
+
+                                    <!-- end 评论内容 -->
+                                </div>
+                                <div class="mod-footer">
+                                    <!-- 社交操作 -->
+                                    <div class="meta clearfix">
+                                        <span class="text-color-999 pull-right">2020-05-23</span>
+                                        <span class="operate">
+			<a  style="color: red;cursor: pointer;" class="agree disabled "
+                onclick="gopay(50882,'marco_hsu','23489');"><img style="margin-bottom: 5px;" src="/static/css/default/img/shang.png" width="23" title="打赏"></b></a>
+					
+											</span>
+                                        <!-- 投票栏 -->
+                                        <span class="operate">
+												<a class="agree  disabled" ><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-agree" data-original-title="赞同回复"></i> <b class="count">0</b></a>
+																							</span>
+                                        <!-- end 投票栏 -->
+                                        <span class="operate">
+												<a class="aw-add-comment" data-id="50882" data-type="answer" data-comment-count="3" data-first-click="" href="javascript:;"><i class="icon icon-comment"></i> 3</a>
+											</span>
+                                        <!-- 可显示/隐藏的操作box -->
+                                        <div class="more-operate">
+
+                                            <div class="btn-group pull-left">
+                                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown" answer_id="50882" onclick="question_comment_share(this)">
+                                                    <i class="icon icon-share"></i> 分享													</a>
+                                                <div class="aw-dropdown shareout pull-right bdsharebuttonbox" style="width: 0;">
+                                                    <ul class="aw-dropdown-list">
+                                                        <li><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"> 微信</a></li>
+                                                        <li><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ"> QQ</a></li>
+                                                        <li><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"> 微博</a></li>
+                                                        <li><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"> 空间</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- end 可显示/隐藏的操作box -->
+
+                                    </div>
+                                    <!-- end 社交操作 -->
+                                </div>
+                            </div>
+                            <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_50892">
+                                <div class="mod-head">
+                                    <a class="anchor" name="answer_50892"></a>
+                                    <!-- 用户头像 -->
+                                    <a class="aw-user-img aw-border-radius-5" href="https://www.wecenter.com/people/52535" data-id="52535"><img src="https://www.wecenter.com/static/common/avatar-mid-img.png" alt="" /></a>										<!-- end 用户头像 -->
+                                    <div class="title">
+                                        <p>
+                                            <a class="aw-user-name" href="https://www.wecenter.com/people/52535" data-id="52535">tester12</a>
+                                        </p>
+                                        <p class="text-color-999 aw-agree-by">
+
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mod-body clearfix">
+                                    <!-- 评论内容 -->
+                                    <div class="markitup-box">
+                                        <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nice this post</font></font></p>										</div>
+
+
+                                    <!-- end 评论内容 -->
+                                </div>
+                                <div class="mod-footer">
+                                    <!-- 社交操作 -->
+                                    <div class="meta clearfix">
+                                        <span class="text-color-999 pull-right">2020-06-06</span>
+                                        <span class="operate">
+			<a  style="color: red;cursor: pointer;" class="agree disabled "
+                onclick="gopay(50892,'tester12','52535');"><img style="margin-bottom: 5px;" src="/static/css/default/img/shang.png" width="23" title="打赏"></b></a>
+					
+											</span>
+                                        <!-- 投票栏 -->
+                                        <span class="operate">
+												<a class="agree  disabled" ><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-agree" data-original-title="赞同回复"></i> <b class="count">0</b></a>
+																							</span>
+                                        <!-- end 投票栏 -->
+                                        <span class="operate">
+												<a class="aw-add-comment" data-id="50892" data-type="answer" data-comment-count="0" data-first-click="collapse" href="javascript:;"><i class="icon icon-comment"></i> 0</a>
+											</span>
+                                        <!-- 可显示/隐藏的操作box -->
+                                        <div class="more-operate">
+
+                                            <div class="btn-group pull-left">
+                                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown" answer_id="50892" onclick="question_comment_share(this)">
+                                                    <i class="icon icon-share"></i> 分享													</a>
+                                                <div class="aw-dropdown shareout pull-right bdsharebuttonbox" style="width: 0;">
+                                                    <ul class="aw-dropdown-list">
+                                                        <li><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"> 微信</a></li>
+                                                        <li><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ"> QQ</a></li>
+                                                        <li><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"> 微博</a></li>
+                                                        <li><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"> 空间</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- end 可显示/隐藏的操作box -->
+
+                                    </div>
+                                    <!-- end 社交操作 -->
+                                </div>
+                            </div>
+                            <div class="aw-item" uninterested_count="0" force_fold="0" id="answer_list_50905">
+                                <div class="mod-head">
+                                    <a class="anchor" name="answer_50905"></a>
+                                    <!-- 用户头像 -->
+                                    <a class="aw-user-img aw-border-radius-5" href="https://www.wecenter.com/people/52418" data-id="52418"><img src="http://wenda.wecenter.com/uploads/avatar/000/05/24/18_avatar_mid.jpg" alt="" /></a>										<!-- end 用户头像 -->
+                                    <div class="title">
+                                        <p>
+                                            <a class="aw-user-name" href="https://www.wecenter.com/people/52418" data-id="52418">暮春贰拾叁</a>
+                                        </p>
+                                        <p class="text-color-999 aw-agree-by">
+
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mod-body clearfix">
+                                    <!-- 评论内容 -->
+                                    <div class="markitup-box">
+                                        <p>升级完，首页可打开，其他的都是404</p>										</div>
+
+
+                                    <!-- end 评论内容 -->
+                                </div>
+                                <div class="mod-footer">
+                                    <!-- 社交操作 -->
+                                    <div class="meta clearfix">
+                                        <span class="text-color-999 pull-right">1 天前</span>
+                                        <span class="operate">
+			<a  style="color: red;cursor: pointer;" class="agree disabled "
+                onclick="gopay(50905,'暮春贰拾叁','52418');"><img style="margin-bottom: 5px;" src="/static/css/default/img/shang.png" width="23" title="打赏"></b></a>
+					
+											</span>
+                                        <!-- 投票栏 -->
+                                        <span class="operate">
+												<a class="agree  disabled" ><i data-placement="right" title="" data-toggle="tooltip" class="icon icon-agree" data-original-title="赞同回复"></i> <b class="count">0</b></a>
+																							</span>
+                                        <!-- end 投票栏 -->
+                                        <span class="operate">
+												<a class="aw-add-comment" data-id="50905" data-type="answer" data-comment-count="0" data-first-click="collapse" href="javascript:;"><i class="icon icon-comment"></i> 0</a>
+											</span>
+                                        <!-- 可显示/隐藏的操作box -->
+                                        <div class="more-operate">
+
+                                            <div class="btn-group pull-left">
+                                                <a class="text-color-999 dropdown-toggle" data-toggle="dropdown" answer_id="50905" onclick="question_comment_share(this)">
+                                                    <i class="icon icon-share"></i> 分享													</a>
+                                                <div class="aw-dropdown shareout pull-right bdsharebuttonbox" style="width: 0;">
+                                                    <ul class="aw-dropdown-list">
+                                                        <li><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"> 微信</a></li>
+                                                        <li><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ"> QQ</a></li>
+                                                        <li><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"> 微博</a></li>
+                                                        <li><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"> 空间</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- end 可显示/隐藏的操作box -->
+
+                                    </div>
+                                    <!-- end 社交操作 -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mod-footer">
+                            <div class="aw-load-more-content collapse" id="load_uninterested_answers">
+                                <span class="text-color-999 aw-alert-box text-color-999" href="javascript:;" tabindex="-1" onclick="AWS.alert('被折叠的回复是被你或者被大多数用户认为没有帮助的回复');">为什么被折叠?</span>
+                                <a href="javascript:;" class="aw-load-more-content"><span class="hide_answers_count">0</span> 个回复被折叠</a>
+                            </div>
+
+                            <div class="collapse aw-feed-list" id="uninterested_answers_list"></div>
+                        </div>
+
+                    </div>
+                    <!-- end 问题详细模块 -->
+
+                    <!-- 回复编辑器 -->
+                    <div class="aw-mod aw-replay-box question">
+                        <a name="answer_form"></a>
+                        <p align="center">要回复问题请先<a href="https://www.wecenter.com/login/">登录</a>或<a href="https://www.wecenter.com/account/register/">注册</a></p>
+                    </div>
+                    <!-- end 回复编辑器 -->
+                </div>
+                <!-- 侧边栏 -->
+                <div class="col-md-3 aw-side-bar hidden-xs hidden-sm">
+                    <!-- 发起人 -->
+                    <div class="aw-mod">
+                        <div class="mod-head">
+                            <h3>发起人</h3>
+                        </div>
+                        <div class="mod-body">
+                            <dl>
+                                <dt class="pull-left aw-border-radius-5">
+                                    <a href="https://www.wecenter.com/people/45510"><img alt="技术-安辰" src="http://wenda.wecenter.com/uploads/avatar/000/04/55/10_avatar_mid.jpg" /></a>
+                                </dt>
+                                <dd class="pull-left">
+                                    <a class="aw-user-name" href="https://www.wecenter.com/people/45510" data-id="45510">技术-安辰</a>
+                                    <i class="icon-v" title="个人认证"></i>
+                                    <p>WeCenter技术</p>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <!-- end 发起人 -->
+
+
+
+                    <!-- 相关问题 -->
+                    <div class="aw-mod">
+                        <div class="mod-head">
+                            <h3>相关问题</h3>
+                        </div>
+                        <div class="mod-body font-size-12">
+                            <ul>
+                                <li><a href="https://www.wecenter.com/question/28">大家期望anwsion系统提供哪些功能？</a></li>
+                                <li><a href="https://www.wecenter.com/question/8896">一般程序都有缩写，如DZ、PW。大家说说WeCenter的缩写</a></li>
+                                <li><a href="https://www.wecenter.com/question/10">大家期望anwsion程序补充哪些功能？</a></li>
+                                <li><a href="https://www.wecenter.com/question/10952">我们有个wecenter模板设计大赛设想，大家需要哪些方面的技术支持？</a></li>
+                                <li><a href="https://www.wecenter.com/question/7028">如何看待quora增加个人blog发布功能？</a></li>
+                                <li><a href="https://www.wecenter.com/question/14168">通过Excel文件批量导入问题和答案</a></li>
+                                <li><a href="https://www.wecenter.com/question/3495">几款编辑器对比，大家看看（豆瓣、水木、天涯、知乎、贴吧）</a></li>
+                                <li><a href="https://www.wecenter.com/question/82">anwsion对各浏览器的支持情况，大家了解下。</a></li>
+                                <li><a href="https://www.wecenter.com/question/23">大家搭建问答网站主要应用在哪些领域？需要什么样的风格？</a></li>
+                                <li><a href="https://www.wecenter.com/question/14601">大家需要活动模块吗？对这个模块都有哪些功能需求？讲讲看！</a></li>
+                                <li><a href="https://www.wecenter.com/question/18345">弱弱的问一下：WeCenter3.0 大概什么时间发布？</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end 相关问题 -->
+
+                    <!-- 问题状态 -->
+                    <div class="aw-mod question-status">
+                        <div class="mod-head">
+                            <h3>问题状态</h3>
+                        </div>
+                        <div class="mod-body">
+                            <ul>
+                                <li>最新活动: <span class="aw-text-color-blue">1 天前</span></li>
+                                <li>浏览: <span class="aw-text-color-blue">1369</span></li>
+                                <li>关注: <span class="aw-text-color-blue">10</span> 人</li>
+
+                                <li class="aw-border-radius-5" id="focus_users"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end 问题状态 -->
+                </div>
+                <!-- end 侧边栏 -->
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var ATTACH_ACCESS_KEY = '6cdb59333972533a2bc81876873cbaae';
+    var ITEM_IDS = '';
+    var COMMENT_UNFOLD = 'all';
+    var QUESTION_ID = 32911;
+    var UNINTERESTED_COUNT = 3;
+    var ANSWER_EDIT_TIME = 640000;
+    var USER_ANSWERED = '0';
+    var UPLOAD_ENABLE = 'N';
+    var ANSWER_TYPE = 'answer';
+    var editor_type="wangeditor"
+
+    $('.operate .btn-group').click(function(){
+        if ($(this).hasClass('open'))
+        {
+            $(this).removeClass('open');
+        }
+        else
+        {
+            $(this).addClass('open');
+        }
+    });
+
+    function timer(intDiff){
+        window.setInterval(function(){
+            var day=0,
+                hour=0,
+                minute=0,
+                second=0;//时间默认值
+            if(intDiff > 0){
+                day = Math.floor(intDiff / (60 * 60 * 24));
+                hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+            }else{
+                location.reload()
+            }
+
+            if (minute <= 9) minute = '0' + minute;
+            if (second <= 9) second = '0' + second;
+
+            $('#day_show').html('剩余：'+day+"天");
+            $('#hour_show').html('<s id="h"></s>'+hour+'时');
+            $('#minute_show').html('<s></s>'+minute+'分');
+            $('#second_show').html('<s></s>'+second+'秒');
+            intDiff--;
+
+        }, 1000);
+    }
+
+    var intDiff = parseInt(-1592964941);//倒计时总秒数量
+
+    $(function(){
+        if(intDiff>0){
+            timer(intDiff);
+        }
+    });
+
+    var pay_data={
+        'url':G_BASE_URL+'/explore/doact/?p=reward&a=add',
+        'cate':1,
+        'notify_url':G_BASE_URL+'/pay/notify/'
+    };
+
+    function gopay(id,name,uid){
+        pay_data.both_id=id;
+        pay_data.passive_uid=uid;
+        pay_data.remarks="打赏-"+name,
+            showpay();
+    }
+
+</script>
+
+<script type="text/javascript">
+
+    $("#question_share").click(function(){
+        $('#share_content').val('3.5.0修复文件已发布，大家可在后台进行在线升级');
+        $('#share_title').val('3.5.0修复文件已发布，大家可在后台进行在线升级');
+        $('#share_url').val(G_BASE_URL + '/question/32911');
+
+    });
+    function question_comment_share(obj){
+        var content=$(obj).parents(".aw-item").find('div.markitup-box').text().replace(/(^\s*)|(\s*$)/g, "").substr(0,140);
+        var answer_id=$(obj).attr('answer_id');
+        $('#share_content').val(content);
+        $('#share_title').val(content);
+        $('#share_url').val(G_BASE_URL + '/question/32911?answer_id='+answer_id+'&single=TRUE#!answer_'+answer_id);
+    }
+    window._bd_share_config={
+        "common":{
+            bdText : '3.5.0修复文件已发布，大家可在后台进行在线升级',
+            bdDesc : '3.5.0修复文件已发布，大家可在后台进行在线升级',
+            bdUrl : G_BASE_URL + '/question/32911',
+            onBeforeClick:function(cmd,config){
+                return {bdText:$('#share_content').val(),
+                    bdDesc:$('#share_title').val(),
+                    bdUrl:$('#share_url').val()
+                }
+
+            }
+        },
+        "share" : [{
+            bdCustomStyle :G_STATIC_URL+"/api/css/share.css",
+        }]
+    };
+
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src=G_STATIC_URL+'/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<script type="text/javascript" src="https://www.wecenter.com/static/js/app/question_detail.js"></script>
+
+<div class="aw-footer-wrap">
+    <div class="aw-footer">
+        Copyright © 2020<span
+            class="hidden-xs"> - <a href='http://www.miibeian.gov.cn'>粤ICP备17116736号</a> 官方客服：3020438181 官方QQ群：432421687, All Rights Reserved</span>
+
+        <span class="hidden-xs">Powered By <a href="http://www.wecenter.com/?copyright"
+                                              target="blank">WeCenter 3.5.0</a></span>
+
+    </div>
+</div>
+
+<a class="aw-back-top hidden-xs" href="javascript:;" onclick="$.scrollTo(1, 600, {queue:true});"><i
+        class="icon icon-up"></i></a>
+
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?0bc5084b5b75712f34e8c85baabd465b";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<!-- DO NOT REMOVE -->
+<div id="aw-ajax-box" class="aw-ajax-box"></div>
+
+<div style="display:none;" id="__crond">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#__crond').html(unescape('%3Cimg%20src%3D%22' + G_BASE_URL + '/crond/run/1592964941%22%20width%3D%221%22%20height%3D%221%22%20/%3E'));
+        });
+    </script>
+</div>
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cdiv%20style%3D%27text-align%3Acenter%27%3E%3Cspan id='cnzz_stat_icon_1273638993'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1273638993%26show%3Dpic' type='text/javascript'%3E%3C/script%3E%3C/div%3E"));</script>
+
+<!-- Escape time: 0.23559999465942 --><!-- / DO NOT REMOVE -->
+
+</body>
+</html>

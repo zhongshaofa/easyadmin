@@ -20,6 +20,11 @@ class Index extends AnswerHomeController
 
     public function index()
     {
-        return $this->fetch();
+        return $this->fetch('home/index/index');
     }
+
+    public function detail(){
+        return $this->fetch('home/index/detail');
+    }
+
 }

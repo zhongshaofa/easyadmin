@@ -32,7 +32,7 @@ class AnswerHomeController extends BaseController
      * 模板布局, false取消
      * @var string|bool
      */
-    protected $layout = 'admin/layout/default';
+    protected $layout = 'home/layout/default';
 
     /**
      * 判断是否检测后台登录

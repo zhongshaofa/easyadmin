@@ -1,4 +1,159 @@
-<link rel="stylesheet" href="__STATIC__/addons/answer/home/css/index.css">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <meta http-equiv="Expires" CONTENT="0">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <meta name="renderer" content="webkit"/>
+    <title>WeCenter 社交化知识问答社区程序</title>
+    <meta name="keywords" content="wecenter,知识社区,企业社区,社交问答,问答社区,企业社交,开源社区程序,社交社区程序,开源问答程序,问答网站,social question,问答系统,微信公众平台,微信开发,微信开发社区,微信应用"/>
+    <meta name="description" content="WeCenter 是一款知识型的社交化问答社区程序，专注于社区内容的整理、归类和检索，并通过连接微信公众平台，移动APP进行内容分发。"/>
+    <base href="https://www.wecenter.com/"/>
+    <!--[if IE]></base><![endif]-->
+    <link href="https://www.wecenter.com/static/css/default/img/favicon.ico?v=20200420" rel="shortcut icon" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="https://www.wecenter.com/static/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="https://www.wecenter.com/static/css/icon.css"/>
+    <link href="https://www.wecenter.com/static/css/default/common.css?v=20200420" rel="stylesheet" type="text/css"/>
+    <link href="https://www.wecenter.com/static/css/default/link.css?v=20200420" rel="stylesheet" type="text/css"/>
+    <link href="https://www.wecenter.com/static/js/plug_module/style.css?v=20200420" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://www.wecenter.com/static/js/highlight/styles/tomorrow.css">
+    <style type="text/css">
+        .geetest_radar_tip_content {
+            position: initial !important;
+        }
+    </style>
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="https://www.wecenter.com/static/js/respond.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="aw-top-menu-wrap">
+    <div class="container">
+        <div class="aw-logo hidden-xs">
+            <a href="https://www.wecenter.com"></a>
+        </div>
+
+        <div class="aw-search-box  hidden-xs hidden-sm">
+            <form class="navbar-search" action="https://www.wecenter.com/search/" id="global_search_form" method="post">
+                <label class="oldPwdTip aw-search-query-label" onclick="$(this).hide();$('#aw-search-query').focus();">搜索问题、话题或人...</label> <input class="form-control search-query" type="text" value="" autocomplete="off" name="q" id="aw-search-query" onfocus="hideOldPwdTip('aw-search-query');" onblur="toggleOldPwdTip('aw-search-query',this.value);"/>
+                <span title="搜索" id="global_search_btns" onClick="$('#global_search_form').submit();"><i class="icon icon-search"></i></span>
+                <div class="aw-dropdown">
+                    <div class="mod-body">
+                        <p class="title">输入关键字进行搜索</p>
+                        <ul class="aw-dropdown-list collapse"></ul>
+                        <p class="search"><span>搜索:</span><a onClick="$('#global_search_form').submit();"></a></p>
+                    </div>
+                    <div class="mod-footer">
+                        <a href="https://www.wecenter.com/publish" onClick="$('#header_publish').click();" class="pull-right btn btn-mini btn-success publish">发起问题</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="aw-top-nav navbar">
+            <div class="navbar-header">
+                <button class="navbar-toggle pull-left">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="https://www.wecenter.com/explore/" class="active"><i class="icon icon-list"></i> 发现</a></li>
+                    <li><a href="https://www.wecenter.com/topic/"><i class="icon icon-topic"></i> 话题</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="aw-user-nav">
+            <a class="login btn btn-normal btn-primary" href="https://www.wecenter.com/login/">登录</a>
+            <a class="register btn btn-normal btn-success" href="https://www.wecenter.com/account/register/">注册</a>
+        </div>
+
+    </div>
+</div>
+
+<style type="text/css">
+    .rewards {
+        color: #fff;
+        border-radius: 2px;
+        padding: 0 10px;
+        margin-left: 10px;
+    }
+
+    .reward-over {
+        background: #b8b1b1
+    }
+
+    .reward-aaaa {
+        background: #dea32b
+    }
+
+    .reward-ings {
+        background: #2b98de
+    }
+
+    .ad-banner-box {
+        background: none;
+        margin-top: 5px;
+        position: relative;
+        overflow: hidden
+    }
+
+    .ad-banner-box .ad-banner-close {
+        z-index: 999;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 18px;
+        height: 18px;
+        background-color: #666;
+        line-height: 21px;
+        text-align: center;
+        color: #fff
+    }
+
+    .slides {
+        position: relative;
+        z-index: 1;
+        padding: 0
+    }
+
+    .flex-control-nav {
+        position: absolute;
+        bottom: 10px;
+        z-index: 2;;
+        text-align: center;
+        padding: 0 !important;
+    }
+
+    .flex-control-nav li {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        margin: 0 5px;
+        *display: inline;
+        zoom: 1;
+        padding: 2px
+    }
+
+    .flex-control-nav a {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        overflow: hidden;
+        background: #333;
+        cursor: pointer;
+        border-radius: 100px;
+        line-height: 14px;
+        color: #fff;
+    }
+    .flex-control-nav .flex-active {
+        background-color: #499ef3
+    }
+</style>
 <div class="aw-container-wrap">
     <div class="container">
         <div class="container category">
@@ -233,3 +388,12 @@
         </div>
     </div>
 </div>
+
+<div class="aw-footer-wrap">
+    <div class="aw-footer">
+        Copyright © 2020<span class="hidden-xs"> - <a href='http://www.miibeian.gov.cn'>粤ICP备17116736号</a> 官方客服：3020438181 官方QQ群：432421687, All Rights Reserved</span><span class="hidden-xs">Powered By <a href="http://www.wecenter.com/?copyright" target="blank">WeCenter 3.5.0</a></span>
+    </div>
+</div>
+
+</body>
+</html>
