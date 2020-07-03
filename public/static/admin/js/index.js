@@ -64,7 +64,7 @@ define(["jquery", "easy-admin", "echarts", "echarts-theme", "miniAdmin", "miniTa
             /**
              * 报表功能
              */
-            var echartsRecords = echarts.init(document.getElementById('echarts-records'), 'walden');
+            var echartsRecords = echarts.init(document.getElementById('echarts-records'));
             var optionRecords = {
                 title: {
                     text: '访问统计'
