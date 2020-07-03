@@ -128,7 +128,9 @@ define(["jquery", "easy-admin", "echarts", "echarts-theme", "miniAdmin", "miniTa
                 ]
             };
             echartsRecords.setOption(optionRecords);
-
+            window.addEventListener("resize", function () {
+                echartsRecords.resize();
+            });
         },
         editAdmin: function () {
             ea.listen();
