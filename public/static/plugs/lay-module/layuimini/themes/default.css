@@ -89,6 +89,16 @@
     color: #ffffff !important;
 }
 
+/*左侧伸缩菜单背景*/
+.layui-nav-itemed>.layui-nav-child {
+    background-color: #4E5465 !important;
+}
+
+/*左侧伸缩菜单标题背景*/
+.layui-nav-tree .layui-nav-item a, .layui-nav-tree .layui-nav-item a:hover {
+    background-color: #4E5465 !important;
+}
+
 /**tab选项卡选中颜色 tabActiveColor */
 .layuimini-tab .layui-tab-title .layui-this .layuimini-tab-active {
     background-color: #1e9fff;
