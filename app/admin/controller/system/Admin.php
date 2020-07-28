@@ -100,7 +100,7 @@ class Admin extends AdminController
     public function edit($id)
     {
         $row = $this->model->find($id);
-        empty($row) && $this->error('数据不存在');
+        $row->isEmpty() && $this->error('数据不存在');
         if ($this->request->isAjax()) {
             $post = $this->request->post();
             $authIds = $this->request->post('auth_ids', []);
@@ -129,7 +129,7 @@ class Admin extends AdminController
     public function password($id)
     {
         $row = $this->model->find($id);
-        empty($row) && $this->error('数据不存在');
+        $row->isEmpty() && $this->error('数据不存在');
         if ($this->request->isAjax()) {
             $post = $this->request->post();
             $rule = [
@@ -160,7 +160,7 @@ class Admin extends AdminController
     public function delete($id)
     {
         $row = $this->model->whereIn('id', $id)->select();
-        empty($row) && $this->error('数据不存在');
+        $row->isEmpty() && $this->error('数据不存在');
         $id == AdminConstant::SUPER_ADMIN_ID && $this->error('超级管理员不允许修改');
         try {
             $save = $row->delete();
