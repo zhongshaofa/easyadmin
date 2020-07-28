@@ -1018,12 +1018,10 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         data: postData,
                     }, function (res) {
                         admin.msg.success(res.msg, function () {
-                            var refresh = $('[data-treetable-refresh]');
-                            if (refresh.length){
-                                refresh.trigger("click");
-                            }else{
-                                table.reload(tableId);
-                            }
+                            try {
+                                $('[data-treetable-refresh]').trigger("click");
+                            }catch (e) {}
+                            table.reload(tableId);
                         });
                     })
                 });
@@ -1064,12 +1062,10 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         },
                     }, function (res) {
                         admin.msg.success(res.msg, function () {
-                            var refresh = $('[data-treetable-refresh]');
-                            if (refresh.length){
-                                refresh.trigger("click");
-                            }else{
-                                table.reload(tableId);
-                            }
+                            try {
+                                $('[data-treetable-refresh]').trigger("click");
+                            }catch (e) {}
+                            table.reload(tableId);
                         });
                     });
                 });
