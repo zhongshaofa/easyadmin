@@ -1019,9 +1019,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     }, function (res) {
                         admin.msg.success(res.msg, function () {
                             try {
+                                table.reload(tableId);
                                 $('[data-treetable-refresh]').trigger("click");
                             }catch (e) {}
-                            table.reload(tableId);
                         });
                     })
                 });
@@ -1063,9 +1063,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     }, function (res) {
                         admin.msg.success(res.msg, function () {
                             try {
+                                table.reload(tableId);
                                 $('[data-treetable-refresh]').trigger("click");
                             }catch (e) {}
-                            table.reload(tableId);
                         });
                     });
                 });
