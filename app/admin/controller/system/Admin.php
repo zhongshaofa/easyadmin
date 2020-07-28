@@ -162,6 +162,11 @@ class Admin extends AdminController
         $row = $this->model->whereIn('id', $id)->select();
         empty($row) && $this->error('数据不存在');
         $id == AdminConstant::SUPER_ADMIN_ID && $this->error('超级管理员不允许修改');
+        if (is_array($id)){
+            if (in_array(AdminConstant::SUPER_ADMIN_ID, $id)){
+                $this->error('超级管理员不允许修改');
+            }
+        }
         try {
             $save = $row->delete();
         } catch (\Exception $e) {
