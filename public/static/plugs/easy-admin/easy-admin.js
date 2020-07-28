@@ -989,7 +989,8 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     url = $(this).attr('data-request'),
                     tableId = $(this).attr('data-table'),
                     addons = $(this).attr('data-addons'),
-                    checkbox = $(this).attr('data-checkbox');
+                    checkbox = $(this).attr('data-checkbox'),
+                    field = $(this).attr('data-field') || 'id';
 
                 var postData = {};
                 if(checkbox === 'true'){
@@ -1002,9 +1003,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     }
                     var ids = [];
                     $.each(data, function (i, v) {
-                        ids.push(v.id);
+                        ids.push(v[field]);
                     });
-                    postData.id = ids;
+                    postData[field] = ids;
                 }
 
                 if (addons !== true && addons !== 'true') {
