@@ -80,7 +80,7 @@ trait Curd
     public function edit($id)
     {
         $row = $this->model->find($id);
-        $row->isEmpty() && $this->error('数据不存在');
+        empty($row) && $this->error('数据不存在');
         if ($this->request->isAjax()) {
             $post = $this->request->post();
             $rule = [];
