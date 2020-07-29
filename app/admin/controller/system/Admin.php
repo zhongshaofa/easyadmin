@@ -100,7 +100,7 @@ class Admin extends AdminController
     public function edit($id)
     {
         $row = $this->model->find($id);
-        $row->isEmpty() && $this->error('数据不存在');
+        empty($row) && $this->error('数据不存在');
         if ($this->request->isAjax()) {
             $post = $this->request->post();
             $authIds = $this->request->post('auth_ids', []);
@@ -129,7 +129,7 @@ class Admin extends AdminController
     public function password($id)
     {
         $row = $this->model->find($id);
-        $row->isEmpty() && $this->error('数据不存在');
+        empty($row) && $this->error('数据不存在');
         if ($this->request->isAjax()) {
             $post = $this->request->post();
             $rule = [
