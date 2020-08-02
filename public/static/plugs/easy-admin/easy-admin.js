@@ -967,16 +967,8 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     data = [];
                 $.each(doms, function(key, value){
                     var src = $(value).find('img').attr('src');
-                    if(src != now_src){
-                        // 压入其他图片地址
-                        data.push({
-                            "alt": alt,
-                            "pid": Math.random(),
-                            "src": src,
-                            "thumb": src
-                        });
-                    }else{
-                        // 把当前图片插入到头部
+                    // 把当前图片插入到头部
+                    if(src == now_src){
                         data.unshift({
                             "alt": alt,
                             "pid": Math.random(),
@@ -984,6 +976,13 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             "thumb": now_src
                         });
                     }
+                    // 压入其他图片地址
+                    data.push({
+                        "alt": alt,
+                        "pid": Math.random(),
+                        "src": src,
+                        "thumb": src
+                    });
                 });
                 var photos = {
                     "title": title,
