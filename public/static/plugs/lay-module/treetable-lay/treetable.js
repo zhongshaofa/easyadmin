@@ -73,7 +73,7 @@ layui.define(['layer', 'table'], function (exports) {
                 var mId = d.id;
                 var mPid = d.pid;
                 var isDir = d.isParent;
-                var emptyNum = treetable.getEmptyNum(mPid, mData);
+                var emptyNum = treetable.getEmptyNum(mPid, mData, param.indent);
                 var iconHtml = '';
                 for (var i = 0; i < emptyNum; i++) {
                     iconHtml += '<span class="treeTable-empty"></span>';
@@ -109,7 +109,7 @@ layui.define(['layer', 'table'], function (exports) {
             table.render(param);
         },
         // 计算缩进的数量
-        getEmptyNum: function (pid, data) {
+        getEmptyNum: function (pid, data, indent) {
             var num = 0;
             if (!pid) {
                 return num;
@@ -117,12 +117,12 @@ layui.define(['layer', 'table'], function (exports) {
             var tPid;
             for (var i = 0; i < data.length; i++) {
                 if (pid == data[i].id) {
-                    num += 1;
+                    num += indent || 1;
                     tPid = data[i].pid;
                     break;
                 }
             }
-            return num + treetable.getEmptyNum(tPid, data);
+            return num + treetable.getEmptyNum(tPid, data, indent);
         },
         // 展开/折叠行
         toggleRows: function ($dom, linkage) {

@@ -24,6 +24,10 @@ define(["easy-admin"], function (ea) {
                     $(this).addClass('icon-check');
                 }
             });
+            
+            $('.login-tip').on('click', function () {
+                $('.icon-nocheck').click();
+            });
 
             ea.listen(function (data) {
                 data['keep_login'] = $('.icon-nocheck').hasClass('icon-check') ? 1 : 0;

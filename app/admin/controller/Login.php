@@ -67,6 +67,8 @@ class Login extends AdminController
             if ($admin->status == 0) {
                 $this->error('账号已被禁用');
             }
+            $admin->login_num += 1;
+            $admin->save();
             $admin = $admin->toArray();
             unset($admin['password']);
             $admin['expire_time'] = $post['keep_login'] == 1 ? true : time() + 7200;
