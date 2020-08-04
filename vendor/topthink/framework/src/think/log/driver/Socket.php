@@ -12,6 +12,8 @@ declare (strict_types = 1);
 
 namespace think\log\driver;
 
+use Psr\Container\NotFoundExceptionInterface;
+use think\App;
 use think\contract\LogHandlerInterface;
 
 /**
@@ -20,11 +22,13 @@ use think\contract\LogHandlerInterface;
  */
 class Socket implements LogHandlerInterface
 {
-    public $port = 1116; //SocketLog 服务的http的端口号
+    protected $app;
 
     protected $config = [
         // socket服务器地址
         'host'                => 'localhost',
+        // socket服务器端口
+        'port'                => 1116,
         // 是否显示加载的文件列表
         'show_included_files' => false,
         // 日志强制记录到配置的client_id
@@ -33,6 +37,10 @@ class Socket implements LogHandlerInterface
         'allow_client_ids'    => [],
         // 调试开关
         'debug'               => false,
+        // 输出到浏览器时默认展开的日志级别
+        'expand_level'        => ['debug'],
+        // 日志头渲染回调
+        'format_head'         => null,
     ];
 
     protected $css = [
@@ -45,15 +53,24 @@ class Socket implements LogHandlerInterface
 
     protected $allowForceClientIds = []; //配置强制推送且被授权的client_id
 
+    protected $clientArg = [];
+
     /**
      * 架构函数
      * @access public
+     * @param App   $app
      * @param array $config 缓存参数
      */
-    public function __construct(array $config = [])
+    public function __construct(App $app, array $config = [])
     {
+        $this->app = $app;
+
         if (!empty($config)) {
             $this->config = array_merge($this->config, $config);
+        }
+
+        if (!isset($config['debug'])) {
+            $this->config['debug'] = $app->isDebug();
         }
     }
 
@@ -72,26 +89,35 @@ class Socket implements LogHandlerInterface
         $trace = [];
 
         if ($this->config['debug']) {
-
-            if (isset($_SERVER['HTTP_HOST'])) {
-                $current_uri = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            if ($this->app->exists('request')) {
+                $currentUri = $this->app->request->url(true);
             } else {
-                $current_uri = 'cmd:' . implode(' ', $_SERVER['argv']);
+                $currentUri = 'cmd:' . implode(' ', $_SERVER['argv'] ?? []);
+            }
+
+            if (!empty($this->config['format_head'])) {
+                try {
+                    $currentUri = $this->app->invoke($this->config['format_head'], [$currentUri]);
+                } catch (NotFoundExceptionInterface $notFoundException) {
+                    // Ignore exception
+                }
             }
 
             // 基本信息
             $trace[] = [
                 'type' => 'group',
-                'msg'  => $current_uri,
+                'msg'  => $currentUri,
                 'css'  => $this->css['page'],
             ];
         }
 
+        $expandLevel = array_flip($this->config['expand_level']);
+
         foreach ($log as $type => $val) {
             $trace[] = [
-                'type' => 'groupCollapsed',
+                'type' => isset($expandLevel[$type]) ? 'group' : 'groupCollapsed',
                 'msg'  => '[ ' . $type . ' ]',
-                'css'  => isset($this->css[$type]) ? $this->css[$type] : '',
+                'css'  => $this->css[$type] ?? '',
             ];
 
             foreach ($val as $msg) {
@@ -140,18 +166,18 @@ class Socket implements LogHandlerInterface
 
         $tabid = $this->getClientArg('tabid');
 
-        if (!$client_id = $this->getClientArg('client_id')) {
-            $client_id = '';
+        if (!$clientId = $this->getClientArg('client_id')) {
+            $clientId = '';
         }
 
         if (!empty($this->allowForceClientIds)) {
             //强制推送到多个client_id
-            foreach ($this->allowForceClientIds as $force_client_id) {
-                $client_id = $force_client_id;
-                $this->sendToClient($tabid, $client_id, $trace, $force_client_id);
+            foreach ($this->allowForceClientIds as $forceClientId) {
+                $clientId = $forceClientId;
+                $this->sendToClient($tabid, $clientId, $trace, $forceClientId);
             }
         } else {
-            $this->sendToClient($tabid, $client_id, $trace, '');
+            $this->sendToClient($tabid, $clientId, $trace, '');
         }
 
         return true;
@@ -160,27 +186,32 @@ class Socket implements LogHandlerInterface
     /**
      * 发送给指定客户端
      * @access protected
-     * @param  $tabid
-     * @param  $client_id
-     * @param  $logs
-     * @param  $force_client_id
      * @author Zjmainstay
+     * @param  $tabid
+     * @param  $clientId
+     * @param  $logs
+     * @param  $forceClientId
      */
-    protected function sendToClient($tabid, $client_id, $logs, $force_client_id)
+    protected function sendToClient($tabid, $clientId, $logs, $forceClientId)
     {
         $logs = [
             'tabid'           => $tabid,
-            'client_id'       => $client_id,
+            'client_id'       => $clientId,
             'logs'            => $logs,
-            'force_client_id' => $force_client_id,
+            'force_client_id' => $forceClientId,
         ];
 
-        $msg     = @json_encode($logs);
-        $address = '/' . $client_id; //将client_id作为地址， server端通过地址判断将日志发布给谁
+        $msg     = json_encode($logs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PARTIAL_OUTPUT_ON_ERROR);
+        $address = '/' . $clientId; //将client_id作为地址， server端通过地址判断将日志发布给谁
 
-        $this->send($this->config['host'], $msg, $address);
+        $this->send($this->config['host'], $this->config['port'], $msg, $address);
     }
 
+    /**
+     * 检测客户授权
+     * @access protected
+     * @return bool
+     */
     protected function check()
     {
         $tabid = $this->getClientArg('tabid');
@@ -191,17 +222,17 @@ class Socket implements LogHandlerInterface
         }
 
         //用户认证
-        $allow_client_ids = $this->config['allow_client_ids'];
+        $allowClientIds = $this->config['allow_client_ids'];
 
-        if (!empty($allow_client_ids)) {
+        if (!empty($allowClientIds)) {
             //通过数组交集得出授权强制推送的client_id
-            $this->allowForceClientIds = array_intersect($allow_client_ids, $this->config['force_client_ids']);
+            $this->allowForceClientIds = array_intersect($allowClientIds, $this->config['force_client_ids']);
             if (!$tabid && count($this->allowForceClientIds)) {
                 return true;
             }
 
-            $client_id = $this->getClientArg('client_id');
-            if (!in_array($client_id, $allow_client_ids)) {
+            $clientId = $this->getClientArg('client_id');
+            if (!in_array($clientId, $allowClientIds)) {
                 return false;
             }
         } else {
@@ -211,45 +242,50 @@ class Socket implements LogHandlerInterface
         return true;
     }
 
-    protected function getClientArg($name)
+    /**
+     * 获取客户参数
+     * @access protected
+     * @param string $name
+     * @return string
+     */
+    protected function getClientArg(string $name)
     {
-        static $args = [];
-
-        $key = 'HTTP_USER_AGENT';
-
-        if (isset($_SERVER['HTTP_SOCKETLOG'])) {
-            $key = 'HTTP_SOCKETLOG';
+        if (!$this->app->exists('request')) {
+            return '';
         }
 
-        if (!isset($_SERVER[$key])) {
-            return;
-        }
-
-        if (empty($args)) {
-            if (!preg_match('/SocketLog\((.*?)\)/', $_SERVER[$key], $match)) {
-                $args = ['tabid' => null];
-                return;
+        if (empty($this->clientArg)) {
+            if (empty($socketLog = $this->app->request->header('socketlog'))) {
+                if (empty($socketLog = $this->app->request->header('User-Agent'))) {
+                    return '';
+                }
             }
-            parse_str($match[1], $args);
+
+            if (!preg_match('/SocketLog\((.*?)\)/', $socketLog, $match)) {
+                $this->clientArg = ['tabid' => null, 'client_id' => null];
+                return '';
+            }
+            parse_str($match[1] ?? '', $this->clientArg);
         }
 
-        if (isset($args[$name])) {
-            return $args[$name];
+        if (isset($this->clientArg[$name])) {
+            return $this->clientArg[$name];
         }
 
-        return;
+        return '';
     }
 
     /**
      * @access protected
      * @param string $host    - $host of socket server
+     * @param int    $port    - $port of socket server
      * @param string $message - 发送的消息
      * @param string $address - 地址
      * @return bool
      */
-    protected function send($host, $message = '', $address = '/')
+    protected function send($host, $port, $message = '', $address = '/')
     {
-        $url = 'http://' . $host . ':' . $this->port . $address;
+        $url = 'http://' . $host . ':' . $port . $address;
         $ch  = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -267,5 +303,4 @@ class Socket implements LogHandlerInterface
 
         return curl_exec($ch);
     }
-
 }

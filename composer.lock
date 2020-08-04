@@ -1548,16 +1548,16 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v6.0.0",
+            "version": "v6.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "79c555aab0313d1a33ddcdb3c395f2c47f37f597"
+                "reference": "b4046fb21e6163ba23a792b694162693dbe71b4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/79c555aab0313d1a33ddcdb3c395f2c47f37f597",
-                "reference": "79c555aab0313d1a33ddcdb3c395f2c47f37f597",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/b4046fb21e6163ba23a792b694162693dbe71b4b",
+                "reference": "b4046fb21e6163ba23a792b694162693dbe71b4b",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1612,7 +1612,11 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2019-10-23T23:28:43+00:00"
+            "support": {
+                "issues": "https://github.com/top-think/framework/issues",
+                "source": "https://github.com/top-think/framework/tree/6.0"
+            },
+            "time": "2020-06-26T16:03:10+00:00"
         },
         {
             "name": "topthink/think-captcha",
@@ -2055,5 +2059,6 @@
     "platform": {
         "php": ">=7.1.0"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }

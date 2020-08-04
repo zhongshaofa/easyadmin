@@ -114,10 +114,10 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         ),
         'think\\' => 
         array (
-            0 => __DIR__ . '/..' . '/topthink/framework/src/think',
-            1 => __DIR__ . '/..' . '/topthink/think-helper/src',
-            2 => __DIR__ . '/..' . '/topthink/think-orm/src',
-            3 => __DIR__ . '/..' . '/topthink/think-template/src',
+            0 => __DIR__ . '/..' . '/topthink/think-helper/src',
+            1 => __DIR__ . '/..' . '/topthink/think-orm/src',
+            2 => __DIR__ . '/..' . '/topthink/think-template/src',
+            3 => __DIR__ . '/..' . '/topthink/framework/src/think',
         ),
         'clagiordano\\weblibs\\configmanager\\' => 
         array (
@@ -251,6 +251,10 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         0 => __DIR__ . '/../..' . '/extend',
     );
 
+    public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
@@ -258,6 +262,7 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
             $loader->prefixDirsPsr4 = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$prefixesPsr0;
             $loader->fallbackDirsPsr0 = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$classMap;
 
         }, null, ClassLoader::class);
     }
