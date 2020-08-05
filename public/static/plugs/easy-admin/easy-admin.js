@@ -1210,6 +1210,8 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             url: admin.url(init.upload_url),
                             accept: 'file',
                             exts: exts,
+                            // 让多图上传模式下支持多选操作
+                            multiple: (uploadNumber !== 'one') ? true : false,
                             done: function (res) {
                                 if (res.code === 1) {
                                     var url = res.data.url;
@@ -1219,10 +1221,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                                             url = oldUrl + uploadSign + url;
                                         }
                                     }
-                                    admin.msg.success(res.msg, function () {
-                                        $(elem).val(url);
-                                        $(elem).trigger("input");
-                                    });
+                                    $(elem).val(url);
+                                    $(elem).trigger("input");
+                                    admin.msg.success(res.msg);
                                 } else {
                                     admin.msg.error(res.msg);
                                 }
