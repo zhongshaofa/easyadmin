@@ -77,9 +77,9 @@ trait Curd
     /**
      * @NodeAnotation(title="编辑")
      */
-    public function edit($id)
+    public function edit()
     {
-        $row = $this->model->find($id);
+        $row = $this->model->find($this->request->param($this->pk));
         empty($row) && $this->error('数据不存在');
         if ($this->request->isAjax()) {
             $post = $this->request->post();
@@ -99,9 +99,9 @@ trait Curd
     /**
      * @NodeAnotation(title="删除")
      */
-    public function delete($id)
+    public function delete()
     {
-        $row = $this->model->whereIn('id', $id)->select();
+        $row = $this->model->whereIn($this->pk, $this->request->param($this->pk))->select();
         $row->isEmpty() && $this->error('数据不存在');
         try {
             $save = $row->delete();
@@ -145,12 +145,12 @@ trait Curd
     {
         $post = $this->request->post();
         $rule = [
-            'id|ID'    => 'require',
-            'field|字段' => 'require',
-            'value|值'  => 'require',
+            $this->pk.'|ID'    => 'require',
+            'field|字段'       => 'require',
+            'value|值'         => 'require',
         ];
         $this->validate($post, $rule);
-        $row = $this->model->find($post['id']);
+        $row = $this->model->find($post[$this->pk]);
         if (!$row) {
             $this->error('数据不存在');
         }
