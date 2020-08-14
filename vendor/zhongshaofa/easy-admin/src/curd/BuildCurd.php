@@ -1250,7 +1250,7 @@ class BuildCurd
                 } elseif (isset($val['define']) && !empty($val['define'])) {
                     $define = $this->buildOptionView($field, '{in name="k" value="$row.' . $field . '"}selected=""{/in}');
                 }
-            } elseif (in_array($field, ['remark'])) {
+            } elseif (in_array($field, ['remark']) || $val['formType'] == 'textarea') {
                 $templateFile = "view{$this->DS}module{$this->DS}textarea";
                 $value = '{$row.' . $field . '|raw|default=\'\'}';
             }
