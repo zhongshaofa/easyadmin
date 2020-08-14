@@ -149,7 +149,15 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                 }
             });
 
-            ea.listen();
+            ea.listen(function (data) {
+                return data;
+            }, function (res) {
+                ea.msg.success(res.msg, function () {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                    parent.$('[data-treetable-refresh]').trigger("click");
+                });
+            });
         },
         edit: function () {
             iconPickerFa.render({
@@ -172,7 +180,15 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                 }
             });
 
-            ea.listen();
+            ea.listen(function (data) {
+                return data;
+            }, function (res) {
+                ea.msg.success(res.msg, function () {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                    parent.$('[data-treetable-refresh]').trigger("click");
+                });
+            });
         }
     };
     return Controller;
