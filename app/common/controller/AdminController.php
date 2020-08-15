@@ -198,7 +198,7 @@ class AdminController extends BaseController
      */
     public function selectList()
     {
-        $fields = input('selectFieds');
+        $fields = input('selectFields');
         $data = $this->model
             ->where($this->selectWhere)
             ->field($fields)

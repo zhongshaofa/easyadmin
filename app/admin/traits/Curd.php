@@ -32,7 +32,7 @@ trait Curd
     public function index()
     {
         if ($this->request->isAjax()) {
-            if (input('selectFieds')) {
+            if (input('selectFields')) {
                 return $this->selectList();
             }
             list($page, $limit, $where) = $this->buildTableParames();
