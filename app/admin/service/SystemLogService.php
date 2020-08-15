@@ -105,6 +105,11 @@ class SystemLogService
         return true;
     }
 
+    public function getAllTableList()
+    {
+
+    }
+
     /**
      * 根据后缀获取创建表的sql
      * @return string
