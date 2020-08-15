@@ -43,7 +43,7 @@ class Node extends AdminController
     public function index()
     {
         if ($this->request->isAjax()) {
-            if (input('selectFieds')) {
+            if (input('selectFields')) {
                 return $this->selectList();
             }
             $count = $this->model

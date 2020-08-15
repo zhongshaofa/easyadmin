@@ -1357,7 +1357,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         {
                             url: url,
                             data: {
-                                selectFieds: selectFields
+                                selectFields: selectFields
                             },
                         }, function (res) {
                             var list = res.data;

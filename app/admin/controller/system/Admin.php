@@ -49,7 +49,7 @@ class Admin extends AdminController
     public function index()
     {
         if ($this->request->isAjax()) {
-            if (input('selectFieds')) {
+            if (input('selectFields')) {
                 return $this->selectList();
             }
             list($page, $limit, $where) = $this->buildTableParames();
@@ -187,7 +187,7 @@ class Admin extends AdminController
             'value|值'  => 'require',
         ];
         $this->validate($post, $rule);
-        if (!in_array($post['field'], $this->allowModifyFileds)) {
+        if (!in_array($post['field'], $this->allowModifyFields)) {
             $this->error('该字段不允许修改：' . $post['field']);
         }
         if ($post['id'] == AdminConstant::SUPER_ADMIN_ID && $post['field'] == 'status') {

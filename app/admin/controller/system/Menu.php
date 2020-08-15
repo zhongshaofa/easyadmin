@@ -48,7 +48,7 @@ class Menu extends AdminController
     public function index()
     {
         if ($this->request->isAjax()) {
-            if (input('selectFieds')) {
+            if (input('selectFields')) {
                 return $this->selectList();
             }
             $count = $this->model->count();
@@ -175,7 +175,7 @@ class Menu extends AdminController
         if (!$row) {
             $this->error('数据不存在');
         }
-        if (!in_array($post['field'], $this->allowModifyFileds)) {
+        if (!in_array($post['field'], $this->allowModifyFields)) {
             $this->error('该字段不允许修改：' . $post['field']);
         }
         $homeId = $this->model
