@@ -145,7 +145,7 @@ trait Curd
     {
         $post = $this->request->post();
         $rule = [
-            $this->model->getPk().'|ID'    => 'require',
+            $this->model->getPk().'|主键'    => 'require',
             'field|字段'       => 'require',
             'value|值'         => 'require',
         ];
