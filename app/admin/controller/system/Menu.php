@@ -175,7 +175,7 @@ class Menu extends AdminController
         if (!$row) {
             $this->error('数据不存在');
         }
-        if (!in_array($post['field'], $this->allowModifyFileds)) {
+        if (!in_array($post['field'], $this->allowModifyFields)) {
             $this->error('该字段不允许修改：' . $post['field']);
         }
         $homeId = $this->model

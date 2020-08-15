@@ -21,7 +21,7 @@ class Goods extends AdminController
 
     use Curd;
 
-    protected $relationSerach = true;
+    protected $relationSearch = true;
 
     public function __construct(App $app)
     {
