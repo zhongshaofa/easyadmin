@@ -8,12 +8,10 @@ use app\common\model\TimeModel;
 class SystemLog extends TimeModel
 {
 
-    protected $name='system_log_202008';
-
     public function __construct(array $data = [])
     {
         parent::__construct($data);
-//        $this->name = 'system_log_' . date('Ym');
+        $this->name = 'system_log_' . date('Ym');
     }
 
     public function setMonth($month)
