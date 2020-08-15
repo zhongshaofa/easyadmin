@@ -23,6 +23,15 @@ use EasyAdmin\tool\CommonTool;
 class SystemLog
 {
 
+    /**
+     * 敏感信息字段，日志记录时需要加密
+     * @var array
+     */
+    protected $sensitiveParams = [
+        'password',
+        'password_again',
+    ];
+
     public function handle($request, \Closure $next)
     {
         if ($request->isAjax()) {
@@ -33,6 +42,9 @@ class SystemLog
                 $params = $request->param();
                 if (isset($params['s'])) {
                     unset($params['s']);
+                }
+                foreach ($params as $key => $val) {
+                    in_array($key, $this->sensitiveParams) && $params[$key] = password($val);
                 }
                 $data = [
                     'admin_id'    => session('admin.id'),
