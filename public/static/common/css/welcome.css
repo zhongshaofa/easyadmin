@@ -1,0 +1,755 @@
+/**
+ content from file: common.css
+*/
+/******************  系統配置  ******************/
+html, body, p {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto
+}
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px
+    }
+}
+
+.float-left {
+    float: left
+}
+
+.float-right {
+    float: right
+}
+
+a {
+    text-decoration: none;
+    color: #333333;
+}
+
+i {
+    display: inline-block;
+}
+
+button {
+    border: none;
+    background: white;
+    outline: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.s-flex {
+    display: flex;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.cursor-p {
+    cursor: pointer;
+}
+
+.mt-15 {
+    margin-top: 15px;
+}
+
+.clearfix:after, .clearfix:before {
+    content: " ";
+    display: table
+}
+
+.clearfix:after {
+    clear: both
+}
+
+/******************  头部  ******************/
+header {
+    padding: 10px 16.8%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo-box {
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+    font-weight: normal;
+    color: rgba(51, 51, 51, 1);
+}
+
+header .right {
+    display: flex;
+    align-items: center;
+}
+
+.navbar {
+    margin-right: 40px;
+    display: flex;
+}
+
+.navbar-item {
+    margin-left: 30px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.navbar-item.active {
+    color: #36C182;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #36C182;
+}
+
+header .logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+header iframe {
+    width: 100px;
+    height: 30px;
+    border: none;
+    padding: 10px 0 0;
+}
+
+/******************  捐赠  ******************/
+
+.d-banner h1, .d-banner p {
+    text-align: center;
+}
+
+.ewm-content img {
+    width: 200px;
+}
+
+.ewm-content .ewm-item {
+    width: 210px;
+    margin-left: 15px;
+    display: inline-block;
+}
+
+.sect-role {
+    margin-right: 25px;
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody + tbody {
+    border-top: 2px solid #dee2e6;
+}
+
+.table .table {
+    background-color: #fff;
+}
+
+.table-sm th,
+.table-sm td {
+    padding: 0.3rem;
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+}
+
+.table-bordered thead th,
+.table-bordered thead td {
+    border-bottom-width: 2px;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+/******************  底部  ******************/
+footer {
+    background: #e4e4e4;
+    padding: 15px 0;
+    font-size: 14px;
+    font-family: "Microsoft YaHei", sans-serif;
+    font-weight: 400;
+    color: rgb(60, 85, 93);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer p {
+    margin: 10px 0;
+    text-align: center;
+}
+
+footer a {
+    color: rgb(60, 85, 93);
+    font-weight: bold;
+}
+
+.protocol {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.beian-number {
+}
+
+/**
+ content from file: home.css
+*/
+.home-main {
+    margin-top: 90px;
+}
+
+.title {
+    text-align: center;
+    padding-bottom: 140px;
+}
+
+.title .logo {
+    width: 116px;
+    height: 151px;
+    margin-bottom: 60px;
+}
+
+.title .name {
+    width: 300px;
+    height: 300px;
+}
+
+.title .desc {
+    width: 729px;
+    font-size: 22px;
+    font-family: MicrosoftYaHei;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+    line-height: 36px;
+    text-align: center;
+    margin: 0 auto 58px;
+}
+
+.title .operation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title .operation button, .title .operation a {
+    width: 123px;
+    height: 47px;
+    border: 1px solid rgb(0, 177, 236);
+    border-radius: 24px;
+    font-size: 16px;
+    font-family: MicrosoftYaHei-Bold;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.title .operation .start {
+    background: rgb(0, 177, 236);
+    color: rgba(255, 255, 255, 1);
+}
+
+.title .operation .icon-play {
+    width: 10px;
+    height: 12px;
+    margin-left: 12px;
+}
+
+.title .operation .download {
+    color: #00b1ec;
+}
+
+.title .operation .icon-download-green {
+    width: 20px;
+    height: 17px;
+    margin-left: 12px;
+}
+
+.title .operation .button-grya {
+    background: #F3F3F3;
+    font-size: 20px;
+    font-family: MicrosoftYaHei;
+    font-weight: 400;
+    color: rgba(138, 138, 138, 1);
+    border: none;
+}
+
+.title .operation .button-grya .icon-gitee {
+    width: 26px;
+    height: 25px;
+    margin-right: 3px;
+}
+
+.title .operation .button-grya .icon-github-big {
+    width: 26px;
+    height: 25px;
+    margin-right: 3px;
+
+}
+
+.introduction {
+    padding: 75px 0 110px;
+    background: #f8f8f8;
+}
+
+.top {
+    margin: 0 auto;
+    max-width: 810px;
+}
+
+.part-title {
+    text-align: center;
+    font-size: 0;
+}
+
+.part-title .text {
+    font-size: 32px;
+    font-family: MicrosoftYaHei-Bold;
+    font-weight: bold;
+    color: rgba(51, 51, 51, 1);
+}
+
+.part-title .line {
+    width: 50px;
+    height: 2px;
+    background: #36C182;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.introduction .top .part-desc {
+    width: 808px;
+    font-size: 14px;
+    font-family: MicrosoftYaHei;
+    font-weight: 400;
+    color: rgba(102, 102, 102, 1);
+    line-height: 22px;
+    text-align: center;
+    margin-top: 22px;
+}
+
+.introduction .bottom {
+    max-width: 1100px;
+    margin: 110px auto 0;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.introduction .bottom .item {
+    width: 294px;
+    margin-right: 108px;
+}
+
+.introduction .bottom .item:nth-child(n+4) {
+    margin-top: 90px;
+}
+
+.introduction .bottom .item:nth-child(3n+3) {
+    margin-right: 0;
+}
+
+.introduction .bottom .item-title {
+    display: flex;
+    align-items: center;
+}
+
+.introduction .bottom .item-title i {
+    width: 36px;
+    height: 44px;
+    margin-right: 20px;
+}
+
+.introduction .bottom .item-title span {
+    font-size: 22px;
+    font-family: MicrosoftYaHei, sans-serif, serif;
+    font-weight: 400;
+    color: rgb(0, 96, 128);
+    line-height: 26px;
+}
+
+.introduction .bottom .item-desc {
+    font-size: 14px;
+    font-family: MicrosoftYaHei, sans-serif, serif;
+    font-weight: 400;
+    color: rgba(127, 127, 127, 1);
+    line-height: 26px;
+    margin-top: 10px;
+}
+
+.footer-nav-box {
+    width: 28%;
+}
+
+.footer-proto-box {
+    width: 58%;
+}
+
+@media (max-width: 768px) {
+    .footer-nav-box {
+        width: 95%;
+    }
+
+    .footer-proto-box {
+        width: 95%;
+    }
+}
+
+.site-footer ul, .site-footer li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.site-footer a {
+    color:rgb(60, 85, 93);
+    line-height: 1.6em;
+    font-weight: normal;
+}
+
+.case {
+    max-width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 75px 0 110px;
+}
+
+.case .top {
+    margin-bottom: 15px;
+}
+
+.case a {
+    margin: 20px 15px 0;
+    position: relative;
+    vertical-align: middle;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.case a,
+.case img {
+    vertical-align: middle;
+    text-decoration: none;
+}
+
+.case img {
+    transition: all 0.3s ease;
+    max-width: 140px;
+    max-height: 90px;
+}
+
+.case img:hover {
+    filter: none;
+    opacity: 1;
+}
+
+.case .case-links {
+    margin: 20px 0;
+}
+
+.case .become-case {
+    font-size: 0.9em;
+    font-weight: 700;
+    width: auto;
+    background-color: transparent;
+}
+
+.case a.button,
+.case input.button {
+    margin-top: 100px;
+    padding: 0.65em 1.8em;
+    border-radius: 2em;
+    display: inline-block;
+    background-color: #4fc08d;
+    transition: all 0.15s ease;
+    box-sizing: border-box;
+    border: 1px solid #4fc08d;
+}
+
+.case a.button.white,
+.case input.button.white {
+    background-color: #fff;
+    color: #42b983;
+}
+
+
+/**
+ content from file: icon-img.css
+*/
+.img-case {
+    /*background: url("../images/case.png");*/
+    background-size: contain;
+}
+
+.img-qrcode {
+    /*background: url("../images/qrcode.png");*/
+    background-size: contain;
+}
+
+.img-name {
+    background: url("../images/logo-3.png") no-repeat;
+    background-size: contain;
+}
+
+.img-logo-header {
+    background: url("../images/logo-1.png");
+    background-size: contain;
+}
+
+.img-logo-big {
+    /*background: url("../images/big-logo.png");*/
+    background-size: contain;
+}
+
+.img-computer {
+    /*background: url("../images/computer.png") repeat;*/
+    background-size: contain;
+}
+
+.icon-github-big {
+    background: url("../images/icon-github-big.png");
+    background-size: contain;
+}
+
+.icon-github-small {
+    /*background: url("../images/icon-github-small.png");*/
+    background-size: contain;
+}
+
+.icon-address {
+    /*background: url("../images/icon-address.png") no-repeat;*/
+    background-size: contain;
+}
+
+.icon-email {
+    /*background: url("../images/icon-position.png") no-repeat;*/
+    background-size: contain;
+}
+
+.icon-download-green {
+    background: url("../images/icon-download-green.png");
+    background-size: contain;
+}
+
+.icon-play {
+    background: url("../images/icon-play.png");
+    background-size: contain;
+}
+
+.icon-gitee {
+    background: url("../images/icon-gitee.png") no-repeat;
+    background-size: contain;
+}
+
+.icon-intro-six {
+    /*background: url("../images/intro-six.png") no-repeat;*/
+    background-size: contain;
+}
+
+.icon-intro-five {
+    /*background: url("../images/intro-five.png") no-repeat;*/
+    background-size: contain;
+}
+
+.icon-intro-four {
+    /*background: url("../images/intro-four.png") no-repeat;*/
+    background-size: contain;
+}
+
+.icon-intro-three {
+    /*background: url("../images/intro-three.png") no-repeat;*/
+    background-size: contain;
+}
+
+.icon-intro-two {
+    /*background: url("../images/intro-two.png") no-repeat;*/
+    background-size: contain;
+}
+
+.icon-intro-seven {
+    /*background: url("../images/intro-three.png") no-repeat;*/
+    background-size: contain;
+}
+
+/**
+ content from file: team.css
+*/
+.banner {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner-desc {
+    text-align: center;
+}
+
+.banner-desc p:first-child {
+    font-size: 36px;
+    font-family: SourceHanSansCN-Bold;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 1);
+}
+
+.banner-desc p:last-child {
+    font-size: 24px;
+    font-family: SourceHanSansCN-Normal;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+    margin-top: 15px;
+}
+
+.team-main .content {
+    margin-left: 26.5%;
+    display: flex;
+    padding: 50px 0 100px;
+}
+
+.qrcode-box {
+    width: 200px;
+    height: 200px;
+    padding: 20px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.img-qrcode {
+    width: 151px;
+    height: 152px;
+}
+
+.qrcode-box p {
+    font-size: 14px;
+    font-family: MicrosoftYaHei;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+    line-height: 20px;
+    text-align: center;
+}
+
+.info-box {
+    margin-left: 50px;
+}
+
+.info-item {
+    display: flex;
+    align-items: start;
+    width: 480px;
+    padding-bottom: 20px;
+    border-bottom: 1px dotted #cfcfcf;
+}
+
+.info-item + .info-item {
+    padding-top: 20px;
+}
+
+.info-item .avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+}
+
+.info-item .detail {
+    margin-left: 10px;
+}
+
+.info-item .detail p {
+    font-size: 14px;
+    font-family: MicrosoftYaHei;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+
+}
+
+.info-item .detail p + p {
+    margin-top: 8px;
+}
+
+.info-item .detail p i {
+    width: 14px;
+    height: 13px;
+    margin-right: 5px;
+}
+
+.info-item .detail p.name {
+    font-size: 20px;
+    font-family: MicrosoftYaHei;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+    line-height: 36px;
+    margin-bottom: 12px;
+}

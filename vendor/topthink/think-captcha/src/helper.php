@@ -9,51 +9,44 @@
 // | Author: yunwuxin <448901948@qq.com>
 // +----------------------------------------------------------------------
 
-Route::get('captcha/[:id]', "\\think\\captcha\\CaptchaController@index");
-
-Validate::extend('captcha', function ($value, $id = '') {
-    return captcha_check($value, $id);
-});
-
-Validate::setTypeMsg('captcha', ':attribute错误!');
+use think\captcha\facade\Captcha;
+use think\facade\Route;
+use think\Response;
 
 /**
- * @param string $id
- * @param array  $config
+ * @param string $config
  * @return \think\Response
  */
-function captcha($id = '', $config = [])
+function captcha($config = null): Response
 {
-    $captcha = new \think\captcha\Captcha($config);
-    return $captcha->entry($id);
+    return Captcha::create($config);
+}
+
+/**
+ * @param $config
+ * @return string
+ */
+function captcha_src($config = null): string
+{
+    return Route::buildUrl('/captcha' . ($config ? "/{$config}" : ''));
 }
 
 /**
  * @param $id
  * @return string
  */
-function captcha_src($id = '')
+function captcha_img($id = ''): string
 {
-    return Url::build('/captcha' . ($id ? "/{$id}" : ''));
+    $src = captcha_src($id);
+
+    return "<img src='{$src}' alt='captcha' onclick='this.src=\"{$src}?\"+Math.random();' />";
 }
 
 /**
- * @param $id
- * @return mixed
- */
-function captcha_img($id = '')
-{
-    return '<img src="' . captcha_src($id) . '" alt="captcha" />';
-}
-
-/**
- * @param        $value
- * @param string $id
- * @param array  $config
+ * @param string $value
  * @return bool
  */
-function captcha_check($value, $id = '')
+function captcha_check($value)
 {
-    $captcha = new \think\captcha\Captcha((array) Config::pull('captcha'));
-    return $captcha->check($value, $id);
+    return Captcha::check($value);
 }

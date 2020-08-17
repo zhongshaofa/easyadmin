@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="__STATIC__/plugs/lay-module/treetable-lay/treetable.css?v={:time()}" media="all">
+<style>
+    .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
+        height: 34px;
+        line-height: 34px;
+        padding: 0 8px;
+    }
+</style>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <table id="currentTable" class="layui-table layui-hide"
+               data-auth-add="{:auth('system.menu/add')}"
+               data-auth-edit="{:auth('system.menu/edit')}"
+               data-auth-delete="{:auth('system.menu/delete')}"
+               lay-filter="currentTable">
+        </table>
+    </div>
+</div>
+<script type="text/html" id="toolbar">
+    <button class="layui-btn layui-btn-sm layuimini-btn-primary" data-treetable-refresh><i class="fa fa-refresh"></i> </button>
+    <button class="layui-btn layui-btn-normal layui-btn-sm {if !auth('system.menu/add')}layui-hide{/if}" data-open="system.menu/add" data-title="添加" data-full="true"><i class="fa fa-plus"></i> 添加</button>
+    <button class="layui-btn layui-btn-sm layui-btn-danger {if !auth('system.menu/del')}layui-hide{/if}" data-url="system.menu/del" data-treetable-delete="currentTableRenderId"><i class="fa fa-trash-o"></i> 删除</button>
+</script>

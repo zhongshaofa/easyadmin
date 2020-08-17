@@ -1,0 +1,31 @@
+
+    /**
+     * @NodeAnotation(title="列表")
+     */
+    public function index()
+    {
+        if ($this->request->isAjax()) {
+            if (input('selectFields')) {
+                return $this->selectList();
+            }
+            list($page, $limit, $where) = $this->buildTableParames();
+            $count = $this->model
+                {{relationIndexMethod}}
+                ->where($where)
+                ->count();
+            $list = $this->model
+                {{relationIndexMethod}}
+                ->where($where)
+                ->page($page, $limit)
+                ->order($this->sort)
+                ->select();
+            $data = [
+                'code'  => 0,
+                'msg'   => '',
+                'count' => $count,
+                'data'  => $list,
+            ];
+            return json($data);
+        }
+        return $this->fetch();
+    }

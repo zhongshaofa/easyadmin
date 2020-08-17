@@ -1,0 +1,83 @@
+body{
+    text-align: center;
+}
+h1{
+    margin-top: 20px;
+}
+h1 img{
+    width: 120px;
+    height: 120px;
+}
+h2 {
+    font-size: 28px;
+    font-weight: normal;
+    color: #3C5675;
+    margin-bottom: 0
+}
+.content{
+    margin-top: 20px;
+}
+.content p{
+    margin: 20px;
+}
+.content form{
+    margin:0 auto;
+    width: 500px;
+    margin-bottom: 20px;
+}
+.content form .bg{
+    margin-top: 20px;
+    background-color: #fff;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    padding: 14px 14px;
+    box-shadow: 0 0 8px #cccccc;
+}
+.content form .layui-form-item:last-child{
+    margin-bottom:0!important;
+}
+.content form .layui-btn{
+    margin-top: 20px;
+}
+.content .layui-elem-field legend{
+    font-size: 16px;
+    color: #8a8a8a;
+}
+.content .tips{
+    float: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #eca6a6
+}
+.content .admin-tips{
+    float: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #eca6a6
+}
+.content .desc{
+    font-size: 16px;
+    color: #4E5465;
+    margin-bottom: 30px;
+}
+.content .desc a{
+    color: #07adeb;
+    margin-right: 10px;
+}
+.content .desc a:first-child{
+    margin-left: 10px;
+}
+.error{
+    background: #D83E3E;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+@media screen and (max-width:768px) {
+    .content form{
+        width: 95%;
+    }
+}

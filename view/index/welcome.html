@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="EasyAdmin - 一款基于ThinkPHP6.0和Layui的快速开发的后台管理框架系统">
+    <meta name="author" content="EasyAdmin">
+    <meta name="keywords" content="EasyAdmin,EasyAdmin官网,thinkphp6.0框架,layui前端框架,后台快速开发框架,php框架">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>EasyAdmin | 一款基于ThinkPHP6.0和Layui的快速开发的后台管理框架系统</title>
+    <link rel="stylesheet" href="__STATIC__/common/css/welcome.css?v={$version}">
+</head>
+<body>
+<div id='app'>
+    <!-- 头部-->
+    <header>
+        <!-- logo -->
+        <p class="left logo-box">
+            <i class="img-logo-header logo"></i>
+            <a href="http://easyadmin.99php.cn">EasyAdmin</a>
+        </p>
+        <div class="right">
+            <!-- 导航-->
+            <div class="navbar">
+                {foreach $navbar as $vo}
+                <a class="navbar-item {if $vo.active===true}active{/if}" href="{$vo.href}" target="{$vo.target}">{$vo.name}</a>
+                {/foreach}
+            </div>
+            <!-- git统计-->
+            <div class="github-btns">
+                <iframe class="star-btn" src="https://ghbtns.com/github-btn.html?user=zhongshaofa&repo=easyadmin&type=star&count=true"></iframe>
+                <iframe class="fork-btn" src="https://ghbtns.com/github-btn.html?user=zhongshaofa&repo=easyadmin&type=fork&count=true"></iframe>
+            </div>
+        </div>
+    </header>
+
+    <div class="home-main">
+        <div class="title">
+            <p><i class="name img-name"></i></p>
+            <p class="desc">{$data.description|default=''}</p>
+            <p class="operation">
+                <a class="start" target="_blank" href="http://easyadmin.99php.cn/docs"> 起步 <i class="icon-play"></i></a>
+                <a class="github button-grya" target="_blank" href="https://github.com/zhongshaofa/easyadmin"><i class="icon-github-big"></i>GitHub</a>
+                <a class="gitee button-grya" target="_blank" href="https://gitee.com/zhongshaofa/easyadmin"><i class="icon-gitee"></i>Gitee</a>
+            </p>
+        </div>
+        <!-- 框架特性-->
+        <div class="introduction">
+            <!-- 特性标题-->
+            <div class="top">
+                <div class="part-title">
+                    <p class="text">系统描述</p>
+                    <p class="line"></p>
+                </div>
+                <p class="part-desc">
+                    {$data.system_description|default=''}
+                </p>
+            </div>
+            <!-- 特性介绍-->
+            <div class="bottom">
+                {foreach $feature as $vo}
+                <div class="item">
+                    <p class="item-title"><span>{$vo.name}</span></p>
+                    <p class="item-desc">{$vo.description}</p>
+                </div>
+                {/foreach}
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部-->
+    <footer class="site-footer">
+        <div class="container">
+            <p class="protocol">遵循 Apache-2.0 开源协议 </p>
+            <p class="beian-number">Copyright © EasyAdmin(easyadmin.99php.cn)版权所有，并保留所有权利 | <a target="_blank" href="http://www.miitbeian.gov.cn">粤ICP备16006642号-2</a></p>
+            <p>Site designed by <a href="https://github.com/zhongshaofa" target="_blank">zhongshaofa</a></p>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

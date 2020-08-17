@@ -1,0 +1,11 @@
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">{{comment}}</label>
+            <div class="layui-input-block layuimini-upload">
+                <input name="{{field}}" class="layui-input layui-col-xs6" {{required}}  placeholder="请上传{{comment}}" value="{{value}}">
+                <div class="layuimini-upload-btn">
+                    <span><a class="layui-btn" data-upload="{{field}}" data-upload-number="one" data-upload-exts="png|jpg|ico|jpeg" data-upload-icon="image"><i class="fa fa-upload"></i> 上传</a></span>
+                    <span><a class="layui-btn layui-btn-normal" id="select_{{field}}" data-upload-select="{{field}}" data-upload-number="one" data-upload-mimetype="image/*"><i class="fa fa-list"></i> 选择</a></span>
+                </div>
+            </div>
+        </div>

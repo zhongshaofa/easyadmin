@@ -6,4 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Qcloud\\Cos\\' => array($vendorDir . '/qcloud/cos-sdk-v5/src'),
+    '' => array($baseDir . '/extend'),
 );
