@@ -1,5 +1,4 @@
-define(["easy-admin"], function (ea) {
-
+define(["easy-admin", "jquery"], function (ea, $) {
     var Controller = {
         index: function () {
 

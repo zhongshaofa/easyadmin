@@ -376,7 +376,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     });
                 }
             },
-            renderOperat(data, elem) {
+            renderOperat: function (data, elem) {
                 for (dk in data) {
                     var col = data[dk];
                     var operat = col[col.length - 1].operat;
@@ -457,7 +457,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
 
                 return html;
             },
-            toolSpliceUrl(url, field, data) {
+            toolSpliceUrl: function (url, field, data) {
                 url = url.indexOf("?") !== -1 ? url + '&' + field + '=' + data[field] : url + '?' + field + '=' + data[field];
                 return url;
             },
@@ -614,7 +614,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 } else {
                     var values = value.split(option.imageSplit),
                         valuesHtml = [];
-                    values.forEach((value, index) => {
+                    values.forEach(function (value, index) {
                         valuesHtml.push('<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + value + '" data-image="' + title + '">');
                     });
                     return valuesHtml.join(option.imageJoin);
@@ -930,6 +930,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     clienWidth,
                     clientHeight,
                 );
+
             });
 
             // 放大图片
