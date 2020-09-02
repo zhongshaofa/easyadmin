@@ -990,7 +990,17 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     tableId = $(this).attr('data-table'),
                     addons = $(this).attr('data-addons'),
                     checkbox = $(this).attr('data-checkbox'),
+                    direct = $(this).attr('data-direct'),
                     field = $(this).attr('data-field') || 'id';
+
+                title = title || '确定进行该操作？';
+
+                if (direct === 'true') {
+                    admin.msg.confirm(title, function () {
+                        window.location.href = url;
+                    });
+                    return false;
+                }
 
                 var postData = {};
                 if(checkbox === 'true'){
@@ -1011,7 +1021,6 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 if (addons !== true && addons !== 'true') {
                     url = admin.url(url);
                 }
-                title = title || '确定进行该操作？';
                 tableId = tableId || init.table_render_id;
                 admin.msg.confirm(title, function () {
                     admin.request.post({
