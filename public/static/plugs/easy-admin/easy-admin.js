@@ -997,7 +997,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
 
                 if (direct === 'true') {
                     admin.msg.confirm(title, function () {
-                        window.location.href = url;
+                        window.location.href = admin.url(url);
                     });
                     return false;
                 }
