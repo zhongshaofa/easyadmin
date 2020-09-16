@@ -123,6 +123,7 @@ html, body {
     display: inline-block;
     position: absolute;
     right: 0px;
+    background-color: #fff;
 }
 
 .layuimini-upload-show {
