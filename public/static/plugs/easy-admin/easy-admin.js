@@ -1079,6 +1079,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         },
         api: {
             form: function (url, data, ok, no, ex, refreshTable) {
+                if (typeof data === 'boolean' && data === false){
+                    return false;
+                }
                 if (refreshTable === undefined) {
                     refreshTable = true;
                 }
