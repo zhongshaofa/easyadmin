@@ -297,17 +297,28 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             case  'select':
                                 d.searchOp = '=';
                                 var selectHtml = '';
-                                $.each(d.selectList, function (sI, sV) {
-                                    var selected = '';
-                                    if (sI === d.searchValue) {
-                                        selected = 'selected=""';
+                                var data_select = '';
+                                var data_fields = '';
+                                if(typeof d.selectList === 'string'){
+                                    var url = d.selectList.split('|');
+                                    if(url.length === 2){
+                                        data_select=url[0];
+                                        data_fields=url[1];
                                     }
-                                    selectHtml += '<option value="' + sI + '" ' + selected + '>' + sV + '</option>/n';
-                                });
+                                }else{
+                                    $.each(d.selectList, function (sI, sV) {
+                                        var selected = '';
+                                        if (sI === d.searchValue) {
+                                            selected = 'selected=""';
+                                        }
+                                        selectHtml += '<option value="' + sI + '" ' + selected + '>' + sV + '</option>/n';
+                                    });
+                                }
+
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<select class="layui-select" id="c-' + d.fieldAlias + '" name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '" >\n' +
+                                    '<select class="layui-select" id="c-' + d.fieldAlias + '" name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp +'"'+ (data_select ? ' data-select="'+data_select+'"':'""') + (data_fields?' data-fields="'+data_fields+'"':'""') + ' data-value="'+d.searchValue+ '" >\n' +
                                     '<option value="">- 全部 -</option> \n' +
                                     selectHtml +
                                     '</select>\n' +
@@ -1190,7 +1201,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             if (typeof preposeCallback === 'function') {
                                 dataField = preposeCallback(dataField);
                             }
-                            admin.api.form(url, dataField, ok, no, ex, refresh);
+                            if(dataField!==false){
+                                admin.api.form(url, dataField, ok, no, ex, refresh);
+                            }
 
                             return false;
                         });
