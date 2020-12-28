@@ -230,7 +230,8 @@ function parseSql($sql = '', $to, $from)
         }
         array_push($pure_sql, $line);
     }
-    $pure_sql = implode($pure_sql, "\n");
+    //$pure_sql = implode($pure_sql, "\n");
+    $pure_sql = implode("\n",$pure_sql);
     $pure_sql = explode(";\n", $pure_sql);
     return $pure_sql;
 }
