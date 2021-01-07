@@ -145,7 +145,7 @@ class AuthService
                 'id'     => $this->adminId,
                 'status' => 1,
             ])->find();
-        if (!empty($adminInfo)) {
+        if (!empty($adminInfo) && !empty($adminInfo['auth_ids'])) {
             $buildAuthSql = Db::name($this->config['system_auth'])
                 ->distinct(true)
                 ->whereIn('id', $adminInfo['auth_ids'])
