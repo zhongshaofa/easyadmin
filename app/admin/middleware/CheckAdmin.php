@@ -30,7 +30,8 @@ class CheckAdmin
         $adminConfig = config('admin');
         $adminId = session('admin.id');
         $expireTime = session('admin.expire_time');
-        $authService = new AuthService($adminId);
+        /** @var AuthService $authService */
+        $authService = app(AuthService::class, ['adminId' => $adminId]);
         $currentNode = $authService->getCurrentNode();
         $currentController = parse_name($request->controller());
 

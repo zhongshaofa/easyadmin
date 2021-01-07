@@ -57,20 +57,20 @@ class MenuService
      */
     public function getMenuTree()
     {
-        $menuTreeList = $this->buildMenuChild(0, $this->getMenuData());
-        return $menuTreeList;
+        /** @var AuthService $authService */
+        $authServer = app(AuthService::class, ['adminId' => $this->adminId]);
+        return $this->buildMenuChild(0, $this->getMenuData(),$authServer);
     }
 
-    private function buildMenuChild($pid, $menuList)
+    private function buildMenuChild($pid, $menuList, AuthService $authServer)
     {
         $treeList = [];
-        $authServer = (new AuthService($this->adminId));
         foreach ($menuList as &$v) {
             $check = empty($v['href']) ? true : $authServer->checkNode($v['href']);
             !empty($v['href']) && $v['href'] = __url($v['href']);
             if ($pid == $v['pid'] && $check) {
                 $node = $v;
-                $child = $this->buildMenuChild($v['id'], $menuList);
+                $child = $this->buildMenuChild($v['id'], $menuList, $authServer);
                 if (!empty($child)) {
                     $node['child'] = $child;
                 }
