@@ -42,14 +42,38 @@ class AuthService
         'system_auth_node' => 'system_auth_node',// 权限-节点表
     ];
 
+    /**
+     * 管理员信息
+     * @var array|\think\Model|null
+     */
+    protected $adminInfo;
+
+    /**
+     * 所有节点信息
+     * @var array
+     */
+    protected $nodeList;
+
+    /**
+     * 管理员所有授权节点
+     * @var array
+     */
+    protected $adminNode;
+
     /***
      * 构造方法
      * AuthService constructor.
      * @param null $adminId
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
      */
     public function __construct($adminId = null)
     {
         $this->adminId = $adminId;
+        $this->adminInfo = $this->getAdminInfo();
+        $this->nodeList = $this->getNodeList();
+        $this->adminNode  = $this->getAdminNode();
         return $this;
     }
 
@@ -78,25 +102,19 @@ class AuthService
             $node = $this->parseNodeStr($node);
         }
         // 判断是否加入节点控制，优先获取缓存信息
-        $nodeInfo = Db::name($this->config['system_node'])
-            ->where(['node' => $node])
-            ->find();
-        if (empty($nodeInfo)) {
+        if (!isset($this->nodeList[$node])) {
             return false;
         }
+        $nodeInfo = $this->nodeList[$node];
         if ($nodeInfo['is_auth'] == 0) {
             return true;
         }
         // 用户验证，优先获取缓存信息
-        $adminInfo = Db::name($this->config['system_admin'])
-            ->where('id', $this->adminId)
-            ->find();
-        if (empty($adminInfo) || $adminInfo['status'] != 1 || empty($adminInfo['auth_ids'])) {
+        if (empty($this->adminInfo) || $this->adminInfo['status'] != 1 || empty($this->adminInfo['auth_ids'])) {
             return false;
         }
         // 判断该节点是否允许访问
-        $allNode = $this->getAdminNode();
-        if (in_array($node, $allNode)) {
+        if (in_array($node, $this->adminNode)) {
             return true;
         }
         return false;
@@ -144,6 +162,32 @@ class AuthService
                 ->column('node');
         }
         return $nodeList;
+    }
+
+    /**
+     * 获取所有节点信息
+     * @time 2021-01-07
+     * @return array
+     * @author zhongshaofa <shaofa.zhong@happy-seed.com>
+     */
+    public function getNodeList(){
+        return  Db::name($this->config['system_node'])
+            ->column('id,node,title,type,is_auth','node');
+    }
+
+    /**
+     * 获取管理员信息
+     * @time 2021-01-07
+     * @return array|\think\Model|null
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @author zhongshaofa <shaofa.zhong@happy-seed.com>
+     */
+    public function getAdminInfo(){
+        return  Db::name($this->config['system_admin'])
+            ->where('id', $this->adminId)
+            ->find();
     }
 
     /**
