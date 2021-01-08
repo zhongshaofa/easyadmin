@@ -609,7 +609,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 } catch (e) {
                     var value = undefined;
                 }
-                if (value === undefined) {
+                if (value === undefined || value===null) {
                     return '<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + value + '" data-image="' + title + '">';
                 } else {
                     var values = value.split(option.imageSplit),
