@@ -64,7 +64,8 @@ class Excel
                     // 解析字段
                     $realData = self::formatting($header[$key], trim(self::formattingField($row, $value[1])), $row);
                     // 写入excel
-                    $sheet->setCellValue(Coordinate::stringFromColumnIndex($span) . $column, $realData);
+                    // 加个"\t"制表符，解决导出大数字或银行卡等在excel中被科学计数的问题
+                    $sheet->setCellValue(Coordinate::stringFromColumnIndex($span) . $column, $realData."\t");
                     $span++;
                 }
 
