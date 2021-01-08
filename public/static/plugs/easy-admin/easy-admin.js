@@ -955,6 +955,47 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 });
                 return false;
             });
+            
+            // 放大一组图片
+            $('body').on('click', '[data-images]', function () {
+                var title = $(this).attr('data-images'),
+                    // 从当前元素向上找layuimini-upload-show找到第一个后停止, 再找其所有子元素li
+                    doms = $(this).closest(".layuimini-upload-show").children("li"),
+                    // 被点击的图片地址
+                    now_src = $(this).attr('src'),
+                    alt = $(this).attr('alt'),
+                    data = [];
+                $.each(doms, function(key, value){
+                    var src = $(value).find('img').attr('src');
+                    if(src != now_src){
+                        // 压入其他图片地址
+                        data.push({
+                            "alt": alt,
+                            "pid": Math.random(),
+                            "src": src,
+                            "thumb": src
+                        });
+                    }else{
+                        // 把当前图片插入到头部
+                        data.unshift({
+                            "alt": alt,
+                            "pid": Math.random(),
+                            "src": now_src,
+                            "thumb": now_src
+                        });
+                    }
+                });
+                var photos = {
+                    "title": title,
+                    "id": Math.random(),
+                    "data": data,
+                };
+                layer.photos({
+                    photos: photos,
+                    anim: 5
+                });
+                return false;
+            });
 
 
             // 监听动态表格刷新
