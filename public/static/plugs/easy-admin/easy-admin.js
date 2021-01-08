@@ -1276,7 +1276,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             var currentUrl = $(elem).val();
                             var url = '';
                             if (currentUrl !== deleteUrl) {
-                                url = currentUrl.replace(sign + deleteUrl, '');
+                                url = currentUrl.search(deleteUrl) === 0 ? currentUrl.replace(deleteUrl + sign, '') : currentUrl.replace(sign + deleteUrl, '');
                                 $(elem).val(url);
                                 $(elem).trigger("input");
                             } else {
