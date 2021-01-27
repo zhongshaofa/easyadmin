@@ -28,6 +28,15 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         url: function (url) {
             return '/' + CONFIG.ADMIN + '/' + url;
         },
+        empty: function (r) {
+            var n, t, e, f = [void 0, null, !1, 0, "", "0"];
+            for (t = 0, e = f.length; t < e; t++) if (r === f[t]) return !0;
+            if ("object" == typeof r) {
+                for (n in r) if (r.hasOwnProperty(n)) return !1;
+                return !0
+            }
+            return !1
+        },
         checkAuth: function (node, elem) {
             if (CONFIG.IS_SUPER_ADMIN) {
                 return true;
@@ -690,13 +699,11 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
             },
             //时间戳转日期
             date: function (data, option) {
-                var field = option.field, value;
+                var field = option.field, value = '';
                 try {
                     value = eval("data." + field);
-                } catch (e) {
-                    value = '';
-                }
-                if (!isNaN(value)){
+                } catch (e) {}
+                if (!admin.empty(value)){
                     value = util.toDateString(value * 1000, option.format || 'yyyy-MM-dd HH:mm:ss');
                 }
                 return '<span>' + value + '</span>';
