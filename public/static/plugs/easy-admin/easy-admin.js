@@ -28,6 +28,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         url: function (url) {
             return '/' + CONFIG.ADMIN + '/' + url;
         },
+        //js版empty封装
         empty: function (r) {
             var n, t, e, f = [void 0, null, !1, 0, "", "0"];
             for (t = 0, e = f.length; t < e; t++) if (r === f[t]) return !0;
