@@ -1,4 +1,4 @@
-define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefined) {
+    define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefined) {
 
     var form = layui.form,
         layer = layui.layer,
@@ -7,7 +7,8 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         upload = layui.upload,
         element = layui.element,
         laytpl = layui.laytpl,
-        tableSelect = layui.tableSelect;
+        tableSelect = layui.tableSelect,
+        util = layui.uitl;
 
     layer.config({
         skin: 'layui-layer-easy'
@@ -684,6 +685,19 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     var value = eval("data." + field);
                 } catch (e) {
                     var value = undefined;
+                }
+                return '<span>' + value + '</span>';
+            },
+            //时间戳转日期
+            date: function (data, option) {
+                var field = option.field, value;
+                try {
+                    value = eval("data." + field);
+                } catch (e) {
+                    value = '';
+                }
+                if (!isNaN(value)){
+                    value = util.toDateString(value * 1000, option.format || 'yyyy-MM-dd HH:mm:ss');
                 }
                 return '<span>' + value + '</span>';
             },
