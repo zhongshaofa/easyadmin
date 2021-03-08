@@ -863,6 +863,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                                 '</style>');
                         });
                     }
+                },
+                end: function () {
+                    index = null
                 }
             });
             if (admin.checkMobile() || width === undefined || height === undefined) {
@@ -870,7 +873,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
             }
             if (isResize) {
                 $(window).on("resize", function () {
-                    layer.full(index);
+                    index && layer.full(index);
                 })
             }
         },
