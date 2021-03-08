@@ -840,7 +840,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
             }
             return mobile_flag;
         },
-        open: function (title, url, width, height, isResize) {
+        open: function (title, url, width, height, isResize, shadeClose = false) {
             isResize = isResize === undefined ? true : isResize;
             var index = layer.open({
                 title: title,
@@ -849,6 +849,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 content: url,
                 maxmin: true,
                 moveOut: true,
+                shadeClose: shadeClose,
                 success: function (layero, index) {
                     var body = layer.getChildFrame('body', index);
                     if (body.length > 0) {
