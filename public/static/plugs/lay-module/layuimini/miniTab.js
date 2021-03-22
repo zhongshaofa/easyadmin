@@ -380,6 +380,14 @@ define(["jquery"], function ($) {
                 if ($('.layuimini-menu-left').attr('layuimini-tab-tag') === 'add') {
                     $('.layuimini-menu-left').attr('layuimini-tab-tag', 'no')
                 } else {
+                    
+                    //切换标签自动刷新表格和树表格数据
+                    try {
+                        var dom = $(".layui-tab-item.layui-show").find("iframe")[0].contentWindow.document;
+                        $(dom).find('[data-table-refresh]').trigger("click");
+                        $(dom).find('[data-treetable-refresh]').trigger("click");
+                    }catch (e) {}
+                    
                     $("[layuimini-href]").parent().removeClass('layui-this');
                     if (options.multiModule) {
                         miniTab.listenSwitchMultiModule(tabId);
