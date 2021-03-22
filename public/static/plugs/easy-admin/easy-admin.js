@@ -288,6 +288,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 $.each(cols, function (i, d) {
                     d.field = d.field || false;
                     d.fieldAlias = admin.parame(d.fieldAlias, d.field);
+                    d.id = d.fieldAlias!==false?d.fieldAlias.replace(/\./g,"-"):d.fieldAlias;
                     d.title = d.title || d.field || '';
                     d.selectList = d.selectList || {};
                     d.search = admin.parame(d.search, true);
@@ -301,7 +302,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<input id="c-' + d.fieldAlias + '" name="' + d.fieldAlias + '" data-search-op="' + d.searchOp + '" value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '<input id="c-' + d.id + '" name="' + d.fieldAlias + '" data-search-op="' + d.searchOp + '" value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
                                     '</div>\n' +
                                     '</div>';
                                 break;
@@ -318,7 +319,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<select class="layui-select" id="c-' + d.fieldAlias + '" name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '" >\n' +
+                                    '<select class="layui-select" id="c-' + d.id + '" name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '" >\n' +
                                     '<option value="">- 全部 -</option> \n' +
                                     selectHtml +
                                     '</select>\n' +
@@ -330,7 +331,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<input id="c-' + d.fieldAlias + '" name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '"  value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '<input id="c-' + d.id + '" name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '"  value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
                                     '</div>\n' +
                                     '</div>';
                                 break;
@@ -339,7 +340,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                                 formHtml += '\t<div class="layui-form-item layui-inline">\n' +
                                     '<label class="layui-form-label">' + d.title + '</label>\n' +
                                     '<div class="layui-input-inline">\n' +
-                                    '<input id="c-' + d.fieldAlias + '" name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '"  value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
+                                    '<input id="c-' + d.id + '" name="' + d.fieldAlias + '"  data-search-op="' + d.searchOp + '"  value="' + d.searchValue + '" placeholder="' + d.searchTip + '" class="layui-input">\n' +
                                     '</div>\n' +
                                     '</div>';
                                 break;
@@ -717,7 +718,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     $.each(dataField, function (key, val) {
                         if (val !== '') {
                             formatFilter[key] = val;
-                            var op = $('#c-' + key).attr('data-search-op');
+                            var op = $('#c-' + key.replce(/\./g,'-')).attr('data-search-op');
                             op = op || '%*%';
                             formatOp[key] = op;
                         }
