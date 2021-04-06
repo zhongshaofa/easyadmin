@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -18,6 +18,7 @@ use DateTime;
 use DateTimeInterface;
 use Exception;
 use Psr\SimpleCache\CacheInterface;
+use think\Container;
 use think\contract\CacheHandlerInterface;
 use think\exception\InvalidArgumentException;
 use throwable;
@@ -130,6 +131,18 @@ abstract class Driver implements CacheInterface, CacheHandlerInterface
     }
 
     /**
+     * 追加TagSet数据
+     * @access public
+     * @param string $name  缓存变量名
+     * @param mixed  $value 存储数据
+     * @return void
+     */
+    public function append(string $name, $value): void
+    {
+        $this->push($name, $value);
+    }
+
+    /**
      * 如果不存在则写入缓存
      * @access public
      * @param string $name   缓存变量名
@@ -156,7 +169,7 @@ abstract class Driver implements CacheInterface, CacheHandlerInterface
 
             if ($value instanceof Closure) {
                 // 获取缓存数据
-                $value = $value();
+                $value = Container::getInstance()->invokeFunction($value);
             }
 
             // 缓存数据
@@ -184,9 +197,6 @@ abstract class Driver implements CacheInterface, CacheHandlerInterface
         $key  = implode('-', $name);
 
         if (!isset($this->tag[$key])) {
-            $name = array_map(function ($val) {
-                return $this->getTagKey($val);
-            }, $name);
             $this->tag[$key] = new TagSet($name, $this);
         }
 
@@ -201,7 +211,8 @@ abstract class Driver implements CacheInterface, CacheHandlerInterface
      */
     public function getTagItems(string $tag): array
     {
-        return $this->get($tag, []);
+        $name = $this->getTagKey($tag);
+        return $this->get($name, []);
     }
 
     /**
@@ -227,7 +238,7 @@ abstract class Driver implements CacheInterface, CacheHandlerInterface
             return (string) $data;
         }
 
-        $serialize = $this->options['serialize'][0] ?? "\Opis\Closure\serialize";
+        $serialize = $this->options['serialize'][0] ?? "serialize";
 
         return $serialize($data);
     }
@@ -244,7 +255,7 @@ abstract class Driver implements CacheInterface, CacheHandlerInterface
             return $data;
         }
 
-        $unserialize = $this->options['serialize'][1] ?? "\Opis\Closure\unserialize";
+        $unserialize = $this->options['serialize'][1] ?? "unserialize";
 
         return $unserialize($data);
     }

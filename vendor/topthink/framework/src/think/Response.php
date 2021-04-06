@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -138,8 +138,9 @@ abstract class Response
                 header($name . (!is_null($val) ? ':' . $val : ''));
             }
         }
-
-        $this->cookie->save();
+        if ($this->cookie) {
+            $this->cookie->save();
+        }
 
         $this->sendData($data);
 
