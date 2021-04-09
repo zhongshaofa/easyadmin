@@ -7,8 +7,6 @@ use app\common\model\TimeModel;
 
 class SystemCrontab extends TimeModel
 {
-    protected $table = 'system_crontab';
-
     const FORBIDDEN_STATUS = 0;
     const NORMAL_STATUS = 1;
 

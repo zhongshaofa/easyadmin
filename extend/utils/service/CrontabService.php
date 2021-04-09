@@ -258,6 +258,34 @@ class CrontabService
     public function setDbConfig(array $config = [])
     {
         $this->dbConfig = array_merge($this->dbConfig, $config);
+        if (isset($this->dbConfig['prefix']) && $this->dbConfig['prefix']) {
+            $this->systemCrontabTable = $this->dbConfig['prefix'] . $this->systemCrontabTable;
+            $this->systemCrontabFlowTable = $this->dbConfig['prefix'] . $this->systemCrontabFlowTable;
+        }
+
+        return $this;
+    }
+
+    /**
+     * 设置定时任务表
+     * @param $tableName
+     * @return $this
+     */
+    public function setSystemCrontabTable($tableName)
+    {
+        $this->systemCrontabTable = $tableName;
+
+        return $this;
+    }
+
+    /**
+     * 设置定时任务日志表
+     * @param $tableName
+     * @return $this
+     */
+    public function setSystemCrontabFlowTable($tableName)
+    {
+        $this->systemCrontabFlowTable = $tableName;
 
         return $this;
     }
