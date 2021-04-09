@@ -11,21 +11,21 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <link rel="stylesheet" href="__STATIC__/admin/css/public.css?v={$version}" media="all">
-    <script>
-        window.CONFIG = {
-            ADMIN: "{$adminModuleName|default='admin'}",
-            CONTROLLER_JS_PATH: "{$thisControllerJsPath|default=''}",
-            ACTION: "{$thisAction|default=''}",
-            AUTOLOAD_JS: "{$autoloadJs|default='false'}",
-            IS_SUPER_ADMIN: "{$isSuperAdmin|default='false'}",
-            VERSION: "{$version|default='1.0.0'}",
-        };
-    </script>
-    <script src="__STATIC__/plugs/layui-v2.5.6/layui.all.js?v={$version}" charset="utf-8"></script>
-    <script src="__STATIC__/plugs/require-2.3.6/require.js?v={$version}" charset="utf-8"></script>
-    <script src="__STATIC__/config-admin.js?v={$version}" charset="utf-8"></script>
 </head>
 <body>
 {__CONTENT__}
+<script>
+    window.CONFIG = {
+        ADMIN: "{$adminModuleName|default='admin'}",
+        CONTROLLER_JS_PATH: "{$thisControllerJsPath|default=''}",
+        ACTION: "{$thisAction|default=''}",
+        AUTOLOAD_JS: "{$autoloadJs|default='false'}",
+        IS_SUPER_ADMIN: "{$isSuperAdmin|default='false'}",
+        VERSION: "{$version|default='1.0.0'}",
+    };
+</script>
+<script src="__STATIC__/plugs/layui-v2.5.6/layui.all.js?v={$version}" charset="utf-8"></script>
+<script src="__STATIC__/plugs/require-2.3.6/require.js?v={$version}" charset="utf-8"></script>
+<script src="__STATIC__/config-admin.js?v={$version}" charset="utf-8"></script>
 </body>
 </html>
