@@ -1,0 +1,3 @@
+                {foreach ${{name}} as $k=>$v}
+                <input type="checkbox" name="{{field}}[]" value="{$k}" lay-skin="primary" title="{$v}" {{select}}>
+                {/foreach}

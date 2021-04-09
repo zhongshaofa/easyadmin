@@ -1,0 +1,34 @@
+define(["jquery", "easy-admin"], function ($, ea) {
+
+    var init = {
+        table_elem: '#currentTable',
+        table_render_id: 'currentTableRenderId',
+        index_url: '{{controllerUrl}}/index',
+        add_url: '{{controllerUrl}}/add',
+        edit_url: '{{controllerUrl}}/edit',
+        delete_url: '{{controllerUrl}}/delete',
+        export_url: '{{controllerUrl}}/export',
+        modify_url: '{{controllerUrl}}/modify',
+    };
+
+    var Controller = {
+
+        index: function () {
+            ea.table.render({
+                init: init,
+                cols: [[
+                {{indexCols}}
+                ]],
+            });
+
+            ea.listen();
+        },
+        add: function () {
+            ea.listen();
+        },
+        edit: function () {
+            ea.listen();
+        },
+    };
+    return Controller;
+});

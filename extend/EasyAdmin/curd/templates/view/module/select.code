@@ -1,0 +1,9 @@
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">{{comment}}</label>
+            <div class="layui-input-block">
+                <select name="{{field}}" {{required}}>
+{{define}}
+                </select>
+            </div>
+        </div>

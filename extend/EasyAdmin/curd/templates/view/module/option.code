@@ -1,0 +1,4 @@
+                    <option value=''></option>
+                    {foreach ${{name}} as $k=>$v}
+                    <option value='{$k}' {{select}}>{$v}</option>
+                    {/foreach}
