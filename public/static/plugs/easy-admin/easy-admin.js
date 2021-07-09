@@ -1107,7 +1107,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         data: postData,
                     }, function (res) {
                         admin.msg.success(res.msg, function () {
-                            table.reload(tableId);
+                            $('button[data-treetable-refresh]').length > 0 ? $('[data-treetable-refresh]').trigger("click") : table.reload(tableId);
                         });
                     })
                 });
