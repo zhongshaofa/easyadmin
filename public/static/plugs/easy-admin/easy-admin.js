@@ -366,10 +366,10 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     form.render();
                     $.each(newCols, function (ncI, ncV) {
                         if (ncV.search === 'range') {
-                            laydate.render({range: true, type: ncV.timeType, elem: '[name="' + ncV.field + '"]'});
+                            laydate.render({range: true, type: ncV.timeType, elem: '[name="' + ncV.fieldAlias + '"]'});
                         }
                         if (ncV.search === 'time') {
-                            laydate.render({type: ncV.timeType, elem: '[name="' + ncV.field + '"]'});
+                            laydate.render({type: ncV.timeType, elem: '[name="' + ncV.fieldAlias + '"]'});
                         }
                     });
                 }
