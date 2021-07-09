@@ -8,7 +8,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         element = layui.element,
         laytpl = layui.laytpl,
         tableSelect = layui.tableSelect,
-        util = layui.uitl;
+        util = layui.util;
 
     layer.config({
         skin: 'layui-layer-easy'
@@ -366,10 +366,10 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     form.render();
                     $.each(newCols, function (ncI, ncV) {
                         if (ncV.search === 'range') {
-                            laydate.render({range: true, type: ncV.timeType, elem: '[name="' + ncV.field + '"]'});
+                            laydate.render({range: true, type: ncV.timeType, elem: '[name="' + ncV.fieldAlias + '"]'});
                         }
                         if (ncV.search === 'time') {
-                            laydate.render({type: ncV.timeType, elem: '[name="' + ncV.field + '"]'});
+                            laydate.render({type: ncV.timeType, elem: '[name="' + ncV.fieldAlias + '"]'});
                         }
                     });
                 }
@@ -551,7 +551,11 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                                 };
                                 operat.url = admin.table.toolSpliceUrl(operat.url, operat.field, data);
                                 if (admin.checkAuth(operat.auth, elem)) {
-                                    html += admin.table.buildOperatHtml(operat);
+                                    if (typeof operat.render === 'function') {
+                                        html += operat.render(data, option) ? admin.table.buildOperatHtml(operat) : '';
+                                    } else {
+                                        html += admin.table.buildOperatHtml(operat);
+                                    }
                                 }
                                 break;
                             case 'delete':
@@ -568,7 +572,11 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                                 };
                                 operat.url = admin.table.toolSpliceUrl(operat.url, operat.field, data);
                                 if (admin.checkAuth(operat.auth, elem)) {
-                                    html += admin.table.buildOperatHtml(operat);
+                                    if (typeof operat.render === 'function') {
+                                        html += operat.render(data, option) ? admin.table.buildOperatHtml(operat) : '';
+                                    } else {
+                                        html += admin.table.buildOperatHtml(operat);
+                                    }
                                 }
                                 break;
                         }
@@ -586,7 +594,11 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             operat.extend = operat.extend || '';
                             operat.url = admin.table.toolSpliceUrl(operat.url, operat.field, data);
                             if (admin.checkAuth(operat.auth, elem)) {
-                                html += admin.table.buildOperatHtml(operat);
+                                if (typeof operat.render === 'function') {
+                                    html += operat.render(data, option) ? admin.table.buildOperatHtml(operat) : '';
+                                } else {
+                                    html += admin.table.buildOperatHtml(operat);
+                                }
                             }
                         });
                     }
@@ -1095,7 +1107,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         data: postData,
                     }, function (res) {
                         admin.msg.success(res.msg, function () {
-                            table.reload(tableId);
+                            $('button[data-treetable-refresh]').length > 0 ? $('[data-treetable-refresh]').trigger("click") : table.reload(tableId);
                         });
                     })
                 });
@@ -1196,7 +1208,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         var verify = $(this).attr('lay-verify');
 
                         // todo 必填项处理
-                        if (verify === 'required') {
+                        if (verify.includes('required')) {
                             var label = $(this).parent().prev();
                             if (label.is('label') && !label.hasClass('required')) {
                                 label.addClass('required');
@@ -1271,24 +1283,23 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
 
                 if (uploadList.length > 0) {
                     $.each(uploadList, function (i, v) {
-                        var exts = $(this).attr('data-upload-exts'),
+                        var uploadExts = $(this).attr('data-upload-exts') || init.upload_exts,
                             uploadName = $(this).attr('data-upload'),
-                            uploadNumber = $(this).attr('data-upload-number'),
-                            uploadSign = $(this).attr('data-upload-sign');
-                        exts = exts || init.upload_exts;
-                        uploadNumber = uploadNumber || 'one';
-                        uploadSign = uploadSign || '|';
-                        var elem = "input[name='" + uploadName + "']",
+                            uploadNumber = $(this).attr('data-upload-number') || 'one',
+                            uploadSign = $(this).attr('data-upload-sign') || '|',
+                            uploadAccept = $(this).attr('data-upload-accept') || 'file',
+                            uploadAcceptMime = $(this).attr('data-upload-mimetype') || '',
+                            elem = "input[name='" + uploadName + "']",
                             uploadElem = this;
 
                         // 监听上传事件
                         upload.render({
                             elem: this,
                             url: admin.url(init.upload_url),
-                            accept: 'file',
-                            exts: exts,
-                            // 让多图上传模式下支持多选操作
-                            multiple: (uploadNumber !== 'one') ? true : false,
+                            exts: uploadExts,
+                            accept: uploadAccept,//指定允许上传时校验的文件类型
+                            acceptMime: uploadAcceptMime,//规定打开文件选择框时，筛选出的文件类型
+                            multiple: uploadNumber !== 'one',//是否多文件上传
                             done: function (res) {
                                 if (res.code === 1) {
                                     var url = res.data.url;
@@ -1312,8 +1323,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         $(elem).bind("input propertychange", function (event) {
                             var urlString = $(this).val(),
                                 urlArray = urlString.split(uploadSign),
-                                uploadIcon = $(uploadElem).attr('data-upload-icon');
-                            uploadIcon = uploadIcon || "file";
+                                uploadIcon = $(uploadElem).attr('data-upload-icon') || "file";
 
                             $('#bing-' + uploadName).remove();
                             if (urlString.length > 0) {
@@ -1358,13 +1368,10 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
 
                 if (uploadSelectList.length > 0) {
                     $.each(uploadSelectList, function (i, v) {
-                        var exts = $(this).attr('data-upload-exts'),
-                            uploadName = $(this).attr('data-upload-select'),
-                            uploadNumber = $(this).attr('data-upload-number'),
-                            uploadSign = $(this).attr('data-upload-sign');
-                        exts = exts || init.upload_exts;
-                        uploadNumber = uploadNumber || 'one';
-                        uploadSign = uploadSign || '|';
+                        var uploadName = $(this).attr('data-upload-select'),
+                            uploadNumber = $(this).attr('data-upload-number') || 'one',
+                            uploadSign = $(this).attr('data-upload-sign') || '|';
+
                         var selectCheck = uploadNumber === 'one' ? 'radio' : 'checkbox';
                         var elem = "input[name='" + uploadName + "']",
                             uploadElem = $(this).attr('id');
