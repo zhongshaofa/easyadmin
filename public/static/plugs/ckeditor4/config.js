@@ -1,3 +1,8 @@
+/**
+ * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see https://ckeditor.com/legal/ckeditor-oss-license
+ */
+
 CKEDITOR.editorConfig = function (config) {
     config.language = 'zh-cn';
     config.image_previewText = ' ';
@@ -19,7 +24,7 @@ CKEDITOR.editorConfig = function (config) {
     ];
     config.filebrowserImageUploadUrl = config.filebrowserImageUploadUrl || "/admin/ajax/uploadEditor";
 
-    config.removeButtons = 'Underline,Subscript,Superscript';
+    config.removeButtons = 'Underline,Subscript,Superscript,Save,ExportPdf';
 
     config.format_tags = 'p;h1;h2;h3;pre';
 
