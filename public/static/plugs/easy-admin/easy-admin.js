@@ -8,7 +8,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         element = layui.element,
         laytpl = layui.laytpl,
         tableSelect = layui.tableSelect,
-        util = layui.uitl;
+        util = layui.util;
 
     layer.config({
         skin: 'layui-layer-easy'
