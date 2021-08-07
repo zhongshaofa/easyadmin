@@ -1079,9 +1079,6 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         },
         api: {
             form: function (url, data, ok, no, ex, refreshTable) {
-                if (typeof data === 'boolean' && data === false){
-                    return false;
-                }
                 if (refreshTable === undefined) {
                     refreshTable = true;
                 }
@@ -1192,6 +1189,10 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
 
                             if (typeof preposeCallback === 'function') {
                                 dataField = preposeCallback(dataField);
+                                // 当返回false时，拦截提交，方便打印提交数据
+                                if (dataField === false){
+                                    return false;
+                                }
                             }
                             admin.api.form(url, dataField, ok, no, ex, refresh);
 
