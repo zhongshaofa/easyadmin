@@ -19,13 +19,11 @@ class ConfigService
 
     public static function getVersion()
     {
-        $version = Cache('version');
-        if (empty($version)) {
+        return  Cache::tag('sysconfig')->remember('version', function(){
             $version = sysconfig('site', 'site_version');
-            cache('site_version', $version);
-            Cache::set('version', $version, 3600);
-        }
-        return $version;
+            Cache::tag('sysconfig')->set('site_version', $version);
+            return $version;
+        }, 3600);
     }
 
 }
