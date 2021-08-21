@@ -435,7 +435,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 formatToolbar.class = formatToolbar.class !== '' ? 'class="' + formatToolbar.class + '" ' : '';
                 if (toolbar.method === 'open') {
                     formatToolbar.method = formatToolbar.method !== '' ? 'data-open="' + formatToolbar.url + '" data-title="' + formatToolbar.title + '" ' : '';
-                } else if (operat.method === 'none'){ // 常用于与extend配合，自定义监听按钮
+                } else if (toolbar.method === 'none'){ // 常用于与extend配合，自定义监听按钮
                     formatOperat.method = '';
                 } else {
                     formatToolbar.method = formatToolbar.method !== '' ? 'data-request="' + formatToolbar.url + '" data-title="' + formatToolbar.title + '" ' : '';
