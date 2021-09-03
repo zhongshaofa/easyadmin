@@ -13,7 +13,7 @@
 namespace app\admin\service;
 
 
-use app\admin\service\NodeService as Node;
+use EasyAdmin\auth\Node;
 
 class NodeService
 {
