@@ -101,7 +101,10 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'a' => 
         array (
             'app\\' => 4,
-            'addons\\' => 7,
+        ),
+        'T' => 
+        array (
+            'Test\\' => 5,
         ),
         'S' => 
         array (
@@ -109,7 +112,6 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\VarDumper\\' => 28,
             'Stringy\\' => 8,
-            'ServiceSwoole\\' => 14,
         ),
         'Q' => 
         array (
@@ -131,6 +133,7 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         ),
         'M' => 
         array (
+            'MockApp\\' => 8,
             'Matrix\\' => 7,
         ),
         'L' => 
@@ -202,9 +205,9 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
-        'addons\\' => 
+        'Test\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/addons',
+            0 => __DIR__ . '/..' . '/zhongshaofa/easy-admin/tests',
         ),
         'Symfony\\Polyfill\\Php72\\' => 
         array (
@@ -221,10 +224,6 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'Stringy\\' => 
         array (
             0 => __DIR__ . '/..' . '/danielstjules/stringy/src',
-        ),
-        'ServiceSwoole\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zhongshaofa/service-swoole/src',
         ),
         'Qiniu\\' => 
         array (
@@ -261,6 +260,10 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'OSS\\' => 
         array (
             0 => __DIR__ . '/..' . '/aliyuncs/oss-sdk-php/src/OSS',
+        ),
+        'MockApp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zhongshaofa/easy-admin/mock_app',
         ),
         'Matrix\\' => 
         array (
@@ -338,6 +341,10 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         0 => __DIR__ . '/../..' . '/extend',
     );
 
+    public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
@@ -345,6 +352,7 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
             $loader->prefixDirsPsr4 = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$prefixesPsr0;
             $loader->fallbackDirsPsr0 = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$classMap;
 
         }, null, ClassLoader::class);
     }

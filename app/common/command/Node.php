@@ -18,7 +18,7 @@ use think\console\Command;
 use think\console\Input;
 use think\console\input\Option;
 use think\console\Output;
-use EasyAdmin\auth\Node as NodeService;
+use app\admin\service\NodeService;
 
 class Node extends Command
 {
