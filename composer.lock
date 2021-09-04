@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac7670016790669e43f1002ec4f549cc",
+    "content-hash": "c112aff9c64fc93ce95419b345ed9743",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -2237,6 +2237,59 @@
                 "source": "https://github.com/zhongshaofa/easyadmin-sdk/tree/v1.0.1"
             },
             "time": "2021-09-03T16:09:14+00:00"
+        },
+        {
+            "name": "zhongshaofa/thinkphp-log-trace",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zhongshaofa/thinkphp-log-trace.git",
+                "reference": "20388c806bd78f493cb806ad1bce2f5c81c9e969"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zhongshaofa/thinkphp-log-trace/zipball/20388c806bd78f493cb806ad1bce2f5c81c9e969",
+                "reference": "20388c806bd78f493cb806ad1bce2f5c81c9e969",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3.0",
+                "phpunit/phpunit": "^8.5.0",
+                "topthink/framework": "^6.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LogTrace\\": "src",
+                    "Test\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zhongshaofa",
+                    "email": "2286732552@qq.com"
+                }
+            ],
+            "description": "thinkphp6链路日志组件",
+            "support": {
+                "issues": "https://github.com/zhongshaofa/thinkphp-log-trace/issues",
+                "source": "https://github.com/zhongshaofa/thinkphp-log-trace/tree/v1.0.1"
+            },
+            "time": "2021-09-04T09:43:49+00:00"
         }
     ],
     "packages-dev": [
@@ -2438,8 +2491,9 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1.0"
+        "php": ">=7.1.0",
+        "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }

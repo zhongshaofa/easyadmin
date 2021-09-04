@@ -20,7 +20,7 @@ return [
     'channels'     => [
         'file' => [
             // 日志记录方式
-            'type'           => 'File',
+            'type'           => \LogTrace\FileLog::class,
             // 日志保存目录
             'path'           => '',
             // 单文件日志写入
