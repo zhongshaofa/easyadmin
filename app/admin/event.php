@@ -2,10 +2,18 @@
 // 事件定义文件
 return [
     'bind' => [
-        'MenuUpdate' => 'app\admin\event\MenuUpdate',
     ],
 
     'listen' => [
+        'AppInit'  => [
+            \app\admin\listener\ViewInitListener::class,
+        ],
+        'HttpRun'  => [
+            \app\admin\listener\ViewInitListener::class,
+        ],
+        'HttpEnd'  => [],
+        'LogLevel' => [],
+        'LogWrite' => [],
     ],
 
     'subscribe' => [

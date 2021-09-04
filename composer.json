@@ -21,13 +21,15 @@
         "topthink/think-orm": "^2.0",
         "topthink/think-multi-app": "^1.0",
         "topthink/think-view": "^1.0",
-        "doctrine/annotations": "^1.8",
         "topthink/think-captcha": "^3.0",
         "aliyuncs/oss-sdk-php": "^2.3",
         "qcloud/cos-sdk-v5": "^2.0",
         "qiniu/php-sdk": "^7.2",
         "alibabacloud/client": "^1.5",
-        "jianyan74/php-excel": "^1.0"
+        "jianyan74/php-excel": "^1.0",
+        "zhongshaofa/easy-admin": "^1.0",
+        "ext-json": "*",
+        "zhongshaofa/thinkphp-log-trace": "^1.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
@@ -35,10 +37,7 @@
     },
     "autoload": {
         "psr-4": {
-            "app\\": "app",
-            "addons\\": "addons",
-            "EasyAdmin\\":"vendor/zhongshaofa/easy-admin/src",
-            "ServiceSwoole\\":"vendor/zhongshaofa/service-swoole/src"
+            "app\\": "app"
         },
         "psr-0": {
             "": "extend/"

@@ -19,10 +19,15 @@ use think\App;
 use think\facade\Request;
 use think\facade\View;
 
+/**
+ * @deprecated  废弃，新版TP不支持在中间件获取控制器相关信息
+ * Class ViewInit
+ * @package app\admin\middleware
+ */
 class ViewInit
 {
 
-    public function handle($request, \Closure $next)
+    public function handle(\app\Request $request, \Closure $next)
     {
         list($thisModule, $thisController, $thisAction) = [app('http')->getName(), Request::controller(), $request->action()];
         list($thisControllerArr, $jsPath) = [explode('.', $thisController), null];

@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -12,6 +12,7 @@ declare (strict_types = 1);
 
 namespace think;
 
+use ArrayAccess;
 use think\file\UploadedFile;
 use think\route\Rule;
 
@@ -19,7 +20,7 @@ use think\route\Rule;
  * 请求管理类
  * @package think
  */
-class Request
+class Request implements ArrayAccess
 {
     /**
      * 兼容PATH_INFO获取
@@ -307,15 +308,6 @@ class Request
     {
         $request = new static();
 
-        $request->server  = $_SERVER;
-        $request->env     = $app->env;
-        $request->get     = $_GET;
-        $request->post    = $_POST ?: $request->getInputData($request->input);
-        $request->put     = $request->getInputData($request->input);
-        $request->request = $_REQUEST;
-        $request->cookie  = $_COOKIE;
-        $request->file    = $_FILES ?? [];
-
         if (function_exists('apache_request_headers') && $result = apache_request_headers()) {
             $header = $result;
         } else {
@@ -336,6 +328,17 @@ class Request
         }
 
         $request->header = array_change_key_case($header);
+        $request->server = $_SERVER;
+        $request->env    = $app->env;
+
+        $inputData = $request->getInputData($request->input);
+
+        $request->get     = $_GET;
+        $request->post    = $_POST ?: $inputData;
+        $request->put     = $inputData;
+        $request->request = $_REQUEST;
+        $request->cookie  = $_COOKIE;
+        $request->file    = $_FILES ?? [];
 
         return $request;
     }
@@ -867,6 +870,24 @@ class Request
     }
 
     /**
+     * 获取包含文件在内的请求参数
+     * @access public
+     * @param  string|array $name 变量名
+     * @param  string|array $filter 过滤方法
+     * @return mixed
+     */
+    public function all($name = '', $filter = '')
+    {
+        $data = array_merge($this->param(), $this->file());
+
+        if (is_array($name)) {
+            $data = $this->only($name, $data, $filter);
+        }
+
+        return $data;
+    }
+
+    /**
      * 设置路由变量
      * @access public
      * @param  Rule $rule 路由对象
@@ -896,7 +917,8 @@ class Request
      */
     public function setRoute(array $route)
     {
-        $this->route = array_merge($this->route, $route);
+        $this->route      = array_merge($this->route, $route);
+        $this->mergeParam = false;
         return $this;
     }
 
@@ -982,11 +1004,12 @@ class Request
 
     protected function getInputData($content): array
     {
-        if (false !== strpos($this->contentType(), 'json')) {
-            return (array) json_decode($content, true);
-        } elseif (strpos($content, '=')) {
+        $contentType = $this->contentType();
+        if ('application/x-www-form-urlencoded' == $contentType) {
             parse_str($content, $data);
             return $data;
+        } elseif (false !== strpos($contentType, 'json')) {
+            return (array) json_decode($content, true);
         }
 
         return [];
@@ -1126,7 +1149,7 @@ class Request
         if (!empty($files)) {
 
             if (strpos($name, '.')) {
-                list($name, $sub) = explode('.', $name);
+                [$name, $sub] = explode('.', $name);
             }
 
             // 处理上传文件
@@ -1244,7 +1267,7 @@ class Request
         if ('' != $name) {
             // 解析name
             if (strpos($name, '/')) {
-                list($name, $type) = explode('/', $name);
+                [$name, $type] = explode('/', $name);
             }
 
             $data = $this->getData($data, $name);
@@ -1654,7 +1677,7 @@ class Request
                 $flag = FILTER_FLAG_IPV6;
                 break;
             default:
-                $flag = null;
+                $flag = 0;
                 break;
         }
 
@@ -1751,7 +1774,7 @@ class Request
         if ($this->host) {
             $host = $this->host;
         } else {
-            $host = strval($this->server('HTTP_X_REAL_HOST') ?: $this->server('HTTP_HOST'));
+            $host = strval($this->server('HTTP_X_FORWARDED_HOST') ?: $this->server('HTTP_HOST'));
         }
 
         return true === $strict && strpos($host, ':') ? strstr($host, ':', true) : $host;
@@ -1764,7 +1787,7 @@ class Request
      */
     public function port(): int
     {
-        return (int) $this->server('SERVER_PORT', '');
+        return (int) ($this->server('HTTP_X_FORWARDED_PORT') ?: $this->server('SERVER_PORT', ''));
     }
 
     /**
@@ -1794,11 +1817,11 @@ class Request
      */
     public function contentType(): string
     {
-        $contentType = $this->server('CONTENT_TYPE');
+        $contentType = $this->header('Content-Type');
 
         if ($contentType) {
             if (strpos($contentType, ';')) {
-                list($type) = explode(';', $contentType);
+                [$type] = explode(';', $contentType);
             } else {
                 $type = $contentType;
             }
@@ -2051,12 +2074,19 @@ class Request
     /**
      * 设置php://input数据
      * @access public
-     * @param  string $input RAW数据
+     * @param string $input RAW数据
      * @return $this
      */
     public function withInput(string $input)
     {
         $this->input = $input;
+        if (!empty($input)) {
+            $inputData = $this->getInputData($input);
+            if (!empty($inputData)) {
+                $this->post = $inputData;
+                $this->put  = $inputData;
+            }
+        }
         return $this;
     }
 
@@ -2116,4 +2146,22 @@ class Request
     {
         return isset($this->middleware[$name]);
     }
+
+    // ArrayAccess
+    public function offsetExists($name): bool
+    {
+        return $this->has($name);
+    }
+
+    public function offsetGet($name)
+    {
+        return $this->param($name);
+    }
+
+    public function offsetSet($name, $value)
+    {}
+
+    public function offsetUnset($name)
+    {}
+
 }

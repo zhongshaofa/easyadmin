@@ -40,6 +40,7 @@ if (!function_exists('xdebug')) {
 
     /**
      * debug调试
+     * @deprecated 不建议使用，建议直接使用框架自带的log组件
      * @param string|array $data 打印信息
      * @param string $type 类型
      * @param string $suffix 文件后缀名

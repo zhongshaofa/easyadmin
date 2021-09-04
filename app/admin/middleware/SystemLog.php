@@ -13,7 +13,9 @@
 namespace app\admin\middleware;
 
 use app\admin\service\SystemLogService;
+use app\Request;
 use EasyAdmin\tool\CommonTool;
+use think\facade\Log;
 
 /**
  * 系统操作日志中间件
@@ -30,22 +32,33 @@ class SystemLog
     protected $sensitiveParams = [
         'password',
         'password_again',
+        'phone',
+        'mobile'
     ];
 
-    public function handle($request, \Closure $next)
+    public function handle(Request $request, \Closure $next)
     {
+        $params = $request->param();
+        if (isset($params['s'])) {
+            unset($params['s']);
+        }
+        foreach ($params as $key => $val) {
+            in_array($key, $this->sensitiveParams) && $params[$key] = "***********";
+        }
+        $method = strtolower($request->method());
+        $url = $request->url();
+
+        trace([
+            'url'    => $url,
+            'method' => $method,
+            'params' => $params,
+        ],
+            'requestDebugInfo'
+        );
+
         if ($request->isAjax()) {
-            $method = strtolower($request->method());
             if (in_array($method, ['post', 'put', 'delete'])) {
-                $url = $request->url();
                 $ip = CommonTool::getRealIp();
-                $params = $request->param();
-                if (isset($params['s'])) {
-                    unset($params['s']);
-                }
-                foreach ($params as $key => $val) {
-                    in_array($key, $this->sensitiveParams) && $params[$key] = password($val);
-                }
                 $data = [
                     'admin_id'    => session('admin.id'),
                     'url'         => $url,

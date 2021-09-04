@@ -9,6 +9,7 @@ runtime/admin
 runtime/log
 runtime/session
 runtime/temp
+runtime/cache
 public/conf
 public/WowOss.exe
 app/index/controller/Test.php

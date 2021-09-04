@@ -3,7 +3,7 @@
     "type": "library",
     "description": "Docblock Annotations Parser",
     "keywords": ["annotations", "docblock", "parser"],
-    "homepage": "http://www.doctrine-project.org",
+    "homepage": "https://www.doctrine-project.org/projects/annotations.html",
     "license": "MIT",
     "authors": [
         {"name": "Guilherme Blanco", "email": "guilhermeblanco@gmail.com"},
@@ -13,12 +13,17 @@
         {"name": "Johannes Schmitt", "email": "schmittjoh@gmail.com"}
     ],
     "require": {
-        "php": "^7.1",
-        "doctrine/lexer": "1.*"
+        "php": "^7.1 || ^8.0",
+        "ext-tokenizer": "*",
+        "doctrine/lexer": "1.*",
+        "psr/cache": "^1 || ^2 || ^3"
     },
     "require-dev": {
-        "doctrine/cache": "1.*",
-        "phpunit/phpunit": "^7.5"
+        "doctrine/cache": "^1.11 || ^2.0",
+        "doctrine/coding-standard": "^6.0 || ^8.1",
+        "phpstan/phpstan": "^0.12.20",
+        "phpunit/phpunit": "^7.5 || ^8.0 || ^9.1.5",
+        "symfony/cache": "^4.4 || ^5.2"
     },
     "config": {
         "sort-packages": true
@@ -32,12 +37,8 @@
             "Doctrine\\Tests\\Common\\Annotations\\": "tests/Doctrine/Tests/Common/Annotations"
         },
         "files": [
+            "tests/Doctrine/Tests/Common/Annotations/Fixtures/functions.php",
             "tests/Doctrine/Tests/Common/Annotations/Fixtures/SingleClassLOC1000.php"
         ]
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.7.x-dev"
-        }
     }
 }

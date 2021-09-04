@@ -10,10 +10,9 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '538ca81a9a966a6716601ecf48f4eaef' => __DIR__ . '/..' . '/opis/closure/functions.php',
         'abede361264e2ae69ec1eee813a101af' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/abs.php',
         '21a5860fbef5be28db5ddfbc3cca67c4' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/acos.php',
         '1546e3f9d127f2a9bb2d1b6c31c26ef1' => __DIR__ . '/..' . '/markbaker/complex/classes/src/functions/acosh.php',
@@ -101,7 +100,10 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'a' => 
         array (
             'app\\' => 4,
-            'addons\\' => 7,
+        ),
+        'T' => 
+        array (
+            'Test\\' => 5,
         ),
         'S' => 
         array (
@@ -109,7 +111,6 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\VarDumper\\' => 28,
             'Stringy\\' => 8,
-            'ServiceSwoole\\' => 14,
         ),
         'Q' => 
         array (
@@ -126,15 +127,16 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         ),
         'O' => 
         array (
-            'Opis\\Closure\\' => 13,
             'OSS\\' => 4,
         ),
         'M' => 
         array (
+            'MockApp\\' => 8,
             'Matrix\\' => 7,
         ),
         'L' => 
         array (
+            'LogTrace\\' => 9,
             'League\\Flysystem\\Cached\\' => 24,
             'League\\Flysystem\\' => 17,
         ),
@@ -202,9 +204,10 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
-        'addons\\' => 
+        'Test\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/addons',
+            0 => __DIR__ . '/..' . '/zhongshaofa/easy-admin/tests',
+            1 => __DIR__ . '/..' . '/zhongshaofa/thinkphp-log-trace/tests',
         ),
         'Symfony\\Polyfill\\Php72\\' => 
         array (
@@ -221,10 +224,6 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         'Stringy\\' => 
         array (
             0 => __DIR__ . '/..' . '/danielstjules/stringy/src',
-        ),
-        'ServiceSwoole\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/zhongshaofa/service-swoole/src',
         ),
         'Qiniu\\' => 
         array (
@@ -254,17 +253,21 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
         ),
-        'Opis\\Closure\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/opis/closure/src',
-        ),
         'OSS\\' => 
         array (
             0 => __DIR__ . '/..' . '/aliyuncs/oss-sdk-php/src/OSS',
         ),
+        'MockApp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zhongshaofa/easy-admin/mock_app',
+        ),
         'Matrix\\' => 
         array (
             0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
+        ),
+        'LogTrace\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zhongshaofa/thinkphp-log-trace/src',
         ),
         'League\\Flysystem\\Cached\\' => 
         array (
@@ -338,6 +341,10 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
         0 => __DIR__ . '/../..' . '/extend',
     );
 
+    public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
@@ -345,6 +352,7 @@ class ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093
             $loader->prefixDirsPsr4 = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$prefixesPsr0;
             $loader->fallbackDirsPsr0 = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInit6bad1cb7ba829cb65a670b5323a9e093::$classMap;
 
         }, null, ClassLoader::class);
     }

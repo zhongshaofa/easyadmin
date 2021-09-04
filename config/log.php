@@ -20,7 +20,7 @@ return [
     'channels'     => [
         'file' => [
             // 日志记录方式
-            'type'           => 'File',
+            'type'           => \LogTrace\FileLog::class,
             // 日志保存目录
             'path'           => '',
             // 单文件日志写入
@@ -30,7 +30,7 @@ return [
             // 最大日志文件数量
             'max_files'      => 30,
             // 使用JSON格式记录
-            'json'           => false,
+            'json'           => true,
             // 日志处理
             'processor'      => null,
             // 关闭通道日志写入
