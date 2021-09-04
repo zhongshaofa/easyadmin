@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
+// | Copyright (c) 2006~2021 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -110,7 +110,7 @@ class Domain extends RuleGroup
     protected function parseBindAppendParam(string &$bind): void
     {
         if (false !== strpos($bind, '?')) {
-            list($bind, $query) = explode('?', $bind);
+            [$bind, $query] = explode('?', $bind);
             parse_str($query, $vars);
             $this->append($vars);
         }

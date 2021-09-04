@@ -22,7 +22,7 @@ use think\facade\View;
 class ViewInit
 {
 
-    public function handle($request, \Closure $next)
+    public function handle(\app\Request $request, \Closure $next)
     {
         list($thisModule, $thisController, $thisAction) = [app('http')->getName(), Request::controller(), $request->action()];
         list($thisControllerArr, $jsPath) = [explode('.', $thisController), null];

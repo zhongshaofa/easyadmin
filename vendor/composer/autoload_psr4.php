@@ -25,7 +25,6 @@ return array(
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
     'PhpOffice\\PhpSpreadsheet\\' => array($vendorDir . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet'),
-    'Opis\\Closure\\' => array($vendorDir . '/opis/closure/src'),
     'OSS\\' => array($vendorDir . '/aliyuncs/oss-sdk-php/src/OSS'),
     'MockApp\\' => array($vendorDir . '/zhongshaofa/easy-admin/mock_app'),
     'Matrix\\' => array($vendorDir . '/markbaker/matrix/classes/src'),
