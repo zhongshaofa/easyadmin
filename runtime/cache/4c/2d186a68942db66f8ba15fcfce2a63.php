@@ -1,4 +1,0 @@
-<?php
-//000000003600
- exit();?>
-a:18:{s:11:"upload_type";s:5:"local";s:16:"upload_allow_ext";s:49:"doc,gif,ico,icon,jpg,mp3,mp4,p12,pem,png,rar,jpeg";s:17:"upload_allow_size";s:7:"1024000";s:17:"upload_allow_mime";s:57:"image/gif,image/jpeg,video/x-msvideo,text/plain,image/png";s:17:"upload_allow_type";s:24:"local,alioss,qnoss,txcos";s:20:"alioss_access_key_id";s:9:"填你的";s:24:"alioss_access_key_secret";s:9:"填你的";s:15:"alioss_endpoint";s:9:"填你的";s:13:"alioss_bucket";s:9:"填你的";s:13:"alioss_domain";s:9:"填你的";s:15:"txcos_secret_id";s:9:"填你的";s:16:"txcos_secret_key";s:9:"填你的";s:12:"txcos_region";s:9:"填你的";s:12:"tecos_bucket";s:9:"填你的";s:16:"qnoss_access_key";s:9:"填你的";s:16:"qnoss_secret_key";s:9:"填你的";s:12:"qnoss_bucket";s:9:"填你的";s:12:"qnoss_domain";s:9:"填你的";}
