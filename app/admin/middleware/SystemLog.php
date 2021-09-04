@@ -13,6 +13,7 @@
 namespace app\admin\middleware;
 
 use app\admin\service\SystemLogService;
+use app\Request;
 use EasyAdmin\tool\CommonTool;
 
 /**
@@ -32,7 +33,7 @@ class SystemLog
         'password_again',
     ];
 
-    public function handle($request, \Closure $next)
+    public function handle(Request $request, \Closure $next)
     {
         if ($request->isAjax()) {
             $method = strtolower($request->method());
