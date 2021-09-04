@@ -19,6 +19,11 @@ use think\App;
 use think\facade\Request;
 use think\facade\View;
 
+/**
+ * @deprecated  废弃，新版TP不支持在中间件获取控制器相关信息
+ * Class ViewInit
+ * @package app\admin\middleware
+ */
 class ViewInit
 {
 
