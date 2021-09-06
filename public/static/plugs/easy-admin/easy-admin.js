@@ -913,6 +913,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     dataFull = $(this).attr('data-full'),
                     checkbox = $(this).attr('data-checkbox'),
                     url = $(this).attr('data-open'),
+                    external = $(this).attr('data-external') || false,
                     tableId = $(this).attr('data-table');
 
                 if(checkbox === 'true'){
@@ -952,7 +953,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
 
                 admin.open(
                     $(this).attr('data-title'),
-                    admin.url(url),
+                    external ? url : admin.url(url),
                     clienWidth,
                     clientHeight,
                 );
