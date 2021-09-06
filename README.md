@@ -17,7 +17,7 @@
 技术交流QQ群：[763822524](https://jq.qq.com/?_wv=1027&k=5IHJawE) `加群请备注来源：如gitee、github、官网等`。
 
 ## 安装教程
->EasyAdmin 使用 Composer 来管理项目依赖。因此，在使用 Laravel 之前，请确保你的机器已经安装了 Composer。
+>EasyAdmin 使用 Composer 来管理项目依赖。因此，在使用 EasyAdmin 之前，请确保你的机器已经安装了 Composer。
 
 #### 通过 Composer 创建项目`建议`
 `composer create-project --prefer-dist zhongshaofa/easyadmin blog`  
