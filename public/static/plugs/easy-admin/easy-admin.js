@@ -625,7 +625,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 option.imageJoin = option.imageJoin || '<br>';
                 option.title = option.title || option.field;
                 var field = option.field,
-                    title = data[option.title];
+                    title = data[option.title] ? data[option.title] : option.title;
                 try {
                     var value = eval("data." + field);
                 } catch (e) {
@@ -972,20 +972,32 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
 
             // 放大图片
             $('body').on('click', '[data-image]', function () {
-                var title = $(this).attr('data-image'),
-                    src = $(this).attr('src'),
-                    alt = $(this).attr('alt');
+                var currentSrc = $(this).attr('src'),
+                    start = 0,
+                    data = [];
+
+                $(this).parent().children('[data-image]').each(function (i, v) {
+                    var title = $(this).attr('data-image'),
+                        alt = $(this).attr('alt'),
+                        src = $(this).attr('src');
+
+                    data.push({
+                        "alt": alt ? alt : title,
+                        "pid": Math.random(),
+                        "src": src,
+                        "thumb": src
+                    });
+
+                    if (currentSrc === src) {
+                        start = i;
+                    }
+                });
+
                 var photos = {
-                    "title": title,
+                    "title": '',
+                    "start": start,
                     "id": Math.random(),
-                    "data": [
-                        {
-                            "alt": alt,
-                            "pid": Math.random(),
-                            "src": src,
-                            "thumb": src
-                        }
-                    ]
+                    "data": data
                 };
                 layer.photos({
                     photos: photos,
