@@ -1,18 +1,18 @@
 {
-    "name": "topthink/think",
-    "description": "the new thinkphp framework",
+    "name": "zhongshaofa/easyadmin",
+    "description": "基于ThinkPHP6.0和layui的快速开发的后台管理系统。",
     "type": "project",
     "keywords": [
-        "framework",
+        "easyadmin",
         "thinkphp",
-        "ORM"
+        "admin"
     ],
-    "homepage": "http://thinkphp.cn/",
-    "license": "Apache-2.0",
+    "homepage": "http://easyadmin.99php.cn/",
+    "license": "MIT",
     "authors": [
         {
-            "name": "liu21st",
-            "email": "liu21st@gmail.com"
+            "name": "zhongshaofa",
+            "email": "2286732552@qq.com"
         }
     ],
     "require": {
