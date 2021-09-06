@@ -588,13 +588,13 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             operat.title = operat.title || operat.text;
                             operat.text = operat.text || operat.title;
                             operat.extend = operat.extend || '';
-                            
+
                             // 自定义表格opreat按钮的弹窗标题风格，extra是表格里的欲加入标题中的字段
                             operat.extra = operat.extra || '';
                             if (data[operat.extra] !== undefined) {
                                 operat.title = data[operat.extra] + ' - ' + operat.title;
                             }
-                            
+
                             operat.url = admin.table.toolSpliceUrl(operat.url, operat.field, data);
                             if (admin.checkAuth(operat.auth, elem)) {
                                 html += admin.table.buildOperatHtml(operat);
@@ -993,7 +993,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 });
                 return false;
             });
-            
+
             // 放大一组图片
             $('body').on('click', '[data-images]', function () {
                 var title = $(this).attr('data-images'),
@@ -1107,7 +1107,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         data: postData,
                     }, function (res) {
                         admin.msg.success(res.msg, function () {
-                            table.reload(tableId);
+                            $('button[data-treetable-refresh]').length > 0 ? $('[data-treetable-refresh]').trigger("click") : table.reload(tableId);
                         });
                     })
                 });
