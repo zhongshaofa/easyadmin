@@ -1208,7 +1208,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         var verify = $(this).attr('lay-verify');
 
                         // todo 必填项处理
-                        if (verify === 'required') {
+                        if (verify.includes('required')) {
                             var label = $(this).parent().prev();
                             if (label.is('label') && !label.hasClass('required')) {
                                 label.addClass('required');
