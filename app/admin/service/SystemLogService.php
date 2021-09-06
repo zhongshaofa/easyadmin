@@ -80,12 +80,13 @@ class SystemLogService
      */
     public function save($data)
     {
-        $this->detectTable();
         Db::startTrans();
         try {
+            $this->detectTable();
             Db::table($this->tableName)->insert($data);
             Db::commit();
         } catch (\Exception $e) {
+            Db::rollback();
             return $e->getMessage();
         }
         return true;
