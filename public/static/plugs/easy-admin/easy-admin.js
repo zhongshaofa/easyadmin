@@ -597,7 +597,11 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
 
                             operat.url = admin.table.toolSpliceUrl(operat.url, operat.field, data);
                             if (admin.checkAuth(operat.auth, elem)) {
-                                html += admin.table.buildOperatHtml(operat);
+                                if (typeof operat.render === 'function') {
+                                    html += operat.render(data, option) ? admin.table.buildOperatHtml(operat) : '';
+                                } else {
+                                    html += admin.table.buildOperatHtml(operat);
+                                }
                             }
                         });
                     }
