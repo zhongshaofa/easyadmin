@@ -16,6 +16,28 @@
 
 技术交流QQ群：[763822524](https://jq.qq.com/?_wv=1027&k=5IHJawE) `加群请备注来源：如gitee、github、官网等`。
 
+## 安装教程
+
+#### 通过 Composer 创建项目`建议`
+`composer create-project --prefer-dist zhongshaofa/easyadmin blog`  
+
+#### 通过git下载安装包，composer安装依赖包
+
+```bash
+第一步，下载安装包
+
+git clone https://github.com/zhongshaofa/easyadmin
+或者
+git clone https://gitee.com/zhongshaofa/easyadmin
+
+
+第二步，安装依赖包
+composer install
+
+```
+
+
+
 ## 站点地址
 
 * 官方网站：[http://easyadmin.99php.cn](http://easyadmin.99php.cn)
