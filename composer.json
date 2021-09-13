@@ -29,7 +29,8 @@
         "jianyan74/php-excel": "^1.0",
         "zhongshaofa/easy-admin": "^1.0",
         "ext-json": "*",
-        "zhongshaofa/thinkphp-log-trace": "^1.0"
+        "zhongshaofa/thinkphp-log-trace": "^1.0",
+        "zhongshaofa/csrf-verify": "^1.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",

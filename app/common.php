@@ -2,6 +2,9 @@
 // 应用公共文件
 
 use app\common\service\AuthService;
+use CsrfVerify\drive\ThinkphpCache;
+use CsrfVerify\entity\CsrfVerifyEntity;
+use CsrfVerify\interfaces\CsrfVerifyInterface;
 use think\facade\Cache;
 
 if (!function_exists('__url')) {
@@ -119,6 +122,25 @@ if (!function_exists('auth')) {
         $authService = new AuthService(session('admin.id'));
         $check = $authService->checkNode($node);
         return $check;
+    }
+
+}
+
+if (!function_exists('easyadmin_csrf_token')) {
+
+    /**
+     * 获取表单验证
+     * @return string
+     */
+    function easyadmin_csrf_token()
+    {
+        /** @var CsrfVerifyInterface $service */
+        $service = app(CsrfVerifyInterface::class);
+
+        return $service->create(new CsrfVerifyEntity(
+            env('CSRF.MARK', 'CSRF_MARK'),
+            env('CSRF.SECRET', 'CSRF_SECRET')
+        ), new ThinkphpCache());
     }
 
 }

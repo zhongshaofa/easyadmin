@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c112aff9c64fc93ce95419b345ed9743",
+    "content-hash": "9617162f757be86f5964b90e0f36ca51",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -2183,6 +2183,59 @@
             ],
             "description": "thinkphp template driver",
             "time": "2019-10-07T12:23:10+00:00"
+        },
+        {
+            "name": "zhongshaofa/csrf-verify",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zhongshaofa/csrf_verify.git",
+                "reference": "26669f16948a23072b467a9f16eddccfdd3e9d43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zhongshaofa/csrf_verify/zipball/26669f16948a23072b467a9f16eddccfdd3e9d43",
+                "reference": "26669f16948a23072b467a9f16eddccfdd3e9d43",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3.0",
+                "phpunit/phpunit": "^8.5.0",
+                "topthink/framework": "^6.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CsrfVerify\\": "src",
+                    "Test\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zhongshaofa",
+                    "email": "2286732552@qq.com"
+                }
+            ],
+            "description": "csrf验证组件",
+            "support": {
+                "issues": "https://github.com/zhongshaofa/csrf_verify/issues",
+                "source": "https://github.com/zhongshaofa/csrf_verify/tree/v1.0.1"
+            },
+            "time": "2021-09-13T16:12:02+00:00"
         },
         {
             "name": "zhongshaofa/easy-admin",

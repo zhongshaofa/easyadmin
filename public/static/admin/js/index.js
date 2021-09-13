@@ -2,6 +2,11 @@ define(["jquery", "easy-admin", "echarts", "echarts-theme", "miniAdmin", "miniTa
 
     var Controller = {
         index: function () {
+
+            $.ajaxSetup({
+                header:{'EASYADMIN-CSRF-TOKEN': $('meta[name="easyadmin-csrf-token"]').attr('content')}
+            });
+
             var options = {
                 iniUrl: ea.url('ajax/initAdmin'),    // 初始化接口
                 clearUrl: ea.url("ajax/clearCache"), // 缓存清理接口

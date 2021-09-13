@@ -87,6 +87,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     type: type,
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                     dataType: "json",
+                    headers:{'EASYADMIN-CSRF-TOKEN': $('meta[name="easyadmin-csrf-token"]').attr('content')},
                     data: option.data,
                     timeout: 60000,
                     success: function (res) {
@@ -102,6 +103,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             ex(this);
                         });
                         return false;
+                    },
+                    complete: function(){
+                        // @todo 刷新csrf-token
                     }
                 });
             }
@@ -188,6 +192,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 options.id = options.id || options.init.table_render_id;
                 options.layFilter = options.id + '_LayFilter';
                 options.url = options.url || admin.url(options.init.index_url);
+                options.headers = {'EASYADMIN-CSRF-TOKEN': $('meta[name="easyadmin-csrf-token"]').attr('content')};
                 options.page = admin.parame(options.page, true);
                 options.search = admin.parame(options.search, true);
                 options.skin = options.skin || 'line';
@@ -910,6 +915,10 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
 
             // 初始化layui表单
             form.render();
+
+            $.ajaxSetup({
+                header:{'EASYADMIN-CSRF-TOKEN': $('meta[name="easyadmin-csrf-token"]').attr('content')}
+            });
 
             // 表格修改
             $("body").on("mouseenter", ".table-edit-tips", function () {
