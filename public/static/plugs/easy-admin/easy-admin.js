@@ -919,10 +919,6 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
             // 初始化layui表单
             form.render();
 
-            $.ajaxSetup({
-                header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-            });
-
             // 表格修改
             $("body").on("mouseenter", ".table-edit-tips", function () {
                 var openTips = layer.tips('点击行内容可以进行修改', $(this), {tips: [2, '#e74c3c'], time: 4000});
