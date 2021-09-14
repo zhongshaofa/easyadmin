@@ -60,7 +60,7 @@ trait Curd
      */
     public function add()
     {
-        if ($this->request->isAjax()) {
+        if ($this->request->isPost()) {
             $post = $this->request->post();
             $rule = [];
             $this->validate($post, $rule);
@@ -81,7 +81,7 @@ trait Curd
     {
         $row = $this->model->find($id);
         empty($row) && $this->error('数据不存在');
-        if ($this->request->isAjax()) {
+        if ($this->request->isPost()) {
             $post = $this->request->post();
             $rule = [];
             $this->validate($post, $rule);
@@ -101,6 +101,7 @@ trait Curd
      */
     public function delete($id)
     {
+        $this->checkPostRequest();
         $row = $this->model->whereIn('id', $id)->select();
         $row->isEmpty() && $this->error('数据不存在');
         try {
@@ -143,6 +144,7 @@ trait Curd
      */
     public function modify()
     {
+        $this->checkPostRequest();
         $post = $this->request->post();
         $rule = [
             'id|ID'    => 'require',

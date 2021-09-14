@@ -28,6 +28,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         url: function (url) {
             return '/' + CONFIG.ADMIN + '/' + url;
         },
+        headers: function () {
+            return {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')};
+        },
         //js版empty，判断变量是否为空
         empty: function (r) {
             var n, t, e, f = [void 0, null, !1, 0, "", "0"];
@@ -87,6 +90,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     type: type,
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                     dataType: "json",
+                    headers:admin.headers(),
                     data: option.data,
                     timeout: 60000,
                     success: function (res) {
@@ -102,6 +106,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             ex(this);
                         });
                         return false;
+                    },
+                    complete: function(){
+                        // @todo 刷新csrf-token
                     }
                 });
             }
@@ -188,6 +195,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 options.id = options.id || options.init.table_render_id;
                 options.layFilter = options.id + '_LayFilter';
                 options.url = options.url || admin.url(options.init.index_url);
+                options.headers = admin.headers();
                 options.page = admin.parame(options.page, true);
                 options.search = admin.parame(options.search, true);
                 options.skin = options.skin || 'line';
@@ -911,6 +919,10 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
             // 初始化layui表单
             form.render();
 
+            $.ajaxSetup({
+                header:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+            });
+
             // 表格修改
             $("body").on("mouseenter", ".table-edit-tips", function () {
                 var openTips = layer.tips('点击行内容可以进行修改', $(this), {tips: [2, '#e74c3c'], time: 4000});
@@ -1299,6 +1311,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             url: admin.url(init.upload_url),
                             accept: 'file',
                             exts: exts,
+                            headers:admin.headers(),
                             // 让多图上传模式下支持多选操作
                             multiple: (uploadNumber !== 'one') ? true : false,
                             done: function (res) {

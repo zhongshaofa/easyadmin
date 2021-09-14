@@ -63,6 +63,7 @@ class Ajax extends AdminController
      */
     public function upload()
     {
+        $this->checkPostRequest();
         $data = [
             'upload_type' => $this->request->post('upload_type'),
             'file'        => $this->request->file('file'),
@@ -96,6 +97,7 @@ class Ajax extends AdminController
      */
     public function uploadEditor()
     {
+        $this->checkPostRequest();
         $data = [
             'upload_type' => $this->request->post('upload_type'),
             'file'        => $this->request->file('upload'),

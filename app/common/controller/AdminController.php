@@ -280,4 +280,14 @@ class AdminController extends BaseController
 
         }
     }
+
+    /**
+     * 严格校验接口是否为POST请求
+     */
+    protected function checkPostRequest(){
+        if (!$this->request->isPost()) {
+            $this->error("无效请求");
+        }
+    }
+
 }
