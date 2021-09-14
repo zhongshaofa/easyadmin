@@ -29,7 +29,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
             return '/' + CONFIG.ADMIN + '/' + url;
         },
         headers: function () {
-            return {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')};
+            return {'X-CSRF-TOKEN': window.CONFIG.CSRF_TOKEN};
         },
         //js版empty，判断变量是否为空
         empty: function (r) {
@@ -1430,6 +1430,8 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 }
             },
             editor: function () {
+                CKEDITOR.tools.setCookie('ckCsrfToken', window.CONFIG.CSRF_TOKEN);
+
                 var editorList = document.querySelectorAll(".editor");
                 if (editorList.length > 0) {
                     $.each(editorList, function (i, v) {

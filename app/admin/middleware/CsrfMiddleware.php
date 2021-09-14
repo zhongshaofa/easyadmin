@@ -37,7 +37,11 @@ class CsrfMiddleware
                 }
 
                 // CSRF校验
-                $check = $request->checkToken();
+                // @todo 兼容CK编辑器上传功能
+                $ckCsrfToken = $request->post('ckCsrfToken', null);
+                $data = !empty($ckCsrfToken) ? ['__token__' => $ckCsrfToken] : [];
+
+                $check = $request->checkToken('__token__', $data);
                 if (!$check) {
                     $this->error('请求验证失败，请重新刷新页面！');
                 }
