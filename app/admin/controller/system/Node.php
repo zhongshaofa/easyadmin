@@ -66,6 +66,7 @@ class Node extends AdminController
      */
     public function refreshNode($force = 0)
     {
+        $this->checkPostRequest();
         $nodeList = (new NodeService())->getNodelist();
         empty($nodeList) && $this->error('暂无需要更新的系统节点');
         $model = new SystemNode();
@@ -102,6 +103,7 @@ class Node extends AdminController
      */
     public function clearNode()
     {
+        $this->checkPostRequest();
         $nodeList = (new NodeService())->getNodelist();
         $model = new SystemNode();
         try {

@@ -47,6 +47,7 @@ class Config extends AdminController
      */
     public function save()
     {
+        $this->checkPostRequest();
         $post = $this->request->post();
         try {
             foreach ($post as $key => $val) {
