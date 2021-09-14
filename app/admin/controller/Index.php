@@ -49,6 +49,7 @@ class Index extends AdminController
      */
     public function editAdmin()
     {
+        $this->checkPostRequest();
         $id = session('admin.id');
         $row = (new SystemAdmin())
             ->withoutField('password')
@@ -81,6 +82,7 @@ class Index extends AdminController
      */
     public function editPassword()
     {
+        $this->checkPostRequest();
         $id = session('admin.id');
         $row = (new SystemAdmin())
             ->withoutField('password')

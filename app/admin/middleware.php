@@ -8,6 +8,9 @@ return [
     // 系统操作日志
     \app\admin\middleware\SystemLog::class,
 
+    // Csrf安全校验
+    \app\admin\middleware\CsrfMiddleware::class,
+
     // 后台视图初始化
 //    \app\admin\middleware\ViewInit::class,
 

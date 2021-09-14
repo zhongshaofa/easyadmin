@@ -62,6 +62,7 @@ class Auth extends AdminController
      */
     public function saveAuthorize()
     {
+        $this->checkPostRequest();
         $id = $this->request->post('id');
         $node = $this->request->post('node', "[]");
         $node = json_decode($node, true);

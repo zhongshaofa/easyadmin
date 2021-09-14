@@ -1,2 +1,0 @@
-
-        $this->assign('{{name}}', $this->model->{{name}}());

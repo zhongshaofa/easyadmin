@@ -67,7 +67,7 @@ class Goods extends AdminController
     {
         $row = $this->model->find($id);
         empty($row) && $this->error('数据不存在');
-        if ($this->request->isAjax()) {
+        if ($this->request->isPost()) {
             $post = $this->request->post();
             $rule = [];
             $this->validate($post, $rule);

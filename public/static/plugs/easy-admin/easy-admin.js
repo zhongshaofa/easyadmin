@@ -28,6 +28,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         url: function (url) {
             return '/' + CONFIG.ADMIN + '/' + url;
         },
+        headers: function () {
+            return {'X-CSRF-TOKEN': window.CONFIG.CSRF_TOKEN};
+        },
         //js版empty，判断变量是否为空
         empty: function (r) {
             var n, t, e, f = [void 0, null, !1, 0, "", "0"];
@@ -87,6 +90,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     type: type,
                     contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                     dataType: "json",
+                    headers:admin.headers(),
                     data: option.data,
                     timeout: 60000,
                     success: function (res) {
@@ -102,6 +106,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             ex(this);
                         });
                         return false;
+                    },
+                    complete: function(){
+                        // @todo 刷新csrf-token
                     }
                 });
             }
@@ -188,6 +195,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 options.id = options.id || options.init.table_render_id;
                 options.layFilter = options.id + '_LayFilter';
                 options.url = options.url || admin.url(options.init.index_url);
+                options.headers = admin.headers();
                 options.page = admin.parame(options.page, true);
                 options.search = admin.parame(options.search, true);
                 options.skin = options.skin || 'line';
@@ -366,10 +374,10 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     form.render();
                     $.each(newCols, function (ncI, ncV) {
                         if (ncV.search === 'range') {
-                            laydate.render({range: true, type: ncV.timeType, elem: '[name="' + ncV.field + '"]'});
+                            laydate.render({range: true, type: ncV.timeType, elem: '[name="' + ncV.fieldAlias + '"]'});
                         }
                         if (ncV.search === 'time') {
-                            laydate.render({type: ncV.timeType, elem: '[name="' + ncV.field + '"]'});
+                            laydate.render({type: ncV.timeType, elem: '[name="' + ncV.fieldAlias + '"]'});
                         }
                     });
                 }
@@ -1208,7 +1216,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         var verify = $(this).attr('lay-verify');
 
                         // todo 必填项处理
-                        if (verify === 'required') {
+                        if (verify.includes('required')) {
                             var label = $(this).parent().prev();
                             if (label.is('label') && !label.hasClass('required')) {
                                 label.addClass('required');
@@ -1300,6 +1308,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             accept: uploadAccept,//指定允许上传时校验的文件类型
                             acceptMime: uploadAcceptMime,//规定打开文件选择框时，筛选出的文件类型
                             multiple: uploadNumber !== 'one',//是否多文件上传
+                            headers:admin.headers(),
                             done: function (res) {
                                 if (res.code === 1) {
                                     var url = res.data.url;
@@ -1412,6 +1421,8 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 }
             },
             editor: function () {
+                CKEDITOR.tools.setCookie('ckCsrfToken', window.CONFIG.CSRF_TOKEN);
+
                 var editorList = document.querySelectorAll(".editor");
                 if (editorList.length > 0) {
                     $.each(editorList, function (i, v) {

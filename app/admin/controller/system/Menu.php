@@ -77,7 +77,7 @@ class Menu extends AdminController
         if ($id == $homeId) {
             $this->error('首页不能添加子菜单');
         }
-        if ($this->request->isAjax()) {
+        if ($this->request->isPost()) {
             $post = $this->request->post();
             $rule = [
                 'pid|上级菜单'   => 'require',
@@ -110,7 +110,7 @@ class Menu extends AdminController
     {
         $row = $this->model->find($id);
         empty($row) && $this->error('数据不存在');
-        if ($this->request->isAjax()) {
+        if ($this->request->isPost()) {
             $post = $this->request->post();
             $rule = [
                 'pid|上级菜单'   => 'require',
@@ -144,6 +144,7 @@ class Menu extends AdminController
      */
     public function delete($id)
     {
+        $this->checkPostRequest();
         $row = $this->model->whereIn('id', $id)->select();
         empty($row) && $this->error('数据不存在');
         try {
@@ -164,6 +165,7 @@ class Menu extends AdminController
      */
     public function modify()
     {
+        $this->checkPostRequest();
         $post = $this->request->post();
         $rule = [
             'id|ID'    => 'require',
