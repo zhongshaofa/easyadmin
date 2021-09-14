@@ -286,7 +286,7 @@ class AdminController extends BaseController
      */
     protected function checkPostRequest(){
         if (!$this->request->isPost()) {
-            $this->error("无效请求");
+            $this->error("当前请求不合法！");
         }
     }
 

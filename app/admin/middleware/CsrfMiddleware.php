@@ -33,7 +33,7 @@ class CsrfMiddleware
                 $refererInfo = parse_url($refererUrl);
                 $host = $request->host();
                 if (!isset($refererInfo['host']) || $refererInfo['host'] != $host) {
-                    $this->error('无效请求！');
+                    $this->error('当前请求不合法！');
                 }
 
                 // CSRF校验
