@@ -31,7 +31,7 @@ class CsrfMiddleware
                 // 跨域校验
                 $refererUrl = $request->header('REFERER', null);
                 $refererInfo = parse_url($refererUrl);
-                $host = $request->host();
+                $host = $request->host(true);
                 if (!isset($refererInfo['host']) || $refererInfo['host'] != $host) {
                     $this->error('当前请求不合法！');
                 }
