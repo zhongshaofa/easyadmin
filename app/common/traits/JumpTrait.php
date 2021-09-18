@@ -39,7 +39,7 @@ trait JumpTrait
             'wait' => $wait,
         ];
 
-        $type = $type = $this->getResponseType();
+        $type = $this->getResponseType();
         if ($type == 'html') {
             $response = view(app('config')->get('app.dispatch_success_tmpl'), $result);
         } elseif ($type == 'json') {
