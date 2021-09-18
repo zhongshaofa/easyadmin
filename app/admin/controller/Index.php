@@ -49,13 +49,12 @@ class Index extends AdminController
      */
     public function editAdmin()
     {
-        $this->checkPostRequest();
         $id = session('admin.id');
         $row = (new SystemAdmin())
             ->withoutField('password')
             ->find($id);
         empty($row) && $this->error('用户信息不存在');
-        if ($this->request->isAjax()) {
+        if ($this->request->isPost()) {
             $post = $this->request->post();
             $this->isDemo && $this->error('演示环境下不允许修改');
             $rule = [];
@@ -82,7 +81,6 @@ class Index extends AdminController
      */
     public function editPassword()
     {
-        $this->checkPostRequest();
         $id = session('admin.id');
         $row = (new SystemAdmin())
             ->withoutField('password')
@@ -90,7 +88,7 @@ class Index extends AdminController
         if (!$row) {
             $this->error('用户信息不存在');
         }
-        if ($this->request->isAjax()) {
+        if ($this->request->isPost()) {
             $post = $this->request->post();
             $this->isDemo && $this->error('演示环境下不允许修改');
             $rule = [
@@ -101,10 +99,6 @@ class Index extends AdminController
             if ($post['password'] != $post['password_again']) {
                 $this->error('两次密码输入不一致');
             }
-
-            // 判断是否为演示站点
-            $example = Env::get('easyadmin.example', 0);
-            $example == 1 && $this->error('演示站点不允许修改密码');
 
             try {
                 $save = $row->save([
