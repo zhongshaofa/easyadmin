@@ -27,7 +27,7 @@
         "qiniu/php-sdk": "^7.2",
         "alibabacloud/client": "^1.5",
         "jianyan74/php-excel": "^1.0",
-        "zhongshaofa/easy-admin": "^1.0",
+        "zhongshaofa/easy-admin": "^1.0.2",
         "ext-json": "*",
         "zhongshaofa/thinkphp-log-trace": "^1.0"
     },

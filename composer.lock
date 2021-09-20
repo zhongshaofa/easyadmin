@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c112aff9c64fc93ce95419b345ed9743",
+    "content-hash": "c6d2a0afafddc47a177c5e3a901d9ed0",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -2186,16 +2186,16 @@
         },
         {
             "name": "zhongshaofa/easy-admin",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zhongshaofa/easyadmin-sdk.git",
-                "reference": "e09be94938283d7c0210a3c04c38287757942a56"
+                "reference": "89670cc868d476b81672817110cd5789edfabac7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zhongshaofa/easyadmin-sdk/zipball/e09be94938283d7c0210a3c04c38287757942a56",
-                "reference": "e09be94938283d7c0210a3c04c38287757942a56",
+                "url": "https://api.github.com/repos/zhongshaofa/easyadmin-sdk/zipball/89670cc868d476b81672817110cd5789edfabac7",
+                "reference": "89670cc868d476b81672817110cd5789edfabac7",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2234,9 +2234,9 @@
             "description": "EasyAdmin工具，https://github.com/zhongshaofa/easyadmin-sdk",
             "support": {
                 "issues": "https://github.com/zhongshaofa/easyadmin-sdk/issues",
-                "source": "https://github.com/zhongshaofa/easyadmin-sdk/tree/v1.0.1"
+                "source": "https://github.com/zhongshaofa/easyadmin-sdk/tree/v1.0.2"
             },
-            "time": "2021-09-03T16:09:14+00:00"
+            "time": "2021-09-20T14:28:06+00:00"
         },
         {
             "name": "zhongshaofa/thinkphp-log-trace",
