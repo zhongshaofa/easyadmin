@@ -44,7 +44,7 @@ class Log extends AdminController
                 ->setMonth($month)
                 ->with('admin')
                 ->where($where)
-                ->select();
+                ->count();
             $list = $this->model
                 ->setMonth($month)
                 ->with('admin')
