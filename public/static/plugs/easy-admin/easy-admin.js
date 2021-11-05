@@ -270,20 +270,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                             toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-success easyadmin-export-btn" data-url="' + init.export_url + '" data-table-export="' + tableId + '"><i class="fa fa-file-excel-o"></i> 导出</button>\n';
                         }
                     } else if (typeof v === "object") {
-                        $.each(v, function (ii, vv) {
-                            vv.class = vv.class || '';
-                            vv.icon = vv.icon || '';
-                            vv.auth = vv.auth || '';
-                            vv.url = vv.url || '';
-                            vv.method = vv.method || 'open';
-                            vv.title = vv.title || vv.text;
-                            vv.text = vv.text || vv.title;
-                            vv.extend = vv.extend || '';
-                            vv.checkbox = vv.checkbox || false;
-                            if (admin.checkAuth(vv.auth, elem)) {
-                                toolbarHtml += admin.table.buildToolbarHtml(vv, tableId);
+                         if (admin.checkAuth(v.auth, elem)) {
+                                toolbarHtml += admin.table.buildToolbarHtml(v, tableId);
                             }
-                        });
                     }
                 });
                 return '<div>' + toolbarHtml + '</div>';
