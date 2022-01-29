@@ -18,6 +18,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         table_elem: '#currentTable',
         table_render_id: 'currentTableRenderId',
         upload_url: 'ajax/upload',
+        async_export_url: 'ajax/export',
         upload_exts: 'doc|gif|ico|icon|jpg|mp3|mp4|p12|pem|png|rar',
     };
 
@@ -231,7 +232,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                 }
 
                 // 初始化表格左上方工具栏
-                options.toolbar = options.toolbar || ['refresh', 'add', 'delete', 'export'];
+                options.toolbar = options.toolbar || ['refresh', 'add', 'delete', 'export', 'async_export'];
                 options.toolbar = admin.table.renderToolbar(options.toolbar, options.elem, options.id, options.init);
 
                 // 判断是否有操作列表权限
@@ -269,7 +270,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                         if (admin.checkAuth('export', elem)) {
                             toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-success easyadmin-export-btn" data-url="' + init.export_url + '" data-table-export="' + tableId + '"><i class="fa fa-file-excel-o"></i> 导出</button>\n';
                         }
-                    } else if (typeof v === "object") {
+                    } else if (v === 'async_export') {
+                        toolbarHtml += '<button class="layui-btn layui-btn-sm layui-btn-success easyadmin-async-export-btn" data-url="' + init.async_export_url + '" data-table-export="' + tableId + '"><i class="fa fa-file-excel-o"></i> 导出</button>\n';
+                    }  else if (typeof v === "object") {
                         $.each(v, function (ii, vv) {
                             vv.class = vv.class || '';
                             vv.icon = vv.icon || '';
