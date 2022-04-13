@@ -6,6 +6,7 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         laydate = layui.laydate,
         upload = layui.upload,
         element = layui.element,
+        flow = layui.flow,
         laytpl = layui.laytpl,
         tableSelect = layui.tableSelect,
         util = layui.util;
@@ -20,6 +21,9 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
         upload_url: 'ajax/upload',
         upload_exts: 'doc|gif|ico|icon|jpg|mp3|mp4|p12|pem|png|rar',
     };
+
+    //图片懒加载
+    flow.lazyimg();
 
     var admin = {
         config: {
@@ -640,12 +644,12 @@ define(["jquery", "tableSelect", "ckeditor"], function ($, tableSelect, undefine
                     var value = undefined;
                 }
                 if (value === undefined || value===null) {
-                    return '<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + value + '" data-image="' + title + '">';
+                    return '<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + value + '" data-image="' + title + '" lay-src="' + BASE_URL + 'admin/images/loading.gif">';
                 } else {
                     var values = value.split(option.imageSplit),
                         valuesHtml = [];
                     values.forEach((value, index) => {
-                        valuesHtml.push('<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + value + '" data-image="' + title + '">');
+                        valuesHtml.push('<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + value + '" data-image="' + title + '" lay-src="' + BASE_URL + 'admin/images/loading.gif">');
                     });
                     return valuesHtml.join(option.imageJoin);
                 }
