@@ -128,7 +128,6 @@ class Admin extends AdminController
      */
     public function password($id)
     {
-        $this->checkPostRequest();
         $row = $this->model->find($id);
         empty($row) && $this->error('数据不存在');
         if ($this->request->isAjax()) {
