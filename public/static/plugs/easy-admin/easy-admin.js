@@ -1142,6 +1142,9 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                     }, function (res) {
                         admin.msg.success(res.msg, function () {
                             table.reload(tableId);
+                            try{
+                                $('[data-treetable-refresh]').trigger("click");
+                            }catch (e) {}
                         });
                     })
                 });
