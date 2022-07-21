@@ -197,6 +197,7 @@ class AuthService
      */
     public function parseNodeStr($node)
     {
+        $node = explode('?', $node)[0];
         $array = explode('/', $node);
         foreach ($array as $key => $val) {
             if ($key == 0) {
