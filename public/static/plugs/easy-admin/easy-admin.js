@@ -762,7 +762,7 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                     $.each(dataField, function (key, val) {
                         if (val !== '') {
                             formatFilter[key] = val;
-                            var op = $('#c-' + key).attr('data-search-op');
+                            var op = $('[id=\'c-' + key + '\']').attr('data-search-op');
                             op = op || '%*%';
                             formatOp[key] = op;
                         }
