@@ -519,3 +519,20 @@ table样式
     background: goldenrod;
     white-space: nowrap;
 }
+
+/**
+ * 检索下的xmSelect样式
+ */
+fieldset .form-search xm-select {
+    min-height: 30px;
+    line-height: 30px;
+    margin: 0 -1px -1px 0;
+}
+
+fieldset .form-search xm-select > .xm-label .xm-label-block {
+    margin: 0 5px 2px 0;
+}
+
+fieldset .form-search xm-select > .xm-tips {
+    padding: 0 8px;
+}

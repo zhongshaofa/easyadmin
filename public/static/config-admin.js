@@ -20,6 +20,7 @@ require.config({
         "tableSelect": ["plugs/lay-module/tableSelect/tableSelect"],
         "iconPickerFa": ["plugs/lay-module/iconPicker/iconPickerFa"],
         "autocomplete": ["plugs/lay-module/autocomplete/autocomplete"],
+        "xmSelect": ["plugs/lay-module/xmSelect/xm-select"],
         "vue": ["plugs/vue-2.6.10/vue.min"],
         "ckeditor": ["plugs/ckeditor4/ckeditor"],
     }
