@@ -666,12 +666,12 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                     var value = undefined;
                 }
                 if (value === undefined || value===null) {
-                    return '<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + value + '" data-image="' + title + '">';
+                    return '<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + value + '" data-image="' + title + '" onerror="this.src=\'' + BASE_URL + 'admin/images/upload-icons/image.png\'">';
                 } else {
                     var values = value.split(option.imageSplit),
                         valuesHtml = [];
                     values.forEach((value, index) => {
-                        valuesHtml.push('<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + value + '" data-image="' + title + '">');
+                        valuesHtml.push('<img style="max-width: ' + option.imageWidth + 'px; max-height: ' + option.imageHeight + 'px;" src="' + value + '" data-image="' + title + '" onerror="this.src=\'' + BASE_URL + 'admin/images/upload-icons/image.png\'">');
                     });
                     return valuesHtml.join(option.imageJoin);
                 }
