@@ -23,7 +23,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">用户手机</label>
             <div class="layui-input-block">
-                <input type="text" name="phone" class="layui-input" lay-reqtext="请输入用户手机" placeholder="请输入用户手机" value="{$row.username|default=''}">
+                <input type="text" name="phone" class="layui-input" lay-reqtext="请输入用户手机" placeholder="请输入用户手机" value="{$row.phone|default=''}">
                 <tip>填写用户手机。</tip>
             </div>
         </div>
@@ -40,7 +40,7 @@
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">备注信息</label>
             <div class="layui-input-block">
-                <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息">{$row.username|default=''}</textarea>
+                <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息">{$row.remark|default=''}</textarea>
             </div>
         </div>
 
