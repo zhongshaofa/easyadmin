@@ -37,6 +37,7 @@ class SystemAuth extends TimeModel
         $nodelList = $systemNode
             ->where('is_auth', 1)
             ->field('id,node,title,type,is_auth')
+            ->order(['node' => 'asc', 'id' => 'desc'])
             ->select()
             ->toArray();
         $newNodeList = [];

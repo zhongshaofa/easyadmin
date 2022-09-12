@@ -20,7 +20,9 @@ class SystemNode extends TimeModel
 
     public function getNodeTreeList()
     {
-        $list = $this->select()->toArray();
+        $list = $this->order(['node' => 'asc', 'id' => 'desc'])
+            ->select()
+            ->toArray();
         $list = $this->buildNodeTree($list);
         return $list;
     }
