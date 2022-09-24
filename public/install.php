@@ -455,7 +455,7 @@ EOT;
             <div class="layui-form-item">
                 <label class="layui-form-label">数据表前缀</label>
                 <div class="layui-input-block">
-                    <input class="layui-input" name="prefix" autocomplete="off" lay-verify="required" lay-reqtext="请输入数据表前缀" placeholder="请输入数据表前缀" value="ea_">
+                    <input class="layui-input" name="prefix" autocomplete="off" lay-reqtext="请输入数据表前缀" placeholder="请输入数据表前缀" value="ea_">
                 </div>
             </div>
 
