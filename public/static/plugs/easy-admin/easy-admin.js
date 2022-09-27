@@ -1109,9 +1109,7 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                 title = title || '确定进行该操作？';
 
                 if (direct === 'true') {
-                    admin.msg.confirm(title, function () {
-                        window.location.href = url;
-                    });
+                    window.location.href = admin.url(url);
                     return false;
                 }
 
