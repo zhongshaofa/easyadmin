@@ -3,7 +3,8 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
     var table = layui.table,
         treetable = layui.treetable,
         iconPickerFa = layui.iconPickerFa,
-        autocomplete = layui.autocomplete;
+        autocomplete = layui.autocomplete,
+        form = layui.form;
 
     var init = {
         table_elem: '#currentTable',
@@ -75,8 +76,17 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                                     auth: 'edit',
                                     class: 'layui-btn layui-btn-xs layui-btn-success',
                                     extend: 'data-full="true"',
-                                }],
-                                'delete'
+                                }, {
+                                    class: 'layui-btn layui-btn-danger layui-btn-xs',
+                                    method: 'url',
+                                    field: 'id',
+                                    icon: '',
+                                    text: '删除',
+                                    title: '确定删除？',
+                                    auth: 'delete',
+                                    url: init.delete_url,
+                                    extend: 'data-treetable-delete-row'
+                                }]
                             ]
                         }
                     ]], init),
@@ -88,11 +98,9 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
 
             renderTable();
 
-            $('body').on('click', '[data-treetable-refresh]', function () {
+            $('body').on('click', '[data-treetable-refresh]', function () { //刷新
                 renderTable();
-            });
-
-            $('body').on('click', '[data-treetable-delete]', function () {
+            }).on('click', '[data-treetable-delete]', function () { //多选删除
                 var tableId = $(this).attr('data-treetable-delete'),
                     url = $(this).attr('data-url');
                 tableId = tableId || init.table_render_id;
@@ -120,11 +128,62 @@ define(["jquery", "easy-admin", "treetable", "iconPickerFa", "autocomplete"], fu
                     });
                 });
                 return false;
+            }).on('click', '[data-treetable-delete-row]', function () { //单行删除
+                var title = $(this).attr('data-title'),
+                    url = $(this).attr('data-url');
+                url = url != undefined ? ea.url(url) : window.location.href;
+                ea.msg.confirm(title, function () {
+                    ea.request.post({
+                        url: url
+                    }, function (res) {
+                        ea.msg.success(res.msg, function () {
+                            renderTable();
+                        });
+                    })
+                });
             });
 
-            ea.table.listenSwitch({filter: 'status', url: init.modify_url});
+            //监听switch
+            form.on('switch(status)', function (obj) {
+                ea.request.post({
+                    url: init.modify_url,
+                    prefix: true,
+                    data: {
+                        id: obj.value,
+                        field: obj.elem.name,
+                        value: obj.elem.checked ? 1 : 0,
+                    },
+                }, function (res) {
+                    // renderTable();
+                }, function (res) {
+                    ea.msg.error(res.msg, function () {
+                        renderTable();
+                    });
+                }, function () {
+                    renderTable();
+                });
+            });
 
-            ea.table.listenEdit(init, 'currentTable', init.table_render_id, true);
+            //监听编辑
+            table.on('edit(currentTable)', function (obj) {
+                ea.request.post({
+                    url: init.modify_url,
+                    prefix: true,
+                    data: {
+                        id: obj.data.id,
+                        field: obj.field,
+                        value: obj.value,
+                    },
+                }, function (res) {
+                    renderTable();
+                }, function (res) {
+                    ea.msg.error(res.msg, function () {
+                        renderTable();
+                    });
+                }, function () {
+                    renderTable();
+                });
+            });
 
             ea.listen();
         },
