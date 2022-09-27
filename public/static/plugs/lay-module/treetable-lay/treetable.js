@@ -195,6 +195,23 @@ layui.define(['layer', 'table'], function (exports) {
     };
 
     // layui.link(layui.cache.base + '/treetable-lay/treetable.css');
+    $('head').append('<style>\n' +
+        '.treeTable-empty {\n' +
+        '   width: 20px;\n' +
+        '   display: inline-block;\n' +
+        '}\n' +
+        '.treeTable-icon {\n' +
+        '   cursor: pointer;\n' +
+        '}\n' +
+        '.treeTable-icon .layui-icon-triangle-d:before {\n' +
+        '   content: "\\e623";\n' +
+        '}\n' +
+        '.treeTable-icon.open .layui-icon-triangle-d:before {\n' +
+        '   content: "\\e625";\n' +
+        '   background-color: transparent;\n' +
+        '}\n' +
+        '</style>'
+    );
 
     // 给图标列绑定事件
     $('body').on('click', '.treeTable .treeTable-icon', function () {
