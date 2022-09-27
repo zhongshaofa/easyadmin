@@ -1141,7 +1141,10 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                         data: postData,
                     }, function (res) {
                         admin.msg.success(res.msg, function () {
-                            table.reload(tableId);
+                            try {
+                                table.reload(tableId);
+                                $('[data-treetable-refresh]').trigger("click");
+                            }catch (e) {}
                         });
                     })
                 });
@@ -1192,7 +1195,10 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                         },
                     }, function (res) {
                         admin.msg.success(res.msg, function () {
-                            table.reload(tableId);
+                            try {
+                                table.reload(tableId);
+                                $('[data-treetable-refresh]').trigger("click");
+                            }catch (e) {}
                         });
                     });
                 });
