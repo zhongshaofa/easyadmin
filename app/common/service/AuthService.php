@@ -197,7 +197,7 @@ class AuthService
      */
     public function parseNodeStr($node)
     {
-        $array = explode('/', $node);
+        $array = explode('/', parse_url($node, PHP_URL_PATH));
         foreach ($array as $key => $val) {
             if ($key == 0) {
                 $val = explode('.', $val);
