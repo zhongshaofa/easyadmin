@@ -23,6 +23,7 @@ require.config({
         "xmSelect": ["plugs/lay-module/xmSelect/xm-select"],
         "vue": ["plugs/vue-2.6.10/vue.min"],
         "ckeditor": ["plugs/ckeditor4/ckeditor"],
+        "sortable": ["plugs/sortable/Sortable.min"],
     }
 });
 
