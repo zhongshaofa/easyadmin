@@ -140,7 +140,7 @@ html, body {
     border: 1px solid #e2e2e2;
 }
 
-.layuimini-upload-show a img {
+.layuimini-upload-show li img {
     height: 80px;
     object-fit: cover;
 }
@@ -149,6 +149,7 @@ html, body {
     position: absolute;
     right: 10px;
     font-size: 12px;
+    cursor: pointer;
 }
 
 .bg-red {
