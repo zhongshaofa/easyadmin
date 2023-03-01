@@ -104,6 +104,16 @@ class AdminController extends BaseController
     }
 
     /**
+     * 设置js变量
+     * @param array $data
+     * @return mixed
+     */
+    public function setJsVariables(array $data = [])
+    {
+        return $this->assign('jsVariables', json_encode($data));
+    }
+
+    /**
      * 模板变量赋值
      * @param string|array $name 模板变量
      * @param mixed $value 变量值
