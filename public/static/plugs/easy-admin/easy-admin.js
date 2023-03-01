@@ -625,8 +625,26 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
 
                             // 自定义表格opreat按钮的弹窗标题风格，extra是表格里的欲加入标题中的字段
                             operat.extra = operat.extra || '';
-                            if (data[operat.extra] !== undefined) {
-                                operat.title = data[operat.extra] + ' - ' + operat.title;
+                            if (operat.extra) {
+                                switch (typeof operat.extra) {
+                                    case 'string':
+                                        if (data[operat.extra] !== undefined) {
+                                            operat.title = data[operat.extra] + ' - ' + operat.title;
+                                        } else if (operat.extra.includes('.')){
+                                            var extraArr = operat.extra.split('.');
+                                            var extraData = JSON.parse(JSON.stringify(data));
+                                            try {
+                                                extraArr.forEach(function (item) {
+                                                    extraData = extraData[item];
+                                                })
+                                                operat.title = extraData + ' - ' + operat.title;
+                                            } catch (e) {}
+                                        }
+                                        break;
+                                    case 'function':
+                                        operat.title = operat.extra(data, operat);
+                                        break;
+                                }
                             }
 
                             operat.url = admin.table.toolSpliceUrl(operat.url, operat.field, data);
