@@ -1279,44 +1279,39 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                             refresh = $(this).attr('data-refresh'),
                             url = $(this).attr('lay-submit');
                         // 表格搜索不做自动提交
-                        if (type === 'tableSearch') {
-                            return false;
-                        }
-                        // 判断是否需要刷新表格
-                        if (refresh === 'false') {
-                            refresh = false;
-                        } else {
-                            refresh = true;
-                        }
-                        // 自动添加layui事件过滤器
-                        if (filter === undefined || filter === '') {
-                            filter = 'save_form_' + (i + 1);
-                            $(this).attr('lay-filter', filter)
-                        }
-                        if (url === undefined || url === '' || url === null) {
-                            url = window.location.href;
-                        } else {
-                            url = admin.url(url);
-                        }
-                        form.on('submit(' + filter + ')', function (data) {
-                            var dataField = data.field;
-
-                            // 富文本数据处理
-                            var editorList = document.querySelectorAll(".editor");
-                            if (editorList.length > 0) {
-                                $.each(editorList, function (i, v) {
-                                    var name = $(this).attr("name");
-                                    dataField[name] = CKEDITOR.instances[name].getData();
-                                });
+                        if (type !== 'tableSearch') {
+                            // 判断是否需要刷新表格
+                            refresh = refresh !== 'false';
+                            // 自动添加layui事件过滤器
+                            if (filter === undefined || filter === '') {
+                                filter = 'save_form_' + (i + 1);
+                                $(this).attr('lay-filter', filter)
                             }
-
-                            if (typeof preposeCallback === 'function') {
-                                dataField = preposeCallback(dataField);
+                            if (url === undefined || url === '' || url === null) {
+                                url = window.location.href;
+                            } else {
+                                url = admin.url(url);
                             }
-                            admin.api.form(url, dataField, ok, no, ex, refresh);
+                            form.on('submit(' + filter + ')', function (data) {
+                                var dataField = data.field;
 
-                            return false;
-                        });
+                                // 富文本数据处理
+                                var editorList = document.querySelectorAll(".editor");
+                                if (editorList.length > 0) {
+                                    $.each(editorList, function (i, v) {
+                                        var name = $(this).attr("name");
+                                        dataField[name] = CKEDITOR.instances[name].getData();
+                                    });
+                                }
+
+                                if (typeof preposeCallback === 'function') {
+                                    dataField = preposeCallback(dataField);
+                                }
+                                admin.api.form(url, dataField, ok, no, ex, refresh);
+
+                                return false;
+                            });
+                        }
                     });
                 }
 
