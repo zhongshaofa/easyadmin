@@ -18,6 +18,7 @@ use app\common\service\MenuService;
 use EasyAdmin\upload\Uploadfile;
 use think\db\Query;
 use think\facade\Cache;
+use think\Validate;
 
 class Ajax extends AdminController
 {
@@ -70,9 +71,23 @@ class Ajax extends AdminController
         ];
         $uploadConfig = sysconfig('upload');
         empty($data['upload_type']) && $data['upload_type'] = $uploadConfig['upload_type'];
+        list($mainType, $subtype) = explode('/', $data['file']->getOriginalMime());
+        switch (strtolower($mainType)) {
+            case 'image':
+                $uploadAllowSize = $uploadConfig['upload_allow_image_size'];
+                break;
+            case 'audio':
+                $uploadAllowSize = $uploadConfig['upload_allow_audio_size'];
+                break;
+            case 'video':
+                $uploadAllowSize = $uploadConfig['upload_allow_video_size'];
+                break;
+            default:
+                $uploadAllowSize = $uploadConfig['upload_allow_size'];
+        }
         $rule = [
             'upload_type|指定上传类型有误' => "in:{$uploadConfig['upload_allow_type']}",
-            'file|文件'              => "require|file|fileExt:{$uploadConfig['upload_allow_ext']}|fileSize:{$uploadConfig['upload_allow_size']}",
+            'file|文件'              => "require|file|fileExt:{$uploadConfig['upload_allow_ext']}|fileSize:{$uploadAllowSize}",
         ];
         $this->validate($data, $rule);
         try {
@@ -104,11 +119,34 @@ class Ajax extends AdminController
         ];
         $uploadConfig = sysconfig('upload');
         empty($data['upload_type']) && $data['upload_type'] = $uploadConfig['upload_type'];
+        list($mainType, $subtype) = explode('/', $data['file']->getOriginalMime());
+        switch (strtolower($mainType)) {
+            case 'image':
+                $uploadAllowSize = $uploadConfig['upload_allow_image_size'];
+                break;
+            case 'audio':
+                $uploadAllowSize = $uploadConfig['upload_allow_audio_size'];
+                break;
+            case 'video':
+                $uploadAllowSize = $uploadConfig['upload_allow_video_size'];
+                break;
+            default:
+                $uploadAllowSize = $uploadConfig['upload_allow_size'];
+        }
         $rule = [
             'upload_type|指定上传类型有误' => "in:{$uploadConfig['upload_allow_type']}",
-            'file|文件'              => "require|file|fileExt:{$uploadConfig['upload_allow_ext']}|fileSize:{$uploadConfig['upload_allow_size']}",
+            'file|文件'              => "require|file|fileExt:{$uploadConfig['upload_allow_ext']}|fileSize:{$uploadAllowSize}",
         ];
-        $this->validate($data, $rule);
+        $validate = new Validate();
+        $validate->rule($rule);
+        if (!$validate->check($data)) {
+            return json([
+                'uploaded' => 0,
+                'error'    => [
+                    'message' => $validate->getError(),
+                ],
+            ]);
+        };
         try {
             $upload = Uploadfile::instance()
                 ->setUploadType($data['upload_type'])
@@ -116,7 +154,12 @@ class Ajax extends AdminController
                 ->setFile($data['file'])
                 ->save();
         } catch (\Exception $e) {
-            $this->error($e->getMessage());
+            return json([
+                'uploaded' => 0,
+                'error'    => [
+                    'message' => $e->getMessage(),
+                ],
+            ]);
         }
         if ($upload['save'] == true) {
             return json([
@@ -129,7 +172,12 @@ class Ajax extends AdminController
                 'url'      => $upload['url'],
             ]);
         } else {
-            $this->error($upload['msg']);
+            return json([
+                'uploaded' => 0,
+                'error'    => [
+                    'message' => $upload['msg'],
+                ],
+            ]);
         }
     }
 

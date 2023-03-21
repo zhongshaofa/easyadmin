@@ -20,7 +20,40 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">允许大小</label>
         <div class="layui-input-block">
-            <input type="text" name="upload_allow_size" class="layui-input" lay-verify="required" lay-reqtext="请输入允许上传大小" placeholder="请输入允许上传大小" value="{:sysconfig('upload','upload_allow_size')}">
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th>类型</th>
+                    <th>大小</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>图片</td>
+                    <td>
+                        <input type="text" name="upload_allow_image_size" class="layui-input" lay-verify="required" lay-reqtext="请输入允许上传大小" placeholder="请输入允许上传大小" value="{:sysconfig('upload','upload_allow_image_size')}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>视频</td>
+                    <td>
+                        <input type="text" name="upload_allow_video_size" class="layui-input" lay-verify="required" lay-reqtext="请输入允许上传大小" placeholder="请输入允许上传大小" value="{:sysconfig('upload','upload_allow_video_size')}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>音频</td>
+                    <td>
+                        <input type="text" name="upload_allow_audio_size" class="layui-input" lay-verify="required" lay-reqtext="请输入允许上传大小" placeholder="请输入允许上传大小" value="{:sysconfig('upload','upload_allow_audio_size')}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>文件</td>
+                    <td>
+                        <input type="text" name="upload_allow_size" class="layui-input" lay-verify="required" lay-reqtext="请输入允许上传大小" placeholder="请输入允许上传大小" value="{:sysconfig('upload','upload_allow_size')}">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
             <tip>设置允许上传大小。</tip>
         </div>
     </div>
