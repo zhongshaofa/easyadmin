@@ -208,6 +208,9 @@ INSERT INTO `ea_system_config` VALUES ('84', 'qnoss_access_key', 'upload', '填�
 INSERT INTO `ea_system_config` VALUES ('85', 'qnoss_secret_key', 'upload', '填你的', '安全密钥', '0', null, null);
 INSERT INTO `ea_system_config` VALUES ('86', 'qnoss_bucket', 'upload', '填你的', '存储空间', '0', null, null);
 INSERT INTO `ea_system_config` VALUES ('87', 'qnoss_domain', 'upload', '填你的', '访问域名', '0', null, null);
+INSERT INTO `ea_system_config` VALUES ('88', 'upload_allow_image_size', 'upload', '1024000', '允许上传的图片大小', '0', null, null);
+INSERT INTO `ea_system_config` VALUES ('89', 'upload_allow_video_size', 'upload', '1024000', '允许上传的视频大小', '0', null, null);
+INSERT INTO `ea_system_config` VALUES ('90', 'upload_allow_audio_size', 'upload', '1024000', '允许上传的音频大小', '0', null, null);
 
 -- ----------------------------
 -- Table structure for ea_system_menu
