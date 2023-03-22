@@ -568,7 +568,8 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                 }
                 return cols;
             },
-            tool: function (data, option) {
+            tool: function (data) {
+                var option = this;
                 option.operat = option.operat || ['edit', 'delete'];
                 var elem = option.init.table_elem || init.table_elem;
                 var html = '';
@@ -638,7 +639,8 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                 });
                 return html;
             },
-            list: function (data, option) {
+            list: function (data) {
+                var option = this;
                 option.selectList = option.selectList || {};
                 var field = option.field;
                 try {
@@ -652,7 +654,8 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                     return option.selectList[value];
                 }
             },
-            image: function (data, option) {
+            image: function (data) {
+                var option = this;
                 option.imageWidth = option.imageWidth || 200;
                 option.imageHeight = option.imageHeight || 40;
                 option.imageSplit = option.imageSplit || '|';
@@ -676,7 +679,8 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                     return valuesHtml.join(option.imageJoin);
                 }
             },
-            url: function (data, option) {
+            url: function (data) {
+                var option = this;
                 var field = option.field;
                 try {
                     var value = eval("data." + field);
@@ -685,7 +689,8 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                 }
                 return '<a class="layuimini-table-url" href="' + value + '" target="_blank" class="label bg-green">' + value + '</a>';
             },
-            switch: function (data, option) {
+            switch: function (data) {
+                var option = this;
                 var field = option.field;
                 option.filter = option.filter || option.field || null;
                 option.checked = option.checked || 1;
@@ -698,7 +703,8 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                 var checked = value === option.checked ? 'checked' : '';
                 return laytpl('<input type="checkbox" name="' + option.field + '" value="' + data.id + '" lay-skin="switch" lay-text="' + option.tips + '" lay-filter="' + option.filter + '" ' + checked + ' >').render(data);
             },
-            price: function (data, option) {
+            price: function (data) {
+                var option = this;
                 var field = option.field;
                 try {
                     var value = eval("data." + field);
@@ -707,7 +713,8 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                 }
                 return '<span>￥' + value + '</span>';
             },
-            percent: function (data, option) {
+            percent: function (data) {
+                var option = this;
                 var field = option.field;
                 try {
                     var value = eval("data." + field);
@@ -716,7 +723,8 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                 }
                 return '<span>' + value + '%</span>';
             },
-            icon: function (data, option) {
+            icon: function (data) {
+                var option = this;
                 var field = option.field;
                 try {
                     var value = eval("data." + field);
@@ -725,7 +733,8 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                 }
                 return '<i class="' + value + '"></i>';
             },
-            text: function (data, option) {
+            text: function (data) {
+                var option = this;
                 var field = option.field;
                 try {
                     var value = eval("data." + field);
@@ -734,7 +743,8 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                 }
                 return '<span class="line-limit-length">' + value + '</span>';
             },
-            value: function (data, option) {
+            value: function (data) {
+                var option = this;
                 var field = option.field;
                 try {
                     var value = eval("data." + field);
@@ -744,7 +754,8 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                 return '<span>' + value + '</span>';
             },
             //时间戳转日期
-            date: function (data, option) {
+            date: function (data) {
+                var option = this;
                 var field = option.field, value = '';
                 try {
                     value = eval("data." + field);
