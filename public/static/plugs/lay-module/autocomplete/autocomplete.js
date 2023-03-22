@@ -11,7 +11,7 @@ layui.define(['jquery', 'laytpl', 'layer'], function (e) {
         system = {
             config: {
                 template: ['<div class="layui-form-autocomplete">', '<dl class="layui-anim layui-anim-upbit">', '</dl>', '</div>'].join(''),
-                layout: ['<dd data-index="{{d.index}}">{{d.text}}</dd>'].join(''),
+                layout: ['<dd data-index="{{d.index}}">{{- d.text}}</dd>'].join(''),
                 template_txt: '{{d.text}}',
                 template_val: '{{d.value}}',
                 cache: false
