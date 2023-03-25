@@ -38,7 +38,7 @@ class OssStatic extends Command
         $uploadConfig = sysconfig('upload');
         $uploadPrefix = config('app.oss_static_prefix', 'oss_static_prefix');
         foreach ($list as $key => $val) {
-            list($objectName, $filePath) = [$uploadPrefix . DIRECTORY_SEPARATOR . $key, $val];
+            list($objectName, $filePath) = [str_replace('\\', '/', $uploadPrefix . DIRECTORY_SEPARATOR . $key), $val];
             try {
                 $upload = Oss::instance($uploadConfig)
                     ->save($objectName, $filePath);
