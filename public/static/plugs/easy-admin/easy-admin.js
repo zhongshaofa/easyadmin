@@ -1285,7 +1285,7 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                         // 判断是否需要刷新表格
                         if (refresh === 'false') {
                             refresh = false;
-                        } else {
+                        } else if (refresh === undefined || refresh === '') {
                             refresh = true;
                         }
                         // 自动添加layui事件过滤器
