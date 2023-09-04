@@ -202,21 +202,21 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                 options.limit = options.limit || 15;
                 options.limits = options.limits || [10, 15, 20, 25, 50, 100];
                 options.cols = options.cols || [];
-                options.defaultToolbar = (options.defaultToolbar === undefined && !options.search) ? ['filter', 'print', 'exports'] : ['filter', 'print', 'exports', {
-                    title: '搜索',
-                    layEvent: 'TABLE_SEARCH',
-                    icon: 'layui-icon-search',
-                    extend: 'data-table-id="' + options.id + '"'
-                }];
-
-                // 判断是否为移动端
-                if (admin.checkMobile()) {
-                    options.defaultToolbar = !options.search ? ['filter'] : ['filter', {
+                options.defaultToolbar = options.defaultToolbar || ['filter', 'print'];
+                if (options.search) {
+                    options.defaultToolbar.push({
                         title: '搜索',
                         layEvent: 'TABLE_SEARCH',
                         icon: 'layui-icon-search',
                         extend: 'data-table-id="' + options.id + '"'
-                    }];
+                    });
+                }
+                // 移动端去除打印工具栏
+                if (admin.checkMobile()) {
+                    var printIndex = options.defaultToolbar.indexOf('print');
+                    if (printIndex !== -1) {
+                        options.defaultToolbar.splice(printIndex, 1);
+                    }
                 }
 
                 // 判断元素对象是否有嵌套的
