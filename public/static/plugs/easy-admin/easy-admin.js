@@ -227,7 +227,7 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
 
                 // 初始化表格搜索
                 if (options.search === true) {
-                    admin.table.renderSearch(options.cols, options.elem, options.id);
+                    options.where = admin.table.renderSearch(options.cols, options.elem, options.id);
                 }
 
                 // 初始化表格左上方工具栏
@@ -294,6 +294,8 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                 var newCols = [];
                 var formHtml = '';
                 var xmSelectOptions = [];
+                var formatFilter = {};
+                var formatOp = {};
                 $.each(cols, function (i, d) {
                     d.field = d.field || false;
                     d.fieldAlias = admin.parame(d.fieldAlias, d.field);
@@ -406,6 +408,18 @@ define(["jquery", "tableSelect","xmSelect", "ckeditor"], function ($, tableSelec
                     $.each(xmSelectOptions, function (xmI, xmV) {
                         xmSelect.render(xmV);
                     })
+                    // 搜索条件
+                    $.each(form.val(tableId), function (key, val) {
+                        if (val !== '') {
+                            formatFilter[key] = val;
+                            formatOp[key] = $('[id=\'c-' + key + '\']').attr('data-search-op') || '%*%';
+                        }
+                    });
+                }
+
+                return {
+                    filter: JSON.stringify(formatFilter),
+                    op: JSON.stringify(formatOp)
                 }
             },
             renderSwitch: function (cols, tableInit, tableId, modifyReload) {
